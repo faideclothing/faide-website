@@ -17,16 +17,54 @@ body {
 /* NAVBAR */
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Logo left, links right */
   align-items: center;
-  padding: 24px 32px;
+  padding: 24px 48px;
   border-bottom: 1px solid #1f1f1f;
 }
 
 .logo {
-  letter-spacing: 6px;
-  font-size: 1.5rem;
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 0.35em;
+  font-style: italic;
+  text-transform: uppercase;
+  color: #fff;
 }
+
+.nav-links {
+  display: flex;
+  gap: 40px; /* space between links */
+}
+
+.nav-links a {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #888;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #fff;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 32px;
+  }
+
+  .nav-links {
+    margin-top: 12px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+
 
 .nav-links a {
   margin-left: 24px;

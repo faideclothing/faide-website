@@ -1,3 +1,6 @@
+/* =====================
+   RESET & BASE STYLES
+===================== */
 * {
   margin: 0;
   padding: 0;
@@ -14,13 +17,24 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* NAVBAR */
+/* =====================
+   NAVBAR
+===================== */
 .navbar {
+  position: sticky;
+  top: 0;
   display: flex;
-  justify-content: space-between; /* Logo left, links right */
+  justify-content: space-between;
   align-items: center;
   padding: 24px 48px;
   border-bottom: 1px solid #1f1f1f;
+  background: #000;
+  z-index: 999;
+  transition: box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .logo {
@@ -50,36 +64,17 @@ body {
   color: #fff;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 16px 32px;
-  }
-
-  .nav-links {
-    margin-top: 12px;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-}
-
-
-.nav-links a {
-  margin-left: 24px;
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #888;
-  text-decoration: none;
-}
-
-.nav-links a:hover {
+/* Hamburger menu */
+.hamburger {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
   color: #fff;
 }
 
-/* HERO */
+/* =====================
+   HERO SECTION
+===================== */
 .hero {
   height: 80vh;
   display: flex;
@@ -108,117 +103,40 @@ body {
   border-radius: 20px;
   color: white;
   cursor: pointer;
+  margin-top: 24px;
 }
 
 .primary-btn:hover {
   background: #7e22ce;
 }
 
-/* SECTIONS */
-.section-title {
-  font-size: 2rem;
-  margin-bottom: 48px;
+/* =====================
+   RESPONSIVE
+===================== */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 32px;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    background: #111;
+    position: absolute;
+    top: 80px; /* below navbar */
+    right: 32px;
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
 }
-
-.section-label {
-  color: #a855f7;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-}
-
-/* MISSION */
-.mission {
-  background: #0a0a0a;
-  padding: 120px 32px;
-}
-
-.mission-inner {
-  max-width: 720px;
-}
-
-.mission h2 {
-  font-size: 2.5rem;
-  margin: 16px 0;
-}
-
-.mission p {
-  color: #aaa;
-  line-height: 1.6;
-}
-
-/* LOOKBOOK + SHOP */
-.lookbook,
-.shop {
-  padding: 120px 32px;
-}
-
-.grid {
-  display: grid;
-  gap: 32px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.card {
-  height: 320px;
-  border-radius: 20px;
-  border: 1px solid #222;
-  background: #111;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #555;
-}
-
-/* PRODUCTS */
-.product {
-  border: 1px solid #222;
-  border-radius: 20px;
-  padding: 24px;
-}
-
-.product-img {
-  height: 180px;
-  background: #111;
-  border-radius: 16px;
-  margin-bottom: 16px;
-}
-
-.product p {
-  color: #aaa;
-  margin: 8px 0 16px;
-}
-
-.secondary-btn {
-  width: 100%;
-  padding: 14px;
-  background: #9333ea;
-  border: none;
-  border-radius: 14px;
-  color: white;
-  cursor: pointer;
-}
-
-.secondary-btn:hover {
-  background: #7e22ce;
-}
-
-/* FOOTER */
-.footer {
-  border-top: 1px solid #222;
-  padding: 32px;
-  text-align: center;
-  color: #666;
-  font-size: 0.75rem;
-}
-/* FAIDE WORDMARK */
-.faide-wordmark {
-  font-weight: 700;
-  font-size: 1.6rem;
-  letter-spacing: 0.35em;
-  font-style: italic;
-  text-transform: uppercase;
-}
-
-
-

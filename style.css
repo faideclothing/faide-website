@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  background: black;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  letter-spacing: 6px;
+  font-size: 3rem;
+}
+

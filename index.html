@@ -1,259 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="google-site-verification" content="xHQMXeonHcUZ-NTHCrtvjlR9bojEkpwc8CzKChP7I9o" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FAIDE® | Luxury Streetwear</title>
-  
-  <meta name="description" content="FAIDE is engineered for the future of street luxury. Minimal. Cold. Precise." />
+
+  <title>FAIDE® | Luxury Streetwear Brand</title>
+
+  <meta name="description" content="FAIDE is a luxury streetwear brand blending bold design, refined identity, and modern culture. New drops coming soon." />
+
+  <meta name="keywords" content="FAIDE clothing, luxury streetwear, streetwear brand, South Africa fashion, premium streetwear" />
+
+  <meta name="author" content="FAIDE" />
+
+  <!-- Open Graph (Instagram / WhatsApp preview) -->
   <meta property="og:title" content="FAIDE® | Luxury Streetwear" />
+  <meta property="og:description" content="Streetwear • Luxury • Identity. Designed for those who move with purpose." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://faide-website.vercel.app" />
 
-  <style>
-    /* RESET & BASE STYLES */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* NAVBAR - The Alignment Fix */
-    .navbar {
-      width: 100%;
-      padding: 1.5rem 5%;
-      background: #000;
-      position: fixed;
-      top: 0;
-      z-index: 1000;
-      border-bottom: 1px solid #1a1a1a;
-      display: flex;
-      justify-content: space-between; /* Logo left, Links right */
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 1.6rem;
-      font-weight: 900;
-      font-style: italic; /* Matches your aggressive new logo style */
-      letter-spacing: -1.5px;
-      text-transform: uppercase;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
-      align-items: center;
-    }
-
-    .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.7rem; /* Smaller for luxury feel */
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1rem;
-      white-space: nowrap; /* Forces links to stay on one line */
-      transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: #a855f7;
-    }
-
-    /* HERO SECTION & ANIMATIONS */
-    .hero {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 10%;
-    }
-
-    @keyframes glitchFade {
-      0% { opacity: 0; transform: translateY(20px); filter: blur(10px); }
-      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
-    }
-
-    .hero-title {
-      font-size: clamp(3rem, 10vw, 6rem);
-      color: #a855f7;
-      margin-bottom: 1rem;
-      animation: glitchFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .hero-text {
-      max-width: 500px;
-      margin: 0 auto 2rem;
-      font-size: 1rem;
-      color: #888;
-      animation: glitchFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .primary-btn {
-      background: #a855f7;
-      color: white;
-      padding: 14px 40px;
-      border: none;
-      border-radius: 50px;
-      font-weight: bold;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      animation: glitchFade 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .primary-btn:hover {
-      background: #fff;
-      color: #000;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);
-    }
-
-    /* SECTION LABELS */
-    .section-label {
-      display: block;
-      color: #a855f7;
-      text-transform: uppercase;
-      font-size: 0.7rem;
-      letter-spacing: 0.3rem;
-      margin-bottom: 1rem;
-    }
-
-    /* MISSION SECTION */
-    .mission {
-      padding: 100px 10%;
-      background: #050505;
-      text-align: center;
-    }
-
-    .mission h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    /* PRODUCT GRID (Lookbook & Shop) */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      padding: 50px 10%;
-    }
-
-    .card, .product {
-      background: #111;
-      padding: 2rem;
-      border: 1px solid #222;
-      text-align: center;
-      transition: border-color 0.3s ease;
-    }
-
-    .card:hover, .product:hover {
-      border-color: #a855f7;
-    }
-
-    .product-img {
-      height: 300px;
-      background: #1a1a1a;
-      margin-bottom: 1.5rem;
-    }
-
-    /* FOOTER */
-    .footer {
-      padding: 50px;
-      text-align: center;
-      font-size: 0.7rem;
-      color: #444;
-      border-top: 1px solid #1a1a1a;
-    }
-
-    /* MOBILE RESPONSIVENESS */
-    @media (max-width: 600px) {
-      .navbar { padding: 1rem 5%; }
-      .nav-links { gap: 0.8rem; }
-      .nav-links a { font-size: 0.6rem; }
-      .logo { font-size: 1.2rem; }
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAIDE</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+  <!-- NAVBAR -->
   <nav class="navbar">
-    <h1 class="logo">FAIDE</h1>
-    <ul class="nav-links">
-      <li><a href="#drop">New Drop</a></li>
-      <li><a href="#mission">Mission</a></li>
-      <li><a href="#lookbook">Lookbook</a></li>
-      <li><a href="#shop">Shop</a></li>
-    </ul>
+    <h1 class="logo faide-wordmark">FAIDE</h1>
+    <div class="nav-links">
+      <a href="#drop">New Drop</a>
+      <a href="#mission">Mission</a>
+      <a href="#lookbook">Lookbook</a>
+      <a href="#shop">Shop</a>
+    </div>
   </nav>
 
+  <!-- HERO -->
   <section id="drop" class="hero">
     <div class="hero-content">
       <h2 class="hero-title">NEW DROP</h2>
       <p class="hero-text">
-        FAIDE is engineered for the future of street luxury.<br>
+        FAIDE is engineered for the future of street luxury.
         Minimal. Cold. Precise.
       </p>
       <button class="primary-btn">Shop Now</button>
     </div>
   </section>
 
+  <!-- MISSION -->
   <section id="mission" class="mission">
-    <span class="section-label">Mission</span>
-    <h2>Defy conformity. Define presence.</h2>
-    <p style="max-width: 600px; margin: 0 auto; color: #888;">
-      FAIDE exists at the intersection of technology, design, and identity. 
-      We craft garments that move silently but speak loudly.
-    </p>
+    <div class="mission-inner">
+      <span class="section-label">Mission</span>
+      <h2>Defy conformity. Define presence.</h2>
+      <p>
+        FAIDE exists at the intersection of technology, design, and identity.
+        We craft garments that move silently but speak loudly.
+      </p>
+    </div>
   </section>
 
-  <section id="lookbook">
-    <div style="text-align: center; padding-top: 80px;">
-      <span class="section-label">Gallery</span>
-      <h2>LOOKBOOK</h2>
-    </div>
+  <!-- LOOKBOOK -->
+  <section id="lookbook" class="lookbook">
+    <h2 class="section-title">Lookbook</h2>
     <div class="grid">
-      <div class="card">IMAGE_01</div>
-      <div class="card">IMAGE_02</div>
-      <div class="card">IMAGE_03</div>
+      <div class="card">Image Placeholder</div>
+      <div class="card">Image Placeholder</div>
+      <div class="card">Image Placeholder</div>
     </div>
   </section>
 
-  <section id="shop">
-    <div style="text-align: center; padding-top: 80px;">
-      <span class="section-label">Available Now</span>
-      <h2>COLLECTION</h2>
-    </div>
+  <!-- SHOP -->
+  <section id="shop" class="shop">
+    <h2 class="section-title">Shop</h2>
     <div class="grid">
       <div class="product">
         <div class="product-img"></div>
-        <h3>PUFFER JACKET</h3>
-        <p style="color: #666; font-size: 0.8rem; margin: 10px 0;">Premium construction. Limited stock.</p>
-        <button class="primary-btn" style="padding: 10px 20px; font-size: 0.7rem;">View Product</button>
+        <h3>Puffer Jacket</h3>
+        <p>Premium construction. Limited stock.</p>
+        <button class="secondary-btn">View Product</button>
       </div>
+
       <div class="product">
         <div class="product-img"></div>
-        <h3>TECH HOODIE</h3>
-        <p style="color: #666; font-size: 0.8rem; margin: 10px 0;">Premium construction. Limited stock.</p>
-        <button class="primary-btn" style="padding: 10px 20px; font-size: 0.7rem;">View Product</button>
+        <h3>Hoodie</h3>
+        <p>Premium construction. Limited stock.</p>
+        <button class="secondary-btn">View Product</button>
+      </div>
+
+      <div class="product">
+        <div class="product-img"></div>
+        <h3>T-Shirt</h3>
+        <p>Premium construction. Limited stock.</p>
+        <button class="secondary-btn">View Product</button>
       </div>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer class="footer">
-    © 2026 FAIDE® ENGINEERED LUXURY. ALL RIGHTS RESERVED.
+    © 2026 FAIDE. All rights reserved.
   </footer>
 
 </body>
 </html>
-

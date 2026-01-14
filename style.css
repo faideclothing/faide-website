@@ -173,5 +173,14 @@ body {
   color: #666;
   font-size: 0.75rem;
 }
+/* FAIDE WORDMARK */
+.faide-wordmark {
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 0.35em;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
 
 

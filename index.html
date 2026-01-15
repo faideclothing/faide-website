@@ -9,15 +9,9 @@
 
   <title>FAIDE® | Luxury Streetwear Brand</title>
 
-  <meta name="description" content="FAIDE is a luxury streetwear brand blending bold design, refined identity, and modern culture. New drops coming soon." />
-  <meta name="keywords" content="FAIDE clothing, luxury streetwear, streetwear brand, South Africa fashion, premium streetwear" />
+  <meta name="description" content="FAIDE is a luxury streetwear brand blending bold design, refined identity, and modern culture." />
+  <meta name="keywords" content="FAIDE clothing, luxury streetwear, streetwear brand, South Africa fashion" />
   <meta name="author" content="FAIDE" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="FAIDE® | Luxury Streetwear" />
-  <meta property="og:description" content="Streetwear • Luxury • Identity. Designed for those who move with purpose." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://faide-website.vercel.app" />
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
@@ -42,7 +36,6 @@
       <h2 class="hero-title">NEW DROP</h2>
       <p class="hero-text">
         FAIDE is engineered for the future of street luxury.
-        Minimal. Cold. Precise.
       </p>
       <button class="primary-btn">Shop Now</button>
     </div>
@@ -55,7 +48,6 @@
       <h2>Defy conformity. Define presence.</h2>
       <p>
         FAIDE exists at the intersection of technology, design, and identity.
-        We craft garments that move silently but speak loudly.
       </p>
     </div>
   </section>
@@ -73,36 +65,100 @@
   <!-- SHOP -->
   <section id="shop" class="shop">
     <h2 class="section-title">Shop</h2>
+
     <div class="grid">
 
+      <!-- PUFFER -->
       <div class="product">
         <img src="images/puffer.png" alt="FAIDE Puffer Jacket" class="product-img">
         <h3>Puffer Jacket</h3>
+        <p class="price">R800</p>
         <p>Premium construction. Limited stock.</p>
-        <button class="secondary-btn">View Product</button>
+        <button class="secondary-btn" onclick="addToCart('Puffer Jacket',800)">Add to Cart</button>
       </div>
 
+      <!-- HOODIE -->
       <div class="product">
         <img src="images/hoodie.png" alt="FAIDE Hoodie" class="product-img">
         <h3>Hoodie</h3>
+        <p class="price">R550</p>
         <p>Premium construction. Limited stock.</p>
-        <button class="secondary-btn">View Product</button>
+        <button class="secondary-btn" onclick="addToCart('Hoodie',550)">Add to Cart</button>
       </div>
 
+      <!-- T-SHIRT -->
       <div class="product">
         <img src="images/tshirt.png" alt="FAIDE T-Shirt" class="product-img">
         <h3>T-Shirt</h3>
+        <p class="price">R350</p>
         <p>Premium construction. Limited stock.</p>
-        <button class="secondary-btn">View Product</button>
+        <button class="secondary-btn" onclick="addToCart('T-Shirt',350)">Add to Cart</button>
       </div>
 
     </div>
   </section>
 
+  <!-- CART -->
+  <div id="cart-button">
+    🛒 Cart (<span id="cart-count">0</span>)
+  </div>
+
+  <div id="cart-modal">
+    <h3>Your Cart</h3>
+    <ul id="cart-items"></ul>
+    <button onclick="checkout()">Order via WhatsApp</button>
+    <button onclick="closeCart()">Close</button>
+  </div>
+
   <!-- FOOTER -->
   <footer class="footer">
     © 2026 FAIDE. All rights reserved.
   </footer>
+
+  <!-- CART SCRIPT -->
+  <script>
+    let cartCount = 0;
+    let cartItems = [];
+
+    function addToCart(product, price) {
+      cartCount++;
+      cartItems.push({name: product, price: price});
+      document.getElementById("cart-count").innerText = cartCount;
+      updateCart();
+    }
+
+    function updateCart() {
+      const list = document.getElementById("cart-items");
+      list.innerHTML = "";
+      cartItems.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item.name + " - R" + item.price;
+        list.appendChild(li);
+      });
+    }
+
+    document.getElementById("cart-button").onclick = () => {
+      document.getElementById("cart-modal").style.display = "block";
+    };
+
+    function closeCart() {
+      document.getElementById("cart-modal").style.display = "none";
+    }
+
+    function checkout() {
+      if(cartItems.length === 0){
+        alert("Your cart is empty!");
+        return;
+      }
+      let message = "Hi FAIDE! I want to order:\n";
+      cartItems.forEach(item => {
+        message += `- ${item.name} - R${item.price}\n`;
+      });
+      let phoneNumber = "27695603929"; // FAIDE WhatsApp
+      let url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+      window.open(url, "_blank");
+    }
+  </script>
 
 </body>
 </html>

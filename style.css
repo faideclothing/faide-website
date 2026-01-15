@@ -1,4 +1,3 @@
-/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -15,19 +14,18 @@ body {
 
 /* NAVBAR */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px 32px;
-  border-bottom: 1px solid #222;
   position: sticky;
   top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 32px;
+  border-bottom: 1px solid #222;
   background: #000;
 }
 
-.faide-wordmark {
-  font-size: 1.6rem;
-  letter-spacing: 0.15em;
+.logo {
+  letter-spacing: 0.2em;
   font-style: italic;
 }
 
@@ -42,53 +40,63 @@ body {
 
 /* HERO */
 .hero {
-  height: 80vh;
+  height: 85vh;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
 .hero-title {
-  font-size: clamp(2.5rem,8vw,4rem);
+  font-size: clamp(3rem, 8vw, 4.5rem);
   color: #a855f7;
 }
 
 .hero-text {
-  max-width: 500px;
   margin: 20px auto;
+  max-width: 500px;
   color: #aaa;
 }
 
 .primary-btn {
-  background: #9333ea;
-  border: none;
-  padding: 16px 34px;
+  display: inline-block;
+  margin-top: 20px;
+  padding: 16px 36px;
   border-radius: 50px;
+  background: #9333ea;
   color: #fff;
+  text-decoration: none;
+  border: none;
   cursor: pointer;
 }
 
 /* SECTIONS */
-.section-title { font-size: 2rem; margin-bottom: 40px; }
+section { padding: 120px 32px; }
 
-.section-label { color: #a855f7; font-size: 0.75rem; letter-spacing: 4px; }
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
 
-.mission,
-.lookbook,
-.shop { padding: 120px 32px; }
-
-.mission-inner { max-width: 700px; }
+.section-label {
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  color: #a855f7;
+}
 
 /* GRID */
-.grid { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+}
 
-/* LOOKBOOK CARDS */
+/* CARDS */
 .card {
   height: 320px;
-  border-radius: 20px;
-  border: 1px solid #222;
   background: #111;
+  border: 1px solid #222;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,13 +105,13 @@ body {
 
 /* PRODUCTS */
 .product {
-  border: 1px solid #222;
+  background: #0b0b0b;
   border-radius: 20px;
   padding: 24px;
-  background: #0b0b0b;
+  border: 1px solid #222;
 }
 
-.product-img {
+.product img {
   width: 100%;
   height: 180px;
   object-fit: cover;
@@ -112,26 +120,27 @@ body {
 }
 
 .price {
-  font-size: 1.1rem;
-  font-weight: bold;
   color: #a855f7;
-  margin: 8px 0;
+  font-weight: bold;
 }
 
-.secondary-btn {
+.product button {
   width: 100%;
-  margin-top: 12px;
   padding: 14px;
-  background: #9333ea;
-  border: none;
+  margin-top: 12px;
   border-radius: 14px;
+  border: none;
+  background: #9333ea;
   color: #fff;
   cursor: pointer;
 }
 
-.secondary-btn:hover {
-  background: #fff;
-  color: #000;
+/* INFO */
+.info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px;
+  background: #0a0a0a;
 }
 
 /* CART */
@@ -140,40 +149,56 @@ body {
   bottom: 20px;
   right: 20px;
   background: #9333ea;
-  color: white;
-  padding: 14px 18px;
+  padding: 14px 20px;
   border-radius: 50px;
   cursor: pointer;
-  z-index: 9999;
 }
 
 #cart-modal {
   display: none;
   position: fixed;
-  bottom: 80px;
+  bottom: 90px;
   right: 20px;
+  width: 260px;
   background: #111;
   padding: 20px;
-  border-radius: 16px;
-  width: 260px;
-  z-index: 9999;
+  border-radius: 20px;
 }
 
-#cart-modal h3 { margin-bottom: 10px; }
-#cart-modal ul { list-style: none; margin-bottom: 10px; }
-#cart-modal li { font-size: 0.85rem; color: #ccc; }
+#cart-modal ul {
+  list-style: none;
+  margin: 10px 0;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.close-btn {
+  margin-top: 10px;
+  width: 100%;
+  background: transparent;
+  color: #888;
+  border: none;
+  cursor: pointer;
+}
+
+/* CONTACT */
+.contact {
+  text-align: center;
+  color: #aaa;
+}
+
+.socials { margin-top: 20px; }
 
 /* FOOTER */
 .footer {
-  border-top: 1px solid #222;
   padding: 32px;
+  border-top: 1px solid #222;
   text-align: center;
-  color: #666;
   font-size: 0.75rem;
+  color: #666;
 }
 
 /* MOBILE */
 @media (max-width: 600px) {
-  .faide-wordmark { font-size: 1.2rem; }
   .nav-links a { font-size: 0.55rem; margin-left: 10px; }
 }

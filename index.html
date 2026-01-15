@@ -4,13 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SEO -->
   <title>FAIDE® | Luxury Streetwear</title>
-  <meta name="description" content="FAIDE is a contemporary luxury streetwear brand blending bold design, refined identity, and modern culture." />
-  <meta name="keywords" content="FAIDE, luxury streetwear, South Africa fashion brand, premium clothing" />
+
+  <meta name="description" content="FAIDE is a luxury streetwear brand blending bold design, refined identity, and modern culture." />
+  <meta name="keywords" content="FAIDE, luxury streetwear, South Africa fashion, premium clothing" />
   <meta name="author" content="FAIDE" />
 
-  <!-- Google Verification -->
   <meta name="google-site-verification" content="xHQMXeonHcUZ-NTHCrtvjlR9bojEkpwc8CzKChP7I9o" />
 
   <link rel="stylesheet" href="style.css" />
@@ -35,10 +34,19 @@
   <div class="hero-content">
     <h2 class="hero-title">NEW DROP</h2>
     <p class="hero-text">
-      Luxury streetwear engineered for confidence, presence, and identity.
+      Streetwear engineered for presence, confidence, and identity.
     </p>
     <a href="#shop" class="primary-btn">Shop Collection</a>
   </div>
+</section>
+
+<!-- BRAND INTRO -->
+<section class="brand-intro">
+  <h2>Streetwear • Luxury • Identity</h2>
+  <p>
+    FAIDE is a contemporary streetwear brand blending bold design with refined luxury.
+    Built for those who move in silence, purpose, and style.
+  </p>
 </section>
 
 <!-- MISSION -->
@@ -46,8 +54,8 @@
   <span class="section-label">Mission</span>
   <h2>Defy conformity. Define presence.</h2>
   <p>
-    FAIDE exists at the intersection of bold design, refined luxury, and modern culture.
-    Built for those who move in silence, purpose, and style.
+    FAIDE exists at the intersection of modern culture, premium design,
+    and fearless self-expression.
   </p>
 </section>
 
@@ -71,7 +79,7 @@
       <img src="images/puffer.png" alt="FAIDE Puffer Jacket">
       <h3>Puffer Jacket</h3>
       <p class="price">R800</p>
-      <p class="desc">Insulated. Structured. Limited release.</p>
+      <p class="desc">Structured fit. Insulated. Limited release.</p>
       <button onclick="addToCart('Puffer Jacket',800)">Add to Cart</button>
     </div>
 
@@ -94,11 +102,11 @@
   </div>
 </section>
 
-<!-- INFO -->
+<!-- TRUST INFO -->
 <section class="info">
   <div>
     <h4>Shipping</h4>
-    <p>Nationwide delivery across South Africa. Dispatch within 2–4 business days.</p>
+    <p>Nationwide delivery across South Africa. Dispatch in 2–4 business days.</p>
   </div>
   <div>
     <h4>Returns</h4>
@@ -109,16 +117,6 @@
     <p>Secure checkout via WhatsApp order confirmation.</p>
   </div>
 </section>
-
-<!-- CART -->
-<div id="cart-button">🛒 Cart (<span id="cart-count">0</span>)</div>
-
-<div id="cart-modal">
-  <h3>Your Cart</h3>
-  <ul id="cart-items"></ul>
-  <button class="primary-btn" onclick="checkout()">Order via WhatsApp</button>
-  <button class="close-btn" onclick="closeCart()">Close</button>
-</div>
 
 <!-- CONTACT -->
 <section id="contact" class="contact">
@@ -131,12 +129,21 @@
   </p>
 </section>
 
+<!-- CART -->
+<div id="cart-button">🛒 Cart (<span id="cart-count">0</span>)</div>
+
+<div id="cart-modal">
+  <h3>Your Cart</h3>
+  <ul id="cart-items"></ul>
+  <button class="primary-btn" onclick="checkout()">Order via WhatsApp</button>
+  <button class="close-btn" onclick="closeCart()">Close</button>
+</div>
+
 <!-- FOOTER -->
 <footer class="footer">
   © 2026 FAIDE®. All rights reserved.
 </footer>
 
-<!-- SCRIPT -->
 <script>
 let cart = [];
 

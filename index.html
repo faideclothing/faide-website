@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Verification -->
   <meta name="google-site-verification" content="xHQMXeonHcUZ-NTHCrtvjlR9bojEkpwc8CzKChP7I9o" />
 
   <title>FAIDE® | Luxury Streetwear Brand</title>
+
   <meta name="description" content="FAIDE is a luxury streetwear brand blending bold design, refined identity, and modern culture. New drops coming soon." />
   <meta name="keywords" content="FAIDE clothing, luxury streetwear, streetwear brand, South Africa fashion, premium streetwear" />
   <meta name="author" content="FAIDE" />
@@ -16,12 +19,10 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://faide-website.vercel.app" />
 
-  <!-- CSS Link -->
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
-
-  <!-- PayPal SDK -->
-  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=ZAR"></script>
 </head>
+
 <body>
 
   <!-- NAVBAR -->
@@ -39,7 +40,10 @@
   <section id="drop" class="hero">
     <div class="hero-content">
       <h2 class="hero-title">NEW DROP</h2>
-      <p class="hero-text">FAIDE is engineered for the future of street luxury. Minimal. Cold. Precise.</p>
+      <p class="hero-text">
+        FAIDE is engineered for the future of street luxury.
+        Minimal. Cold. Precise.
+      </p>
       <button class="primary-btn">Shop Now</button>
     </div>
   </section>
@@ -49,7 +53,10 @@
     <div class="mission-inner">
       <span class="section-label">Mission</span>
       <h2>Defy conformity. Define presence.</h2>
-      <p>FAIDE exists at the intersection of technology, design, and identity. We craft garments that move silently but speak loudly.</p>
+      <p>
+        FAIDE exists at the intersection of technology, design, and identity.
+        We craft garments that move silently but speak loudly.
+      </p>
     </div>
   </section>
 
@@ -57,9 +64,9 @@
   <section id="lookbook" class="lookbook">
     <h2 class="section-title">Lookbook</h2>
     <div class="grid">
-      <div class="card"><img src="images/look1.jpg" alt="FAIDE Look 1"></div>
-      <div class="card"><img src="images/look2.jpg" alt="FAIDE Look 2"></div>
-      <div class="card"><img src="images/look3.jpg" alt="FAIDE Look 3"></div>
+      <div class="card">Image Placeholder</div>
+      <div class="card">Image Placeholder</div>
+      <div class="card">Image Placeholder</div>
     </div>
   </section>
 
@@ -67,96 +74,35 @@
   <section id="shop" class="shop">
     <h2 class="section-title">Shop</h2>
     <div class="grid">
+
       <div class="product">
-        <div class="product-img"><img src="images/puffer.jpg" alt="Puffer Jacket"></div>
+        <div class="product-img"></div>
         <h3>Puffer Jacket</h3>
         <p>Premium construction. Limited stock.</p>
-        <button class="secondary-btn">Add to Cart</button>
+        <button class="secondary-btn">View Product</button>
       </div>
 
       <div class="product">
-        <div class="product-img"><img src="images/hoodie.jpg" alt="Hoodie"></div>
+        <div class="product-img"></div>
         <h3>Hoodie</h3>
         <p>Premium construction. Limited stock.</p>
-        <button class="secondary-btn">Add to Cart</button>
+        <button class="secondary-btn">View Product</button>
       </div>
 
       <div class="product">
-        <div class="product-img"><img src="images/tshirt.jpg" alt="T-Shirt"></div>
+        <div class="product-img"></div>
         <h3>T-Shirt</h3>
         <p>Premium construction. Limited stock.</p>
-        <button class="secondary-btn">Add to Cart</button>
+        <button class="secondary-btn">View Product</button>
       </div>
+
     </div>
   </section>
 
-  <!-- FLOATING CART -->
-  <div class="floating-cart" id="cart">
-    <div class="cart-icon">🛒 <span id="cart-count">0</span></div>
-    <div class="cart-dropdown">
-      <h3>Your Cart</h3>
-      <ul id="cart-items"></ul>
-      <p>Total: R<span id="cart-total">0.00</span></p>
-      <div id="paypal-button-container"></div>
-    </div>
-  </div>
-
   <!-- FOOTER -->
   <footer class="footer">
-    <p>© 2026 FAIDE. All rights reserved.</p>
-    <p>Contact: faideclothingsa@gmail.com | Follow us: @faideclothing</p>
+    © 2026 FAIDE. All rights reserved.
   </footer>
 
-  <!-- JS -->
-  <script>
-    const cartIcon = document.querySelector('.cart-icon');
-    const cartDropdown = document.querySelector('.cart-dropdown');
-    const cartItems = document.getElementById('cart-items');
-    const cartCount = document.getElementById('cart-count');
-    const cartTotal = document.getElementById('cart-total');
-
-    let cart = [];
-
-    cartIcon.addEventListener('click', () => {
-      document.getElementById('cart').classList.toggle('active');
-    });
-
-    const products = document.querySelectorAll('.product');
-    products.forEach(product => {
-      product.querySelector('.secondary-btn').addEventListener('click', () => {
-        const title = product.querySelector('h3').innerText;
-        const price = 1000; // Set your product price here
-        cart.push({ title, price });
-        updateCart();
-      });
-    });
-
-    function updateCart() {
-      cartItems.innerHTML = '';
-      let total = 0;
-      cart.forEach(item => {
-        const li = document.createElement('li');
-        li.innerHTML = `${item.title} <span>R${item.price}</span>`;
-        cartItems.appendChild(li);
-        total += item.price;
-      });
-      cartCount.innerText = cart.length;
-      cartTotal.innerText = total.toFixed(2);
-
-      paypal.Buttons({
-        createOrder: function(data, actions) {
-          return actions.order.create({ purchase_units: [{ amount: { value: total.toFixed(2) } }] });
-        },
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-            alert('Transaction completed by ' + details.payer.name.given_name);
-            cart = [];
-            updateCart();
-            document.getElementById('cart').classList.remove('active');
-          });
-        }
-      }).render('#paypal-button-container');
-    }
-  </script>
 </body>
 </html>

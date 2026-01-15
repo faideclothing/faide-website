@@ -1,172 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>FAIDE® | Luxury Streetwear</title>
+  <!-- Google Verification -->
+  <meta name="google-site-verification" content="xHQMXeonHcUZ-NTHCrtvjlR9bojEkpwc8CzKChP7I9o" />
 
-<meta name="description" content="FAIDE is a luxury streetwear brand blending bold design, refined identity, and modern culture.">
-<meta name="author" content="FAIDE">
+  <title>FAIDE® | Luxury Streetwear Brand</title>
 
-<link rel="stylesheet" href="style.css">
+  <meta name="description" content="FAIDE is a luxury streetwear brand blending bold design, refined identity, and modern culture." />
+  <meta name="keywords" content="FAIDE clothing, luxury streetwear, streetwear brand, South Africa fashion" />
+  <meta name="author" content="FAIDE" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <h1 class="logo">FAIDE</h1>
-  <div class="nav-links">
-    <a href="#drop">Drop</a>
-    <a href="#shop">Shop</a>
-    <a href="#instagram">Instagram</a>
-    <a href="#contact">Contact</a>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <h1 class="logo faide-wordmark">FAIDE</h1>
+    <div class="nav-links">
+      <a href="#drop">New Drop</a>
+      <a href="#mission">Mission</a>
+      <a href="#lookbook">Lookbook</a>
+      <a href="#shop">Shop</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="drop" class="hero">
+    <div class="hero-content">
+      <h2 class="hero-title">NEW DROP</h2>
+      <p class="hero-text">
+        FAIDE is engineered for the future of street luxury.
+      </p>
+      <button class="primary-btn">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section id="mission" class="mission">
+    <div class="mission-inner">
+      <span class="section-label">Mission</span>
+      <h2>Defy conformity. Define presence.</h2>
+      <p>
+        FAIDE exists at the intersection of technology, design, and identity.
+      </p>
+    </div>
+  </section>
+
+  <!-- LOOKBOOK -->
+  <section id="lookbook" class="lookbook">
+    <h2 class="section-title">Lookbook</h2>
+    <div class="grid">
+      <div class="card">Image Placeholder</div>
+      <div class="card">Image Placeholder</div>
+      <div class="card">Image Placeholder</div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="shop" class="shop">
+    <h2 class="section-title">Shop</h2>
+
+    <div class="grid">
+
+      <!-- PUFFER -->
+      <div class="product">
+        <img src="images/puffer.png" alt="FAIDE Puffer Jacket" class="product-img">
+        <h3>Puffer Jacket</h3>
+        <p class="price">R800</p>
+        <p>Premium construction. Limited stock.</p>
+        <button class="secondary-btn" onclick="addToCart('Puffer Jacket',800)">Add to Cart</button>
+      </div>
+
+      <!-- HOODIE -->
+      <div class="product">
+        <img src="images/hoodie.png" alt="FAIDE Hoodie" class="product-img">
+        <h3>Hoodie</h3>
+        <p class="price">R550</p>
+        <p>Premium construction. Limited stock.</p>
+        <button class="secondary-btn" onclick="addToCart('Hoodie',550)">Add to Cart</button>
+      </div>
+
+      <!-- T-SHIRT -->
+      <div class="product">
+        <img src="images/tshirt.png" alt="FAIDE T-Shirt" class="product-img">
+        <h3>T-Shirt</h3>
+        <p class="price">R350</p>
+        <p>Premium construction. Limited stock.</p>
+        <button class="secondary-btn" onclick="addToCart('T-Shirt',350)">Add to Cart</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CART -->
+  <div id="cart-button">
+    🛒 Cart (<span id="cart-count">0</span>)
   </div>
-</nav>
 
-<!-- HERO / DROP -->
-<section id="drop" class="hero">
-  <h2 class="hero-title">NEXT DROP IN</h2>
-  <div id="countdown" class="countdown">Loading…</div>
-  <p class="hero-text">Luxury streetwear engineered for presence and identity.</p>
-  <a href="#shop" class="primary-btn">Shop Drop</a>
-</section>
+  <div id="cart-modal">
+    <h3>Your Cart</h3>
+    <ul id="cart-items"></ul>
+    <button onclick="checkout()">Order via WhatsApp</button>
+    <button onclick="closeCart()">Close</button>
+  </div>
 
-<!-- SHOP -->
-<section id="shop" class="shop">
-<h2 class="section-title">Shop</h2>
+  <!-- FOOTER -->
+  <footer class="footer">
+    © 2026 FAIDE. All rights reserved.
+  </footer>
 
-<div class="grid">
+  <!-- CART SCRIPT -->
+  <script>
+    let cartCount = 0;
+    let cartItems = [];
 
-<div class="product">
-  <img src="images/puffer.png" alt="FAIDE Puffer Jacket">
-  <h3>Puffer Jacket</h3>
-  <p class="price">R800</p>
+    function addToCart(product, price) {
+      cartCount++;
+      cartItems.push({name: product, price: price});
+      document.getElementById("cart-count").innerText = cartCount;
+      updateCart();
+    }
 
-  <select class="size-select">
-    <option value="">Select Size</option>
-    <option>S</option><option>M</option><option>L</option><option>XL</option>
-  </select>
+    function updateCart() {
+      const list = document.getElementById("cart-items");
+      list.innerHTML = "";
+      cartItems.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item.name + " - R" + item.price;
+        list.appendChild(li);
+      });
+    }
 
-  <button onclick="addToCart(this,'Puffer Jacket',800)">Add to Cart</button>
-</div>
+    document.getElementById("cart-button").onclick = () => {
+      document.getElementById("cart-modal").style.display = "block";
+    };
 
-<div class="product">
-  <img src="images/hoodie.png" alt="FAIDE Hoodie">
-  <h3>Hoodie</h3>
-  <p class="price">R550</p>
+    function closeCart() {
+      document.getElementById("cart-modal").style.display = "none";
+    }
 
-  <select class="size-select">
-    <option value="">Select Size</option>
-    <option>S</option><option>M</option><option>L</option><option>XL</option>
-  </select>
-
-  <button onclick="addToCart(this,'Hoodie',550)">Add to Cart</button>
-</div>
-
-<div class="product">
-  <img src="images/tshirt.png" alt="FAIDE T-Shirt">
-  <h3>T-Shirt</h3>
-  <p class="price">R350</p>
-
-  <select class="size-select">
-    <option value="">Select Size</option>
-    <option>S</option><option>M</option><option>L</option><option>XL</option>
-  </select>
-
-  <button onclick="addToCart(this,'T-Shirt',350)">Add to Cart</button>
-</div>
-
-</div>
-</section>
-
-<!-- INSTAGRAM -->
-<section id="instagram" class="instagram">
-<h2 class="section-title">From Instagram</h2>
-
-<div class="grid">
-  <a href="https://instagram.com/faideclothing" target="_blank" class="ig-card">Post</a>
-  <a href="https://instagram.com/faideclothing" target="_blank" class="ig-card">Post</a>
-  <a href="https://instagram.com/faideclothing" target="_blank" class="ig-card">Post</a>
-</div>
-</section>
-
-<!-- CART -->
-<div id="cart-button">🛒 Cart (<span id="cart-count">0</span>)</div>
-
-<div id="cart-modal">
-  <h3>Your Cart</h3>
-  <ul id="cart-items"></ul>
-  <button class="primary-btn" onclick="checkoutWhatsApp()">Order via WhatsApp</button>
-  <button class="close-btn" onclick="closeCart()">Close</button>
-</div>
-
-<!-- CONTACT -->
-<section id="contact" class="contact">
-<h2 class="section-title">Contact</h2>
-<p>📧 faideclothingsa@gmail.com</p>
-<p>📞 +27 69 560 3929</p>
-<p>@faideclothing</p>
-</section>
-
-<footer class="footer">
-© 2026 FAIDE®. All rights reserved.
-</footer>
-
-<script>
-/* CART */
-let cart = [];
-
-function addToCart(btn, name, price) {
-  const size = btn.parentElement.querySelector(".size-select").value;
-  if (!size) return alert("Please select a size");
-
-  cart.push({ name, price, size });
-  document.getElementById("cart-count").innerText = cart.length;
-  renderCart();
-}
-
-function renderCart() {
-  const list = document.getElementById("cart-items");
-  list.innerHTML = "";
-  cart.forEach(item => {
-    const li = document.createElement("li");
-    li.textContent = `${item.name} (${item.size}) — R${item.price}`;
-    list.appendChild(li);
-  });
-}
-
-document.getElementById("cart-button").onclick = () =>
-  document.getElementById("cart-modal").style.display = "block";
-
-function closeCart() {
-  document.getElementById("cart-modal").style.display = "none";
-}
-
-function checkoutWhatsApp() {
-  if (!cart.length) return alert("Cart is empty");
-  let msg = "Hi FAIDE! I want to order:\n";
-  cart.forEach(i => msg += `• ${i.name} (${i.size}) - R${i.price}\n`);
-  window.open("https://wa.me/27695603929?text=" + encodeURIComponent(msg));
-}
-
-/* COUNTDOWN */
-const dropDate = new Date("2026-02-01T00:00:00").getTime();
-setInterval(() => {
-  const now = new Date().getTime();
-  const d = dropDate - now;
-  if (d < 0) return;
-
-  const days = Math.floor(d / (1000*60*60*24));
-  const hrs = Math.floor((d / (1000*60*60)) % 24);
-  const mins = Math.floor((d / (1000*60)) % 60);
-  const secs = Math.floor((d / 1000) % 60);
-
-  document.getElementById("countdown").innerText =
-    `${days}d : ${hrs}h : ${mins}m : ${secs}s`;
-}, 1000);
-</script>
+    function checkout() {
+      if(cartItems.length === 0){
+        alert("Your cart is empty!");
+        return;
+      }
+      let message = "Hi FAIDE! I want to order:\n";
+      cartItems.forEach(item => {
+        message += `- ${item.name} - R${item.price}\n`;
+      });
+      let phoneNumber = "27695603929"; // FAIDE WhatsApp
+      let url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+      window.open(url, "_blank");
+    }
+  </script>
 
 </body>
 </html>

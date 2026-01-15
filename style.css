@@ -4,7 +4,9 @@
   box-sizing: border-box;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background: #000;
@@ -25,10 +27,30 @@ body {
   z-index: 1000;
 }
 
-.faide-wordmark {
-  font-size: 1.6rem;
-  letter-spacing: 0.15em;
-  font-style: italic;
+/* LOGO */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-img {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
+/* Hidden text for SEO */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .nav-links a {
@@ -38,7 +60,9 @@ body {
   text-decoration: none;
 }
 
-.nav-links a:hover { color: #fff; }
+.nav-links a:hover {
+  color: #fff;
+}
 
 /* HERO */
 .hero {
@@ -87,6 +111,10 @@ body {
   letter-spacing: 4px;
 }
 
+.mission-inner {
+  max-width: 700px;
+}
+
 /* GRID */
 .grid {
   display: grid;
@@ -95,7 +123,10 @@ body {
 }
 
 /* LOOKBOOK */
-.lookbook-card {
+.card {
+  height: 320px;
+  border-radius: 20px;
+  border: 1px solid #222;
   background: linear-gradient(135deg, #111, #1a1a1a);
 }
 
@@ -122,11 +153,12 @@ body {
 }
 
 .price {
-  color: #a855f7;
+  font-size: 1.1rem;
   font-weight: bold;
+  color: #a855f7;
+  margin: 8px 0;
 }
 
-/* BUTTONS */
 .secondary-btn {
   width: 100%;
   margin-top: 12px;
@@ -181,6 +213,10 @@ body {
 
 /* MOBILE */
 @media (max-width: 600px) {
+  .logo-img {
+    height: 20px;
+  }
+
   .nav-links a {
     font-size: 0.7rem;
     margin-left: 14px;

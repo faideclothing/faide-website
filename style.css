@@ -1,73 +1,315 @@
-/* ============================= */
-/* LOGO – FAIDE WORDMARK */
-/* ============================= */
+/* GENERAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background: #000;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  background: #000;
+  z-index: 1000;
+}
+
+/* LOGO */
 .logo {
   display: flex;
   align-items: center;
-  justify-content: center;
   text-decoration: none;
 }
-
-/* LOGO IMAGE */
-.logo img,
 .logo-img {
-  height: 56px;            /* MAIN SIZE (desktop) */
+  height: 48px;   /* larger logo */
   width: auto;
   display: block;
-  object-fit: contain;
-  image-rendering: auto;
-  filter: brightness(1.2) contrast(1.1); /* visible on black */
-  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-/* Optional subtle hover (desktop only) */
-@media (hover: hover) {
-  .logo img:hover {
-    transform: scale(1.05);
-  }
-}
-
-/* ============================= */
-/* TABLET */
-/* ============================= */
-@media (max-width: 1024px) {
-  .logo img,
-  .logo-img {
-    height: 50px;
-  }
-}
-
-/* ============================= */
-/* MOBILE */
-/* ============================= */
-@media (max-width: 600px) {
-  .logo img,
-  .logo-img {
-    height: 44px;          /* VERY IMPORTANT — visible on phone */
-  }
-}
-
-/* ============================= */
-/* EXTRA SMALL PHONES */
-/* ============================= */
-@media (max-width: 380px) {
-  .logo img,
-  .logo-img {
-    height: 40px;
-  }
-}
-
-/* ============================= */
-/* ACCESSIBILITY (screen readers) */
-/* ============================= */
+/* Hidden text for SEO */
 .sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
   padding: 0;
+  margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip: rect(0,0,0,0);
   white-space: nowrap;
   border: 0;
+}
+
+.nav-links a {
+  margin-left: 24px;
+  font-size: 0.8rem;
+  color: #888;
+  text-decoration: none;
+}
+.nav-links a:hover {
+  color: #fff;
+}
+
+/* HERO */
+.hero {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.hero-title {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  color: #a855f7;
+}
+.hero-text {
+  max-width: 500px;
+  margin: 20px auto;
+  color: #aaa;
+}
+.primary-btn {
+  display: inline-block;
+  background: #9333ea;
+  padding: 16px 34px;
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* SECTIONS */
+.mission,
+.lookbook,
+.shop {
+  padding: 120px 32px;
+}
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+.section-label {
+  color: #a855f7;
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+}
+.mission-inner {
+  max-width: 700px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* LOOKBOOK */
+.card {
+  height: 320px;
+  border-radius: 20px;
+  border: 1px solid #222;
+  background: linear-gradient(135deg, #111, #1a1a1a);
+}
+
+/* PRODUCTS */
+.product {
+  background: #0b0b0b;
+  border: 1px solid #222;
+  border-radius: 20px;
+  padding: 24px;
+  transition: transform 0.3s ease;
+}
+.product:hover {
+  transform: translateY(-6px);
+}
+
+.product-img {
+  width: 100%;
+  height: 240px; /* increased for better preview */
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  background: #111;
+}
+
+/* Thumbnail previews */
+.thumbs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.thumbs img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #222;
+  cursor: pointer;
+}
+
+/* Text & buttons */
+.price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #a855f7;
+  margin: 8px 0;
+}
+.secondary-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  background: #9333ea;
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  cursor: pointer;
+}
+.secondary-btn:hover {
+  background: #fff;
+  color: #000;
+}
+.link-btn {
+  background: none;
+  color: #aaa;
+  border: none;
+  margin: 4px 0;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* CART */
+#cart-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #9333ea;
+  padding: 14px 18px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 2000;
+}
+#cart-modal {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: #111;
+  padding: 20px;
+  border-radius: 16px;
+  width: 300px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 2000;
+}
+#cart-modal.show {
+  display: block;
+}
+.order-btn {
+  width: 100%;
+  padding: 12px;
+  background: #9333ea;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.close-btn {
+  width: 100%;
+  padding: 10px;
+  background: #222;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+}
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.qty button {
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+/* SIZE GUIDE */
+#size-guide {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  padding: 40px;
+  overflow-y: auto;
+  z-index: 3000;
+}
+#size-guide.show {
+  display: block;
+}
+#size-guide h3 {
+  margin-bottom: 16px;
+  text-align: center;
+}
+#size-guide table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+}
+#size-guide th,
+#size-guide td {
+  border: 1px solid #222;
+  padding: 12px;
+  text-align: center;
+}
+#size-guide .close-btn {
+  max-width: 200px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* FOOTER */
+.footer {
+  border-top: 1px solid #222;
+  padding: 32px;
+  text-align: center;
+  color: #666;
+  font-size: 0.75rem;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .logo-img {
+    height: 36px; /* slightly smaller on mobile */
+  }
+  .nav-links a {
+    font-size: 0.7rem;
+    margin-left: 14px;
+  }
+  .product-img {
+    height: 200px;
+  }
+  .thumbs img {
+    width: 48px;
+    height: 48px;
+  }
 }

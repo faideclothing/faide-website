@@ -79,27 +79,48 @@
 
     <div class="grid">
 
+      <!-- PRODUCT 1 -->
       <div class="product">
-        <img src="images/puffer.png" alt="FAIDE Puffer Jacket" class="product-img">
+        <img src="images/puffer.png" alt="FAIDE Puffer Jacket" class="product-img" id="puffer-main">
+        <div class="thumbs">
+          <img src="images/puffer.png" alt="Puffer preview" onclick="swapImage('puffer-main', this.src)">
+          <img src="images/puffer2.png" alt="Puffer preview" onclick="swapImage('puffer-main', this.src)">
+          <img src="images/puffer3.png" alt="Puffer preview" onclick="swapImage('puffer-main', this.src)">
+        </div>
         <h3>Puffer Jacket</h3>
         <p class="price">R800</p>
         <p>Premium construction. Limited stock.</p>
+        <button class="link-btn" onclick="openSizeGuide()">Size Guide</button>
         <button class="secondary-btn" onclick="addToCart('Puffer Jacket',800)">Add to Cart</button>
       </div>
 
+      <!-- PRODUCT 2 -->
       <div class="product">
-        <img src="images/hoodie.png" alt="FAIDE Hoodie" class="product-img">
+        <img src="images/hoodie.png" alt="FAIDE Hoodie" class="product-img" id="hoodie-main">
+        <div class="thumbs">
+          <img src="images/hoodie.png" alt="Hoodie preview" onclick="swapImage('hoodie-main', this.src)">
+          <img src="images/hoodie2.png" alt="Hoodie preview" onclick="swapImage('hoodie-main', this.src)">
+          <img src="images/hoodie3.png" alt="Hoodie preview" onclick="swapImage('hoodie-main', this.src)">
+        </div>
         <h3>Hoodie</h3>
         <p class="price">R550</p>
         <p>Premium construction. Limited stock.</p>
+        <button class="link-btn" onclick="openSizeGuide()">Size Guide</button>
         <button class="secondary-btn" onclick="addToCart('Hoodie',550)">Add to Cart</button>
       </div>
 
+      <!-- PRODUCT 3 -->
       <div class="product">
-        <img src="images/tshirt.png" alt="FAIDE T-Shirt" class="product-img">
+        <img src="images/tshirt.png" alt="FAIDE T-Shirt" class="product-img" id="tshirt-main">
+        <div class="thumbs">
+          <img src="images/tshirt.png" alt="T-Shirt preview" onclick="swapImage('tshirt-main', this.src)">
+          <img src="images/tshirt2.png" alt="T-Shirt preview" onclick="swapImage('tshirt-main', this.src)">
+          <img src="images/tshirt3.png" alt="T-Shirt preview" onclick="swapImage('tshirt-main', this.src)">
+        </div>
         <h3>T-Shirt</h3>
         <p class="price">R350</p>
         <p>Premium construction. Limited stock.</p>
+        <button class="link-btn" onclick="openSizeGuide()">Size Guide</button>
         <button class="secondary-btn" onclick="addToCart('T-Shirt',350)">Add to Cart</button>
       </div>
 
@@ -108,17 +129,31 @@
 
 </main>
 
-<!-- CART -->
-<div id="cart-button">
+<!-- CART BUTTON -->
+<div id="cart-button" onclick="toggleCart()">
   🛒 Cart (<span id="cart-count">0</span>)
 </div>
 
+<!-- CART -->
 <div id="cart-modal">
   <h3>Your Cart</h3>
   <ul id="cart-items"></ul>
   <p class="cart-total">Total: R<span id="cart-total">0</span></p>
-  <button onclick="checkout()">Order via WhatsApp</button>
-  <button class="close-btn" onclick="closeCart()">Close</button>
+  <button class="order-btn" onclick="checkout()">Order via WhatsApp</button>
+  <button class="close-btn" onclick="toggleCart()">Close</button>
+</div>
+
+<!-- SIZE GUIDE -->
+<div id="size-guide">
+  <h3>Size Guide</h3>
+  <table>
+    <tr><th>Size</th><th>Chest</th><th>Length</th></tr>
+    <tr><td>S</td><td>52 cm</td><td>68 cm</td></tr>
+    <tr><td>M</td><td>55 cm</td><td>71 cm</td></tr>
+    <tr><td>L</td><td>58 cm</td><td>74 cm</td></tr>
+    <tr><td>XL</td><td>61 cm</td><td>76 cm</td></tr>
+  </table>
+  <button class="close-btn" onclick="closeSizeGuide()">Close</button>
 </div>
 
 <!-- FOOTER -->
@@ -128,11 +163,16 @@
 
 <!-- CART SCRIPT -->
 <script>
-  let cartItems = [];
+  let cart = [];
 
   function addToCart(product, price) {
-    cartItems.push({ name: product, price });
-    document.getElementById("cart-count").innerText = cartItems.length;
+    // if same product exists, just increase qty
+    const idx = cart.findIndex(i => i.name === product);
+    if (idx > -1) {
+      cart[idx].qty += 1;
+    } else {
+      cart.push({ name: product, price, qty: 1 });
+    }
     updateCart();
   }
 
@@ -142,39 +182,59 @@
     list.innerHTML = "";
     let total = 0;
 
-    cartItems.forEach(item => {
-      total += item.price;
-      const li = document.createElement("li");
-      li.textContent = `${item.name} - R${item.price}`;
-      list.appendChild(li);
+    cart.forEach((item, i) => {
+      total += item.price * item.qty;
+      list.innerHTML += `
+        <li class="cart-item">
+          <span class="item-name">${item.name}</span>
+          <div class="qty">
+            <button onclick="changeQty(${i}, -1)">−</button>
+            <span>${item.qty}</span>
+            <button onclick="changeQty(${i}, 1)">+</button>
+          </div>
+        </li>`;
     });
 
+    document.getElementById("cart-count").innerText = cart.reduce((a,b)=>a+b.qty,0);
     totalEl.innerText = total;
   }
 
-  document.getElementById("cart-button").onclick = () => {
-    document.getElementById("cart-modal").style.display = "block";
-  };
+  function changeQty(i, delta) {
+    cart[i].qty += delta;
+    if (cart[i].qty <= 0) cart.splice(i,1);
+    updateCart();
+  }
 
-  function closeCart() {
-    document.getElementById("cart-modal").style.display = "none";
+  function toggleCart() {
+    document.getElementById("cart-modal").classList.toggle("show");
   }
 
   function checkout() {
-    if (!cartItems.length) {
+    if (!cart.length) {
       alert("Your cart is empty!");
       return;
     }
 
     let message = "Hi FAIDE! I want to order:\n";
-    cartItems.forEach(item => {
-      message += `- ${item.name} - R${item.price}\n`;
+    cart.forEach(item => {
+      message += `- ${item.qty} x ${item.name} - R${item.price}\n`;
     });
 
     window.open(
       "https://wa.me/27695603929?text=" + encodeURIComponent(message),
       "_blank"
     );
+  }
+
+  function swapImage(id, src) {
+    document.getElementById(id).src = src;
+  }
+
+  function openSizeGuide() {
+    document.getElementById("size-guide").classList.add("show");
+  }
+  function closeSizeGuide() {
+    document.getElementById("size-guide").classList.remove("show");
   }
 </script>
 

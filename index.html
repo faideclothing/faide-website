@@ -1,245 +1,165 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Verification -->
   <meta name="google-site-verification" content="xHQMXeonHcUZ-NTHCrtvjlR9bojEkpwc8CzKChP7I9o" />
-  <title>FAIDE® | Luxury Streetwear</title>
+
+  <title>FAIDE® | Luxury Streetwear Brand</title>
+
   <meta name="description" content="FAIDE is a luxury streetwear brand blending bold design, refined identity, and modern culture." />
-  
-  <style>
-    :root {
-      --primary: #ffffff;
-      --secondary: #111111;
-      --accent: #a855f7; 
-      --bg: #000000;
-      --text-muted: #888888;
-      --border: #222222;
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+  <meta name="keywords" content="FAIDE clothing, luxury streetwear, streetwear brand, South Africa fashion" />
+  <meta name="author" content="FAIDE" />
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--primary);
-      font-family: 'Inter', -apple-system, sans-serif;
-      line-height: 1.6;
-    }
-
-    /* NAVIGATION */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 40px;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: rgba(0, 0, 0, 0.9);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-    }
-    .faide-wordmark {
-      font-size: 1.8rem;
-      letter-spacing: 0.3em;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-    .nav-links a {
-      margin-left: 30px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-    .nav-links a:hover { color: var(--primary); }
-
-    /* HERO */
-    .hero {
-      height: 90vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background: radial-gradient(circle at center, #111 0%, #000 100%);
-    }
-    .hero-title { font-size: clamp(3rem, 10vw, 6rem); font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
-    .hero-text { color: var(--text-muted); margin: 20px 0 40px; }
-    .primary-btn {
-      background: var(--primary);
-      border: 1px solid var(--primary);
-      padding: 18px 45px;
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .primary-btn:hover { background: transparent; color: var(--primary); }
-
-    /* SHOP GRID */
-    .shop { padding: 100px 40px; }
-    .grid { 
-      display: grid; 
-      gap: 40px; 
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-    }
-    .product { transition: var(--transition); }
-    .img-container {
-      background: #0f0f0f;
-      aspect-ratio: 3/4;
-      overflow: hidden;
-      margin-bottom: 15px;
-      border: 1px solid var(--border);
-    }
-    .product-img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
-    .product:hover .product-img { transform: scale(1.05); }
-    .price { color: var(--text-muted); margin-bottom: 15px; }
-    .secondary-btn {
-      width: 100%;
-      padding: 15px;
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--primary);
-      text-transform: uppercase;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .secondary-btn:hover { background: var(--primary); color: var(--bg); }
-
-    /* CART SIDEBAR */
-    #cart-button {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: var(--primary);
-      color: var(--bg);
-      width: 60px; height: 60px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: bold; cursor: pointer; z-index: 2000;
-    }
-    #cart-modal {
-      display: none;
-      position: fixed;
-      top: 0; right: 0;
-      height: 100%; width: 100%; max-width: 400px;
-      background: #0a0a0a;
-      border-left: 1px solid var(--border);
-      padding: 40px; z-index: 3000;
-    }
-    .modal-active { display: block !important; }
-    #cart-items { list-style: none; margin: 40px 0; border-top: 1px solid var(--border); }
-    #cart-items li { padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .checkout-btn {
-      width: 100%; padding: 20px;
-      background: #25D366; color: white; border: none;
-      font-weight: 700; text-transform: uppercase; cursor: pointer;
-    }
-    .close-btn { 
-      background: none; border: none; color: var(--text-muted); 
-      margin-top: 10px; cursor: pointer; text-decoration: underline; 
-    }
-  </style>
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-  <header class="navbar">
+  <!-- NAVBAR -->
+  <nav class="navbar">
     <h1 class="logo faide-wordmark">FAIDE</h1>
-    <nav class="nav-links">
+    <div class="nav-links">
       <a href="#drop">New Drop</a>
+      <a href="#mission">Mission</a>
+      <a href="#lookbook">Lookbook</a>
       <a href="#shop">Shop</a>
-    </nav>
-  </header>
+    </div>
+  </nav>
 
+  <!-- HERO -->
   <section id="drop" class="hero">
     <div class="hero-content">
-      <h2 class="hero-title">FAIDE®<br>STUDIOS</h2>
-      <p class="hero-text">Luxury engineered for the modern identity.</p>
-      <a href="#shop"><button class="primary-btn">Explore Collection</button></a>
+      <h2 class="hero-title">NEW DROP</h2>
+      <p class="hero-text">
+        FAIDE is engineered for the future of street luxury.
+      </p>
+      <button class="primary-btn">Shop Now</button>
     </div>
   </section>
 
-  <section id="shop" class="shop">
-    <div class="grid" id="product-grid"></div>
+  <!-- MISSION -->
+  <section id="mission" class="mission">
+    <div class="mission-inner">
+      <span class="section-label">Mission</span>
+      <h2>Defy conformity. Define presence.</h2>
+      <p>
+        FAIDE exists at the intersection of technology, design, and identity.
+      </p>
+    </div>
   </section>
 
-  <div id="cart-button">BAG (<span id="cart-count">0</span>)</div>
+  <!-- LOOKBOOK -->
+  <section id="lookbook" class="lookbook">
+    <h2 class="section-title">Lookbook</h2>
+    <div class="grid">
+      <div class="card">Image Placeholder</div>
+      <div class="card">Image Placeholder</div>
+      <div class="card">Image Placeholder</div>
+    </div>
+  </section>
 
-  <div id="cart-modal">
-    <h3>YOUR BAG</h3>
-    <ul id="cart-items"></ul>
-    <div id="cart-total" style="margin-bottom: 20px; font-weight: bold;">Total: R0</div>
-    <button class="checkout-btn" onclick="checkout()">Order via WhatsApp</button>
-    <button class="close-btn" onclick="toggleCart()">Return to Shop</button>
+  <!-- SHOP -->
+  <section id="shop" class="shop">
+    <h2 class="section-title">Shop</h2>
+
+    <div class="grid">
+
+      <!-- PUFFER -->
+      <div class="product">
+        <img src="images/puffer.png" alt="FAIDE Puffer Jacket" class="product-img">
+        <h3>Puffer Jacket</h3>
+        <p class="price">R800</p>
+        <p>Premium construction. Limited stock.</p>
+        <button class="secondary-btn" onclick="addToCart('Puffer Jacket',800)">Add to Cart</button>
+      </div>
+
+      <!-- HOODIE -->
+      <div class="product">
+        <img src="images/hoodie.png" alt="FAIDE Hoodie" class="product-img">
+        <h3>Hoodie</h3>
+        <p class="price">R550</p>
+        <p>Premium construction. Limited stock.</p>
+        <button class="secondary-btn" onclick="addToCart('Hoodie',550)">Add to Cart</button>
+      </div>
+
+      <!-- T-SHIRT -->
+      <div class="product">
+        <img src="images/tshirt.png" alt="FAIDE T-Shirt" class="product-img">
+        <h3>T-Shirt</h3>
+        <p class="price">R350</p>
+        <p>Premium construction. Limited stock.</p>
+        <button class="secondary-btn" onclick="addToCart('T-Shirt',350)">Add to Cart</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CART -->
+  <div id="cart-button">
+    🛒 Cart (<span id="cart-count">0</span>)
   </div>
 
+  <div id="cart-modal">
+    <h3>Your Cart</h3>
+    <ul id="cart-items"></ul>
+    <button onclick="checkout()">Order via WhatsApp</button>
+    <button onclick="closeCart()">Close</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    © 2026 FAIDE. All rights reserved.
+  </footer>
+
+  <!-- CART SCRIPT -->
   <script>
-    const products = [
-      { id: 1, name: 'Puffer Jacket', price: 800, img: 'images/puffer.png' },
-      { id: 2, name: 'Premium Hoodie', price: 550, img: 'images/hoodie.png' },
-      { id: 3, name: 'Essential T-Shirt', price: 350, img: 'images/tshirt.png' }
-    ];
+    let cartCount = 0;
+    let cartItems = [];
 
-    let cart = {};
-
-    // Render Products
-    const grid = document.getElementById('product-grid');
-    products.forEach(p => {
-      grid.innerHTML += `
-        <div class="product">
-          <div class="img-container"><img src="${p.img}" alt="${p.name}" class="product-img"></div>
-          <h3>${p.name}</h3>
-          <p class="price">R${p.price}</p>
-          <button class="secondary-btn" onclick="addToCart(${p.id})">Add to Bag</button>
-        </div>
-      `;
-    });
-
-    function addToCart(id) {
-      const product = products.find(p => p.id === id);
-      if (cart[id]) { cart[id].qty++; } 
-      else { cart[id] = { ...product, qty: 1 }; }
-      updateUI();
-      if (!document.getElementById("cart-modal").classList.contains("modal-active")) toggleCart();
+    function addToCart(product, price) {
+      cartCount++;
+      cartItems.push({name: product, price: price});
+      document.getElementById("cart-count").innerText = cartCount;
+      updateCart();
     }
 
-    function updateUI() {
+    function updateCart() {
       const list = document.getElementById("cart-items");
-      const countLabel = document.getElementById("cart-count");
-      const totalLabel = document.getElementById("cart-total");
       list.innerHTML = "";
-      let total = 0, count = 0;
-
-      Object.values(cart).forEach(item => {
-        total += item.price * item.qty;
-        count += item.qty;
-        list.innerHTML += `<li>${item.name} (x${item.qty}) - R${item.price * item.qty}</li>`;
+      cartItems.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item.name + " - R" + item.price;
+        list.appendChild(li);
       });
-
-      countLabel.innerText = count;
-      totalLabel.innerText = `Total: R${total}`;
     }
 
-    function toggleCart() {
-      document.getElementById("cart-modal").classList.toggle("modal-active");
-    }
+    document.getElementById("cart-button").onclick = () => {
+      document.getElementById("cart-modal").style.display = "block";
+    };
 
-    document.getElementById("cart-button").onclick = toggleCart;
+    function closeCart() {
+      document.getElementById("cart-modal").style.display = "none";
+    }
 
     function checkout() {
-      const items = Object.values(cart);
-      if(items.length === 0) return alert("Bag is empty");
-      let message = "Hi FAIDE! I'd like to order:\n";
-      items.forEach(item => message += `• ${item.name} x${item.qty}\n`);
-      const total = items.reduce((sum, i) => sum + (i.price * i.qty), 0);
-      window.open(`https://wa.me/27695603929?text=${encodeURIComponent(message + "\nTotal: R" + total)}`);
+      if(cartItems.length === 0){
+        alert("Your cart is empty!");
+        return;
+      }
+      let message = "Hi FAIDE! I want to order:\n";
+      cartItems.forEach(item => {
+        message += `- ${item.name} - R${item.price}\n`;
+      });
+      let phoneNumber = "27695603929"; // FAIDE WhatsApp
+      let url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+      window.open(url, "_blank");
     }
   </script>
+
 </body>
 </html>

@@ -10,9 +10,6 @@
 <meta name="author" content="FAIDE">
 
 <link rel="stylesheet" href="style.css">
-
-<!-- STRIPE -->
-<script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
@@ -23,16 +20,16 @@
   <div class="nav-links">
     <a href="#drop">Drop</a>
     <a href="#shop">Shop</a>
-    <a href="#lookbook">Lookbook</a>
+    <a href="#instagram">Instagram</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO / DROP -->
 <section id="drop" class="hero">
   <h2 class="hero-title">NEXT DROP IN</h2>
-  <div id="countdown" class="countdown">00 : 00 : 00 : 00</div>
-  <p class="hero-text">Luxury streetwear engineered for presence.</p>
+  <div id="countdown" class="countdown">Loading…</div>
+  <p class="hero-text">Luxury streetwear engineered for presence and identity.</p>
   <a href="#shop" class="primary-btn">Shop Drop</a>
 </section>
 
@@ -43,64 +40,55 @@
 <div class="grid">
 
 <div class="product">
-<img src="images/puffer.png" alt="FAIDE Puffer Jacket">
-<h3>Puffer Jacket</h3>
-<p class="price">R800</p>
+  <img src="images/puffer.png" alt="FAIDE Puffer Jacket">
+  <h3>Puffer Jacket</h3>
+  <p class="price">R800</p>
 
-<select class="size-select">
-  <option value="">Select Size</option>
-  <option>S</option>
-  <option>M</option>
-  <option>L</option>
-  <option>XL</option>
-</select>
+  <select class="size-select">
+    <option value="">Select Size</option>
+    <option>S</option><option>M</option><option>L</option><option>XL</option>
+  </select>
 
-<button onclick="addToCart(this,'Puffer Jacket',800)">Add to Cart</button>
+  <button onclick="addToCart(this,'Puffer Jacket',800)">Add to Cart</button>
 </div>
 
 <div class="product">
-<img src="images/hoodie.png" alt="FAIDE Hoodie">
-<h3>Hoodie</h3>
-<p class="price">R550</p>
+  <img src="images/hoodie.png" alt="FAIDE Hoodie">
+  <h3>Hoodie</h3>
+  <p class="price">R550</p>
 
-<select class="size-select">
-  <option value="">Select Size</option>
-  <option>S</option>
-  <option>M</option>
-  <option>L</option>
-  <option>XL</option>
-</select>
+  <select class="size-select">
+    <option value="">Select Size</option>
+    <option>S</option><option>M</option><option>L</option><option>XL</option>
+  </select>
 
-<button onclick="addToCart(this,'Hoodie',550)">Add to Cart</button>
+  <button onclick="addToCart(this,'Hoodie',550)">Add to Cart</button>
 </div>
 
 <div class="product">
-<img src="images/tshirt.png" alt="FAIDE T-Shirt">
-<h3>T-Shirt</h3>
-<p class="price">R350</p>
+  <img src="images/tshirt.png" alt="FAIDE T-Shirt">
+  <h3>T-Shirt</h3>
+  <p class="price">R350</p>
 
-<select class="size-select">
-  <option value="">Select Size</option>
-  <option>S</option>
-  <option>M</option>
-  <option>L</option>
-  <option>XL</option>
-</select>
+  <select class="size-select">
+    <option value="">Select Size</option>
+    <option>S</option><option>M</option><option>L</option><option>XL</option>
+  </select>
 
-<button onclick="addToCart(this,'T-Shirt',350)">Add to Cart</button>
+  <button onclick="addToCart(this,'T-Shirt',350)">Add to Cart</button>
 </div>
 
 </div>
 </section>
 
 <!-- INSTAGRAM -->
-<section id="lookbook" class="instagram">
+<section id="instagram" class="instagram">
 <h2 class="section-title">From Instagram</h2>
 
 <div class="grid">
-  <a href="https://instagram.com/faideclothing" target="_blank" class="ig-card">Instagram Post</a>
-  <a href="https://instagram.com/faideclothing" target="_blank" class="ig-card">Instagram Post</a>
-  <a href="https://instagram.com/faideclothing" target="_blank" class="ig-card">Instagram Post</a>
+  <a href="https://instagram.com/faideclothing" target="_blank" class="ig-card">Post</a>
+  <a href="https://instagram.com/faideclothing" target="_blank" class="ig-card">Post</a>
+  <a href="https://instagram.com/faideclothing" target="_blank" class="ig-card">Post</a>
 </div>
 </section>
 
@@ -108,12 +96,10 @@
 <div id="cart-button">🛒 Cart (<span id="cart-count">0</span>)</div>
 
 <div id="cart-modal">
-<h3>Your Cart</h3>
-<ul id="cart-items"></ul>
-
-<button class="primary-btn" onclick="payWithStripe()">Pay with Card</button>
-<button class="secondary-btn" onclick="checkoutWhatsApp()">WhatsApp Order</button>
-<button class="close-btn" onclick="closeCart()">Close</button>
+  <h3>Your Cart</h3>
+  <ul id="cart-items"></ul>
+  <button class="primary-btn" onclick="checkoutWhatsApp()">Order via WhatsApp</button>
+  <button class="close-btn" onclick="closeCart()">Close</button>
 </div>
 
 <!-- CONTACT -->
@@ -124,7 +110,9 @@
 <p>@faideclothing</p>
 </section>
 
-<footer class="footer">© 2026 FAIDE®. All rights reserved.</footer>
+<footer class="footer">
+© 2026 FAIDE®. All rights reserved.
+</footer>
 
 <script>
 /* CART */
@@ -156,18 +144,11 @@ function closeCart() {
   document.getElementById("cart-modal").style.display = "none";
 }
 
-/* WHATSAPP */
 function checkoutWhatsApp() {
+  if (!cart.length) return alert("Cart is empty");
   let msg = "Hi FAIDE! I want to order:\n";
   cart.forEach(i => msg += `• ${i.name} (${i.size}) - R${i.price}\n`);
   window.open("https://wa.me/27695603929?text=" + encodeURIComponent(msg));
-}
-
-/* STRIPE */
-const stripe = Stripe("PASTE_YOUR_STRIPE_PUBLISHABLE_KEY_HERE");
-
-function payWithStripe() {
-  alert("Stripe Checkout requires backend session creation. This frontend is ready.");
 }
 
 /* COUNTDOWN */
@@ -175,16 +156,15 @@ const dropDate = new Date("2026-02-01T00:00:00").getTime();
 setInterval(() => {
   const now = new Date().getTime();
   const d = dropDate - now;
-
   if (d < 0) return;
 
-  const days = Math.floor(d / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((d / (1000 * 60 * 60)) % 24);
-  const mins = Math.floor((d / (1000 * 60)) % 60);
+  const days = Math.floor(d / (1000*60*60*24));
+  const hrs = Math.floor((d / (1000*60*60)) % 24);
+  const mins = Math.floor((d / (1000*60)) % 60);
   const secs = Math.floor((d / 1000) % 60);
 
   document.getElementById("countdown").innerText =
-    `${days}d : ${hours}h : ${mins}m : ${secs}s`;
+    `${days}d : ${hrs}h : ${mins}m : ${secs}s`;
 }, 1000);
 </script>
 

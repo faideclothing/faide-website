@@ -43,7 +43,7 @@ body {
 
 .nav-links a {
   margin-left: 24px;
-  font-size: 0.85rem; /* Increased font size */
+  font-size: 0.85rem; 
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #888;
@@ -65,7 +65,6 @@ body {
   justify-content: center;
   text-align: center;
   padding: 0 24px;
-  position: relative;
 }
 
 .hero-title {
@@ -126,7 +125,7 @@ body {
 /* MISSION */
 .mission {
   background: #0a0a0a;
-  padding: 140px 32px; /* increased spacing */
+  padding: 160px 32px; 
 }
 
 .mission-inner {
@@ -135,7 +134,7 @@ body {
 
 .mission-inner h2 {
   font-weight: bold;
-  font-size: 2rem; /* same as Lookbook/Shop */
+  font-size: 2rem;
   margin-bottom: 16px;
 }
 
@@ -146,6 +145,7 @@ body {
   gap: 24px;
   padding-bottom: 16px;
   scroll-behavior: smooth;
+  position: relative;
 }
 
 .horizontal-scroll::-webkit-scrollbar {
@@ -159,6 +159,28 @@ body {
 
 .horizontal-scroll::-webkit-scrollbar-track {
   background: #111;
+}
+
+/* SUBTLE EDGE FADE */
+.fade-scroll::before,
+.fade-scroll::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.fade-scroll::before {
+  left: 0;
+  background: linear-gradient(to right, #000, transparent);
+}
+
+.fade-scroll::after {
+  right: 0;
+  background: linear-gradient(to left, #000, transparent);
 }
 
 /* LOOKBOOK HEADER WITH SOCIALS */
@@ -286,7 +308,7 @@ body {
     font-size: 1.2rem;
   }
   .nav-links a {
-    font-size: 0.65rem; /* larger on mobile */
+    font-size: 0.65rem; 
     margin-left: 14px;
   }
   .horizontal-scroll {

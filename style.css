@@ -114,20 +114,18 @@ body {
 }
 
 @keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 /* SECTIONS */
 .section-title {
   font-size: 2rem;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
+}
+
+.purple-title {
+  color: #a855f7;
 }
 
 .section-label {
@@ -147,14 +145,56 @@ body {
   max-width: 720px;
 }
 
-/* GRID */
-.grid {
-  display: grid;
-  gap: 32px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+.mission-inner h2 {
+  font-weight: bold;
+  margin-bottom: 16px;
 }
 
+/* HORIZONTAL SCROLL */
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 24px;
+  padding-bottom: 16px;
+  scroll-behavior: smooth;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background: #9333ea;
+  border-radius: 4px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+  background: #111;
+}
+
+/* LOOKBOOK HEADER WITH SOCIALS */
+.lookbook-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.social-icons a {
+  color: #a855f7;
+  margin-left: 16px;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #fff;
+  transform: scale(1.2);
+}
+
+/* GRID CARDS */
 .card {
+  min-width: 260px;
   height: 320px;
   border-radius: 20px;
   border: 1px solid #222;
@@ -172,6 +212,7 @@ body {
 
 /* PRODUCT */
 .product {
+  min-width: 220px;
   border: 1px solid #222;
   border-radius: 20px;
   padding: 24px;
@@ -258,5 +299,9 @@ body {
   .nav-links a {
     font-size: 0.55rem;
     margin-left: 10px;
+  }
+
+  .horizontal-scroll {
+    gap: 16px;
   }
 }

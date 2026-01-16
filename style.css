@@ -27,7 +27,7 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
 .mission-inner { max-width:720px; }
 .mission-inner p { font-size:1rem; line-height:1.6; margin-top:16px; }
 
-/* HORIZONTAL SCROLL WITH SNAP */
+/* HORIZONTAL SCROLL */
 .horizontal-scroll { display:flex; overflow-x:auto; gap:24px; padding-bottom:16px; scroll-behavior:smooth; scroll-snap-type:x mandatory; position:relative; }
 .horizontal-scroll > * { scroll-snap-align:start; flex:0 0 auto; }
 
@@ -42,18 +42,18 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
 .social-icons a { color:#888; margin-left:16px; font-size:1.2rem; transition: transform 0.3s ease, color 0.3s ease;}
 .social-icons a:hover { color:#fff; transform:scale(1.2); }
 
-/* CARDS */
-.card { min-width:260px; height:320px; border-radius:20px; border:1px solid #222; background:#111; display:flex; align-items:center; justify-content:center; color:#555; transition:transform 0.3s ease; }
+/* LOOKBOOK CARDS */
+.card { min-width:260px; border-radius:20px; border:1px solid #222; background:#111; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:#555; transition:transform 0.3s ease; padding:16px;}
+.card img { width:100%; height:180px; object-fit:cover; border-radius:16px; margin-bottom:12px;}
 .card:hover { transform:scale(1.05); }
 
-/* PRODUCTS */
-.product { min-width:220px; border:1px solid #222; border-radius:20px; padding:24px; overflow:hidden; position:relative; }
-.product-img-wrapper { position:relative; }
-.product-img { width:100%; height:180px; object-fit:cover; border-radius:16px; transition: transform 0.3s ease; }
+/* SHOP CARDS */
+.product { min-width:220px; border:1px solid #222; border-radius:20px; padding:16px; overflow:hidden; position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; transition:transform 0.3s ease;}
+.product-img { width:100%; height:180px; object-fit:cover; border-radius:16px; transition: transform 0.3s ease; margin-bottom:12px;}
 .product:hover .product-img { transform:scale(1.1); }
-.hover-btn { position:absolute; bottom:16px; left:50%; transform:translateX(-50%) translateY(50px); opacity:0; width:80%; transition:all 0.3s ease;}
-.product:hover .hover-btn { transform:translateX(-50%) translateY(0); opacity:1; }
-.secondary-btn { background:#9333ea; border:none; border-radius:14px; color:#fff; padding:14px; cursor:pointer; }
+.secondary-btn { background:#9333ea; border:none; border-radius:14px; color:#fff; padding:12px 16px; cursor:pointer; transition:all 0.3s ease; margin-top:12px;}
+.secondary-btn:hover { background:#fff; color:#000; transform:scale(1.05); }
+.price { margin-top:4px; margin-bottom:8px; color:#a855f7; font-weight:bold; }
 
 /* FLOATING CART */
 .floating-cart { position:fixed; right:24px; bottom:24px; background:#9333ea; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.3); transition:transform 0.3s ease; }
@@ -67,4 +67,5 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
   .faide-wordmark{ font-size:1.2rem;} 
   .nav-links a{ font-size:0.65rem; margin-left:14px;} 
   .horizontal-scroll{gap:16px;}
+  .card, .product{min-width:200px;}
 }

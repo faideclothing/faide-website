@@ -11,7 +11,7 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
 .nav-links a:hover { color:#9333ea; transform:translateY(-2px); }
 
 /* HERO */
-.hero { height:80vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 24px; flex-direction:column; }
+.hero { display:flex; align-items:center; justify-content:center; text-align:center; flex-direction:column; padding:120px 24px 80px; }
 .hero-title { font-size:clamp(2.5rem,8vw,4rem); font-weight:800; color:#a855f7; text-transform:uppercase; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.3s; }
 .hero-text { max-width:520px; margin:24px auto; color:#aaa; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.6s; }
 .hero-social-icons { margin:16px 0; }
@@ -27,21 +27,23 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
 .aligned-title { padding-left:32px; }
 
 /* MISSION */
-.mission { background:#0a0a0a; padding:140px 32px; }
-.mission-inner { max-width:720px; }
+.mission { background:#0a0a0a; padding:100px 32px 100px; }
+.mission-inner { max-width:720px; margin:0 auto; }
 .mission-inner p { font-size:1rem; line-height:1.6; margin-top:16px; }
 
 /* HORIZONTAL SCROLL */
-.horizontal-scroll { display:flex; overflow-x:auto; gap:24px; padding-bottom:16px; scroll-behavior:smooth; scroll-snap-type:x mandatory; }
+.horizontal-scroll { display:flex; overflow-x:auto; gap:24px; scroll-behavior:smooth; scroll-snap-type:x mandatory; padding-left:32px; padding-right:32px; }
 .horizontal-scroll > * { scroll-snap-align:start; flex:0 0 auto; }
 
-/* LOOKBOOK CARDS */
+/* LOOKBOOK */
+.lookbook { margin-bottom:100px; } /* Added space below Lookbook */
 .card { min-width:260px; border-radius:20px; border:1px solid #222; background:#111; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:#555; transition:transform 0.3s ease; padding:16px;}
 .card img { width:100%; height:180px; object-fit:cover; border-radius:16px; margin-bottom:12px;}
 .card:hover { transform:scale(1.05); }
 
-/* SHOP CARDS */
-.product { min-width:220px; border:1px solid #222; border-radius:20px; padding:16px; overflow:hidden; position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; transition:transform 0.3s ease;}
+/* SHOP */
+.shop { margin-top:60px; margin-bottom:100px; } /* Added top and bottom spacing */
+.product { min-width:220px; border:1px solid #222; border-radius:20px; padding:16px; overflow:hidden; position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; transition:transform 0.3s ease; margin-bottom:16px;}
 .product-img { width:100%; height:180px; object-fit:cover; border-radius:16px; transition: transform 0.3s ease; margin-bottom:12px;}
 .product:hover .product-img { transform:scale(1.1); }
 .secondary-btn { background:#9333ea; border:none; border-radius:14px; color:#fff; padding:12px 16px; cursor:pointer; transition:all 0.3s ease; margin-top:12px;}
@@ -49,13 +51,13 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
 .price { margin-top:4px; margin-bottom:8px; color:#a855f7; font-weight:bold; }
 
 /* POLICIES */
-.policies { padding:64px 32px; background:#0a0a0a; display:flex; justify-content:center; gap:64px; flex-wrap:wrap; }
+.policies { padding:80px 32px 80px; background:#0a0a0a; display:flex; justify-content:center; gap:64px; flex-wrap:wrap; }
 .policy { max-width:300px; text-align:center; }
 .policy h3 { color:#a855f7; margin-bottom:8px; }
 .policy p { color:#aaa; font-size:0.9rem; line-height:1.5; }
 
 /* FOOTER */
-.footer { border-top:1px solid #222; padding:32px; text-align:center; color:#666; font-size:0.75rem; }
+.footer { border-top:1px solid #222; padding:64px 32px 32px; text-align:center; color:#666; font-size:0.75rem; }
 .footer-social-icons a { color:#888; margin:0 10px; font-size:1.2rem; transition:all 0.3s ease;}
 .footer-social-icons a:hover { color:#fff; transform:scale(1.2); }
 
@@ -80,4 +82,9 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
   .card, .product{min-width:200px;}
   .aligned-title { padding-left:16px; }
   .policies { flex-direction:column; gap:32px; }
+  .hero { padding:100px 16px 60px; }
+  .mission { padding:80px 16px 80px; }
+  .lookbook { margin-bottom:60px; }
+  .shop { margin-top:60px; margin-bottom:80px; }
+  .footer { padding:48px 16px 32px; }
 }

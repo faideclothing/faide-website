@@ -1,196 +1,104 @@
-/* RESET & CORE */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
 body {
-  background: #000;
-  color: #fff;
-  font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
+  background:#000;
+  color:#fff;
+  font-family:Arial, Helvetica, sans-serif;
 }
 
-/* NAVBAR (UNCHANGED) */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px 32px;
-  border-bottom: 1px solid #1f1f1f;
-  position: sticky;
-  top: 0;
-  background: #000;
-  z-index: 1000;
+section {
+  padding: 120px 32px;
 }
 
-.faide-wordmark {
-  font-weight: 700;
-  font-size: 1.6rem;
-  letter-spacing: 0.1em;
-  font-style: italic;
-  text-transform: uppercase;
-}
-
-.nav-links {
-  display: flex;
-}
-
-.nav-links a {
-  margin-left: 20px;
-  font-size: 0.7rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #888;
-  text-decoration: none;
-}
-
-.nav-links a:hover {
-  color: #fff;
-}
-
-/* HERO (UNCHANGED) */
 .hero {
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 24px;
+  min-height: 85vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
 }
 
-.hero-title {
-  font-size: clamp(2.5rem, 8vw, 4rem);
-  font-weight: 800;
-  color: #a855f7;
-  text-transform: uppercase;
+.hero-socials {
+  margin: 20px 0;
 }
 
-.hero-text {
-  max-width: 520px;
-  margin: 24px auto;
-  color: #aaa;
+.hero-socials a {
+  margin: 0 10px;
+  color:#aaa;
+  text-decoration:none;
 }
 
-.primary-btn {
-  background: #9333ea;
-  border: none;
-  padding: 18px 36px;
-  border-radius: 50px;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* SECTIONS */
-.section-title {
-  font-size: 2rem;
-  margin-bottom: 32px;
-}
-
-.section-label {
-  color: #a855f7;
-  letter-spacing: 4px;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-}
-
-.purple-title {
-  color: #a855f7;
-}
-
-/* MISSION (UNCHANGED) */
 .mission {
-  background: #0a0a0a;
-  padding: 120px 32px;
+  max-width:720px;
+  margin:0 auto;
+  text-align:left;
 }
 
-.mission-inner {
-  max-width: 720px;
+.mission-title {
+  margin: 20px 0;
 }
 
-/* LOOKBOOK — ONLY NEW STYLES */
 .lookbook {
-  padding: 120px 32px;
+  padding-top:140px;
 }
 
 .lookbook-scroll {
-  display: flex;
-  gap: 32px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-.lookbook-scroll::-webkit-scrollbar {
-  display: none;
+  display:flex;
+  gap:32px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
 }
 
 .card {
-  min-width: 260px;
-  height: 320px;
-  border-radius: 20px;
-  border: 1px solid #222;
-  background: #111;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #555;
-  scroll-snap-align: center;
+  min-width:260px;
+  height:320px;
+  background:#111;
+  border-radius:20px;
+  scroll-snap-align:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transition:transform .4s ease;
 }
 
-/* SHOP (UNCHANGED) */
-.grid {
-  display: grid;
-  gap: 32px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+.card:hover {
+  transform:translateY(-10px);
+}
+
+.shop {
+  margin-top:80px;
 }
 
 .product {
-  border: 1px solid #222;
-  border-radius: 20px;
-  padding: 24px;
+  border:1px solid #222;
+  padding:24px;
+  border-radius:20px;
+  transition:transform .4s ease;
 }
 
-.product-img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 16px;
-  margin-bottom: 16px;
+.product:hover {
+  transform:translateY(-8px);
 }
 
-.secondary-btn {
-  width: 100%;
-  padding: 14px;
-  background: #9333ea;
-  border: none;
-  border-radius: 14px;
-  color: #fff;
+.sizes button {
+  margin-right:6px;
 }
 
-/* FOOTER */
+.colors {
+  margin:10px 0;
+}
+
+.color {
+  display:inline-block;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  margin-right:8px;
+}
+
+.black { background:#000; border:1px solid #555;}
+.white { background:#fff;}
+
 .footer {
-  border-top: 1px solid #222;
-  padding: 32px;
-  text-align: center;
-  color: #666;
-  font-size: 0.75rem;
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-  .faide-wordmark {
-    font-size: 1.2rem;
-  }
-
-  .nav-links a {
-    font-size: 0.6rem;
-    margin-left: 10px;
-  }
+  padding:80px 32px;
+  text-align:center;
+  border-top:1px solid #222;
 }

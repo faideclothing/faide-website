@@ -16,7 +16,7 @@ body {
   overflow-x: hidden;
 }
 
-/* NAVBAR (UNCHANGED) */
+/* NAVBAR */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -48,6 +48,11 @@ body {
 
 .nav-links a:hover {
   color: #fff;
+}
+
+/* ---------- EVEN SECTION SPACING (FIX) ---------- */
+section {
+  padding: 140px 32px;
 }
 
 /* HERO */
@@ -92,22 +97,12 @@ body {
   color: #fff;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.25s ease;
-}
-
-.primary-btn:hover {
-  transform: translateY(-2px);
-}
-
-/* SECTION SPACING (FIXED) */
-section {
-  padding: 120px 32px;
 }
 
 /* SECTION TITLES */
 .section-title {
   font-size: 2rem;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 }
 
 .purple {
@@ -116,41 +111,39 @@ section {
 
 .section-label {
   display: inline-block;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   color: #a855f7;
   letter-spacing: 4px;
   font-size: 0.75rem;
   text-transform: uppercase;
 }
 
-/* MISSION (FIXED PLACEMENT) */
+/* ---------- MISSION (TEXT SIZE FIX) ---------- */
 .mission {
   background: #0a0a0a;
-}
-
-.mission-inner,
-.mission {
   max-width: 720px;
   margin: 0 auto;
 }
 
 .mission h2 {
-  margin-bottom: 20px;
+  font-size: 2rem; /* MATCHES LOOKBOOK TITLE */
+  margin-bottom: 24px;
 }
 
 .mission p {
   color: #aaa;
-  line-height: 1.6;
+  line-height: 1.7;
+  max-width: 620px;
 }
 
-/* LOOKBOOK */
+/* ---------- LOOKBOOK ---------- */
 .lookbook {
   padding-top: 140px;
 }
 
 .lookbook-scroll {
   display: flex;
-  gap: 32px;
+  gap: 40px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
@@ -171,33 +164,23 @@ section {
   justify-content: center;
   color: #555;
   scroll-snap-align: center;
-  transition: transform 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-8px);
-}
-
-/* SHOP */
+/* ---------- SHOP (CARDS TOO TIGHT FIX) ---------- */
 .shop {
-  padding-top: 160px;
+  padding-top: 140px;
 }
 
 .grid {
   display: grid;
-  gap: 32px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 48px; /* MORE SPACE BETWEEN CARDS */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .product {
   border: 1px solid #222;
   border-radius: 20px;
-  padding: 24px;
-  transition: transform 0.3s ease;
-}
-
-.product:hover {
-  transform: translateY(-6px);
+  padding: 32px; /* MORE INNER SPACE */
 }
 
 .product img {
@@ -205,22 +188,22 @@ section {
   height: 180px;
   object-fit: cover;
   border-radius: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .price {
   color: #aaa;
-  margin-bottom: 12px;
-}
-
-/* SHOP OPTIONS */
-.options {
   margin-bottom: 16px;
 }
 
+/* OPTIONS */
+.options {
+  margin-bottom: 20px;
+}
+
 .sizes button {
-  margin-right: 6px;
-  padding: 6px 10px;
+  margin-right: 8px;
+  padding: 8px 12px;
   background: transparent;
   border: 1px solid #333;
   color: #fff;
@@ -228,7 +211,7 @@ section {
 }
 
 .colors {
-  margin: 12px 0;
+  margin: 16px 0;
 }
 
 .color {
@@ -236,7 +219,7 @@ section {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  margin-right: 8px;
+  margin-right: 10px;
 }
 
 .black {
@@ -249,8 +232,8 @@ section {
 }
 
 input[type="number"] {
-  width: 60px;
-  padding: 6px;
+  width: 70px;
+  padding: 8px;
   background: #000;
   color: #fff;
   border: 1px solid #333;
@@ -259,10 +242,10 @@ input[type="number"] {
 /* BUTTON */
 .secondary-btn {
   width: 100%;
-  padding: 14px;
+  padding: 16px;
   background: #9333ea;
   border: none;
-  border-radius: 14px;
+  border-radius: 16px;
   color: #fff;
   cursor: pointer;
 }
@@ -270,18 +253,18 @@ input[type="number"] {
 /* FOOTER */
 .footer {
   border-top: 1px solid #222;
-  padding: 80px 32px;
+  padding: 140px 32px;
   text-align: center;
   color: #666;
   font-size: 0.75rem;
 }
 
 .footer-links {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .footer-links a {
-  margin: 0 10px;
+  margin: 0 12px;
   color: #666;
   text-decoration: none;
 }

@@ -23,9 +23,9 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
 .purple-title { color:#a855f7; }
 
 /* MISSION */
-.mission { background:#0a0a0a; padding:160px 32px; }
+.mission { background:#0a0a0a; padding:140px 32px; }
 .mission-inner { max-width:720px; }
-.mission-inner h2 { font-weight:bold; font-size:2rem; margin-bottom:16px; }
+.mission-inner p { font-size:1rem; line-height:1.6; margin-top:16px; }
 
 /* HORIZONTAL SCROLL WITH SNAP */
 .horizontal-scroll { display:flex; overflow-x:auto; gap:24px; padding-bottom:16px; scroll-behavior:smooth; scroll-snap-type:x mandatory; position:relative; }
@@ -39,7 +39,7 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
 
 /* LOOKBOOK HEADER */
 .lookbook-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }
-.social-icons a { color:#a855f7; margin-left:16px; font-size:1.2rem; transition: transform 0.3s ease, color 0.3s ease;}
+.social-icons a { color:#888; margin-left:16px; font-size:1.2rem; transition: transform 0.3s ease, color 0.3s ease;}
 .social-icons a:hover { color:#fff; transform:scale(1.2); }
 
 /* CARDS */

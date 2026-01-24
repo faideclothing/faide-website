@@ -12,29 +12,131 @@
   <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Icons -->
+  <!-- Font Awesome for social icons -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<!-- NAVBAR (UNCHANGED) -->
-<nav class="navbar">
-  <h1 class="faide-wordmark">FAIDE</h1>
-  <div class="nav-links">
-    <a href="#drop">New Drop</a>
-    <a href="#mission">Mission</a>
-    <a href="#lookbook">Lookbook</a>
-    <a href="#shop">Shop</a>
-  </div>
-</nav>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <h1 class="logo faide-wordmark">FAIDE</h1>
+    <div class="nav-links">
+      <a href="#drop">New Drop</a>
+      <a href="#mission">Mission</a>
+      <a href="#lookbook">Lookbook</a>
+      <a href="#shop">Shop</a>
+    </div>
+  </nav>
 
-<!-- HERO -->
-<section id="drop" class="hero">
-  <h2 class="hero-title">NEW DROP</h2>
-  <p class="hero-text">
-    New drops, exclusive releases, and updates are announced on our social platforms.
-  </p>
-  <button class="primary-btn">Shop Now</button>
+  <!-- HERO -->
+  <section id="drop" class="hero">
+    <div class="hero-content">
+      <h2 class="hero-title">NEW DROP</h2>
+      <p class="hero-text">
+        New drops, exclusive releases, and updates are announced on our social platforms.
+      </p>
+      <div class="hero-social-icons">
+        <a href="https://instagram.com/faideclothing" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://facebook.com/faideclothing" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://tiktok.com/@faideclothing" target="_blank"><i class="fab fa-tiktok"></i></a>
+      </div>
+      <button class="primary-btn">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section id="mission" class="mission">
+    <div class="mission-inner">
+      <h2 class="section-title purple-title">Mission</h2>
+      <p><strong>A CLOTHING BRAND THAT NEVER FADE</strong><br>
+      FAIDE is a luxury streetwear brand built for those who move in silence.</p>
+    </div>
+  </section>
+
+  <!-- LOOKBOOK -->
+  <section id="lookbook" class="lookbook">
+    <h2 class="section-title purple-title aligned-title">Lookbook</h2>
+    <div class="horizontal-scroll">
+      <div class="card">
+        <img src="images/lookbook1.png" alt="Look 1">
+        <h3>Look 1</h3>
+      </div>
+      <div class="card">
+        <img src="images/lookbook2.png" alt="Look 2">
+        <h3>Look 2</h3>
+      </div>
+      <div class="card">
+        <img src="images/lookbook3.png" alt="Look 3">
+        <h3>Look 3</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="shop" class="shop">
+    <h2 class="section-title purple-title aligned-title">Shop</h2>
+    <div class="horizontal-scroll">
+      <div class="product" data-name="T-Shirt" data-price="350">
+        <img src="images/tshirt.png" alt="FAIDE T-Shirt" class="product-img">
+        <h3>T-Shirt</h3>
+        <p class="price">R350</p>
+        <button class="secondary-btn add-to-cart">Add to Cart</button>
+      </div>
+      <div class="product" data-name="Hoodie" data-price="550">
+        <img src="images/hoodie.png" alt="FAIDE Hoodie" class="product-img">
+        <h3>Hoodie</h3>
+        <p class="price">R550</p>
+        <button class="secondary-btn add-to-cart">Add to Cart</button>
+      </div>
+      <div class="product" data-name="Puffer Jacket" data-price="800">
+        <img src="images/puffer.png" alt="FAIDE Puffer Jacket" class="product-img">
+        <h3>Puffer Jacket</h3>
+        <p class="price">R800</p>
+        <button class="secondary-btn add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- POLICIES -->
+  <section class="policies">
+    <div class="policies-inner">
+      <div class="policy">
+        <h3>Return Policy</h3>
+        <p>You can return products within 14 days of delivery in original condition.</p>
+      </div>
+      <div class="policy">
+        <h3>Delivery Policy</h3>
+        <p>Free delivery for orders over R1000. Standard shipping within 3–5 business days.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-sidebar" id="cart-sidebar">
+    <h3>Your Cart</h3>
+    <ul id="cart-items"></ul>
+    <p class="cart-total">Total: R<span id="cart-total">0</span></p>
+    <button id="close-cart" class="secondary-btn">Close</button>
+  </div>
+
+  <!-- FLOATING CART -->
+  <div class="floating-cart" id="floating-cart">🛒</div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>CONTACT US: faideclothingsa@gmail.com | +27695603929</p>
+    <div class="footer-social-icons">
+      <a href="https://instagram.com/faideclothing" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://facebook.com/faideclothing" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://tiktok.com/@faideclothing" target="_blank"><i class="fab fa-tiktok"></i></a>
+    </div>
+    <p>© 2026 FAIDE. All rights reserved.</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="cart.js"></script>
+</body>
+</html>  <button class="primary-btn">Shop Now</button>
 </section>
 
 <!-- MISSION (RESTORED EXACT STYLE) -->

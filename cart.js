@@ -1,44 +1,90 @@
+// =====================
+//   CART LOGIC
+// =====================
 const cart = [];
-const cartIcon = document.getElementById('cart-icon');
-const cartBox = document.getElementById('cart');
-const closeCart = document.getElementById('close-cart');
-const cartItems = document.getElementById('cart-items');
-const totalEl = document.getElementById('total');
 
-cartIcon.addEventListener('click', () => {
-  cartBox.classList.add('active');
-});
+const cartSidebar = document.getElementById('cart-sidebar');
+const floatingCart = document.getElementById('floating-cart');
+const closeCartBtn = document.getElementById('close-cart');
+const cartItemsList = document.getElementById('cart-items');
+const cartTotal = document.getElementById('cart-total');
 
-document.getElementById('close-cart').addEventListener('click', () => {
-  cartBox.classList.remove('active');
-});
+// ===== Open / Close Sidebar =====
+floatingCart.addEventListener('click', () => cartSidebar.classList.add('active'));
+closeCartBtn.addEventListener('click', () => cartSidebar.classList.remove('active'));
 
-document.querySelectorAll('.add').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const product = btn.parentElement;
-    const name = product.dataset.name;
-    const price = parseInt(product.dataset.price);
+// ===== Add to Cart =====
+document.querySelectorAll('.add-to-cart').forEach(button => {
+  button.addEventListener('click', () => {
+    const productCard = button.parentElement;
+    const name = productCard.dataset.name;
+    const price = parseInt(productCard.dataset.price);
+    const imgSrc = productCard.querySelector('img').src;
 
-    const existing = cart.find(i => i.name === name);
+    const existing = cart.find(item => item.name === name);
     if (existing) {
-      existing.qty++;
+      existing.quantity++;
     } else {
-      cart.push({ name, price, qty: 1 });
+      cart.push({ name, price, imgSrc, quantity: 1, selected: true });
     }
-    render();
+
+    updateCartUI();
   });
 });
 
-function render() {
-  cartItems.innerHTML = '';
+// ===== Update Cart UI =====
+function updateCartUI() {
+  cartItemsList.innerHTML = '';
   let total = 0;
 
-  cart.forEach(item => {
-    total += item.price * item.qty;
+  cart.forEach((item, index) => {
+    if (item.selected) total += item.price * item.quantity;
+
     const li = document.createElement('li');
-    li.textContent = `${item.name} x${item.qty}`;
-    cartItems.appendChild(li);
+    li.style.display = 'flex';
+    li.style.alignItems = 'center';
+    li.style.gap = '8px';
+
+    li.innerHTML = `
+      <input type="checkbox" ${item.selected ? 'checked' : ''} data-index="${index}" class="cart-checkbox">
+      <img src="${item.imgSrc}" alt="${item.name}" style="width:50px; height:50px; object-fit:cover; border-radius:6px;">
+      <div style="flex:1;">
+        <p style="margin:0; font-weight:bold;">${item.name}</p>
+        <p style="margin:0; color:#a855f7;">R${item.price}</p>
+        <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="cart-qty" style="width:50px; margin-top:4px;">
+      </div>
+      <button data-index="${index}" class="remove-item">Remove</button>
+    `;
+
+    cartItemsList.appendChild(li);
   });
 
-  totalEl.textContent = total;
+  cartTotal.textContent = total;
+
+  // ===== Event Delegation for Dynamic Elements =====
+  cartItemsList.querySelectorAll('.cart-checkbox').forEach(cb => {
+    cb.addEventListener('change', e => {
+      const idx = e.target.dataset.index;
+      cart[idx].selected = e.target.checked;
+      updateCartUI();
+    });
+  });
+
+  cartItemsList.querySelectorAll('.cart-qty').forEach(input => {
+    input.addEventListener('change', e => {
+      const idx = e.target.dataset.index;
+      let val = parseInt(e.target.value);
+      if (val < 1) val = 1;
+      cart[idx].quantity = val;
+      updateCartUI();
+    });
+  });
+
+  cartItemsList.querySelectorAll('.remove-item').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const idx = e.target.dataset.index;
+      cart.splice(idx, 1);
+      updateCartUI();
+    });
+  });
 }

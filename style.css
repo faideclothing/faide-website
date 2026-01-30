@@ -11,12 +11,12 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
 .nav-links a:hover { color:#9333ea; transform:translateY(-2px); }
 
 /* HERO */
-.hero { display:flex; align-items:center; justify-content:center; text-align:center; flex-direction:column; padding:120px 24px 100px; }
+.hero { display:flex; align-items:center; justify-content:center; text-align:center; flex-direction:column; padding:120px 32px 100px; }
 .hero-title { font-size:clamp(2.5rem,8vw,4rem); font-weight:800; color:#a855f7; text-transform:uppercase; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.3s; }
 .hero-text { max-width:520px; margin:24px auto; color:#aaa; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.6s; line-height:1.6; }
-.hero-social-icons { margin:16px 0; display:flex; justify-content:center; gap:16px; }
-.hero-social-icons a img.social-icon { width:28px; height:28px; filter: invert(100%); transition: all 0.3s ease; }
-.hero-social-icons a img.social-icon:hover { filter: invert(55%) sepia(95%) saturate(750%) hue-rotate(260deg) brightness(1.1); transform:scale(1.2); }
+.hero-social-icons { margin:16px 0; display:flex; justify-content:center; gap:12px; }
+.hero-social-icons a { color:#888; font-size:1.4rem; transition: all 0.3s ease; }
+.hero-social-icons a:hover { color:#fff; transform:scale(1.2); }
 .primary-btn { background:#9333ea; border:none; padding:18px 36px; border-radius:50px; color:#fff; font-weight:bold; cursor:pointer; margin-top:12px; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.9s; transition:all 0.3s ease; }
 .primary-btn:hover { background:#fff; color:#000; transform:scale(1.05); }
 
@@ -90,22 +90,21 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
 /* RESPONSIVE */
 @media(max-width:768px){
   .hero-title { font-size:clamp(2rem,7vw,3rem); }
-  .hero-text { font-size:0.95rem; }
+  .hero-text { font-size:0.95rem; margin:16px auto; }
+  .hero-social-icons { gap:8px; margin-bottom:16px; }
   .primary-btn { padding:16px 32px; }
   .horizontal-scroll { gap:16px; }
   .product { min-width:180px; padding:12px; }
   .lookbook .card img { height:180px; }
-  .nav-links a { margin-left:16px; font-size:0.8rem; }
-  .hero { padding:100px 16px 80px; }
 }
 
 @media(max-width:480px){
   .hero-title { font-size:clamp(1.5rem,6vw,2.5rem); }
-  .hero-text { font-size:0.9rem; }
+  .hero-text { font-size:0.9rem; margin:12px auto; }
+  .hero-social-icons { gap:6px; margin-bottom:12px; }
   .primary-btn { padding:14px 28px; font-size:0.85rem; }
   .horizontal-scroll { gap:12px; scroll-snap-type: x mandatory; }
   .product { min-width:160px; padding:10px; }
   .lookbook .card img { height:150px; }
-  .nav-links a { margin-left:12px; font-size:0.75rem; }
-  .hero-social-icons { gap:12px; }
+  .nav-links a { margin-left:16px; font-size:0.8rem; }
 }

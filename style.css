@@ -1,30 +1,29 @@
 /* CORE RESET */
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
-body { background:#000; color:#ddd; font-family:Arial, Helvetica, sans-serif; overflow-x:hidden; }
+body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; overflow-x:hidden; }
 
-/* NAVBAR */
-.navbar { display:flex; justify-content:space-between; align-items:center; padding:24px 48px; position:sticky; top:0; background:#000; border-bottom:1px solid #1f1f1f; z-index:1000; }
+/* NAVBAR (ORIGINAL STICKY DESIGN) */
+.navbar { display:flex; justify-content:space-between; align-items:center; padding:24px 32px; position:sticky; top:0; background:#000; border-bottom:1px solid #1f1f1f; z-index:1000; }
 .faide-wordmark { font-weight:700; font-size:1.6rem; letter-spacing:0.1em; font-style:italic; text-transform:uppercase; }
 .nav-links { display:flex; }
-.nav-links a { margin-left:28px; font-size:0.9rem; letter-spacing:1px; text-transform:uppercase; color:#888; text-decoration:none; transition: all 0.3s ease; }
+.nav-links a { margin-left:24px; font-size:0.85rem; letter-spacing:1px; text-transform:uppercase; color:#888; text-decoration:none; transition: all 0.3s ease; }
 .nav-links a:hover { color:#9333ea; transform:translateY(-2px); }
 
 /* HERO */
 .hero { display:flex; align-items:center; justify-content:center; text-align:center; flex-direction:column; padding:120px 24px 100px; }
 .hero-title { font-size:clamp(2.5rem,8vw,4rem); font-weight:800; color:#a855f7; text-transform:uppercase; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.3s; }
-.hero-text { max-width:520px; margin:24px auto; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.6s; line-height:1.6; }
+.hero-text { max-width:520px; margin:24px auto; color:#aaa; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.6s; line-height:1.6; }
 .hero-social-icons { margin:16px 0; }
 .hero-social-icons a { color:#888; margin:0 10px; font-size:1.4rem; transition: all 0.3s ease;}
 .hero-social-icons a:hover { color:#fff; transform:scale(1.2); }
-.primary-btn { background:#9333ea; border:none; padding:20px 40px; border-radius:50px; color:#fff; font-weight:bold; cursor:pointer; margin-top:12px; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.9s; transition:all 0.3s ease; }
+.primary-btn { background:#9333ea; border:none; padding:18px 36px; border-radius:50px; color:#fff; font-weight:bold; cursor:pointer; margin-top:12px; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.9s; transition:all 0.3s ease; }
 .primary-btn:hover { background:#fff; color:#000; transform:scale(1.05); }
 
 @keyframes fadeInUp { 0%{opacity:0; transform:translateY(20px);} 100%{opacity:1; transform:translateY(0);} }
 
 /* SECTIONS */
-section { padding-top:100px; padding-bottom:100px; }
-.section-title { font-size:clamp(2rem,5vw,2.5rem); margin-bottom:32px; }
+.section-title { font-size:2rem; margin-bottom:24px; }
 .purple-title { color:#a855f7; }
 .aligned-title { padding-left:32px; }
 
@@ -89,16 +88,7 @@ section { padding-top:100px; padding-bottom:100px; }
 .cart-total { margin-top:24px; font-weight:bold; color:#a855f7; }
 
 /* RESPONSIVE */
-@media screen and (max-width:1024px){
-  .navbar { flex-direction:column; padding:16px; }
-  .nav-links { flex-wrap:wrap; justify-content:center; margin-top:12px; }
-  .hero { padding:100px 16px 80px; }
-  .vertical-list { padding-left:16px; padding-right:16px; }
-  .horizontal-scroll { padding-left:16px; padding-right:16px; gap:24px; }
-  .product { min-width:200px; }
-}
-
-@media screen and (max-width:768px){
+@media(max-width:768px){
   .hero-title { font-size:clamp(2rem,7vw,3rem); }
   .hero-text { font-size:0.95rem; }
   .primary-btn { padding:16px 32px; }
@@ -107,13 +97,12 @@ section { padding-top:100px; padding-bottom:100px; }
   .lookbook .card img { height:180px; }
 }
 
-@media screen and (max-width:480px){
+@media(max-width:480px){
   .hero-title { font-size:clamp(1.5rem,6vw,2.5rem); }
   .hero-text { font-size:0.9rem; }
   .primary-btn { padding:14px 28px; font-size:0.85rem; }
   .horizontal-scroll { gap:12px; scroll-snap-type: x mandatory; }
   .product { min-width:160px; padding:10px; }
   .lookbook .card img { height:150px; }
-  .navbar { padding:12px; }
   .nav-links a { margin-left:16px; font-size:0.8rem; }
 }

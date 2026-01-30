@@ -77,4 +77,13 @@ section { padding-top:100px; padding-bottom:100px; }
 .footer-links { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
 .footer-links a { color:#888; text-decoration:none; transition:0.3s; }
 .footer-links a:hover { color:#fff; }
-.footer-social-icons a { color:#
+.footer-social-icons a { color:#888; margin:0 8px; font-size:1.2rem; transition:0.3s; }
+.footer-social-icons a:hover { color:#fff; transform:scale(1.2); }
+
+/* CART */
+.floating-cart { position:fixed; bottom:32px; right:32px; background:#9333ea; color:#fff; padding:14px; border-radius:50%; font-size:1.8rem; cursor:pointer; z-index:1000; transition:all 0.3s ease; }
+.floating-cart:hover { transform:scale(1.1); }
+.cart-sidebar { position:fixed; right:-100%; top:0; width:300px; height:100%; background:#111; color:#fff; box-shadow:-2px 0 25px rgba(0,0,0,0.5); padding:32px 16px; transition:right 0.4s ease; overflow-y:auto; z-index:1000; }
+.cart-sidebar.active { right:0; }
+#cart-items { list-style:none; margin-top:20px; }
+.cart-total { margin-top:24px; font-weight:bold; color:#a855f7; }

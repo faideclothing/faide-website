@@ -3,118 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  
+  <!-- Google Verification -->
   <meta name="google-site-verification" content="xHQMXeonHcUZ-NTHCrtvjlR9bojEkpwc8CzKChP7I9o" />
-
-  <title>FAIDE® | Never Fade</title>
-
+  
+  <title>FAIDE® | Luxury Streetwear Brand</title>
+  
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
-
+  
+  <!-- Font Awesome for social icons -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="navbar">
-    <h1 class="logo">FAIDE</h1>
-    <div class="nav-links">
-      <a href="#lookbook">Lookbook</a>
-      <a href="#mission">Mission</a>
-      <a href="#shop">Shop</a>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-inner">
-      <h2>Never Fade.</h2>
-      <p>Luxury streetwear for those who move in silence.</p>
-
-      <div class="hero-socials">
-        <a href="https://instagram.com/faideclothing" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://tiktok.com/@faideclothing" target="_blank"><i class="fab fa-tiktok"></i></a>
-      </div>
-
-      <a href="#shop" class="cta">Enter Shop</a>
-    </div>
-  </section>
-
-  <!-- LOOKBOOK -->
-  <section id="lookbook" class="lookbook">
-    <h3 class="section-title">Lookbook</h3>
-
-    <div class="scroll">
-      <div class="look">
-        <img src="images/lookbook1.png" alt="FAIDE Look 1">
-      </div>
-      <div class="look">
-        <img src="images/lookbook2.png" alt="FAIDE Look 2">
-      </div>
-      <div class="look">
-        <img src="images/lookbook3.png" alt="FAIDE Look 3">
-      </div>
-      <div class="look">
-        <img src="images/lookbook4.png" alt="FAIDE Look 4">
-      </div>
-    </div>
-  </section>
-
-  <!-- MISSION -->
-  <section id="mission" class="mission">
-    <h3 class="section-title">Mission</h3>
-    <p>
-      FAIDE is a luxury streetwear brand built on restraint, precision,
-      and permanence. Designed for those who understand presence
-      does not require noise.
-    </p>
-  </section>
-
-  <!-- SHOP -->
-  <section id="shop" class="shop">
-    <h3 class="section-title">Selected Pieces</h3>
-
-    <div class="scroll">
-
-      <div class="product" data-name="FAIDE T-Shirt" data-price="350">
-        <img src="images/tshirt.png" alt="FAIDE T-Shirt">
-        <h4>FAIDE T-Shirt</h4>
-        <span>R350</span>
-        <button class="add">Add to Cart</button>
-      </div>
-
-      <div class="product" data-name="FAIDE Hoodie" data-price="550">
-        <img src="images/hoodie.png" alt="FAIDE Hoodie">
-        <h4>FAIDE Hoodie</h4>
-        <span>R550</span>
-        <button class="add">Add to Cart</button>
-      </div>
-
-      <div class="product" data-name="FAIDE Puffer Jacket" data-price="800">
-        <img src="images/puffer.png" alt="FAIDE Puffer Jacket">
-        <h4>FAIDE Puffer Jacket</h4>
-        <span>R800</span>
-        <button class="add">Add to Cart</button>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CART -->
-  <div class="cart" id="cart">
-    <h4>Your Cart</h4>
-    <ul id="cart-items"></ul>
-    <p>Total: R<span id="total">0</span></p>
-    <button id="close-cart">Close</button>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <h1 class="logo faide-wordmark">FAIDE</h1>
+  <div class="nav-links">
+    <a href="#drop">New Drop</a>
+    <a href="#mission">Mission</a>
+    <a href="#lookbook">Lookbook</a>
+    <a href="#shop">Shop</a>
   </div>
+</nav>
 
-  <div class="cart-icon" id="cart-icon">🛒</div>
+<!-- HERO -->
+<section id="drop" class="hero">
+  <div class="hero-content">
+    <h2 class="hero-title">NEW DROP</h2>
+    <p class="hero-text">
+      New drops, exclusive releases, and updates are announced on our social platforms.
+    </p>
+    <div class="hero-social-icons">
+      <a href="https://instagram.com/faideclothing" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://facebook.com/faideclothing" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://tiktok.com/@faideclothing" target="_blank"><i class="fab fa-tiktok"></i></a>
+    </div>
+    <button class="primary-btn">Shop Now</button>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>faideclothingsa@gmail.com</p>
-    <p>© 2026 FAIDE. All rights reserved.</p>
-  </footer>
+<!-- MISSION -->
+<section id="mission" class="mission">
+  <div class="mission-inner">
+    <h2 class="section-title purple-title">Mission</h2>
+    <p><strong>A CLOTHING BRAND THAT NEVER FADE</strong><br>
+    FAIDE is a luxury streetwear brand built for those who move in silence.</p>
+  </div>
+</section>
 
-  <script src="cart.js"></script>
+<!-- LOOKBOOK -->
+<section id="lookbook" class="lookbook">
+  <h2 class="section-title purple-title aligned-title">Lookbook</h2>
+  <div class="horizontal-scroll">
+    <div class="card"><img src="images/lookbook1.png" alt="Look 1"><h3>Look 1</h3></div>
+    <div class="card"><img src="images/lookbook2.png" alt="Look 2"><h3>Look 2</h3></div>
+    <div class="card"><img src="images/lookbook3.png" alt="Look 3"><h3>Look 3</h3></div>
+    <div class="card"><img src="images/lookbook4.png" alt="Look 4"><h3>Look 4</h3></div>
+    <div class="card"><img src="images/lookbook5.png" alt="Look 5"><h3>Look 5</h3></div>
+    <div class="card"><img src="images/lookbook6.png" alt="Look 6"><h3>Look 6</h3></div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section id="shop" class="shop">
+  <h2 class="section-title purple-title aligned-title">Shop</h2>
+  <div class="horizontal-scroll">
+
+    <!-- PRODUCT EXAMPLES -->
+    <div class="product" data-name="T-Shirt" data-price="350">
+      <img src="images/tshirt.png" alt="FAIDE T-Shirt">
+      <h3>T-Shirt</h3>
+      <p class="price">R350</p>
+      <div class="product-socials">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+      <div class="options">
+        <div class="sizes"><button>S</button><button>M</button><button>L</button><button>XL</button></div>
+        <div class="colors"><div class="color black"></div><div class="color white"></div></div>
+      </div>
+      <input type="number" class="quantity" value="1" min="1">
+      <button class="add-to-cart secondary-btn">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="Hoodie" data-price="550">
+      <img src="images/hoodie.png" alt="FAIDE Hoodie">
+      <h3>Hoodie</h3>
+      <p class="price">R550</p>
+      <div class="product-socials">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+      <div class="options">
+        <div class="sizes"><button>S</button><button>M</button><button>L</button><button>XL</button></div>
+        <div class="colors"><div class="color black"></div><div class="color white"></div></div>
+      </div>
+      <input type="number" class="quantity" value="1" min="1">
+      <button class="add-to-cart secondary-btn">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="Puffer Jacket" data-price="800">
+      <img src="images/puffer.png" alt="FAIDE Puffer Jacket">
+      <h3>Puffer Jacket</h3>
+      <p class="price">R800</p>
+      <div class="product-socials">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+      <div class="options">
+        <div class="sizes"><button>S</button><button>M</button><button>L</button><button>XL</button></div>
+        <div class="colors"><div class="color black"></div><div class="color white"></div></div>
+      </div>
+      <input type="number" class="quantity" value="1" min="1">
+      <button class="add-to-cart secondary-btn">Add to Cart</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- POLICIES -->
+<section class="policies">
+  <div class="policy">
+    <h3>Return Policy</h3>
+    <p>You can return products within 14 days of delivery in original condition.</p>
+  </div>
+  <div class="policy">
+    <h3>Delivery Policy</h3>
+    <p>Free delivery for orders over R1000. Standard shipping within 3–5 business days.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>CONTACT US: faideclothingsa@gmail.com | +27695603929</p>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Legal Notice</a>
+    <a href="#">Shipping Policy</a>
+    <a href="#">Terms of Service</a>
+  </div>
+  <div class="footer-social-icons">
+    <a href="https://instagram.com/faideclothing" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://facebook.com/faideclothing" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://tiktok.com/@faideclothing" target="_blank"><i class="fab fa-tiktok"></i></a>
+  </div>
+  <p>© 2026 FAIDE. All rights reserved.</p>
+</footer>
+
+<!-- FLOATING CART & SIDEBAR -->
+<div class="floating-cart" id="floating-cart">🛒<div id="floating-cart-badge">0</div></div>
+<div class="cart-sidebar" id="cart-sidebar">
+  <h3>Your Cart</h3>
+  <ul id="cart-items"></ul>
+  <p class="cart-total">Total: R<span id="cart-total">0</span></p>
+  <button id="close-cart" class="secondary-btn">Close</button>
+</div>
+
+<script src="cart.js"></script>
 </body>
 </html>

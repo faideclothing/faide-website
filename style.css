@@ -5,7 +5,7 @@ body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; ov
 
 /* NAVBAR */
 .navbar { display:flex; justify-content:space-between; align-items:center; padding:24px 32px; position:sticky; top:0; background:#000; border-bottom:1px solid #1f1f1f; z-index:1000; }
-.faide-wordmark { font-weight:700; font-size:1.6rem; letter-spacing:0.0em; font-style:italic; text-transform:uppercase; }
+.faide-wordmark { font-weight:700; font-size:1.6rem; letter-spacing:0.1em; font-style:italic; text-transform:uppercase; }
 .nav-links { display:flex; }
 .nav-links a { margin-left:24px; font-size:0.85rem; letter-spacing:1px; text-transform:uppercase; color:#888; text-decoration:none; transition: all 0.3s ease; }
 .nav-links a:hover { color:#9333ea; transform:translateY(-2px); }

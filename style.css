@@ -87,3 +87,33 @@ section { padding-top:100px; padding-bottom:100px; }
 .cart-sidebar.active { right:0; }
 #cart-items { list-style:none; margin-top:20px; }
 .cart-total { margin-top:24px; font-weight:bold; color:#a855f7; }
+
+/* RESPONSIVE */
+@media screen and (max-width:1024px){
+  .navbar { flex-direction:column; padding:16px; }
+  .nav-links { flex-wrap:wrap; justify-content:center; margin-top:12px; }
+  .hero { padding:100px 16px 80px; }
+  .vertical-list { padding-left:16px; padding-right:16px; }
+  .horizontal-scroll { padding-left:16px; padding-right:16px; gap:24px; }
+  .product { min-width:200px; }
+}
+
+@media screen and (max-width:768px){
+  .hero-title { font-size:clamp(2rem,7vw,3rem); }
+  .hero-text { font-size:0.95rem; }
+  .primary-btn { padding:16px 32px; }
+  .horizontal-scroll { gap:16px; }
+  .product { min-width:180px; padding:12px; }
+  .lookbook .card img { height:180px; }
+}
+
+@media screen and (max-width:480px){
+  .hero-title { font-size:clamp(1.5rem,6vw,2.5rem); }
+  .hero-text { font-size:0.9rem; }
+  .primary-btn { padding:14px 28px; font-size:0.85rem; }
+  .horizontal-scroll { gap:12px; scroll-snap-type: x mandatory; }
+  .product { min-width:160px; padding:10px; }
+  .lookbook .card img { height:150px; }
+  .navbar { padding:12px; }
+  .nav-links a { margin-left:16px; font-size:0.8rem; }
+}

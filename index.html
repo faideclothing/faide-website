@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>FAIDE® | Luxury Streetwear Brand</title>
 
   <link rel="stylesheet" href="style.css" />
@@ -22,12 +21,13 @@
     <a href="#shop">Shop</a>
   </div>
 
-  <!-- HEADER CART -->
+  <!-- HEADER CART (NIKE STYLE) -->
   <div class="header-cart" id="header-cart">
     <i class="fas fa-shopping-bag"></i>
     <span class="cart-count" id="cart-count">0</span>
 
-    <div class="cart-dropdown">
+    <!-- DROPDOWN -->
+    <div class="cart-dropdown" id="cart-dropdown">
       <p class="cart-title">Your Bag</p>
       <ul id="cart-preview"></ul>
       <button class="secondary-btn view-cart">View Cart</button>
@@ -38,26 +38,7 @@
 <!-- HERO -->
 <section id="drop" class="hero">
   <h2 class="hero-title">NEW DROP</h2>
-  <p class="hero-text">
-    New drops, exclusive releases, and updates are announced on our social platforms.
-  </p>
-
-  <!-- SOCIAL ICON STRIP (ABOVE CTA) -->
-  <div class="hero-social-strip">
-    <a href="https://facebook.com/faideclothing" target="_blank" aria-label="Facebook">
-      <i class="fab fa-facebook-f"></i>
-    </a>
-    <a href="https://instagram.com/faideclothing" target="_blank" aria-label="Instagram">
-      <i class="fab fa-instagram"></i>
-    </a>
-    <a href="https://x.com/faideclothing" target="_blank" aria-label="X">
-      <i class="fab fa-x-twitter"></i>
-    </a>
-    <a href="https://tiktok.com/@faideclothing" target="_blank" aria-label="TikTok">
-      <i class="fab fa-tiktok"></i>
-    </a>
-  </div>
-
+  <p class="hero-text">New drops, exclusive releases, and updates are announced on our social platforms.</p>
   <button class="primary-btn">Shop Now</button>
 </section>
 
@@ -66,6 +47,7 @@
   <h2 class="section-title purple-title aligned-title">Shop</h2>
 
   <div class="horizontal-scroll">
+
     <div class="product" data-name="FAIDE Hoodie" data-price="550">
       <img src="images/hoodie.png" class="product-img" />
       <h3 class="product-title">FAIDE Hoodie</h3>
@@ -87,6 +69,7 @@
       <input type="number" min="1" value="1" class="quantity" />
       <button class="secondary-btn add-to-cart">Add to Cart</button>
     </div>
+
   </div>
 </section>
 

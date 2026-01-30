@@ -1,86 +1,183 @@
-const cart = [];
-const cartSidebar = document.getElementById('cart-sidebar');
-const floatingCart = document.getElementById('floating-cart');
-const closeCartBtn = document.getElementById('close-cart');
-const cartItemsList = document.getElementById('cart-items');
-const cartTotal = document.getElementById('cart-total');
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#000; color:#fff; font-family:Arial, Helvetica, sans-serif; }
 
-// Open and close sidebar
-floatingCart.addEventListener('click', () => cartSidebar.classList.add('active'));
-closeCartBtn.addEventListener('click', () => cartSidebar.classList.remove('active'));
-
-// Add to cart buttons
-document.querySelectorAll('.add-to-cart').forEach(button => {
-  button.addEventListener('click', () => {
-    const productCard = button.parentElement;
-    const name = productCard.dataset.name;
-    const price = parseInt(productCard.dataset.price);
-    const imgSrc = productCard.querySelector('img').src;
-
-    const existing = cart.find(item => item.name === name);
-    if (existing) {
-      existing.quantity++;
-    } else {
-      cart.push({ name, price, imgSrc, quantity: 1, selected: true });
-    }
-    updateCartUI();
-  });
-});
-
-// Update cart UI
-function updateCartUI() {
-  cartItemsList.innerHTML = '';
-  let total = 0;
-
-  cart.forEach((item, index) => {
-    if (item.selected) total += item.price * item.quantity;
-
-    const li = document.createElement('li');
-    li.style.display = 'flex';
-    li.style.alignItems = 'center';
-    li.style.gap = '8px';
-
-    li.innerHTML = `
-      <input type="checkbox" ${item.selected ? 'checked' : ''} data-index="${index}" class="cart-checkbox">
-      <img src="${item.imgSrc}" alt="${item.name}" style="width:50px; height:50px; object-fit:cover; border-radius:6px;">
-      <div style="flex:1;">
-        <p style="margin:0; font-weight:bold;">${item.name}</p>
-        <p style="margin:0; color:#a855f7;">R${item.price}</p>
-        <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="cart-qty" style="width:50px; margin-top:4px;">
-      </div>
-      <button data-index="${index}" class="remove-item">Remove</button>
-    `;
-    cartItemsList.appendChild(li);
-  });
-
-  cartTotal.textContent = total;
-
-  // Add event listeners for checkbox
-  document.querySelectorAll('.cart-checkbox').forEach(cb => {
-    cb.addEventListener('change', e => {
-      const idx = e.target.dataset.index;
-      cart[idx].selected = e.target.checked;
-      updateCartUI();
-    });
-  });
-
-  // Quantity change
-  document.querySelectorAll('.cart-qty').forEach(input => {
-    input.addEventListener('change', e => {
-      const idx = e.target.dataset.index;
-      const val = parseInt(e.target.value);
-      if (val < 1) e.target.value = 1;
-      cart[idx].quantity = parseInt(e.target.value);
-      updateCartUI();
-    });
-  });
-
-  // Remove button
-  document.querySelectorAll('.remove-item').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const idx = e.target.dataset.index;
-      cart.splice(idx, 1);
-      updateCartUI();
-    });
-  });
+/* NAVBAR */
+.navbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:24px 32px;
+  border-bottom:1px solid #1f1f1f;
+  position:sticky;
+  top:0;
+  background:#000;
+  z-index:1000;
 }
+
+.faide-wordmark {
+  font-size:1.6rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+}
+
+.nav-links a {
+  margin-left:24px;
+  color:#888;
+  text-decoration:none;
+  text-transform:uppercase;
+  font-size:0.8rem;
+}
+
+/* HERO */
+.hero {
+  padding:120px 24px 80px;
+  text-align:center;
+}
+
+.hero-title {
+  font-size:clamp(2.5rem,8vw,4rem);
+  color:#a855f7;
+  margin-bottom:16px;
+}
+
+.hero-text {
+  max-width:520px;
+  margin:0 auto 24px;
+  color:#aaa;
+  line-height:1.6;
+}
+
+/* SOCIAL STRIP */
+.hero-social-strip {
+  display:flex;
+  justify-content:center;
+  gap:28px;
+  margin-bottom:28px;
+}
+
+.hero-social-strip a {
+  color:#e5e5e5; /* off-white */
+  font-size:1.4rem;
+  transition:transform 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+  opacity:0.85;
+}
+
+.hero-social-strip a:hover {
+  color:#ffffff;
+  transform:translateY(-4px);
+  opacity:1;
+}
+
+/* BUTTON */
+.primary-btn {
+  background:#9333ea;
+  border:none;
+  padding:18px 36px;
+  border-radius:50px;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.primary-btn:hover {
+  background:#fff;
+  color:#000;
+}
+
+/* SHOP */
+.shop { margin:120px 0; }
+
+.product {
+  min-width:260px;
+  background:#111;
+  border-radius:24px;
+  padding:20px;
+}
+
+.product-img {
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:18px;
+}
+
+.price { color:#a855f7; margin-bottom:12px; }
+
+/* OPTIONS */
+.options {
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+
+.sizes button {
+  background:#222;
+  border:none;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:8px;
+  margin-right:4px;
+}
+.sizes button.active { background:#a855f7; }
+
+.colors { display:flex; gap:8px; }
+.color {
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:2px solid #444;
+}
+.color.active { border-color:#a855f7; }
+.color.black { background:#000; }
+.color.white { background:#fff; }
+
+/* HEADER CART */
+.header-cart { position:relative; cursor:pointer; }
+.header-cart i { font-size:1.4rem; }
+
+.cart-count {
+  position:absolute;
+  top:-6px;
+  right:-10px;
+  background:#a855f7;
+  font-size:0.65rem;
+  padding:2px 6px;
+  border-radius:50%;
+}
+
+/* DROPDOWN */
+.cart-dropdown {
+  position:absolute;
+  right:0;
+  top:40px;
+  width:260px;
+  background:#111;
+  border:1px solid #222;
+  border-radius:16px;
+  padding:16px;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(10px);
+  transition:0.3s;
+}
+
+.header-cart:hover .cart-dropdown {
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+
+/* CART SIDEBAR */
+.cart-sidebar {
+  position:fixed;
+  right:-380px;
+  top:0;
+  width:350px;
+  height:100%;
+  background:#111;
+  padding:24px;
+  transition:0.3s;
+  z-index:2000;
+}
+.cart-sidebar.active { right:0; }

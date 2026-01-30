@@ -1,28 +1,44 @@
-const cart = document.getElementById("cart");
-const openCart = document.getElementById("openCart");
-const closeCart = document.getElementById("closeCart");
-const cartItems = document.getElementById("cartItems");
-const cartTotal = document.getElementById("cartTotal");
+const cart = [];
+const cartIcon = document.getElementById('cart-icon');
+const cartBox = document.getElementById('cart');
+const closeCart = document.getElementById('close-cart');
+const cartItems = document.getElementById('cart-items');
+const totalEl = document.getElementById('total');
 
-let total = 0;
+cartIcon.addEventListener('click', () => {
+  cartBox.classList.add('active');
+});
 
-openCart.onclick = () => cart.classList.add("active");
-closeCart.onclick = () => cart.classList.remove("active");
+document.getElementById('close-cart').addEventListener('click', () => {
+  cartBox.classList.remove('active');
+});
 
-document.querySelectorAll(".add-cart").forEach(btn => {
-  btn.addEventListener("click", () => {
-    openCart.classList.add("pulse");
+document.querySelectorAll('.add').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const product = btn.parentElement;
+    const name = product.dataset.name;
+    const price = parseInt(product.dataset.price);
 
-    const name = btn.dataset.name;
-    const price = Number(btn.dataset.price);
-
-    const item = document.createElement("div");
-    item.style.marginBottom = "15px";
-    item.innerHTML = `<strong>${name}</strong> — R${price}`;
-    cartItems.innerHTML = "";
-    cartItems.appendChild(item);
-
-    total += price;
-    cartTotal.textContent = total;
+    const existing = cart.find(i => i.name === name);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ name, price, qty: 1 });
+    }
+    render();
   });
 });
+
+function render() {
+  cartItems.innerHTML = '';
+  let total = 0;
+
+  cart.forEach(item => {
+    total += item.price * item.qty;
+    const li = document.createElement('li');
+    li.textContent = `${item.name} x${item.qty}`;
+    cartItems.appendChild(li);
+  });
+
+  totalEl.textContent = total;
+}

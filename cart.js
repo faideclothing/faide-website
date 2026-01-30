@@ -1,37 +1,47 @@
-const floatingCart = document.getElementById("floating-cart");
-const cartSidebar = document.getElementById("cart-sidebar");
-const closeCart = document.getElementById("close-cart");
-const cartItemsEl = document.getElementById("cart-items");
-const cartTotalEl = document.getElementById("cart-total");
+// CART LOGIC
+const floatingCart = document.getElementById('floating-cart');
+const cartSidebar = document.getElementById('cart-sidebar');
+const closeCart = document.getElementById('close-cart');
+const cartItemsList = document.getElementById('cart-items');
+const cartTotal = document.getElementById('cart-total');
 
 let cart = [];
 
-floatingCart.addEventListener("click", () => cartSidebar.classList.add("active"));
-closeCart.addEventListener("click", () => cartSidebar.classList.remove("active"));
+floatingCart.addEventListener('click', () => {
+  cartSidebar.style.right = '0';
+});
 
-document.querySelectorAll(".add-to-cart").forEach(btn => {
-  btn.addEventListener("click", e => {
-    const productEl = e.target.closest(".product");
+closeCart.addEventListener('click', () => {
+  cartSidebar.style.right = '-400px';
+});
+
+const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+addToCartButtons.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const productEl = e.target.closest('.product');
     const name = productEl.dataset.name;
     const price = parseFloat(productEl.dataset.price);
-    const quantity = parseInt(productEl.querySelector(".quantity").value);
+    const qty = parseInt(productEl.querySelector('.quantity').value);
 
     const existing = cart.find(item => item.name === name);
-    if(existing){ existing.quantity += quantity; }
-    else{ cart.push({name, price, quantity}); }
-
-    updateCartUI();
+    if(existing) {
+      existing.qty += qty;
+    } else {
+      cart.push({name, price, qty});
+    }
+    renderCart();
   });
 });
 
-function updateCartUI(){
-  cartItemsEl.innerHTML = "";
+function renderCart() {
+  cartItemsList.innerHTML = '';
   let total = 0;
   cart.forEach(item => {
-    const li = document.createElement("li");
-    li.textContent = `${item.name} x ${item.quantity} - R${(item.price*item.quantity).toFixed(2)}`;
-    cartItemsEl.appendChild(li);
-    total += item.price*item.quantity;
+    const li = document.createElement('li');
+    li.textContent = `${item.name} x${item.qty} - R${(item.price*item.qty).toFixed(2)}`;
+    cartItemsList.appendChild(li);
+    total += item.price*item.qty;
   });
-  cartTotalEl.textContent = total.toFixed(2);
+  cartTotal.textContent = total.toFixed(2);
 }

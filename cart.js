@@ -1,75 +1,86 @@
 const cart = [];
+const cartSidebar = document.getElementById('cart-sidebar');
+const floatingCart = document.getElementById('floating-cart');
+const closeCartBtn = document.getElementById('close-cart');
+const cartItemsList = document.getElementById('cart-items');
+const cartTotal = document.getElementById('cart-total');
 
-const cartSidebar = document.getElementById("cart-sidebar");
-const closeCartBtn = document.getElementById("close-cart");
-const cartItemsList = document.getElementById("cart-items");
-const cartTotal = document.getElementById("cart-total");
-const cartCount = document.getElementById("cart-count");
-const cartPreview = document.getElementById("cart-preview");
-const viewCartBtn = document.querySelector(".view-cart");
+// Open and close sidebar
+floatingCart.addEventListener('click', () => cartSidebar.classList.add('active'));
+closeCartBtn.addEventListener('click', () => cartSidebar.classList.remove('active'));
 
-viewCartBtn.onclick = () => cartSidebar.classList.add("active");
-closeCartBtn.onclick = () => cartSidebar.classList.remove("active");
+// Add to cart buttons
+document.querySelectorAll('.add-to-cart').forEach(button => {
+  button.addEventListener('click', () => {
+    const productCard = button.parentElement;
+    const name = productCard.dataset.name;
+    const price = parseInt(productCard.dataset.price);
+    const imgSrc = productCard.querySelector('img').src;
 
-/* PRODUCT LOGIC */
-document.querySelectorAll(".product").forEach(product => {
-  let size = null;
-  let color = null;
-
-  product.querySelectorAll(".sizes button").forEach(btn => {
-    btn.onclick = () => {
-      product.querySelectorAll(".sizes button").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      size = btn.dataset.size;
-    };
-  });
-
-  product.querySelectorAll(".color").forEach(c => {
-    c.onclick = () => {
-      product.querySelectorAll(".color").forEach(x => x.classList.remove("active"));
-      c.classList.add("active");
-      color = c.dataset.color;
-    };
-  });
-
-  product.querySelector(".add-to-cart").onclick = () => {
-    if (!size || !color) {
-      alert("Select size and color");
-      return;
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+      existing.quantity++;
+    } else {
+      cart.push({ name, price, imgSrc, quantity: 1, selected: true });
     }
-
-    cart.push({
-      name: product.dataset.name,
-      price: parseInt(product.dataset.price),
-      size,
-      color,
-      quantity: parseInt(product.querySelector(".quantity").value)
-    });
-
-    updateCart();
-  };
+    updateCartUI();
+  });
 });
 
-function updateCart() {
-  cartItemsList.innerHTML = "";
-  cartPreview.innerHTML = "";
-
+// Update cart UI
+function updateCartUI() {
+  cartItemsList.innerHTML = '';
   let total = 0;
 
-  cart.forEach(item => {
-    total += item.price * item.quantity;
+  cart.forEach((item, index) => {
+    if (item.selected) total += item.price * item.quantity;
 
-    const li = document.createElement("li");
+    const li = document.createElement('li');
+    li.style.display = 'flex';
+    li.style.alignItems = 'center';
+    li.style.gap = '8px';
+
     li.innerHTML = `
-      <p><strong>${item.name}</strong></p>
-      <p>${item.size} / ${item.color} × ${item.quantity}</p>
+      <input type="checkbox" ${item.selected ? 'checked' : ''} data-index="${index}" class="cart-checkbox">
+      <img src="${item.imgSrc}" alt="${item.name}" style="width:50px; height:50px; object-fit:cover; border-radius:6px;">
+      <div style="flex:1;">
+        <p style="margin:0; font-weight:bold;">${item.name}</p>
+        <p style="margin:0; color:#a855f7;">R${item.price}</p>
+        <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="cart-qty" style="width:50px; margin-top:4px;">
+      </div>
+      <button data-index="${index}" class="remove-item">Remove</button>
     `;
     cartItemsList.appendChild(li);
-
-    const preview = li.cloneNode(true);
-    cartPreview.appendChild(preview);
   });
 
   cartTotal.textContent = total;
-  cartCount.textContent = cart.length;
+
+  // Add event listeners for checkbox
+  document.querySelectorAll('.cart-checkbox').forEach(cb => {
+    cb.addEventListener('change', e => {
+      const idx = e.target.dataset.index;
+      cart[idx].selected = e.target.checked;
+      updateCartUI();
+    });
+  });
+
+  // Quantity change
+  document.querySelectorAll('.cart-qty').forEach(input => {
+    input.addEventListener('change', e => {
+      const idx = e.target.dataset.index;
+      const val = parseInt(e.target.value);
+      if (val < 1) e.target.value = 1;
+      cart[idx].quantity = parseInt(e.target.value);
+      updateCartUI();
+    });
+  });
+
+  // Remove button
+  document.querySelectorAll('.remove-item').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const idx = e.target.dataset.index;
+      cart.splice(idx, 1);
+      updateCartUI();
+    });
+  });
 }

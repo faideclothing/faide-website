@@ -389,9 +389,9 @@
       }
 
       /* =========================================================
-         SHOP (fixed spacing + FADE aesthetic cards)
+         SHOP (fixed spacing + FAIDE Essentials purple aesthetic)
       ========================================================= */
-      .shop { margin: 0; } /* ✅ remove the big gap */
+      .shop { margin: 0; }
 
       .horizontal-scroll {
         max-width: var(--container);
@@ -416,7 +416,7 @@
         background: transparent;
         color: #fff;
         text-align: left;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: transform 0.32s ease, box-shadow 0.32s ease;
         display: flex;
         flex-direction: column;
         scroll-snap-align: center;
@@ -424,9 +424,10 @@
         position: relative;
         cursor: pointer;
         border-radius: var(--card-radius);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
       }
 
-      /* ✅ fade aesthetic glow */
       .product::before{
         content:"";
         position:absolute;
@@ -440,19 +441,22 @@
         pointer-events:none;
         z-index: 0;
       }
+
       .product::after{
         content:"";
         position:absolute;
         inset:0;
         border-radius: var(--card-radius);
-        border: 1px solid rgba(255,255,255,0.06);
+        border: 1px solid rgba(168,85,247,0.14);
         pointer-events:none;
         z-index: 0;
       }
+
       .product > *{ position: relative; z-index: 1; }
 
       .product:hover{
         transform: translateY(-6px);
+        box-shadow: 0 18px 50px rgba(147, 51, 234, 0.20);
       }
 
       .product-img-container {
@@ -465,10 +469,24 @@
         position: relative;
         margin-bottom: 14px;
         border-radius: var(--img-radius);
-        border: 1px solid rgba(255,255,255,0.06);
+        border: 1px solid rgba(168,85,247,0.14);
         background:
-          radial-gradient(80% 80% at 50% 35%, rgba(168,85,247,0.10), rgba(10,10,10,0.95) 70%),
+          radial-gradient(80% 80% at 50% 35%, rgba(168,85,247,0.12), rgba(10,10,10,0.95) 70%),
           linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.00));
+      }
+
+      .product-img-container::before{
+        content:"";
+        position:absolute;
+        inset:-1px;
+        border-radius: var(--img-radius);
+        padding: 1px;
+        background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(147,51,234,0.12), rgba(255,255,255,0.06));
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events:none;
+        opacity: 0.75;
       }
 
       .product-img-container::after{
@@ -486,21 +504,32 @@
         display: block;
         padding: 18px;
         transition: transform 0.35s ease, filter 0.35s ease;
-        filter: drop-shadow(0 18px 28px rgba(0,0,0,0.45)) saturate(1.05);
+        filter: drop-shadow(0 18px 28px rgba(0,0,0,0.45)) saturate(1.08);
       }
+
       .product:hover .product-img{
         transform: translateY(-4px) scale(1.01);
-        filter: drop-shadow(0 22px 34px rgba(0,0,0,0.55)) saturate(1.12);
+        filter: drop-shadow(0 22px 34px rgba(0,0,0,0.55)) saturate(1.15);
       }
 
       .product-info { padding: 8px 8px 4px; }
 
-      .product-label {
-        font-size: 0.9rem;
-        color: #9b4700;
-        font-weight: 600;
-        margin-bottom: 4px;
-        text-transform: capitalize;
+      .product-label{
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        width: fit-content;
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: #fff;
+        background: linear-gradient(135deg, rgba(147,51,234,0.85), rgba(168,85,247,0.85));
+        border: 1px solid rgba(255,255,255,0.12);
+        box-shadow: 0 12px 26px rgba(147,51,234,0.20);
+        font-weight: 800;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        margin-bottom: 10px;
       }
 
       .product-header {
@@ -514,28 +543,29 @@
       .product-name-wrapper { flex: 1; }
 
       .product h3 {
-        font-size: 1rem;
+        font-size: 1.02rem;
         margin: 0 0 4px 0;
-        font-weight: 600;
+        font-weight: 800;
         color: #fff;
-        line-height: 1.4;
+        line-height: 1.35;
+        letter-spacing: 0.2px;
       }
 
       .product-category,
       .product-colors-count {
         font-size: 0.92rem;
-        color: #888;
+        color: rgba(255,255,255,0.62);
         font-weight: 400;
         margin-bottom: 8px;
       }
 
       .price {
         font-size: 1rem;
-        color: #fff;
-        font-weight: 600;
+        color: rgba(255,255,255,0.92);
+        font-weight: 700;
         white-space: nowrap;
         flex-shrink: 0;
-        opacity: 0.95;
+        opacity: 0.98;
       }
 
       .options {
@@ -557,7 +587,7 @@
       .option-label {
         font-size: 0.85rem;
         color: #fff;
-        font-weight: 600;
+        font-weight: 700;
         margin-bottom: 8px;
       }
 
@@ -570,18 +600,23 @@
 
       .size-btn {
         height: 40px;
-        border-radius: 8px;
+        border-radius: 10px;
         background: rgba(255,255,255,0.03);
         color: #aaa;
-        border: 1px solid rgba(255,255,255,0.14);
+        border: 1px solid rgba(168,85,247,0.20);
         cursor: pointer;
         transition: all 0.2s ease;
-        font-weight: 500;
+        font-weight: 600;
         font-size: 0.9rem;
       }
 
-      .size-btn:hover { border-color: rgba(255,255,255,0.22); color: #fff; }
-      .size-btn.selected { background: #111; color: #fff; border-color: #111; }
+      .size-btn:hover { border-color: rgba(168,85,247,0.38); color: #fff; }
+      .size-btn.selected {
+        background: rgba(168,85,247,0.14);
+        color: #fff;
+        border-color: rgba(168,85,247,0.55);
+        box-shadow: 0 10px 26px rgba(147,51,234,0.18);
+      }
 
       .colors { display: flex; gap: 8px; margin-bottom: 16px; }
 
@@ -591,7 +626,7 @@
         border-radius: 999px;
         cursor: pointer;
         transition: all 0.2s ease;
-        border: 2px solid transparent;
+        border: 2px solid rgba(168,85,247,0.18);
         position: relative;
       }
 
@@ -607,8 +642,8 @@
         transition: transform 0.2s ease;
       }
 
-      .color:hover { transform: scale(1.08); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
-      .color.selected { border-color: #111; transform: scale(1.03); }
+      .color:hover { transform: scale(1.08); box-shadow: 0 10px 22px rgba(147, 51, 234, 0.18); }
+      .color.selected { border-color: rgba(168,85,247,0.70); transform: scale(1.03); }
       .color.selected::after { transform: translate(-50%, -50%) scale(1); }
 
       .color.black { background: #000; border: 2px solid #ddd; }
@@ -632,25 +667,28 @@
         color: #111;
         text-align: center;
         font-size: 0.95rem;
-        font-weight: 600;
+        font-weight: 700;
       }
 
       .quantity:focus { outline: none; border-color: #111; background: #fff; }
 
       .secondary-btn {
-        background: #111;
+        background: linear-gradient(135deg, rgba(147,51,234,0.95), rgba(168,85,247,0.95));
         border: none;
         padding: 14px 24px;
         border-radius: 30px;
         color: #fff;
-        font-weight: 600;
+        font-weight: 800;
         cursor: pointer;
         transition: all 0.2s ease;
         font-size: 0.95rem;
         width: 100%;
+        box-shadow: 0 14px 30px rgba(147,51,234,0.25);
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
       }
 
-      .secondary-btn:hover { background: #333; }
+      .secondary-btn:hover { background: #fff; color: #000; }
       .secondary-btn:active { transform: scale(0.98); }
 
       @media (max-width: 768px){
@@ -676,15 +714,16 @@
         max-width: 70ch;
       }
 
-      /* ✅ UPDATED: removed divider line + purple Contact title */
+      /* ✅ About contact: remove divider + FAIDE purple styling */
       .about-contact {
-        margin-top: 26px;
+        margin-top: 22px;
         padding-top: 0;
         border-top: none;
         display: grid;
         gap: 10px;
         max-width: 720px;
       }
+
       .about-contact h4{
         color: var(--primary);
         font-size: 0.95rem;
@@ -692,22 +731,35 @@
         text-transform: uppercase;
         letter-spacing: 1.2px;
         margin: 0 0 10px 0;
-        text-shadow: 0 0 18px rgba(168,85,247,0.45);
+        text-shadow: 0 0 22px rgba(168,85,247,0.35);
       }
+
       .about-contact a{
-        color: rgba(255,255,255,0.65);
-        text-decoration:none;
+        color: rgba(168,85,247,0.78);
+        text-decoration: none;
         width: fit-content;
-        transition: color 0.25s ease, transform 0.25s ease;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        padding: 10px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(168,85,247,0.18);
+        background: linear-gradient(180deg, rgba(168,85,247,0.10), rgba(10,10,10,0.0));
+        transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
       }
-      .about-contact a:hover{ color: var(--secondary); transform: translateX(3px); }
+
+      .about-contact a:hover{
+        color: #fff;
+        border-color: rgba(168,85,247,0.45);
+        background: linear-gradient(135deg, rgba(147,51,234,0.18), rgba(168,85,247,0.10));
+        transform: translateY(-2px);
+      }
 
       @media (max-width: 768px){
         .about{ padding-left: var(--px-sm); padding-right: var(--px-sm); }
       }
 
       /* =========================================================
-         FOOTER
+         FOOTER (only ONE divider)
       ========================================================= */
       footer a { transition: color 0.25s ease; }
       footer a:hover { color: var(--secondary); }
@@ -717,8 +769,8 @@
         flex-direction: column;
         align-items: center;
         gap: 18px;
-        padding-top: 28px;
-        border-top: 1px solid var(--border);
+        padding-top: 0;
+        border-top: none; /* ✅ removed internal divider */
       }
 
       .footer-legal-top {
@@ -988,7 +1040,6 @@
         transform: scale(1.02);
       }
 
-      /* ✅ DISABLED CHECKOUT */
       .checkout-btn:disabled{
         opacity: 0.45;
         cursor: not-allowed;
@@ -1036,172 +1087,6 @@
         .cart-item-img{ grid-area: img; width:58px; height:58px; }
         .cart-item-info{ grid-area: info; }
         .cart-item-actions{ grid-area: actions; align-items:flex-start; flex-direction: row; justify-content: space-between; }
-      }
-
-      /* =========================================================
-         ✅ FAIDE UPDATES (Liquid Glass + Footer + About)
-         Put at bottom for override power
-      ========================================================= */
-
-      /* NAV LINKS – LIQUID GLASS BUTTONS */
-      .nav-links a{
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-
-        padding: 10px 14px;
-        border-radius: 999px;
-
-        font-size: 0.62rem;
-        letter-spacing: 1.2px;
-        text-transform: uppercase;
-        text-decoration: none;
-
-        color: rgba(255,255,255,0.78);
-        background: linear-gradient(135deg, rgba(168,85,247,0.14), rgba(147,51,234,0.08));
-        border: 1px solid rgba(168,85,247,0.20);
-
-        backdrop-filter: blur(14px) saturate(160%);
-        -webkit-backdrop-filter: blur(14px) saturate(160%);
-
-        box-shadow:
-          inset 0 1px 1px rgba(255,255,255,0.18),
-          0 10px 28px rgba(0,0,0,0.35);
-
-        transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-      }
-
-      /* remove underline animation line */
-      .nav-links a::after{ display:none; }
-
-      /* glossy highlight */
-      .nav-links a::before{
-        content:"";
-        position:absolute;
-        inset:0;
-        border-radius:999px;
-        background: radial-gradient(120% 80% at 30% 15%, rgba(255,255,255,0.35), rgba(255,255,255,0.06) 40%, transparent 65%);
-        opacity: 0.55;
-        pointer-events:none;
-      }
-
-      .nav-links a:hover{
-        color: #fff;
-        transform: translateY(-2px);
-        background: linear-gradient(135deg, rgba(168,85,247,0.28), rgba(147,51,234,0.18));
-        border-color: rgba(168,85,247,0.42);
-        box-shadow:
-          inset 0 1px 1px rgba(255,255,255,0.22),
-          0 18px 40px rgba(168,85,247,0.25);
-      }
-
-      .nav-links a.active{
-        color: #fff;
-        background: linear-gradient(135deg, rgba(168,85,247,0.42), rgba(147,51,234,0.28));
-        border-color: rgba(168,85,247,0.60);
-        box-shadow:
-          inset 0 1px 1px rgba(255,255,255,0.26),
-          0 20px 55px rgba(168,85,247,0.35);
-      }
-
-      .nav-links a:focus-visible{
-        outline: none;
-        box-shadow:
-          0 0 0 3px rgba(168,85,247,0.20),
-          inset 0 1px 1px rgba(255,255,255,0.22),
-          0 18px 40px rgba(168,85,247,0.25);
-      }
-
-      @media (max-width: 768px){
-        .nav-links a{
-          padding: 9px 12px;
-          font-size: 0.56rem;
-          letter-spacing: 1px;
-        }
-      }
-
-      /* SOCIAL ICONS – LIQUID GLASS PURPLE */
-      .social-icon{
-        position: relative;
-        width: 52px;
-        height: 52px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(147,51,234,0.15));
-        backdrop-filter: blur(14px) saturate(160%);
-        -webkit-backdrop-filter: blur(14px) saturate(160%);
-        border: 1px solid rgba(168,85,247,0.35);
-        color: #fff;
-        box-shadow:
-          inset 0 1px 1px rgba(255,255,255,0.25),
-          0 8px 30px rgba(168,85,247,0.35);
-        transition: all 0.35s ease;
-        overflow: hidden;
-      }
-
-      .social-icon::before{
-        content:"";
-        position:absolute;
-        inset:0;
-        background: radial-gradient(120% 80% at 30% 15%, rgba(255,255,255,0.45), rgba(255,255,255,0.05) 40%, transparent 60%);
-        opacity: 0.6;
-        pointer-events:none;
-      }
-
-      .social-icon::after{
-        content:"";
-        position:absolute;
-        inset:-6px;
-        border-radius:50%;
-        background: radial-gradient(circle, rgba(168,85,247,0.45), transparent 65%);
-        opacity: 0;
-        transition: opacity 0.35s ease;
-        pointer-events:none;
-      }
-
-      .social-icon:hover{
-        transform: translateY(-6px) scale(1.12);
-        background: linear-gradient(135deg, rgba(168,85,247,0.45), rgba(147,51,234,0.35));
-        box-shadow:
-          inset 0 1px 1px rgba(255,255,255,0.35),
-          0 18px 45px rgba(168,85,247,0.65);
-        border-color: rgba(168,85,247,0.55);
-      }
-
-      .social-icon:hover::after{ opacity: 1; }
-
-      .social-icon svg{
-        width: 22px;
-        height: 22px;
-        filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35));
-      }
-
-      @media (max-width: 768px){
-        .social-icon:hover{ transform: scale(1.08); }
-      }
-
-      /* FOOTER – smaller typography */
-      .footer-legal-link{
-        font-size: 0.8rem;
-      }
-
-      .footer-legal-mid a{
-        font-size: 0.85rem;
-      }
-
-      footer p{
-        font-size: 0.75rem !important;
-        letter-spacing: 0.4px;
-      }
-
-      .footer-legal-link,
-      .footer-legal-mid a{
-        opacity: 0.75;
-      }
-
-      .footer-legal-link:hover,
-      .footer-legal-mid a:hover{
-        opacity: 1;
       }
     </style>
 
@@ -1470,7 +1355,7 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- FOOTER (one divider only = border-top here) -->
     <footer id="footer" style="background:#0a0a0a; border-top:1px solid var(--border); padding: 42px 32px 40px;">
       <div style="max-width: 1200px; margin: 0 auto;">
         <div class="footer-legal">
@@ -1542,7 +1427,6 @@
           <span class="cart-total-value">R<span id="cart-total">0.00</span></span>
         </div>
 
-        <!-- ✅ starts disabled, JS will enable if cart has items -->
         <button class="checkout-btn" id="checkout-btn" type="button" disabled title="Add items to checkout">
           Proceed to Checkout
         </button>
@@ -1904,7 +1788,6 @@
         closeCart?.addEventListener("click", closeCartPanel);
         cartOverlay?.addEventListener("click", closeCartPanel);
 
-        // ✅ Guard checkout click (even if some browser ignores disabled)
         checkoutBtn?.addEventListener("click", (e) => {
           if (checkoutBtn.disabled) {
             e.preventDefault();
@@ -1961,7 +1844,6 @@
               </div>
             `;
 
-            // qty / remove handlers
             li.querySelector('[data-action="dec"]').addEventListener("click", () => {
               item.quantity = Math.max(1, item.quantity - 1);
               updateCartUI();
@@ -1982,7 +1864,6 @@
 
           cartTotalEl.textContent = total.toFixed(2);
           cartCountEl.textContent = String(itemCount);
-
           setCheckoutState();
         }
 
@@ -2043,7 +1924,6 @@
             const size = selectedSize.textContent.trim();
             const color = selectedColor.getAttribute("data-color") || "Color";
 
-            // ✅ capture image without changing product layout
             const imgEl = product.querySelector(".product-img");
             const image = imgEl?.getAttribute("src") || "";
 
@@ -2061,7 +1941,6 @@
           });
         });
 
-        // init
         updateCartUI();
 
         document.addEventListener("keydown", (e) => {

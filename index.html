@@ -464,6 +464,7 @@
         padding: 18px;
       }
 
+      /* arrows */
       .gallery-nav{
         position: absolute;
         top: 50%;
@@ -494,6 +495,7 @@
         .gallery-nav{ width: 46px; height: 46px; }
       }
 
+      /* --- Gallery zoom --- */
       .gallery-viewport{
         width: min(1200px, 92vw);
         height: min(78vh, 760px);
@@ -864,7 +866,7 @@
         align-items: center;
         gap: 18px;
         padding-top: 28px;
-        border-top: none;
+        border-top: none; /* keep only footer inline border-top divider */
       }
 
       .footer-legal-top {
@@ -1237,7 +1239,7 @@
           </a>
         </div>
 
-        <button class="primary-btn fade-in-up delay-3" id="shop-now-btn" type="button">Shop Now</button>
+        <button class="primary-btn fade-in-up delay-3" id="shop-now-btn">Shop Now</button>
       </div>
     </section>
 
@@ -1513,7 +1515,7 @@
       <div style="max-width:800px; margin:0 auto; background:#0a0a0a; border-radius:20px; border:1px solid var(--border); overflow:hidden;">
         <div style="background:var(--surface); padding:24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border);">
           <h2 id="modal-title" style="color:var(--primary); font-size:1.5rem; font-weight:700; margin:0;">Policy</h2>
-          <button id="close-modal" type="button" style="background:transparent; border:none; color:#888; cursor:pointer; padding:8px; display:flex; align-items:center; justify-content:center; border-radius:8px; transition:all 0.3s ease;" aria-label="Close policy modal">
+          <button id="close-modal" type="button" style="background:transparent; border:none; color:#888; cursor:pointer; padding:8px; display:flex; align-items:center; justify-content:center; border-radius:8px; transition:all 0.3s ease;">
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
               <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
             </svg>
@@ -1978,6 +1980,7 @@
 
           cartTotalEl.textContent = total.toFixed(2);
           cartCountEl.textContent = String(itemCount);
+
           setCheckoutState();
         }
 
@@ -2002,9 +2005,7 @@
         products.forEach((product) => {
           const sizeButtons = product.querySelectorAll(".size-btn");
           sizeButtons.forEach((btn) => {
-            btn.addEventListener("click", (e) => {
-              e.preventDefault();
-              e.stopPropagation();
+            btn.addEventListener("click", () => {
               sizeButtons.forEach((b) => b.classList.remove("selected"));
               btn.classList.add("selected");
               product.classList.add("expanded");
@@ -2013,15 +2014,13 @@
 
           const colorOptions = product.querySelectorAll(".color");
           colorOptions.forEach((color) => {
-            const select = (e) => {
-              e?.preventDefault?.();
-              e?.stopPropagation?.();
+            const select = () => {
               colorOptions.forEach((c) => c.classList.remove("selected"));
               color.classList.add("selected");
               product.classList.add("expanded");
             };
             color.addEventListener("click", select);
-            clickOnEnterSpace(color, () => select());
+            clickOnEnterSpace(color, select);
           });
 
           const addToCartBtn = product.querySelector(".add-to-cart");
@@ -2071,7 +2070,11 @@
           if (e.key !== "Escape") return;
 
           if (policyModal && policyModal.style.display === "block") hidePolicy();
-          if (cartSidebar?.classList.contains("active")) closeCartPanel();
+          if (cartSidebar?.classList.contains("active")) {
+            cartSidebar.classList.remove("active");
+            cartOverlay?.classList.remove("active");
+            document.body.classList.remove("lock-scroll");
+          }
         });
 
         /*************************************************************
@@ -2226,7 +2229,7 @@
           toggleZoomAt(e.clientX, e.clientY);
         });
 
-        // scroll wheel zoom (desktop)
+        // scroll wheel zoom
         galleryViewport?.addEventListener("wheel", (e) => {
           if (!galleryModal?.classList.contains("active")) return;
           e.preventDefault();

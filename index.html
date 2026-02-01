@@ -380,7 +380,7 @@
       }
 
       /* =========================================================
-         FULLSCREEN GALLERY (LOOKBOOK)
+         FULLSCREEN GALLERY (LOOKBOOK + PRODUCT MODAL SHARED)
       ========================================================= */
       .gallery-modal{
         position: fixed;
@@ -1348,6 +1348,68 @@
       </div>
     </div>
 
+    <!-- ✅ FULLSCREEN PRODUCT MODAL (SHOP) -->
+    <div id="product-modal" class="gallery-modal" aria-hidden="true" role="dialog" aria-label="Product details">
+      <div class="gallery-frame">
+        <div class="gallery-topbar">
+          <div class="gallery-meta">
+            <div class="gallery-title" id="pm-title">Product</div>
+            <div class="gallery-counter" id="pm-subtitle"></div>
+          </div>
+
+          <button type="button" class="gallery-btn" id="pm-close" aria-label="Close product">
+            Close
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="gallery-stage" style="padding: 16px;">
+          <button type="button" class="gallery-nav gallery-prev" id="pm-prev" aria-label="Previous image">‹</button>
+
+          <div class="gallery-viewport" id="pm-viewport" style="display:grid; grid-template-rows: 1fr auto; gap: 14px; padding: 14px;">
+            <!-- image -->
+            <div style="position:relative; overflow:hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.35);">
+              <img id="pm-img" class="gallery-zoom-img" alt="Product image" src="" style="cursor: default;" />
+              <div class="img-pager" id="pm-pager" style="pointer-events:none; position:absolute; left:50%; transform:translateX(-50%); bottom:12px;"></div>
+            </div>
+
+            <!-- details -->
+            <div id="pm-details" style="width:100%; max-width: 720px; margin: 0 auto;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap: 12px; margin-bottom: 10px;">
+                <div style="min-width:0;">
+                  <div id="pm-label" class="product-label" style="margin-bottom:8px;"></div>
+                  <h3 id="pm-name" style="font-size:1.15rem; font-weight:900; color:#fff; line-height:1.25; margin:0 0 6px;"></h3>
+                  <div id="pm-category" style="color:#9a9a9a; font-weight:700;"></div>
+                  <div id="pm-colors" style="color:#9a9a9a; font-weight:700; margin-top:6px;"></div>
+                </div>
+                <div id="pm-price" style="font-size:1.15rem; font-weight:950; color:#fff; white-space:nowrap;"></div>
+              </div>
+
+              <div class="option-label">Select Size</div>
+              <div class="sizes" id="pm-sizes"></div>
+
+              <div class="option-label">Select Color</div>
+              <div class="colors" id="pm-colors-row"></div>
+
+              <div class="quantity-wrapper">
+                <input type="number" min="1" value="1" class="quantity" id="pm-qty" aria-label="Quantity" />
+              </div>
+
+              <button type="button" class="secondary-btn" id="pm-add">Add to Bag</button>
+            </div>
+          </div>
+
+          <button type="button" class="gallery-nav gallery-next" id="pm-next" aria-label="Next image">›</button>
+        </div>
+
+        <div class="gallery-bottombar">
+          <span>Swipe images • Select size & color • Add to Bag</span>
+        </div>
+      </div>
+    </div>
+
     <!-- SHOP -->
     <section id="shop" class="shop">
       <h2 class="section-title purple-title aligned-title">Shop</h2>
@@ -1841,10 +1903,7 @@
           else setIndex(index - 1);
         }, { passive: true });
 
-        container.addEventListener("click", (e) => {
-          e.stopPropagation();
-          setIndex(index + 1);
-        });
+        // NOTE: removed click-to-advance so tapping the card can open fullscreen modal
       }
 
       async function initAllProductCarousels() {
@@ -2167,14 +2226,6 @@
           setCheckoutState();
         }
 
-        products.forEach((product) => {
-          product.addEventListener("click", (e) => {
-            const interactive = e.target.closest("button, input, .color, a, .product-img-container");
-            if (interactive) return;
-            product.classList.toggle("expanded");
-          });
-        });
-
         function clickOnEnterSpace(el, fn) {
           el.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -2184,10 +2235,13 @@
           });
         }
 
+        // Keep your quick-add controls (desktop hover).
+        // Mobile users will mainly use the fullscreen product modal.
         products.forEach((product) => {
           const sizeButtons = product.querySelectorAll(".size-btn");
           sizeButtons.forEach((btn) => {
-            btn.addEventListener("click", () => {
+            btn.addEventListener("click", (e) => {
+              e.stopPropagation();
               sizeButtons.forEach((b) => b.classList.remove("selected"));
               btn.classList.add("selected");
               product.classList.add("expanded");
@@ -2196,7 +2250,8 @@
 
           const colorOptions = product.querySelectorAll(".color");
           colorOptions.forEach((color) => {
-            const select = () => {
+            const select = (e) => {
+              e?.stopPropagation?.();
               colorOptions.forEach((c) => c.classList.remove("selected"));
               color.classList.add("selected");
               product.classList.add("expanded");
@@ -2255,6 +2310,237 @@
             cartOverlay?.classList.remove("active");
             document.body.classList.remove("lock-scroll");
           }
+        });
+
+        /*************************************************************
+         * ✅ SHOP FULLSCREEN PRODUCT MODAL (like lookbook)
+         *************************************************************/
+        const pm = {
+          modal: document.getElementById("product-modal"),
+          close: document.getElementById("pm-close"),
+          prev: document.getElementById("pm-prev"),
+          next: document.getElementById("pm-next"),
+          img: document.getElementById("pm-img"),
+          pager: document.getElementById("pm-pager"),
+          title: document.getElementById("pm-title"),
+          subtitle: document.getElementById("pm-subtitle"),
+
+          label: document.getElementById("pm-label"),
+          name: document.getElementById("pm-name"),
+          category: document.getElementById("pm-category"),
+          colorsCount: document.getElementById("pm-colors"),
+          price: document.getElementById("pm-price"),
+
+          sizes: document.getElementById("pm-sizes"),
+          colorsRow: document.getElementById("pm-colors-row"),
+          qty: document.getElementById("pm-qty"),
+          add: document.getElementById("pm-add"),
+        };
+
+        let pmSources = [];
+        let pmIndex = 0;
+        let pmActiveProductEl = null;
+
+        function pmOpen() {
+          if (!pm.modal) return;
+          pm.modal.classList.add("active");
+          pm.modal.setAttribute("aria-hidden", "false");
+          document.body.classList.add("lock-scroll");
+          pm.close?.focus();
+        }
+
+        function pmClose() {
+          if (!pm.modal) return;
+          pm.modal.classList.remove("active");
+          pm.modal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("lock-scroll");
+          pmActiveProductEl = null;
+        }
+
+        function pmSetImage(i) {
+          if (!pmSources.length) return;
+          pmIndex = (i + pmSources.length) % pmSources.length;
+          pm.img.style.opacity = "0.25";
+          requestAnimationFrame(() => {
+            pm.img.src = pmSources[pmIndex];
+            const dots = Array.from(pm.pager.querySelectorAll(".img-dot"));
+            dots.forEach((d, idx) => d.classList.toggle("active", idx === pmIndex));
+            pm.subtitle.textContent = `${pmIndex + 1} / ${pmSources.length}`;
+            setTimeout(() => (pm.img.style.opacity = "1"), 60);
+          });
+        }
+
+        async function pmBuildImagesFromProduct(productEl) {
+          const imgEl = productEl.querySelector(".product-img");
+          const base = imgEl?.getAttribute("src") || "";
+          if (!base) return [""];
+          const candidates = [base, buildVariantSrc(base, 2), buildVariantSrc(base, 3), buildVariantSrc(base, 4)];
+          const checks = await Promise.all(candidates.map((s, i) => (i === 0 ? Promise.resolve(true) : imageExists(s))));
+          return candidates.filter((_, i) => checks[i]);
+        }
+
+        function pmRenderDots(count) {
+          pm.pager.innerHTML = "";
+          for (let i = 0; i < count; i++) {
+            const d = document.createElement("span");
+            d.className = "img-dot" + (i === 0 ? " active" : "");
+            pm.pager.appendChild(d);
+          }
+        }
+
+        function pmRenderSizes(productEl) {
+          const original = Array.from(productEl.querySelectorAll(".size-btn")).map(b => b.textContent.trim());
+          const sizes = original.length ? original : ["S", "M", "L", "XL"];
+
+          pm.sizes.innerHTML = "";
+          sizes.forEach((s) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "size-btn";
+            btn.textContent = s;
+            btn.addEventListener("click", () => {
+              Array.from(pm.sizes.querySelectorAll(".size-btn")).forEach(x => x.classList.remove("selected"));
+              btn.classList.add("selected");
+            });
+            pm.sizes.appendChild(btn);
+          });
+        }
+
+        function pmRenderColors(productEl) {
+          const original = Array.from(productEl.querySelectorAll(".color")).map(c => ({
+            className: c.className,
+            colorName: c.getAttribute("data-color") || "Color"
+          }));
+
+          const colors = original.length ? original : [
+            { className: "color black", colorName: "Black" },
+            { className: "color white", colorName: "White" },
+          ];
+
+          pm.colorsRow.innerHTML = "";
+          colors.forEach((c) => {
+            const div = document.createElement("div");
+            div.className = c.className;
+            div.setAttribute("role", "button");
+            div.setAttribute("tabindex", "0");
+            div.setAttribute("aria-label", c.colorName);
+            div.setAttribute("data-color", c.colorName);
+
+            const select = () => {
+              Array.from(pm.colorsRow.querySelectorAll(".color")).forEach(x => x.classList.remove("selected"));
+              div.classList.add("selected");
+            };
+
+            div.addEventListener("click", select);
+            div.addEventListener("keydown", (e) => {
+              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(); }
+            });
+
+            pm.colorsRow.appendChild(div);
+          });
+        }
+
+        function pmFillMeta(productEl) {
+          const name = productEl.getAttribute("data-name") || "Item";
+          const price = productEl.querySelector(".price")?.textContent?.trim() || "";
+          const label = productEl.querySelector(".product-label")?.textContent?.trim() || "";
+
+          const category = productEl.querySelector(".product-category")?.textContent?.trim() || "";
+          const colorsCount = productEl.querySelector(".product-colors-count")?.textContent?.trim() || "";
+
+          pm.title.textContent = "Product";
+          pm.label.textContent = label;
+          pm.name.textContent = name;
+          pm.category.textContent = category;
+          pm.colorsCount.textContent = colorsCount;
+          pm.price.textContent = price;
+
+          pm.qty.value = "1";
+        }
+
+        async function openProductModal(productEl) {
+          pmActiveProductEl = productEl;
+
+          pmFillMeta(productEl);
+          pmRenderSizes(productEl);
+          pmRenderColors(productEl);
+
+          pmSources = await pmBuildImagesFromProduct(productEl);
+          pmRenderDots(pmSources.length);
+          pmSetImage(0);
+
+          pmOpen();
+        }
+
+        // swipe on product image
+        let pmTouchStartX = null;
+        pm.img?.addEventListener("touchstart", (e) => {
+          if (!e.touches || e.touches.length !== 1) return;
+          pmTouchStartX = e.touches[0].clientX;
+        }, { passive: true });
+
+        pm.img?.addEventListener("touchend", (e) => {
+          if (pmTouchStartX == null) return;
+          const endX = e.changedTouches?.[0]?.clientX ?? pmTouchStartX;
+          const diff = endX - pmTouchStartX;
+          pmTouchStartX = null;
+
+          if (Math.abs(diff) < 35) return;
+          if (diff < 0) pmSetImage(pmIndex + 1);
+          else pmSetImage(pmIndex - 1);
+        }, { passive: true });
+
+        pm.prev?.addEventListener("click", () => pmSetImage(pmIndex - 1));
+        pm.next?.addEventListener("click", () => pmSetImage(pmIndex + 1));
+
+        pm.close?.addEventListener("click", pmClose);
+        pm.modal?.addEventListener("click", (e) => { if (e.target === pm.modal) pmClose(); });
+
+        document.addEventListener("keydown", (e) => {
+          if (!pm.modal?.classList.contains("active")) return;
+          if (e.key === "Escape") pmClose();
+          if (e.key === "ArrowRight") pmSetImage(pmIndex + 1);
+          if (e.key === "ArrowLeft") pmSetImage(pmIndex - 1);
+        });
+
+        pm.add?.addEventListener("click", () => {
+          if (!pmActiveProductEl) return;
+
+          const productName = pmActiveProductEl.getAttribute("data-name") || "Item";
+          const price = parseFloat(pmActiveProductEl.getAttribute("data-price") || "0");
+
+          const selectedSize = pm.sizes.querySelector(".size-btn.selected");
+          const selectedColor = pm.colorsRow.querySelector(".color.selected");
+
+          if (!selectedSize) return showCartToast("Select a size first.");
+          if (!selectedColor) return showCartToast("Select a color first.");
+
+          let quantity = parseInt(pm.qty.value || "1", 10);
+          quantity = Math.max(1, Number.isFinite(quantity) ? quantity : 1);
+
+          const size = selectedSize.textContent.trim();
+          const colorName = selectedColor.getAttribute("data-color") || "Color";
+          const image = pmSources[pmIndex] || (pmActiveProductEl.querySelector(".product-img")?.getAttribute("src") || "");
+
+          const itemKey = `${productName}-${size}-${colorName}`;
+          const existing = cart.find((item) => item.key === itemKey);
+
+          if (existing) existing.quantity += quantity;
+          else cart.push({ key: itemKey, name: productName, price, size, color: colorName, quantity, image });
+
+          updateCartUI();
+          showCartToast(`Added ${quantity}x ${productName} (${size}) in ${colorName}`);
+          pmClose();
+        });
+
+        // Tap a product card -> open fullscreen modal
+        products.forEach((productEl) => {
+          productEl.addEventListener("click", (e) => {
+            // don't open when interacting with card controls
+            const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options");
+            if (interactive) return;
+            openProductModal(productEl);
+          });
         });
 
         /*************************************************************

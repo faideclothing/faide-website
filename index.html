@@ -79,7 +79,7 @@
       .delay-3 { animation-delay: 0.9s; opacity: 0; }
 
       /* =========================================================
-         NAVBAR
+         NAVBAR (fixed height + clean spacing)
       ========================================================= */
       .navbar {
         position: fixed;
@@ -143,6 +143,7 @@
       }
       .navbar.shrink .faide-wordmark-img { transform: scale(0.93); transform-origin: left center; }
 
+      /* ✅ Correct anchor offset for fixed nav */
       #drop, #lookbook, #shop, #about, #footer { scroll-margin-top: calc(var(--nav-h) + 18px); }
 
       @media (max-width: 768px) {
@@ -161,7 +162,7 @@
       }
 
       /* =========================================================
-         SECTION SPACING
+         SECTION SPACING (consistent rhythm)
       ========================================================= */
       .hero,
       .lookbook,
@@ -171,6 +172,7 @@
         padding-bottom: var(--section-y);
       }
 
+      /* Hero needs extra top space because navbar is fixed */
       .hero{
         padding-top: calc(var(--nav-h) + 70px);
         padding-bottom: 100px;
@@ -218,7 +220,10 @@
         background: radial-gradient(80% 60% at 50% 40%, rgba(168,85,247,0.12), rgba(0,0,0,0.85) 70%, rgba(0,0,0,0.95));
       }
 
-      .hero-content{ max-width: 900px; margin: 0 auto; }
+      .hero-content{
+        max-width: 900px;
+        margin: 0 auto;
+      }
 
       .hero-title {
         font-size: var(--h1);
@@ -303,6 +308,7 @@
         text-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
       }
 
+      /* Title alignment system */
       .aligned-title {
         max-width: var(--container);
         margin: 0 auto;
@@ -310,11 +316,14 @@
         padding-right: var(--px);
       }
       @media (max-width: 768px){
-        .aligned-title{ padding-left: var(--px-sm); padding-right: var(--px-sm); }
+        .aligned-title{
+          padding-left: var(--px-sm);
+          padding-right: var(--px-sm);
+        }
       }
 
       /* =========================================================
-         LOOKBOOK
+         LOOKBOOK (fixed sizing + container)
       ========================================================= */
       .lookbook { padding-left: 0; padding-right: 0; }
 
@@ -380,168 +389,9 @@
       }
 
       /* =========================================================
-         FULLSCREEN GALLERY (LOOKBOOK)
+         SHOP (fixed spacing + FADE aesthetic cards)
       ========================================================= */
-      .gallery-modal{
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.92);
-        z-index: 2600;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.25s ease;
-      }
-      .gallery-modal.active{
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      .gallery-frame{
-        position: absolute;
-        inset: 0;
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-      }
-
-      .gallery-topbar{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-        padding: 18px 18px;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-        background: rgba(10,10,10,0.55);
-        backdrop-filter: blur(10px);
-      }
-
-      .gallery-meta{
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        min-width: 0;
-      }
-      .gallery-title{
-        font-weight: 900;
-        color: var(--primary);
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        font-size: 0.95rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .gallery-counter{
-        color: #888;
-        font-size: 0.85rem;
-        font-weight: 700;
-      }
-
-      .gallery-btn{
-        border: 1px solid rgba(255,255,255,0.14);
-        background: rgba(255,255,255,0.03);
-        color: #fff;
-        padding: 10px 14px;
-        border-radius: 999px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-weight: 800;
-        letter-spacing: 0.02em;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .gallery-btn:hover{
-        background: rgba(255,255,255,0.08);
-        border-color: rgba(255,255,255,0.24);
-        transform: translateY(-1px);
-      }
-
-      .gallery-stage{
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 18px;
-      }
-
-      /* arrows */
-      .gallery-nav{
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 52px;
-        height: 52px;
-        border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.14);
-        background: rgba(255,255,255,0.04);
-        color: #fff;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-        user-select: none;
-      }
-      .gallery-nav:hover{
-        background: rgba(255,255,255,0.10);
-        border-color: rgba(255,255,255,0.26);
-      }
-      .gallery-prev{ left: 18px; }
-      .gallery-next{ right: 18px; }
-
-      @media (max-width: 768px){
-        .gallery-prev{ left: 10px; }
-        .gallery-next{ right: 10px; }
-        .gallery-nav{ width: 46px; height: 46px; }
-      }
-
-      /* --- Gallery zoom --- */
-      .gallery-viewport{
-        width: min(1200px, 92vw);
-        height: min(78vh, 760px);
-        position: relative;
-        overflow: hidden;
-        touch-action: pan-x pan-y;
-        border-radius: 18px;
-        border: 1px solid rgba(255,255,255,0.10);
-        background:
-          radial-gradient(80% 80% at 50% 35%, rgba(168,85,247,0.10), rgba(10,10,10,0.95) 70%),
-          linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.00));
-      }
-
-      .gallery-zoom-img{
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        display: block;
-        transform-origin: center center;
-        transform: translate3d(0,0,0) scale(1);
-        transition: transform 140ms ease;
-        user-select: none;
-        -webkit-user-drag: none;
-        cursor: zoom-in;
-      }
-
-      .gallery-zoom-img.zoomed{
-        cursor: grab;
-      }
-      .gallery-zoom-img.zoomed:active{
-        cursor: grabbing;
-      }
-
-      .gallery-bottombar{
-        padding: 12px 18px 18px;
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        color: #777;
-        font-size: 0.85rem;
-      }
-
-      /* =========================================================
-         SHOP
-      ========================================================= */
-      .shop { margin: 0; }
+      .shop { margin: 0; } /* ✅ remove the big gap */
 
       .horizontal-scroll {
         max-width: var(--container);
@@ -576,6 +426,7 @@
         border-radius: var(--card-radius);
       }
 
+      /* ✅ fade aesthetic glow */
       .product::before{
         content:"";
         position:absolute;
@@ -600,7 +451,9 @@
       }
       .product > *{ position: relative; z-index: 1; }
 
-      .product:hover{ transform: translateY(-6px); }
+      .product:hover{
+        transform: translateY(-6px);
+      }
 
       .product-img-container {
         width: 100%;
@@ -807,7 +660,7 @@
       }
 
       /* =========================================================
-         ABOUT
+         ABOUT (clean width)
       ========================================================= */
       .about {
         max-width: 900px;
@@ -823,6 +676,7 @@
         max-width: 70ch;
       }
 
+      /* ✅ UPDATED: remove divider between About + Contact */
       .about-contact {
         margin-top: 18px;
         padding-top: 0;
@@ -832,6 +686,7 @@
         max-width: 720px;
       }
 
+      /* ✅ UPDATED: CONTACT in FAIDE purple */
       .about-contact h4{
         color: var(--primary);
         font-size: 0.95rem;
@@ -860,13 +715,14 @@
       footer a { transition: color 0.25s ease; }
       footer a:hover { color: var(--secondary); }
 
+      /* ✅ UPDATED: remove extra divider inside footer so only 1 divider exists (footer border-top inline) */
       .footer-legal {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 18px;
         padding-top: 28px;
-        border-top: none; /* keep only footer inline border-top divider */
+        border-top: none;
       }
 
       .footer-legal-top {
@@ -893,7 +749,7 @@
       }
 
       /* =========================================================
-         FLOATING CART
+         FLOATING CART (kept)
       ========================================================= */
       .floating-cart {
         position: fixed;
@@ -997,6 +853,7 @@
         list-style: none;
       }
 
+      /* ✅ UPGRADED CART ITEM UI */
       .cart-item {
         background: var(--surface);
         padding: 14px;
@@ -1135,6 +992,7 @@
         transform: scale(1.02);
       }
 
+      /* ✅ DISABLED CHECKOUT */
       .checkout-btn:disabled{
         opacity: 0.45;
         cursor: not-allowed;
@@ -1248,50 +1106,17 @@
       <h2 class="section-title purple-title aligned-title">Lookbook</h2>
 
       <div class="vertical-list">
-        <div class="lookbook-card" role="button" tabindex="0" aria-label="Open Lookbook 1">
+        <div class="lookbook-card">
           <img src="/images/lookbook1.jpg" alt="FAIDE Lookbook 1" class="lookbook-img" />
           <h3 class="lookbook-card-title">Look 1</h3>
         </div>
 
-        <div class="lookbook-card" role="button" tabindex="0" aria-label="Open Lookbook 2">
+        <div class="lookbook-card">
           <img src="/images/lookbook2.jpg" alt="FAIDE Lookbook 2" class="lookbook-img" />
           <h3 class="lookbook-card-title">Look 2</h3>
         </div>
       </div>
     </section>
-
-    <!-- ✅ FULLSCREEN LOOKBOOK GALLERY MODAL -->
-    <div id="gallery-modal" class="gallery-modal" aria-hidden="true" role="dialog" aria-label="Lookbook gallery">
-      <div class="gallery-frame" id="gallery-frame">
-        <div class="gallery-topbar">
-          <div class="gallery-meta">
-            <div class="gallery-title" id="gallery-title">Look</div>
-            <div class="gallery-counter" id="gallery-counter">1 / 1</div>
-          </div>
-
-          <button type="button" class="gallery-btn" id="gallery-close" aria-label="Close gallery">
-            Close
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
-            </svg>
-          </button>
-        </div>
-
-        <div class="gallery-stage">
-          <button type="button" class="gallery-nav gallery-prev" id="gallery-prev" aria-label="Previous image">‹</button>
-
-          <div class="gallery-viewport" id="gallery-viewport">
-            <img id="gallery-img" class="gallery-zoom-img" alt="Lookbook image" src="" />
-          </div>
-
-          <button type="button" class="gallery-nav gallery-next" id="gallery-next" aria-label="Next image">›</button>
-        </div>
-
-        <div class="gallery-bottombar">
-          <span>Tip: Double tap / Double click to zoom • Pinch to zoom • Drag to pan</span>
-        </div>
-      </div>
-    </div>
 
     <!-- SHOP -->
     <section id="shop" class="shop">
@@ -1484,6 +1309,7 @@
     </section>
 
     <!-- FOOTER -->
+    <!-- ✅ Only divider kept is THIS border-top on footer -->
     <footer id="footer" style="background:#0a0a0a; border-top:1px solid var(--border); padding: 42px 32px 40px;">
       <div style="max-width: 1200px; margin: 0 auto;">
         <div class="footer-legal">
@@ -1555,6 +1381,7 @@
           <span class="cart-total-value">R<span id="cart-total">0.00</span></span>
         </div>
 
+        <!-- ✅ starts disabled, JS will enable if cart has items -->
         <button class="checkout-btn" id="checkout-btn" type="button" disabled title="Add items to checkout">
           Proceed to Checkout
         </button>
@@ -1676,7 +1503,7 @@
       /*************************************************************
        * CART + WHATSAPP CHECKOUT
        *************************************************************/
-      const WHATSAPP_NUMBER = "27695603929";
+      const WHATSAPP_NUMBER = "27695603929"; // no +, no spaces
       let cart = [];
 
       function showCartToast(message) {
@@ -1718,7 +1545,7 @@
       }
 
       /*************************************************************
-       * POLICY MODAL
+       * POLICY MODAL (REAL CONTENT)
        *************************************************************/
       const policyModal = document.getElementById("policy-modal");
       const modalTitle = document.getElementById("modal-title");
@@ -1731,18 +1558,21 @@
           content: `
             <p style="margin-bottom:14px;"><strong>FAIDE Privacy Policy</strong></p>
             <p style="margin-bottom:14px;">We respect your privacy. This policy explains what information we collect, why we collect it, and how we use it.</p>
+
             <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">What we collect</h3>
             <ul style="margin-left:18px; margin-bottom:14px;">
               <li>Contact details you provide (name, phone number, email).</li>
               <li>Order details (items, size, color, quantity, delivery address).</li>
               <li>Basic site analytics (to improve performance and experience).</li>
             </ul>
+
             <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">How we use it</h3>
             <ul style="margin-left:18px; margin-bottom:14px;">
               <li>To process and fulfill your order.</li>
               <li>To communicate about your order (shipping updates, questions).</li>
               <li>To improve the website and product experience.</li>
             </ul>
+
             <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Your choices</h3>
             <p style="margin-bottom:14px;">You can request to update or delete your information by contacting us at <a style="color:var(--primary); text-decoration:none;" href="mailto:faideclothingsa@gmail.com">faideclothingsa@gmail.com</a>.</p>
           `
@@ -1752,13 +1582,16 @@
           content: `
             <p style="margin-bottom:14px;"><strong>FAIDE Terms of Service</strong></p>
             <p style="margin-bottom:14px;">By using this website and placing an order, you agree to the terms below.</p>
+
             <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Orders</h3>
             <ul style="margin-left:18px; margin-bottom:14px;">
               <li>Orders are confirmed via WhatsApp after you submit your cart.</li>
               <li>We may contact you if we need size/color confirmation or address clarification.</li>
             </ul>
+
             <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Pricing</h3>
             <p style="margin-bottom:14px;">Prices are listed in ZAR (R). We reserve the right to correct errors and update pricing.</p>
+
             <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Availability</h3>
             <p style="margin-bottom:14px;">Stock availability may change. If an item is unavailable, we’ll offer an alternative or refund.</p>
           `
@@ -1768,13 +1601,16 @@
           content: `
             <p style="margin-bottom:14px;"><strong>Returns & Exchanges</strong></p>
             <p style="margin-bottom:14px;">If something isn’t right, we’ll work with you.</p>
+
             <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Eligibility</h3>
             <ul style="margin-left:18px; margin-bottom:14px;">
               <li>Items must be unworn, unwashed, and in original condition.</li>
               <li>Request must be made within 7 days of delivery.</li>
             </ul>
+
             <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Exchanges</h3>
             <p style="margin-bottom:14px;">Size exchanges are accepted if stock is available.</p>
+
             <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">How to request</h3>
             <p style="margin-bottom:14px;">Contact us on WhatsApp or email with your order details.</p>
           `
@@ -1784,13 +1620,16 @@
           content: `
             <p style="margin-bottom:14px;"><strong>Shipping Policy</strong></p>
             <p style="margin-bottom:14px;">We ship orders within South Africa. Delivery times depend on your location.</p>
+
             <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Processing time</h3>
             <p style="margin-bottom:14px;">Orders are typically processed within 1–3 business days after confirmation.</p>
+
             <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Delivery</h3>
             <ul style="margin-left:18px; margin-bottom:14px;">
               <li>Estimated delivery: 2–7 business days (varies by region).</li>
               <li>Tracking may be provided depending on courier service.</li>
             </ul>
+
             <p style="margin-bottom:14px;">Questions? Email <a style="color:var(--primary); text-decoration:none;" href="mailto:faideclothingsa@gmail.com">faideclothingsa@gmail.com</a></p>
           `
         },
@@ -1904,6 +1743,7 @@
         closeCart?.addEventListener("click", closeCartPanel);
         cartOverlay?.addEventListener("click", closeCartPanel);
 
+        // ✅ Guard checkout click (even if some browser ignores disabled)
         checkoutBtn?.addEventListener("click", (e) => {
           if (checkoutBtn.disabled) {
             e.preventDefault();
@@ -1960,6 +1800,7 @@
               </div>
             `;
 
+            // qty / remove handlers
             li.querySelector('[data-action="dec"]').addEventListener("click", () => {
               item.quantity = Math.max(1, item.quantity - 1);
               updateCartUI();
@@ -1984,7 +1825,6 @@
           setCheckoutState();
         }
 
-        // Expand product card (ignore interactive clicks)
         products.forEach((product) => {
           product.addEventListener("click", (e) => {
             const interactive = e.target.closest("button, input, .color, a");
@@ -2026,10 +1866,7 @@
           const addToCartBtn = product.querySelector(".add-to-cart");
           if (!addToCartBtn) return;
 
-          addToCartBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
+          addToCartBtn.addEventListener("click", () => {
             const productName = product.getAttribute("data-name") || "Item";
             const price = parseFloat(product.getAttribute("data-price") || "0");
 
@@ -2045,6 +1882,7 @@
             const size = selectedSize.textContent.trim();
             const color = selectedColor.getAttribute("data-color") || "Color";
 
+            // ✅ capture image without changing product layout
             const imgEl = product.querySelector(".product-img");
             const image = imgEl?.getAttribute("src") || "";
 
@@ -2062,316 +1900,15 @@
           });
         });
 
-        // init cart
+        // init
         updateCartUI();
 
-        // close on ESC (policy/gallery/cart)
         document.addEventListener("keydown", (e) => {
           if (e.key !== "Escape") return;
 
           if (policyModal && policyModal.style.display === "block") hidePolicy();
-          if (cartSidebar?.classList.contains("active")) {
-            cartSidebar.classList.remove("active");
-            cartOverlay?.classList.remove("active");
-            document.body.classList.remove("lock-scroll");
-          }
+          if (cartSidebar?.classList.contains("active")) closeCartPanel();
         });
-
-        /*************************************************************
-         * LOOKBOOK FULLSCREEN GALLERY + ZOOM
-         *************************************************************/
-        const lookbookCards = Array.from(document.querySelectorAll(".lookbook-card"));
-        const galleryModal = document.getElementById("gallery-modal");
-        const galleryImg = document.getElementById("gallery-img");
-        const galleryClose = document.getElementById("gallery-close");
-        const galleryPrev = document.getElementById("gallery-prev");
-        const galleryNext = document.getElementById("gallery-next");
-        const galleryCounter = document.getElementById("gallery-counter");
-        const galleryTitle = document.getElementById("gallery-title");
-        const galleryViewport = document.getElementById("gallery-viewport");
-
-        const galleryItems = lookbookCards
-          .map((card) => {
-            const img = card.querySelector("img");
-            const title = card.querySelector(".lookbook-card-title")?.textContent?.trim() || "Look";
-            return img?.getAttribute("src") ? { src: img.getAttribute("src"), title } : null;
-          })
-          .filter(Boolean);
-
-        let galleryIndex = 0;
-
-        // swipe
-        let touchStartX = null;
-
-        // zoom state
-        let scale = 1;
-        let tx = 0;
-        let ty = 0;
-
-        // drag state
-        let dragging = false;
-        let dragStartX = 0;
-        let dragStartY = 0;
-        let dragStartTx = 0;
-        let dragStartTy = 0;
-
-        // pinch state
-        let pinchStartDist = 0;
-        let pinchStartScale = 1;
-        let pinchMid = { x: 0, y: 0 };
-
-        function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
-
-        function applyTransform() {
-          if (!galleryImg) return;
-          galleryImg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
-          galleryImg.classList.toggle("zoomed", scale > 1.01);
-        }
-
-        function resetZoom() {
-          scale = 1;
-          tx = 0;
-          ty = 0;
-          applyTransform();
-        }
-
-        function setGallery(index) {
-          if (!galleryItems.length) return;
-          galleryIndex = (index + galleryItems.length) % galleryItems.length;
-
-          const item = galleryItems[galleryIndex];
-          galleryImg.src = item.src;
-          galleryImg.alt = item.title;
-          galleryTitle.textContent = item.title;
-          galleryCounter.textContent = `${galleryIndex + 1} / ${galleryItems.length}`;
-
-          resetZoom();
-        }
-
-        function openGallery(index) {
-          if (!galleryItems.length) return;
-          setGallery(index);
-
-          galleryModal.classList.add("active");
-          galleryModal.setAttribute("aria-hidden", "false");
-          document.body.classList.add("lock-scroll");
-
-          galleryClose?.focus();
-        }
-
-        function closeGallery() {
-          galleryModal.classList.remove("active");
-          galleryModal.setAttribute("aria-hidden", "true");
-          document.body.classList.remove("lock-scroll");
-          resetZoom();
-        }
-
-        function nextGallery() { setGallery(galleryIndex + 1); }
-        function prevGallery() { setGallery(galleryIndex - 1); }
-
-        lookbookCards.forEach((card, idx) => {
-          card.addEventListener("click", () => openGallery(idx));
-          clickOnEnterSpace(card, () => openGallery(idx));
-        });
-
-        galleryClose?.addEventListener("click", closeGallery);
-
-        galleryPrev?.addEventListener("click", () => {
-          if (scale > 1.01) return;
-          prevGallery();
-        });
-
-        galleryNext?.addEventListener("click", () => {
-          if (scale > 1.01) return;
-          nextGallery();
-        });
-
-        // click outside closes
-        galleryModal?.addEventListener("click", (e) => {
-          if (e.target === galleryModal) closeGallery();
-        });
-
-        // gallery keyboard
-        document.addEventListener("keydown", (e) => {
-          if (!galleryModal?.classList.contains("active")) return;
-          if (e.key === "Escape") closeGallery();
-          if (scale <= 1.01 && e.key === "ArrowRight") nextGallery();
-          if (scale <= 1.01 && e.key === "ArrowLeft") prevGallery();
-        });
-
-        // double tap / double click zoom
-        let lastTap = 0;
-
-        function toggleZoomAt(clientX, clientY) {
-          if (!galleryViewport) return;
-
-          const rect = galleryViewport.getBoundingClientRect();
-          const x = clientX - rect.left - rect.width / 2;
-          const y = clientY - rect.top - rect.height / 2;
-
-          if (scale <= 1.01) {
-            scale = 2.2;
-            tx = -x;
-            ty = -y;
-          } else {
-            resetZoom();
-            return;
-          }
-
-          tx = clamp(tx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
-          ty = clamp(ty, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
-
-          applyTransform();
-        }
-
-        galleryImg?.addEventListener("dblclick", (e) => {
-          e.preventDefault();
-          toggleZoomAt(e.clientX, e.clientY);
-        });
-
-        // scroll wheel zoom
-        galleryViewport?.addEventListener("wheel", (e) => {
-          if (!galleryModal?.classList.contains("active")) return;
-          e.preventDefault();
-
-          const delta = e.deltaY > 0 ? -0.12 : 0.12;
-          const next = clamp(scale + delta, 1, 3);
-
-          const rect = galleryViewport.getBoundingClientRect();
-          const cx = e.clientX - rect.left - rect.width / 2;
-          const cy = e.clientY - rect.top - rect.height / 2;
-
-          const ratio = next / scale;
-          tx = (tx - cx) * ratio + cx;
-          ty = (ty - cy) * ratio + cy;
-
-          scale = next;
-
-          tx = clamp(tx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
-          ty = clamp(ty, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
-
-          applyTransform();
-        }, { passive: false });
-
-        // drag pan (mouse)
-        galleryImg?.addEventListener("mousedown", (e) => {
-          if (scale <= 1.01) return;
-          e.preventDefault();
-          dragging = true;
-          dragStartX = e.clientX;
-          dragStartY = e.clientY;
-          dragStartTx = tx;
-          dragStartTy = ty;
-        });
-
-        window.addEventListener("mousemove", (e) => {
-          if (!dragging || !galleryViewport) return;
-          const dx = e.clientX - dragStartX;
-          const dy = e.clientY - dragStartY;
-
-          const rect = galleryViewport.getBoundingClientRect();
-          tx = clamp(dragStartTx + dx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
-          ty = clamp(dragStartTy + dy, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
-          applyTransform();
-        });
-
-        window.addEventListener("mouseup", () => { dragging = false; });
-
-        // touch helpers
-        function distance(t1, t2) {
-          const dx = t2.clientX - t1.clientX;
-          const dy = t2.clientY - t1.clientY;
-          return Math.hypot(dx, dy);
-        }
-
-        galleryViewport?.addEventListener("touchstart", (e) => {
-          if (!galleryModal?.classList.contains("active")) return;
-
-          const now = Date.now();
-          if (e.touches.length === 1) {
-            if (now - lastTap < 260) {
-              const t = e.touches[0];
-              toggleZoomAt(t.clientX, t.clientY);
-              lastTap = 0;
-              return;
-            }
-            lastTap = now;
-          }
-
-          if (e.touches.length === 1) {
-            touchStartX = e.touches[0].clientX;
-
-            if (scale > 1.01) {
-              dragging = true;
-              dragStartX = e.touches[0].clientX;
-              dragStartY = e.touches[0].clientY;
-              dragStartTx = tx;
-              dragStartTy = ty;
-            }
-          }
-
-          if (e.touches.length === 2) {
-            pinchStartDist = distance(e.touches[0], e.touches[1]);
-            pinchStartScale = scale;
-            pinchMid = {
-              x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
-              y: (e.touches[0].clientY + e.touches[1].clientY) / 2
-            };
-          }
-        }, { passive: true });
-
-        galleryViewport?.addEventListener("touchmove", (e) => {
-          if (!galleryModal?.classList.contains("active") || !galleryViewport) return;
-
-          if (e.touches.length === 2) {
-            const d = distance(e.touches[0], e.touches[1]);
-            const next = clamp(pinchStartScale * (d / pinchStartDist), 1, 3);
-
-            const rect = galleryViewport.getBoundingClientRect();
-            const cx = pinchMid.x - rect.left - rect.width / 2;
-            const cy = pinchMid.y - rect.top - rect.height / 2;
-
-            const ratio = next / scale;
-            tx = (tx - cx) * ratio + cx;
-            ty = (ty - cy) * ratio + cy;
-            scale = next;
-
-            tx = clamp(tx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
-            ty = clamp(ty, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
-
-            applyTransform();
-            return;
-          }
-
-          if (e.touches.length === 1 && scale > 1.01 && dragging) {
-            const t = e.touches[0];
-            const dx = t.clientX - dragStartX;
-            const dy = t.clientY - dragStartY;
-
-            const rect = galleryViewport.getBoundingClientRect();
-            tx = clamp(dragStartTx + dx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
-            ty = clamp(dragStartTy + dy, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
-
-            applyTransform();
-          }
-        }, { passive: true });
-
-        galleryViewport?.addEventListener("touchend", (e) => {
-          dragging = false;
-
-          if (scale > 1.01) return;
-
-          if (touchStartX == null) return;
-          const endX = e.changedTouches?.[0]?.clientX ?? null;
-          if (endX == null) return;
-
-          const diff = endX - touchStartX;
-          touchStartX = null;
-
-          if (Math.abs(diff) < 40) return;
-          if (diff < 0) nextGallery();
-          else prevGallery();
-        }, { passive: true });
       });
     </script>
 

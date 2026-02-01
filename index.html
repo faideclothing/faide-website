@@ -389,9 +389,9 @@
       }
 
       /* =========================================================
-         SHOP (fixed spacing + FAIDE Essentials purple aesthetic)
+         SHOP (fixed spacing + FADE aesthetic cards)
       ========================================================= */
-      .shop { margin: 0; }
+      .shop { margin: 0; } /* ✅ remove the big gap */
 
       .horizontal-scroll {
         max-width: var(--container);
@@ -416,7 +416,7 @@
         background: transparent;
         color: #fff;
         text-align: left;
-        transition: transform 0.32s ease, box-shadow 0.32s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         display: flex;
         flex-direction: column;
         scroll-snap-align: center;
@@ -424,10 +424,9 @@
         position: relative;
         cursor: pointer;
         border-radius: var(--card-radius);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
       }
 
+      /* ✅ fade aesthetic glow */
       .product::before{
         content:"";
         position:absolute;
@@ -441,22 +440,19 @@
         pointer-events:none;
         z-index: 0;
       }
-
       .product::after{
         content:"";
         position:absolute;
         inset:0;
         border-radius: var(--card-radius);
-        border: 1px solid rgba(168,85,247,0.14);
+        border: 1px solid rgba(255,255,255,0.06);
         pointer-events:none;
         z-index: 0;
       }
-
       .product > *{ position: relative; z-index: 1; }
 
       .product:hover{
         transform: translateY(-6px);
-        box-shadow: 0 18px 50px rgba(147, 51, 234, 0.20);
       }
 
       .product-img-container {
@@ -469,24 +465,10 @@
         position: relative;
         margin-bottom: 14px;
         border-radius: var(--img-radius);
-        border: 1px solid rgba(168,85,247,0.14);
+        border: 1px solid rgba(255,255,255,0.06);
         background:
-          radial-gradient(80% 80% at 50% 35%, rgba(168,85,247,0.12), rgba(10,10,10,0.95) 70%),
+          radial-gradient(80% 80% at 50% 35%, rgba(168,85,247,0.10), rgba(10,10,10,0.95) 70%),
           linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.00));
-      }
-
-      .product-img-container::before{
-        content:"";
-        position:absolute;
-        inset:-1px;
-        border-radius: var(--img-radius);
-        padding: 1px;
-        background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(147,51,234,0.12), rgba(255,255,255,0.06));
-        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        pointer-events:none;
-        opacity: 0.75;
       }
 
       .product-img-container::after{
@@ -504,32 +486,21 @@
         display: block;
         padding: 18px;
         transition: transform 0.35s ease, filter 0.35s ease;
-        filter: drop-shadow(0 18px 28px rgba(0,0,0,0.45)) saturate(1.08);
+        filter: drop-shadow(0 18px 28px rgba(0,0,0,0.45)) saturate(1.05);
       }
-
       .product:hover .product-img{
         transform: translateY(-4px) scale(1.01);
-        filter: drop-shadow(0 22px 34px rgba(0,0,0,0.55)) saturate(1.15);
+        filter: drop-shadow(0 22px 34px rgba(0,0,0,0.55)) saturate(1.12);
       }
 
       .product-info { padding: 8px 8px 4px; }
 
-      .product-label{
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        width: fit-content;
-        padding: 8px 12px;
-        border-radius: 999px;
-        color: #fff;
-        background: linear-gradient(135deg, rgba(147,51,234,0.85), rgba(168,85,247,0.85));
-        border: 1px solid rgba(255,255,255,0.12);
-        box-shadow: 0 12px 26px rgba(147,51,234,0.20);
-        font-weight: 800;
-        letter-spacing: 0.8px;
-        text-transform: uppercase;
-        font-size: 0.72rem;
-        margin-bottom: 10px;
+      .product-label {
+        font-size: 0.9rem;
+        color: #9b4700;
+        font-weight: 600;
+        margin-bottom: 4px;
+        text-transform: capitalize;
       }
 
       .product-header {
@@ -543,29 +514,28 @@
       .product-name-wrapper { flex: 1; }
 
       .product h3 {
-        font-size: 1.02rem;
+        font-size: 1rem;
         margin: 0 0 4px 0;
-        font-weight: 800;
+        font-weight: 600;
         color: #fff;
-        line-height: 1.35;
-        letter-spacing: 0.2px;
+        line-height: 1.4;
       }
 
       .product-category,
       .product-colors-count {
         font-size: 0.92rem;
-        color: rgba(255,255,255,0.62);
+        color: #888;
         font-weight: 400;
         margin-bottom: 8px;
       }
 
       .price {
         font-size: 1rem;
-        color: rgba(255,255,255,0.92);
-        font-weight: 700;
+        color: #fff;
+        font-weight: 600;
         white-space: nowrap;
         flex-shrink: 0;
-        opacity: 0.98;
+        opacity: 0.95;
       }
 
       .options {
@@ -587,7 +557,7 @@
       .option-label {
         font-size: 0.85rem;
         color: #fff;
-        font-weight: 700;
+        font-weight: 600;
         margin-bottom: 8px;
       }
 
@@ -600,23 +570,18 @@
 
       .size-btn {
         height: 40px;
-        border-radius: 10px;
+        border-radius: 8px;
         background: rgba(255,255,255,0.03);
         color: #aaa;
-        border: 1px solid rgba(168,85,247,0.20);
+        border: 1px solid rgba(255,255,255,0.14);
         cursor: pointer;
         transition: all 0.2s ease;
-        font-weight: 600;
+        font-weight: 500;
         font-size: 0.9rem;
       }
 
-      .size-btn:hover { border-color: rgba(168,85,247,0.38); color: #fff; }
-      .size-btn.selected {
-        background: rgba(168,85,247,0.14);
-        color: #fff;
-        border-color: rgba(168,85,247,0.55);
-        box-shadow: 0 10px 26px rgba(147,51,234,0.18);
-      }
+      .size-btn:hover { border-color: rgba(255,255,255,0.22); color: #fff; }
+      .size-btn.selected { background: #111; color: #fff; border-color: #111; }
 
       .colors { display: flex; gap: 8px; margin-bottom: 16px; }
 
@@ -626,7 +591,7 @@
         border-radius: 999px;
         cursor: pointer;
         transition: all 0.2s ease;
-        border: 2px solid rgba(168,85,247,0.18);
+        border: 2px solid transparent;
         position: relative;
       }
 
@@ -642,8 +607,8 @@
         transition: transform 0.2s ease;
       }
 
-      .color:hover { transform: scale(1.08); box-shadow: 0 10px 22px rgba(147, 51, 234, 0.18); }
-      .color.selected { border-color: rgba(168,85,247,0.70); transform: scale(1.03); }
+      .color:hover { transform: scale(1.08); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
+      .color.selected { border-color: #111; transform: scale(1.03); }
       .color.selected::after { transform: translate(-50%, -50%) scale(1); }
 
       .color.black { background: #000; border: 2px solid #ddd; }
@@ -667,28 +632,25 @@
         color: #111;
         text-align: center;
         font-size: 0.95rem;
-        font-weight: 700;
+        font-weight: 600;
       }
 
       .quantity:focus { outline: none; border-color: #111; background: #fff; }
 
       .secondary-btn {
-        background: linear-gradient(135deg, rgba(147,51,234,0.95), rgba(168,85,247,0.95));
+        background: #111;
         border: none;
         padding: 14px 24px;
         border-radius: 30px;
         color: #fff;
-        font-weight: 800;
+        font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
         font-size: 0.95rem;
         width: 100%;
-        box-shadow: 0 14px 30px rgba(147,51,234,0.25);
-        letter-spacing: 0.6px;
-        text-transform: uppercase;
       }
 
-      .secondary-btn:hover { background: #fff; color: #000; }
+      .secondary-btn:hover { background: #333; }
       .secondary-btn:active { transform: scale(0.98); }
 
       @media (max-width: 768px){
@@ -714,51 +676,36 @@
         max-width: 70ch;
       }
 
-      /* ✅ About contact: remove divider + use plain grey text links */
       .about-contact {
-        margin-top: 22px;
-        padding-top: 0;
-        border-top: none;
+        margin-top: 26px;
+        padding-top: 22px;
+        border-top: 1px solid var(--border);
         display: grid;
         gap: 10px;
         max-width: 720px;
       }
-
       .about-contact h4{
-        color: #ffffff;
+        color:#fff;
         font-size: 0.95rem;
-        font-weight: 900;
+        font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 1.2px;
-        margin: 0 0 10px 0;
+        letter-spacing: 1px;
+        margin: 0 0 6px 0;
       }
-
-      /* ✅ PLAIN TEXT CONTACT LINKS (NO PURPLE BACKGROUND) */
       .about-contact a{
-        background: transparent !important;
-        background-image: none !important;
-        border: none !important;
-        padding: 0 !important;
-        border-radius: 0 !important;
-
-        color: #9a9a9a !important; /* FAIDE grey */
-        font-size: 0.95rem;
-        font-weight: 500;
-        letter-spacing: 0.2px;
-        text-decoration: none;
+        color: var(--muted);
+        text-decoration:none;
         width: fit-content;
         transition: color 0.25s ease;
       }
-      .about-contact a:hover{
-        color: #cfcfcf !important;
-      }
+      .about-contact a:hover{ color: var(--secondary); }
 
       @media (max-width: 768px){
         .about{ padding-left: var(--px-sm); padding-right: var(--px-sm); }
       }
 
       /* =========================================================
-         FOOTER (only ONE divider)
+         FOOTER
       ========================================================= */
       footer a { transition: color 0.25s ease; }
       footer a:hover { color: var(--secondary); }
@@ -768,8 +715,8 @@
         flex-direction: column;
         align-items: center;
         gap: 18px;
-        padding-top: 0;
-        border-top: none; /* ✅ removed internal divider */
+        padding-top: 28px;
+        border-top: 1px solid var(--border);
       }
 
       .footer-legal-top {
@@ -1039,6 +986,7 @@
         transform: scale(1.02);
       }
 
+      /* ✅ DISABLED CHECKOUT */
       .checkout-btn:disabled{
         opacity: 0.45;
         cursor: not-allowed;
@@ -1354,7 +1302,7 @@
       </div>
     </section>
 
-    <!-- FOOTER (one divider only = border-top here) -->
+    <!-- FOOTER -->
     <footer id="footer" style="background:#0a0a0a; border-top:1px solid var(--border); padding: 42px 32px 40px;">
       <div style="max-width: 1200px; margin: 0 auto;">
         <div class="footer-legal">
@@ -1426,6 +1374,7 @@
           <span class="cart-total-value">R<span id="cart-total">0.00</span></span>
         </div>
 
+        <!-- ✅ starts disabled, JS will enable if cart has items -->
         <button class="checkout-btn" id="checkout-btn" type="button" disabled title="Add items to checkout">
           Proceed to Checkout
         </button>
@@ -1787,6 +1736,7 @@
         closeCart?.addEventListener("click", closeCartPanel);
         cartOverlay?.addEventListener("click", closeCartPanel);
 
+        // ✅ Guard checkout click (even if some browser ignores disabled)
         checkoutBtn?.addEventListener("click", (e) => {
           if (checkoutBtn.disabled) {
             e.preventDefault();
@@ -1843,6 +1793,7 @@
               </div>
             `;
 
+            // qty / remove handlers
             li.querySelector('[data-action="dec"]').addEventListener("click", () => {
               item.quantity = Math.max(1, item.quantity - 1);
               updateCartUI();
@@ -1863,6 +1814,7 @@
 
           cartTotalEl.textContent = total.toFixed(2);
           cartCountEl.textContent = String(itemCount);
+
           setCheckoutState();
         }
 
@@ -1923,6 +1875,7 @@
             const size = selectedSize.textContent.trim();
             const color = selectedColor.getAttribute("data-color") || "Color";
 
+            // ✅ capture image without changing product layout
             const imgEl = product.querySelector(".product-img");
             const image = imgEl?.getAttribute("src") || "";
 
@@ -1940,6 +1893,7 @@
           });
         });
 
+        // init
         updateCartUI();
 
         document.addEventListener("keydown", (e) => {

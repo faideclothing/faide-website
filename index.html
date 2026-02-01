@@ -558,7 +558,7 @@
       .horizontal-scroll::-webkit-scrollbar-track { background: #0b0b0b; border-radius: 10px; }
       .horizontal-scroll::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
 
-      /* ✅ Solid card (no glow), higher contrast */
+      /* ✅ Solid card */
       .product {
         min-width: 360px;
         padding: 14px;
@@ -580,16 +580,27 @@
         transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
       }
 
-      /* ✅ kill any previous glow layers */
       .product::before,
       .product::after { content: none !important; }
 
-      .product:hover{
-        transform: translateY(-6px);
-        border-color: rgba(168,85,247,0.40);
-        box-shadow:
-          0 18px 44px rgba(0,0,0,0.80),
-          0 1px 0 rgba(255,255,255,0.04) inset;
+      /* ✅ Hover effects ONLY on real hover devices (fixes long-press "sticky hover" on mobile) */
+      @media (hover: hover) and (pointer: fine) {
+        .product:hover{
+          transform: translateY(-6px);
+          border-color: rgba(168,85,247,0.40);
+          box-shadow:
+            0 18px 44px rgba(0,0,0,0.80),
+            0 1px 0 rgba(255,255,255,0.04) inset;
+        }
+        .product:hover .product-img{
+          transform: translateY(-4px) scale(1.01);
+          filter: drop-shadow(0 22px 34px rgba(0,0,0,0.62)) saturate(1.12);
+        }
+        .product:hover .options{
+          opacity: 1;
+          max-height: 520px;
+          transform: translateY(0);
+        }
       }
 
       .product-img-container {
@@ -603,7 +614,6 @@
         margin-bottom: 14px;
         border-radius: var(--img-radius);
 
-        /* ✅ cleaner image plate (no heavy purple fog) */
         border: 1px solid rgba(255,255,255,0.10);
         background:
           radial-gradient(120% 90% at 50% 35%, rgba(255,255,255,0.035), rgba(0,0,0,0.92) 70%),
@@ -631,12 +641,7 @@
         user-select: none;
         -webkit-user-drag: none;
       }
-      .product:hover .product-img{
-        transform: translateY(-4px) scale(1.01);
-        filter: drop-shadow(0 22px 34px rgba(0,0,0,0.62)) saturate(1.12);
-      }
 
-      /* ✅ pager dots stay */
       .img-pager{
         position:absolute;
         left: 50%;
@@ -668,7 +673,6 @@
 
       .product-info { padding: 10px 10px 6px; }
 
-      /* ✅ Labels = purple (like your screenshot accent) */
       .product-label {
         font-size: 0.78rem;
         color: var(--primary);
@@ -724,11 +728,17 @@
         transition: opacity 0.25s ease, max-height 0.35s ease, transform 0.25s ease;
       }
 
-      .product:hover .options,
+      /* ✅ Only show options when explicitly expanded (desktop hover handled above) */
       .product.expanded .options {
         opacity: 1;
         max-height: 520px;
         transform: translateY(0);
+      }
+
+      /* ✅ On touch devices: keep options hidden to prevent long-press showing the panel */
+      @media (hover: none) and (pointer: coarse) {
+        .options { display: none !important; }
+        .product { cursor: default; }
       }
 
       .option-label {
@@ -803,6 +813,51 @@
       .color.white::after { color: #000; }
       .color.grey { background: #666; }
 
+      /* =========================================================
+         ✅ Quantity Stepper (Shop Card + Product Modal)
+      ========================================================= */
+      .qty-stepper-ui{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.035);
+        border: 1px solid rgba(255,255,255,0.14);
+      }
+      .qty-stepper-ui .qty-btn-ui{
+        width: 42px;
+        height: 40px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(255,255,255,0.02);
+        color: #fff;
+        cursor: pointer;
+        font-weight: 950;
+        font-size: 1.2rem;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        transition: background 0.2s ease, transform 0.12s ease, border-color 0.2s ease;
+      }
+      .qty-stepper-ui .qty-btn-ui:hover{
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(255,255,255,0.22);
+      }
+      .qty-stepper-ui .qty-btn-ui:active{ transform: scale(0.98); }
+      .qty-stepper-ui .qty-value-ui{
+        flex: 1;
+        text-align: center;
+        font-size: 1.05rem;
+        font-weight: 950;
+        color: #fff;
+        user-select: none;
+      }
+
       .quantity-wrapper {
         display: flex;
         align-items: center;
@@ -810,28 +865,10 @@
         margin-bottom: 18px;
       }
 
-      /* ✅ Dark quantity (no big white pill) */
-      .quantity {
-        width: 100%;
-        padding: 12px 14px;
-        border-radius: 14px;
-        background: rgba(255,255,255,0.035);
-        border: 1px solid rgba(255,255,255,0.14);
-        color: #fff;
-        text-align: center;
-        font-size: 1rem;
-        font-weight: 900;
-        appearance: textfield;
-      }
-      .quantity::-webkit-outer-spin-button,
-      .quantity::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-      .quantity:focus {
-        outline: none;
-        border-color: rgba(168,85,247,0.65);
-        box-shadow: 0 0 0 3px rgba(168,85,247,0.16);
-      }
+      /* Hide old number inputs (we switched to stepper UI) */
+      .quantity{ display:none !important; }
 
-      /* ✅ Add to Bag = FAIDE purple button (no grey) */
+      /* ✅ Add to Bag */
       .secondary-btn {
         background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
         border: 1px solid rgba(255,255,255,0.10);
@@ -854,6 +891,18 @@
         box-shadow: 0 16px 40px rgba(147, 51, 234, 0.34);
       }
       .secondary-btn:active { transform: scale(0.99); }
+
+      /* ✅ Disabled state (Add to Bag until size + color selected) */
+      .secondary-btn:disabled{
+        opacity: 0.45;
+        cursor: not-allowed;
+        transform: none !important;
+        filter: none !important;
+        box-shadow: none !important;
+        background: #222 !important;
+        color: #777 !important;
+        border-color: rgba(255,255,255,0.08) !important;
+      }
 
       @media (max-width: 768px){
         .horizontal-scroll{ padding-left: var(--px-sm); padding-right: var(--px-sm); gap: 16px; }
@@ -1394,10 +1443,14 @@
               <div class="colors" id="pm-colors-row"></div>
 
               <div class="quantity-wrapper">
-                <input type="number" min="1" value="1" class="quantity" id="pm-qty" aria-label="Quantity" />
+                <div class="qty-stepper-ui" data-qty-root="pm">
+                  <button type="button" class="qty-btn-ui" data-qty-btn="dec" aria-label="Decrease quantity">−</button>
+                  <div class="qty-value-ui" data-qty-value>1</div>
+                  <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
+                </div>
               </div>
 
-              <button type="button" class="secondary-btn" id="pm-add">Add to Bag</button>
+              <button type="button" class="secondary-btn" id="pm-add" disabled>Add to Bag</button>
             </div>
           </div>
 
@@ -1449,10 +1502,14 @@
               </div>
 
               <div class="quantity-wrapper">
-                <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
+                <div class="qty-stepper-ui" data-qty-root="card">
+                  <button type="button" class="qty-btn-ui" data-qty-btn="dec" aria-label="Decrease quantity">−</button>
+                  <div class="qty-value-ui" data-qty-value>1</div>
+                  <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
+                </div>
               </div>
 
-              <button type="button" class="secondary-btn add-to-cart">Add to Bag</button>
+              <button type="button" class="secondary-btn add-to-cart" disabled>Add to Bag</button>
             </div>
           </div>
         </div>
@@ -1492,10 +1549,14 @@
               </div>
 
               <div class="quantity-wrapper">
-                <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
+                <div class="qty-stepper-ui" data-qty-root="card">
+                  <button type="button" class="qty-btn-ui" data-qty-btn="dec" aria-label="Decrease quantity">−</button>
+                  <div class="qty-value-ui" data-qty-value>1</div>
+                  <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
+                </div>
               </div>
 
-              <button type="button" class="secondary-btn add-to-cart">Add to Bag</button>
+              <button type="button" class="secondary-btn add-to-cart" disabled>Add to Bag</button>
             </div>
           </div>
         </div>
@@ -1534,10 +1595,14 @@
               </div>
 
               <div class="quantity-wrapper">
-                <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
+                <div class="qty-stepper-ui" data-qty-root="card">
+                  <button type="button" class="qty-btn-ui" data-qty-btn="dec" aria-label="Decrease quantity">−</button>
+                  <div class="qty-value-ui" data-qty-value>1</div>
+                  <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
+                </div>
               </div>
 
-              <button type="button" class="secondary-btn add-to-cart">Add to Bag</button>
+              <button type="button" class="secondary-btn add-to-cart" disabled>Add to Bag</button>
             </div>
           </div>
         </div>
@@ -1576,10 +1641,14 @@
               </div>
 
               <div class="quantity-wrapper">
-                <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
+                <div class="qty-stepper-ui" data-qty-root="card">
+                  <button type="button" class="qty-btn-ui" data-qty-btn="dec" aria-label="Decrease quantity">−</button>
+                  <div class="qty-value-ui" data-qty-value>1</div>
+                  <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
+                </div>
               </div>
 
-              <button type="button" class="secondary-btn add-to-cart">Add to Bag</button>
+              <button type="button" class="secondary-btn add-to-cart" disabled>Add to Bag</button>
             </div>
           </div>
         </div>
@@ -1791,7 +1860,7 @@
       })();
 
       /*************************************************************
-       * ✅ PRODUCT ALT IMAGES (hoodie.png -> hoodie2.png etc) + SWIPE
+       * ✅ PRODUCT ALT IMAGES + SWIPE
        *************************************************************/
       function buildVariantSrc(baseSrc, n) {
         const qIndex = baseSrc.indexOf("?");
@@ -1880,12 +1949,8 @@
           const dy = e.touches[0].clientY - startY;
 
           if (!locked) {
-            if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) {
-              locked = true;
-            } else if (Math.abs(dy) > 10) {
-              tracking = false;
-              return;
-            }
+            if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) locked = true;
+            else if (Math.abs(dy) > 10) { tracking = false; return; }
           }
 
           if (locked) e.preventDefault();
@@ -1902,15 +1967,11 @@
           if (diff < 0) setIndex(index + 1);
           else setIndex(index - 1);
         }, { passive: true });
-
-        // NOTE: removed click-to-advance so tapping the card can open fullscreen modal
       }
 
       async function initAllProductCarousels() {
         const products = Array.from(document.querySelectorAll(".product"));
-        for (const p of products) {
-          await setupProductImageCarousel(p);
-        }
+        for (const p of products) await setupProductImageCarousel(p);
       }
 
       /*************************************************************
@@ -2072,15 +2133,106 @@
       policyModal?.addEventListener("click", (e) => { if (e.target === policyModal) hidePolicy(); });
 
       /*************************************************************
+       * ✅ Helpers: Nav scroll + active state (fix double highlight / wrong scroll)
+       *************************************************************/
+      function getNavOffsetPx() {
+        const nav = document.querySelector(".navbar");
+        const navH = nav?.getBoundingClientRect?.().height || parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 86;
+        return Math.round(navH + 18);
+      }
+
+      function scrollToSectionId(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const top = el.getBoundingClientRect().top + window.pageYOffset - getNavOffsetPx();
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+
+      /*************************************************************
+       * ✅ Qty stepper (supports long-press fast increment)
+       *************************************************************/
+      function setupQtyStepper(rootEl, { onChange } = {}) {
+        const valueEl = rootEl.querySelector("[data-qty-value]");
+        const incBtn = rootEl.querySelector('[data-qty-btn="inc"]');
+        const decBtn = rootEl.querySelector('[data-qty-btn="dec"]');
+        if (!valueEl || !incBtn || !decBtn) return;
+
+        let qty = 1;
+        let holdTimer = null;
+        let holdInterval = null;
+        let speed = 180;
+
+        const render = () => {
+          valueEl.textContent = String(qty);
+          onChange?.(qty);
+        };
+
+        const setQty = (next) => {
+          qty = Math.max(1, next);
+          render();
+        };
+
+        const step = (dir) => setQty(qty + dir);
+
+        const stopHold = () => {
+          clearTimeout(holdTimer);
+          clearInterval(holdInterval);
+          holdTimer = null;
+          holdInterval = null;
+          speed = 180;
+        };
+
+        const startHold = (dir) => {
+          stopHold();
+
+          // initial delay before repeat
+          holdTimer = setTimeout(() => {
+            // repeat interval, accelerate gradually
+            holdInterval = setInterval(() => {
+              step(dir);
+              if (speed > 65) speed -= 10;
+            }, speed);
+          }, 260);
+        };
+
+        const bindBtn = (btn, dir) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            step(dir);
+          });
+
+          // long press on mouse/touch
+          const start = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            startHold(dir);
+            step(dir); // immediate step
+          };
+
+          btn.addEventListener("mousedown", start);
+          btn.addEventListener("touchstart", start, { passive: false });
+
+          ["mouseup", "mouseleave", "touchend", "touchcancel"].forEach((ev) => {
+            btn.addEventListener(ev, stopHold, { passive: true });
+          });
+        };
+
+        bindBtn(incBtn, +1);
+        bindBtn(decBtn, -1);
+
+        // expose getter
+        return { getQty: () => qty, setQty };
+      }
+
+      /*************************************************************
        * MAIN DOM READY
        *************************************************************/
       document.addEventListener("DOMContentLoaded", async () => {
         initAllProductCarousels();
 
         const shopNowBtn = document.getElementById("shop-now-btn");
-        shopNowBtn?.addEventListener("click", () => {
-          document.getElementById("shop")?.scrollIntoView({ behavior: "smooth" });
-        });
+        shopNowBtn?.addEventListener("click", () => scrollToSectionId("shop"));
 
         const navbar = document.querySelector(".navbar");
         const navLinks = document.querySelectorAll(".nav-links a");
@@ -2092,6 +2244,7 @@
         handleShrink();
         window.addEventListener("scroll", handleShrink, { passive: true });
 
+        // ✅ Controlled nav: prevent default anchor jumps + stable active state
         const sectionIds = ["drop", "lookbook", "shop", "about"];
         const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
 
@@ -2106,20 +2259,59 @@
           linkById.get(id)?.classList.add("active");
         }
 
-        if (sections.length) {
-          const observer = new IntersectionObserver(
-            (entries) => {
-              const visible = entries
-                .filter(e => e.isIntersecting)
-                .sort((a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0))[0];
-              if (visible?.target?.id) setActive(visible.target.id);
-            },
-            { threshold: [0.2, 0.35, 0.5, 0.65], rootMargin: "-30% 0px -55% 0px" }
-          );
-          sections.forEach(sec => observer.observe(sec));
-          setActive(sections[0].id);
+        // lock active while clicking nav to prevent flicker
+        let navLock = false;
+        let navUnlockTimer = null;
+
+        navLinks.forEach((a) => {
+          a.addEventListener("click", (e) => {
+            const href = a.getAttribute("href") || "";
+            if (!href.startsWith("#")) return;
+            const id = href.slice(1);
+            if (!id) return;
+
+            e.preventDefault();
+
+            navLock = true;
+            clearTimeout(navUnlockTimer);
+            setActive(id);
+            scrollToSectionId(id);
+
+            // unlock after smooth scroll settles
+            navUnlockTimer = setTimeout(() => { navLock = false; }, 650);
+          });
+        });
+
+        // ✅ Single-source active section based on scroll position (no IntersectionObserver)
+        let raf = null;
+        function updateActiveFromScroll() {
+          if (navLock) return;
+
+          const refY = window.scrollY + getNavOffsetPx() + 10; // reference line below navbar
+          let current = sections[0]?.id || "drop";
+
+          for (const sec of sections) {
+            if (!sec) continue;
+            const top = sec.offsetTop;
+            if (top <= refY) current = sec.id;
+          }
+          setActive(current);
         }
 
+        function onScroll() {
+          if (raf) return;
+          raf = requestAnimationFrame(() => {
+            raf = null;
+            updateActiveFromScroll();
+          });
+        }
+        updateActiveFromScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", () => { updateActiveFromScroll(); }, { passive: true });
+
+        /*************************************************************
+         * CART
+         *************************************************************/
         const products = document.querySelectorAll(".product");
         const floatingCart = document.getElementById("floating-cart");
         const cartSidebar = document.getElementById("cart-sidebar");
@@ -2235,32 +2427,49 @@
           });
         }
 
-        // Keep your quick-add controls (desktop hover).
-        // Mobile users will mainly use the fullscreen product modal.
+        /*************************************************************
+         * ✅ Shop card controls: selection + enable Add to Bag
+         *************************************************************/
         products.forEach((product) => {
+          // stepper setup (desktop only really, since mobile hides .options)
+          const stepperRoot = product.querySelector('.qty-stepper-ui[data-qty-root="card"]');
+          const stepper = stepperRoot ? setupQtyStepper(stepperRoot) : null;
+
           const sizeButtons = product.querySelectorAll(".size-btn");
+          const colorOptions = product.querySelectorAll(".color");
+          const addToCartBtn = product.querySelector(".add-to-cart");
+
+          const updateAddBtn = () => {
+            if (!addToCartBtn) return;
+            const selectedSize = product.querySelector(".size-btn.selected");
+            const selectedColor = product.querySelector(".color.selected");
+            addToCartBtn.disabled = !(selectedSize && selectedColor);
+          };
+
           sizeButtons.forEach((btn) => {
             btn.addEventListener("click", (e) => {
               e.stopPropagation();
               sizeButtons.forEach((b) => b.classList.remove("selected"));
               btn.classList.add("selected");
               product.classList.add("expanded");
+              updateAddBtn();
             });
           });
 
-          const colorOptions = product.querySelectorAll(".color");
           colorOptions.forEach((color) => {
             const select = (e) => {
               e?.stopPropagation?.();
               colorOptions.forEach((c) => c.classList.remove("selected"));
               color.classList.add("selected");
               product.classList.add("expanded");
+              updateAddBtn();
             };
             color.addEventListener("click", select);
             clickOnEnterSpace(color, select);
           });
 
-          const addToCartBtn = product.querySelector(".add-to-cart");
+          updateAddBtn();
+
           if (!addToCartBtn) return;
 
           addToCartBtn.addEventListener("click", (e) => {
@@ -2276,7 +2485,7 @@
             if (!selectedSize) return showCartToast("Select a size first.");
             if (!selectedColor) return showCartToast("Select a color first.");
 
-            let quantity = parseInt(product.querySelector(".quantity")?.value || "1", 10);
+            let quantity = stepper?.getQty?.() ?? 1;
             quantity = Math.max(1, Number.isFinite(quantity) ? quantity : 1);
 
             const size = selectedSize.textContent.trim();
@@ -2294,8 +2503,7 @@
             updateCartUI();
             showCartToast(`Added ${quantity}x ${productName} (${size}) in ${colorName}`);
 
-            const qtyEl = product.querySelector(".quantity");
-            if (qtyEl) qtyEl.value = "1";
+            stepper?.setQty?.(1);
           });
         });
 
@@ -2313,7 +2521,7 @@
         });
 
         /*************************************************************
-         * ✅ SHOP FULLSCREEN PRODUCT MODAL (like lookbook)
+         * ✅ SHOP FULLSCREEN PRODUCT MODAL
          *************************************************************/
         const pm = {
           modal: document.getElementById("product-modal"),
@@ -2333,13 +2541,16 @@
 
           sizes: document.getElementById("pm-sizes"),
           colorsRow: document.getElementById("pm-colors-row"),
-          qty: document.getElementById("pm-qty"),
           add: document.getElementById("pm-add"),
         };
 
         let pmSources = [];
         let pmIndex = 0;
         let pmActiveProductEl = null;
+
+        // modal qty stepper
+        const pmStepperRoot = document.querySelector('.qty-stepper-ui[data-qty-root="pm"]');
+        const pmStepper = pmStepperRoot ? setupQtyStepper(pmStepperRoot) : null;
 
         function pmOpen() {
           if (!pm.modal) return;
@@ -2388,6 +2599,12 @@
           }
         }
 
+        function pmUpdateAddState() {
+          const selectedSize = pm.sizes.querySelector(".size-btn.selected");
+          const selectedColor = pm.colorsRow.querySelector(".color.selected");
+          pm.add.disabled = !(selectedSize && selectedColor);
+        }
+
         function pmRenderSizes(productEl) {
           const original = Array.from(productEl.querySelectorAll(".size-btn")).map(b => b.textContent.trim());
           const sizes = original.length ? original : ["S", "M", "L", "XL"];
@@ -2401,6 +2618,7 @@
             btn.addEventListener("click", () => {
               Array.from(pm.sizes.querySelectorAll(".size-btn")).forEach(x => x.classList.remove("selected"));
               btn.classList.add("selected");
+              pmUpdateAddState();
             });
             pm.sizes.appendChild(btn);
           });
@@ -2429,6 +2647,7 @@
             const select = () => {
               Array.from(pm.colorsRow.querySelectorAll(".color")).forEach(x => x.classList.remove("selected"));
               div.classList.add("selected");
+              pmUpdateAddState();
             };
 
             div.addEventListener("click", select);
@@ -2455,7 +2674,8 @@
           pm.colorsCount.textContent = colorsCount;
           pm.price.textContent = price;
 
-          pm.qty.value = "1";
+          pmStepper?.setQty?.(1);
+          pm.add.disabled = true;
         }
 
         async function openProductModal(productEl) {
@@ -2515,7 +2735,7 @@
           if (!selectedSize) return showCartToast("Select a size first.");
           if (!selectedColor) return showCartToast("Select a color first.");
 
-          let quantity = parseInt(pm.qty.value || "1", 10);
+          let quantity = pmStepper?.getQty?.() ?? 1;
           quantity = Math.max(1, Number.isFinite(quantity) ? quantity : 1);
 
           const size = selectedSize.textContent.trim();
@@ -2533,10 +2753,9 @@
           pmClose();
         });
 
-        // Tap a product card -> open fullscreen modal
+        // ✅ Tap product card -> open fullscreen modal (ONLY on click/tap)
         products.forEach((productEl) => {
           productEl.addEventListener("click", (e) => {
-            // don't open when interacting with card controls
             const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options");
             if (interactive) return;
             openProductModal(productEl);

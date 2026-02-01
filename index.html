@@ -583,7 +583,7 @@
       .product::before,
       .product::after { content: none !important; }
 
-      /* ✅ Hover effects ONLY on real hover devices (fixes long-press "sticky hover" on mobile) */
+      /* ✅ Hover effects ONLY on real hover devices */
       @media (hover: hover) and (pointer: fine) {
         .product:hover{
           transform: translateY(-6px);
@@ -642,34 +642,9 @@
         -webkit-user-drag: none;
       }
 
-      .img-pager{
-        position:absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 10px;
-        z-index: 5;
-        display:flex;
-        gap: 7px;
-        padding: 7px 10px;
-        border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.10);
-        background: rgba(0,0,0,0.35);
-        backdrop-filter: blur(8px);
-        pointer-events: none;
-      }
-      .img-dot{
-        width: 6px;
-        height: 6px;
-        border-radius: 999px;
-        background: rgba(255,255,255,0.28);
-        transition: transform 160ms ease, background 160ms ease, opacity 160ms ease;
-        opacity: 0.9;
-      }
-      .img-dot.active{
-        background: rgba(168,85,247,0.95);
-        transform: scale(1.35);
-        opacity: 1;
-      }
+      /* ✅ REMOVE DOTS COMPLETELY */
+      .img-pager{ display:none !important; }
+      .img-dot{ display:none !important; }
 
       .product-info { padding: 10px 10px 6px; }
 
@@ -735,7 +710,7 @@
         transform: translateY(0);
       }
 
-      /* ✅ On touch devices: keep options hidden to prevent long-press showing the panel */
+      /* ✅ On touch devices: keep options hidden */
       @media (hover: none) and (pointer: coarse) {
         .options { display: none !important; }
         .product { cursor: default; }
@@ -768,13 +743,11 @@
         font-size: 0.95rem;
       }
 
-      /* ✅ FAIDE hover (non-selected) */
       .size-btn:hover:not(.selected) {
         border-color: rgba(168,85,247,0.4);
         color: #fff;
       }
 
-      /* ✅ FAIDE selected state (purple like Add to Bag) */
       .size-btn.selected {
         background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
         color: #fff;
@@ -832,14 +805,14 @@
         gap: 12px;
         width: 100%;
         padding: 10px 12px;
-        border-radius: 999px; /* ✅ pill */
+        border-radius: 999px;
         background: rgba(255,255,255,0.035);
         border: 1px solid rgba(255,255,255,0.14);
       }
       .qty-stepper-ui .qty-btn-ui{
         width: 44px;
         height: 40px;
-        border-radius: 999px; /* ✅ pill */
+        border-radius: 999px;
         border: 1px solid rgba(255,255,255,0.14);
         background: rgba(255,255,255,0.02);
         color: #fff;
@@ -874,10 +847,8 @@
         margin-bottom: 18px;
       }
 
-      /* Hide old number inputs (we switched to stepper UI) */
       .quantity{ display:none !important; }
 
-      /* ✅ Add to Bag */
       .secondary-btn {
         background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
         border: 1px solid rgba(255,255,255,0.10);
@@ -901,7 +872,6 @@
       }
       .secondary-btn:active { transform: scale(0.99); }
 
-      /* ✅ Disabled state (Add to Bag until size + color selected) */
       .secondary-btn:disabled{
         opacity: 0.45;
         cursor: not-allowed;
@@ -1124,7 +1094,6 @@
         transition: all 0.25s ease;
       }
 
-      /* ✅ REMOVE PURPLE GLOW ON CART ITEM HOVER */
       .cart-item:hover {
         border-color: rgba(255,255,255,0.14);
         background: #141414;
@@ -1161,14 +1130,11 @@
         justify-content: center;
       }
 
-      /* =========================================================
-         ✅ CART QTY: pill shape like Add to Bag (gradient shell)
-      ========================================================= */
       .qty-stepper{
         display: inline-flex;
         align-items: center;
         border-radius: 999px;
-        padding: 1px; /* gradient border thickness */
+        padding: 1px;
         background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
         box-shadow: 0 10px 26px rgba(147, 51, 234, 0.22);
       }
@@ -1203,7 +1169,6 @@
         user-select: none;
       }
 
-      /* ✅ REMOVE PURPLE/DEFAULT FOCUS GLOW ON CART QTY BUTTONS */
       .qty-stepper .qty-btn:focus,
       .qty-stepper .qty-btn:focus-visible{
         outline: none;
@@ -1388,12 +1353,12 @@
 
       <div class="vertical-list">
         <div class="lookbook-card" role="button" tabindex="0" aria-label="Open Lookbook 1">
-          <img src="/images/lookbook1.jpg" alt="FAIDE Lookbook 1" class="lookbook-img" />
+          <img src="/images/lookbook1.png" alt="FAIDE Lookbook 1" class="lookbook-img" />
           <h3 class="lookbook-card-title">Look 1</h3>
         </div>
 
         <div class="lookbook-card" role="button" tabindex="0" aria-label="Open Lookbook 2">
-          <img src="/images/lookbook2.jpg" alt="FAIDE Lookbook 2" class="lookbook-img" />
+          <img src="/images/lookbook2.png" alt="FAIDE Lookbook 2" class="lookbook-img" />
           <h3 class="lookbook-card-title">Look 2</h3>
         </div>
       </div>
@@ -1456,7 +1421,7 @@
             <!-- image -->
             <div style="position:relative; overflow:hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.35);">
               <img id="pm-img" class="gallery-zoom-img" alt="Product image" src="" style="cursor: default;" />
-              <div class="img-pager" id="pm-pager" style="pointer-events:none; position:absolute; left:50%; transform:translateX(-50%); bottom:12px;"></div>
+              <!-- ✅ dots removed -->
             </div>
 
             <!-- details -->
@@ -1895,7 +1860,7 @@
       })();
 
       /*************************************************************
-       * ✅ PRODUCT ALT IMAGES + SWIPE
+       * ✅ PRODUCT ALT IMAGES + SWIPE (DOTS REMOVED)
        *************************************************************/
       function buildVariantSrc(baseSrc, n) {
         const qIndex = baseSrc.indexOf("?");
@@ -1942,16 +1907,6 @@
 
         if (sources.length <= 1) return;
 
-        const pager = document.createElement("div");
-        pager.className = "img-pager";
-        const dots = sources.map((_, i) => {
-          const d = document.createElement("span");
-          d.className = "img-dot" + (i === 0 ? " active" : "");
-          pager.appendChild(d);
-          return d;
-        });
-        container.appendChild(pager);
-
         let index = 0;
 
         function setIndex(next) {
@@ -1959,7 +1914,6 @@
           imgEl.style.opacity = "0.3";
           requestAnimationFrame(() => {
             imgEl.src = sources[index];
-            dots.forEach((d, i) => d.classList.toggle("active", i === index));
             setTimeout(() => { imgEl.style.opacity = "1"; }, 60);
           });
         }
@@ -2168,7 +2122,7 @@
       policyModal?.addEventListener("click", (e) => { if (e.target === policyModal) hidePolicy(); });
 
       /*************************************************************
-       * ✅ Helpers: Nav scroll + active state (fix double highlight / wrong scroll)
+       * ✅ Helpers: Nav scroll + active state
        *************************************************************/
       function getNavOffsetPx() {
         const nav = document.querySelector(".navbar");
@@ -2219,10 +2173,7 @@
 
         const startHold = (dir) => {
           stopHold();
-
-          // initial delay before repeat
           holdTimer = setTimeout(() => {
-            // repeat interval, accelerate gradually
             holdInterval = setInterval(() => {
               step(dir);
               if (speed > 65) speed -= 10;
@@ -2237,12 +2188,11 @@
             step(dir);
           });
 
-          // long press on mouse/touch
           const start = (e) => {
             e.preventDefault();
             e.stopPropagation();
             startHold(dir);
-            step(dir); // immediate step
+            step(dir);
           };
 
           btn.addEventListener("mousedown", start);
@@ -2256,7 +2206,6 @@
         bindBtn(incBtn, +1);
         bindBtn(decBtn, -1);
 
-        // expose getter
         return { getQty: () => qty, setQty };
       }
 
@@ -2279,7 +2228,6 @@
         handleShrink();
         window.addEventListener("scroll", handleShrink, { passive: true });
 
-        // ✅ Controlled nav: prevent default anchor jumps + stable active state
         const sectionIds = ["drop", "lookbook", "shop", "about"];
         const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
 
@@ -2294,7 +2242,6 @@
           linkById.get(id)?.classList.add("active");
         }
 
-        // lock active while clicking nav to prevent flicker
         let navLock = false;
         let navUnlockTimer = null;
 
@@ -2312,17 +2259,15 @@
             setActive(id);
             scrollToSectionId(id);
 
-            // unlock after smooth scroll settles
             navUnlockTimer = setTimeout(() => { navLock = false; }, 650);
           });
         });
 
-        // ✅ Single-source active section based on scroll position (no IntersectionObserver)
         let raf = null;
         function updateActiveFromScroll() {
           if (navLock) return;
 
-          const refY = window.scrollY + getNavOffsetPx() + 10; // reference line below navbar
+          const refY = window.scrollY + getNavOffsetPx() + 10;
           let current = sections[0]?.id || "drop";
 
           for (const sec of sections) {
@@ -2464,11 +2409,7 @@
           });
         }
 
-        /*************************************************************
-         * ✅ Shop card controls: selection + enable Add to Bag
-         *************************************************************/
         products.forEach((product) => {
-          // stepper setup (desktop only really, since mobile hides .options)
           const stepperRoot = product.querySelector('.qty-stepper-ui[data-qty-root="card"]');
           const stepper = stepperRoot ? setupQtyStepper(stepperRoot) : null;
 
@@ -2585,7 +2526,6 @@
         let pmIndex = 0;
         let pmActiveProductEl = null;
 
-        // modal qty stepper
         const pmStepperRoot = document.querySelector('.qty-stepper-ui[data-qty-root="pm"]');
         const pmStepper = pmStepperRoot ? setupQtyStepper(pmStepperRoot) : null;
 
@@ -2611,8 +2551,6 @@
           pm.img.style.opacity = "0.25";
           requestAnimationFrame(() => {
             pm.img.src = pmSources[pmIndex];
-            const dots = Array.from(pm.pager.querySelectorAll(".img-dot"));
-            dots.forEach((d, idx) => d.classList.toggle("active", idx === pmIndex));
             pm.subtitle.textContent = `${pmIndex + 1} / ${pmSources.length}`;
             setTimeout(() => (pm.img.style.opacity = "1"), 60);
           });
@@ -2625,15 +2563,6 @@
           const candidates = [base, buildVariantSrc(base, 2), buildVariantSrc(base, 3), buildVariantSrc(base, 4)];
           const checks = await Promise.all(candidates.map((s, i) => (i === 0 ? Promise.resolve(true) : imageExists(s))));
           return candidates.filter((_, i) => checks[i]);
-        }
-
-        function pmRenderDots(count) {
-          pm.pager.innerHTML = "";
-          for (let i = 0; i < count; i++) {
-            const d = document.createElement("span");
-            d.className = "img-dot" + (i === 0 ? " active" : "");
-            pm.pager.appendChild(d);
-          }
         }
 
         function pmUpdateAddState() {
@@ -2723,13 +2652,11 @@
           pmRenderColors(productEl);
 
           pmSources = await pmBuildImagesFromProduct(productEl);
-          pmRenderDots(pmSources.length);
           pmSetImage(0);
 
           pmOpen();
         }
 
-        // swipe on product image
         let pmTouchStartX = null;
         pm.img?.addEventListener("touchstart", (e) => {
           if (!e.touches || e.touches.length !== 1) return;
@@ -2790,7 +2717,6 @@
           pmClose();
         });
 
-        // ✅ Tap product card -> open fullscreen modal (ONLY on click/tap)
         products.forEach((productEl) => {
           productEl.addEventListener("click", (e) => {
             const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options");
@@ -2886,6 +2812,15 @@
         function nextGallery() { setGallery(galleryIndex + 1); }
         function prevGallery() { setGallery(galleryIndex - 1); }
 
+        function clickOnEnterSpace(el, fn) {
+          el.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              fn();
+            }
+          });
+        }
+
         lookbookCards.forEach((card, idx) => {
           card.addEventListener("click", () => openGallery(idx));
           clickOnEnterSpace(card, () => openGallery(idx));
@@ -2913,8 +2848,6 @@
           if (scale <= 1.01 && e.key === "ArrowRight") nextGallery();
           if (scale <= 1.01 && e.key === "ArrowLeft") prevGallery();
         });
-
-        let lastTap = 0;
 
         function toggleZoomAt(clientX, clientY) {
           if (!galleryViewport) return;
@@ -2994,6 +2927,8 @@
           const dy = t2.clientY - t1.clientY;
           return Math.hypot(dx, dy);
         }
+
+        let lastTap = 0;
 
         galleryViewport?.addEventListener("touchstart", (e) => {
           if (!galleryModal?.classList.contains("active")) return;

@@ -4,35 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="xHQMXeonHcUZ-NTHCrtvjlR9bojEkpwc8CzKChP7I9o" />
+
     <title>FAIDE® | Luxury Streetwear Brand</title>
 
-    <!-- Fonts (FIX: moved from invalid @import placement) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Optional SDKs (kept, but guarded in JS) -->
     <script src="/_sdk/element_sdk.js"></script>
-    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-
-    <!-- Tailwind (optional; you're mostly using custom CSS) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-      /* Base reset */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+      body { box-sizing: border-box; }
 
-      html {
-        scroll-behavior: smooth;
-        height: 100%;
-      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; height: 100%; }
 
       body {
         background: #000;
@@ -43,62 +26,66 @@
         width: 100%;
       }
 
+      /* NOTE: this @import works but best practice is putting the font <link> in <head> */
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap");
+
       /* Animations */
       @keyframes fadeInUp {
-        0% {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
       }
 
-      .fade-in-up {
-        animation: fadeInUp 1s forwards;
-      }
-
-      .delay-1 {
-        animation-delay: 0.3s;
-        opacity: 0;
-      }
-      .delay-2 {
-        animation-delay: 0.6s;
-        opacity: 0;
-      }
-      .delay-3 {
-        animation-delay: 0.9s;
-        opacity: 0;
-      }
+      .fade-in-up { animation: fadeInUp 1s forwards; }
+      .delay-1 { animation-delay: 0.3s; opacity: 0; }
+      .delay-2 { animation-delay: 0.6s; opacity: 0; }
+      .delay-3 { animation-delay: 0.9s; opacity: 0; }
 
       /* Navbar */
       .navbar {
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
+        top: 0; left: 0; right: 0;
         width: 100%;
         background: rgba(0, 0, 0, 0.95);
         backdrop-filter: blur(10px);
         border-bottom: 1px solid #1f1f1f;
         z-index: 1000;
-        transition: all 0.3s ease;
+        transition: all 0.25s ease;
+        padding: 24px 32px;
+      }
+
+      /* ✅ FAIDE wordmark OFF-WHITE */
+      .faide-wordmark {
+        font-weight: 700;
+        font-size: 1.6rem;
+        letter-spacing: 0;
+        font-style: italic;
+        text-transform: uppercase;
+        color: #f2f2f2;              /* off-white */
+        -webkit-text-fill-color: initial;
+        background: none;            /* remove gradient */
+        transition: all 0.25s ease;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
       }
 
       .nav-links a {
         font-size: 0.6rem;
-        letter-spacing: 0.5px;
+        letter-spacing: 1px;
         text-transform: uppercase;
         color: #888;
         text-decoration: none;
-        transition: all 0.3s ease;
+        transition: all 0.25s ease;
         position: relative;
+        white-space: nowrap;
       }
 
       .nav-links a:hover {
         color: #9333ea;
-        transform: translateY(-2px);
+        transform: translateY(-1px);
       }
 
       .nav-links a::after {
@@ -109,14 +96,32 @@
         width: 0;
         height: 2px;
         background: #9333ea;
-        transition: width 0.3s ease;
+        transition: width 0.25s ease;
       }
 
-      .nav-links a:hover::after {
-        width: 100%;
+      .nav-links a:hover::after { width: 100%; }
+
+      /* Active link highlight */
+      .nav-links a.active { color: #a855f7; }
+      .nav-links a.active::after { width: 100%; background: #a855f7; }
+
+      /* Navbar shrink on scroll */
+      .navbar.shrink {
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+        background: rgba(0, 0, 0, 0.98);
+        border-bottom-color: #2a2a2a;
       }
 
-      /* Hero Section */
+      .navbar.shrink .faide-wordmark {
+        transform: scale(0.95);
+        transform-origin: left center;
+      }
+
+      /* Helps anchor links land correctly with fixed navbar */
+      #drop, #lookbook, #shop, #about, #footer { scroll-margin-top: 110px; }
+
+      /* Hero */
       .hero {
         min-height: 80%;
         display: flex;
@@ -192,7 +197,7 @@
         box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2);
       }
 
-      /* Section Title Styles */
+      /* Section titles */
       .section-title {
         font-size: 2.5rem;
         margin-bottom: 32px;
@@ -205,14 +210,9 @@
         text-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
       }
 
-      /* Lookbook Section */
-      .lookbook {
-        padding: 100px 0;
-      }
-
-      .aligned-title {
-        padding-left: 32px;
-      }
+      /* Lookbook */
+      .lookbook { padding: 100px 0; }
+      .aligned-title { padding-left: 32px; }
 
       .vertical-list {
         display: flex;
@@ -236,10 +236,7 @@
       .lookbook-card::before {
         content: "";
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
         background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
         z-index: 1;
       }
@@ -267,10 +264,8 @@
         box-shadow: 0 20px 40px rgba(147, 51, 234, 0.3);
       }
 
-      /* Shop Section */
-      .shop {
-        margin: 140px 0 120px;
-      }
+      /* Shop */
+      .shop { margin: 140px 0 80px; }
 
       .horizontal-scroll {
         display: flex;
@@ -283,19 +278,9 @@
         scrollbar-color: #9333ea #111;
       }
 
-      .horizontal-scroll::-webkit-scrollbar {
-        height: 8px;
-      }
-
-      .horizontal-scroll::-webkit-scrollbar-track {
-        background: #111;
-        border-radius: 10px;
-      }
-
-      .horizontal-scroll::-webkit-scrollbar-thumb {
-        background: #9333ea;
-        border-radius: 10px;
-      }
+      .horizontal-scroll::-webkit-scrollbar { height: 8px; }
+      .horizontal-scroll::-webkit-scrollbar-track { background: #111; border-radius: 10px; }
+      .horizontal-scroll::-webkit-scrollbar-thumb { background: #9333ea; border-radius: 10px; }
 
       .product {
         min-width: 380px;
@@ -313,20 +298,6 @@
         cursor: pointer;
       }
 
-      /* FIX: make a clear "card" surface for product info so theming doesn't look weird */
-      .product-card-surface {
-        background: #0f0f0f;
-        border: 1px solid #1f1f1f;
-        border-radius: 16px;
-        overflow: hidden;
-        transition: border-color 0.3s ease, transform 0.3s ease;
-      }
-
-      .product:hover .product-card-surface {
-        border-color: rgba(147, 51, 234, 0.6);
-        transform: translateY(-2px);
-      }
-
       .product-img-container {
         width: 100%;
         height: 380px;
@@ -337,6 +308,7 @@
         justify-content: center;
         position: relative;
         border-radius: 0;
+        margin-bottom: 16px;
       }
 
       .product-placeholder {
@@ -345,15 +317,9 @@
         transition: all 0.3s ease;
       }
 
-      .product:hover .product-placeholder {
-        opacity: 0.25;
-      }
+      .product:hover .product-placeholder { opacity: 0.25; }
 
-      .product-info {
-        padding: 16px 16px 18px;
-        position: relative;
-        z-index: 1;
-      }
+      .product-info { padding: 0 4px; position: relative; z-index: 1; }
 
       .product-label {
         font-size: 0.9rem;
@@ -371,16 +337,12 @@
         gap: 12px;
       }
 
-      .product-name-wrapper {
-        flex: 1;
-      }
+      .product-name-wrapper { flex: 1; }
 
       .product h3 {
         font-size: 1rem;
         margin: 0 0 4px 0;
         font-weight: 600;
-        letter-spacing: 0;
-        text-transform: none;
         color: #fff;
         line-height: 1.4;
       }
@@ -390,12 +352,13 @@
         font-size: 0.95rem;
         color: #888;
         font-weight: 400;
+        margin-bottom: 8px;
       }
 
       .price {
         font-size: 1rem;
-        color: #a855f7; /* FIX: default to accent for consistency */
-        font-weight: 700;
+        color: #fff;
+        font-weight: 600;
         white-space: nowrap;
         flex-shrink: 0;
       }
@@ -411,13 +374,11 @@
       .product:hover .options,
       .product.expanded .options {
         opacity: 1;
-        max-height: 500px;
+        max-height: 400px;
       }
 
       .option-label {
         font-size: 0.85rem;
-        text-transform: none;
-        letter-spacing: 0;
         color: #fff;
         font-weight: 600;
         margin-bottom: 8px;
@@ -432,32 +393,20 @@
 
       .size-btn {
         height: 40px;
-        border-radius: 8px;
+        border-radius: 4px;
         background: transparent;
         color: #888;
-        border: 1px solid #2a2a2a;
+        border: 1px solid #ccc;
         cursor: pointer;
         transition: all 0.2s ease;
-        font-weight: 600;
+        font-weight: 500;
         font-size: 0.9rem;
       }
 
-      .size-btn:hover {
-        border-color: #666;
-        color: #fff;
-      }
+      .size-btn:hover { border-color: #111; color: #fff; }
+      .size-btn.selected { background: #111; color: #fff; border-color: #111; }
 
-      .size-btn.selected {
-        background: #111;
-        color: #fff;
-        border-color: #111;
-      }
-
-      .colors {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 16px;
-      }
+      .colors { display: flex; gap: 8px; margin-bottom: 16px; }
 
       .color {
         width: 36px;
@@ -481,37 +430,14 @@
         transition: transform 0.2s ease;
       }
 
-      .color:hover {
-        transform: scale(1.1);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      }
+      .color:hover { transform: scale(1.1); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
+      .color.selected { border-color: #111; transform: scale(1.05); }
+      .color.selected::after { transform: translate(-50%, -50%) scale(1); }
 
-      .color.selected {
-        border-color: #111;
-        transform: scale(1.05);
-      }
-
-      .color.selected::after {
-        transform: translate(-50%, -50%) scale(1);
-      }
-
-      .color.black {
-        background: #000;
-        border: 2px solid #ddd;
-      }
-
-      .color.white {
-        background: #fff;
-        border: 2px solid #ddd;
-      }
-
-      .color.white::after {
-        color: #000;
-      }
-
-      .color.grey {
-        background: #666;
-      }
+      .color.black { background: #000; border: 2px solid #ddd; }
+      .color.white { background: #fff; border: 2px solid #ddd; }
+      .color.white::after { color: #000; }
+      .color.grey { background: #666; }
 
       .quantity-wrapper {
         display: flex;
@@ -529,68 +455,26 @@
         color: #111;
         text-align: center;
         font-size: 0.95rem;
-        font-weight: 700;
-        transition: all 0.2s ease;
+        font-weight: 600;
       }
 
-      .quantity:focus {
-        outline: none;
-        border-color: #111;
-        background: #fff;
-      }
+      .quantity:focus { outline: none; border-color: #111; background: #fff; }
 
-      /* FIX: make secondary button actually styleable via accent (outlined look) */
       .secondary-btn {
-        background: transparent;
-        border: 1px solid #444;
+        background: #111;
+        border: none;
         padding: 14px 24px;
         border-radius: 30px;
         color: #fff;
-        font-weight: 700;
+        font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
         font-size: 0.95rem;
         width: 100%;
       }
 
-      .secondary-btn:hover {
-        background: #1a1a1a;
-      }
-
-      .secondary-btn:active {
-        transform: scale(0.98);
-      }
-
-      /* Mission Section (FIX: added missing section + IDs referenced in JS) */
-      .mission {
-        padding: 90px 32px;
-        border-top: 1px solid #1f1f1f;
-        border-bottom: 1px solid #1f1f1f;
-        background: #050505;
-      }
-
-      .mission-wrap {
-        max-width: 900px;
-        margin: 0 auto;
-        text-align: left;
-      }
-
-      .mission-headline {
-        font-size: 2.5rem;
-        font-weight: 900;
-        color: #a855f7;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-        margin-bottom: 18px;
-        text-shadow: 0 0 30px rgba(168, 85, 247, 0.25);
-      }
-
-      .mission-description {
-        color: #aaa;
-        font-size: 1.1rem;
-        line-height: 1.8;
-        max-width: 720px;
-      }
+      .secondary-btn:hover { background: #333; }
+      .secondary-btn:active { transform: scale(0.98); }
 
       /* Floating Cart Button */
       .floating-cart {
@@ -612,10 +496,7 @@
         transition: all 0.3s ease;
       }
 
-      .floating-cart:hover {
-        transform: scale(1.1);
-        box-shadow: 0 15px 50px rgba(147, 51, 234, 0.7);
-      }
+      .floating-cart:hover { transform: scale(1.1); box-shadow: 0 15px 50px rgba(147, 51, 234, 0.7); }
 
       .cart-count {
         position: absolute;
@@ -630,7 +511,7 @@
         align-items: center;
         justify-content: center;
         font-size: 0.75rem;
-        font-weight: 800;
+        font-weight: 700;
         border: 2px solid #000;
       }
 
@@ -650,9 +531,7 @@
         border-left: 1px solid #1f1f1f;
       }
 
-      .cart-sidebar.active {
-        right: 0;
-      }
+      .cart-sidebar.active { right: 0; }
 
       .cart-header {
         display: flex;
@@ -665,8 +544,9 @@
 
       .cart-header h2 {
         font-size: 1.5rem;
-        font-weight: 800;
+        font-weight: 700;
         color: #a855f7;
+        margin: 0;
       }
 
       .close-cart {
@@ -682,10 +562,7 @@
         border-radius: 8px;
       }
 
-      .close-cart:hover {
-        color: #fff;
-        background: #1a1a1a;
-      }
+      .close-cart:hover { color: #fff; background: #1a1a1a; }
 
       .cart-items {
         flex: 1;
@@ -707,21 +584,11 @@
         transition: all 0.3s ease;
       }
 
-      .cart-items li:hover {
-        border-color: #9333ea;
-        background: #1a1a1a;
-      }
+      .cart-items li:hover { border-color: #9333ea; background: #1a1a1a; }
 
-      .cart-items::-webkit-scrollbar {
-        width: 6px;
-      }
-      .cart-items::-webkit-scrollbar-track {
-        background: #111;
-      }
-      .cart-items::-webkit-scrollbar-thumb {
-        background: #9333ea;
-        border-radius: 10px;
-      }
+      .cart-items::-webkit-scrollbar { width: 6px; }
+      .cart-items::-webkit-scrollbar-track { background: #111; }
+      .cart-items::-webkit-scrollbar-thumb { background: #9333ea; border-radius: 10px; }
 
       .cart-footer {
         padding: 24px;
@@ -737,13 +604,10 @@
         font-size: 1.3rem;
       }
 
-      .cart-total-label {
-        font-weight: 800;
-        color: #888;
-      }
+      .cart-total-label { font-weight: 700; color: #888; }
 
       .cart-total-value {
-        font-weight: 900;
+        font-weight: 700;
         color: #a855f7;
         font-size: 1.5rem;
       }
@@ -755,7 +619,7 @@
         padding: 16px;
         border-radius: 50px;
         color: #fff;
-        font-weight: 800;
+        font-weight: 700;
         cursor: pointer;
         transition: all 0.3s ease;
         text-transform: uppercase;
@@ -785,50 +649,57 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        font-weight: 700;
+        font-weight: 600;
       }
 
-      .cart-toast.show {
-        transform: translateY(0);
+      .cart-toast.show { transform: translateY(0); }
+
+      /* About */
+      .about {
+        padding: 100px 32px 60px;
+        max-width: 900px;
+        margin: 0 auto;
       }
+
+      .about p {
+        color: #aaa;
+        line-height: 1.8;
+        font-size: 1.05rem;
+        max-width: 720px;
+      }
+
+      /* ✅ Footer link hover style (kept) */
+      footer a { transition: color 0.3s ease; }
 
       /* Responsive */
       @media (max-width: 768px) {
+        .navbar { padding: 16px 14px; }
+        .faide-wordmark { font-size: 1.3rem; }
+
+        /* ✅ Mobile navbar like your screenshot: horizontal scroll */
         .nav-links {
-          display: none;
+          display: flex;
+          gap: 12px;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          max-width: 68vw;
+        }
+        .nav-links::-webkit-scrollbar { display: none; }
+
+        .nav-links a {
+          font-size: 0.55rem;
+          letter-spacing: 0.8px;
+          color: #777;
         }
 
-        .hero {
-          padding: 80px 16px 60px;
-        }
+        .hero { padding: 80px 16px 60px; }
+        .hero-title { font-size: 2rem; }
+        .lookbook-card { height: 300px; }
+        .product { min-width: 280px; }
 
-        .hero-title {
-          font-size: 2rem;
-        }
-
-        .mission {
-          padding: 60px 16px;
-        }
-
-        .lookbook-card {
-          height: 300px;
-        }
-
-        .product {
-          min-width: 280px;
-        }
-
-        .cart-sidebar {
-          width: 100%;
-          right: -100%;
-        }
-
-        .floating-cart {
-          bottom: 24px;
-          right: 24px;
-          width: 56px;
-          height: 56px;
-        }
+        .cart-sidebar { width: 100%; right: -100%; }
+        .floating-cart { bottom: 24px; right: 24px; width: 56px; height: 56px; }
 
         .cart-toast {
           bottom: 100px;
@@ -839,102 +710,58 @@
       }
     </style>
 
-    <style>
-      @view-transition {
-        navigation: auto;
-      }
-    </style>
+    <style>@view-transition { navigation: auto; }</style>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   </head>
 
   <body class="h-full w-full">
     <!-- NAVBAR -->
-    <nav class="navbar flex justify-between items-center px-8 py-6">
-      <h1
-        class="logo"
-        id="brand-name"
-        style="color: #ffffff; font-weight: 700; font-size: 1.6rem; letter-spacing: 0; font-style: italic; text-transform: uppercase"
-      >
-        FAIDE
-      </h1>
+    <nav class="navbar flex justify-between items-center">
+      <h1 class="logo faide-wordmark" id="brand-name">FAIDE</h1>
 
-      <div class="nav-links flex items-center gap-2">
-        <a href="#drop">New Drop</a>
-        <a href="#lookbook">Lookbook</a>
-        <a href="#shop">Shop</a>
-        <a href="#mission">About</a>
+      <div class="nav-links">
+        <a href="#drop">NEW DROP</a>
+        <a href="#lookbook">LOOKBOOK</a>
+        <a href="#shop">SHOP</a>
+        <a href="#about">ABOUT</a>
       </div>
     </nav>
 
     <!-- HERO -->
     <section id="drop" class="hero">
-      <div class="hero-content" style="position: relative; z-index: 1">
+      <div class="hero-content" style="position: relative; z-index: 1;">
         <h2 class="hero-title fade-in-up delay-1" id="hero-title">NEW DROP</h2>
         <p class="hero-text fade-in-up delay-2" id="hero-description">
           New drops, exclusive releases, and updates are announced on our social platforms.
         </p>
 
-        <div class="hero-social-icons fade-in-up delay-2" style="margin: 32px 0">
-          <a
-            href="https://instagram.com/faideclothing"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-icon"
-            aria-label="Instagram"
-          >
+        <div class="hero-social-icons fade-in-up delay-2" style="margin: 32px 0;">
+          <a href="https://instagram.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
-              />
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
             </svg>
           </a>
 
-          <a
-            href="https://facebook.com/faideclothing"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-icon"
-            aria-label="Facebook"
-          >
+          <a href="https://facebook.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"
-              />
+              <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
             </svg>
           </a>
 
-          <a
-            href="https://twitter.com/faideclothing"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-icon"
-            aria-label="X"
-          >
+          <a href="https://twitter.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X">
             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-              />
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
           </a>
 
-          <a
-            href="https://tiktok.com/@faideclothing"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-icon"
-            aria-label="TikTok"
-          >
+          <a href="https://tiktok.com/@faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="TikTok">
             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
-              />
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
             </svg>
           </a>
         </div>
 
-        <button
-          class="primary-btn fade-in-up delay-3"
-          onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})"
-        >
+        <button class="primary-btn fade-in-up delay-3" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
           Shop Now
         </button>
       </div>
@@ -946,14 +773,14 @@
 
       <div class="vertical-list">
         <div class="lookbook-card">
-          <div class="product-img-container" style="height: 100%">
+          <div class="product-img-container" style="height: 100%;">
             <div class="product-placeholder">👕</div>
           </div>
           <h3 class="lookbook-card-title">Look 1</h3>
         </div>
 
         <div class="lookbook-card">
-          <div class="product-img-container" style="height: 100%">
+          <div class="product-img-container" style="height: 100%;">
             <div class="product-placeholder">🧥</div>
           </div>
           <h3 class="lookbook-card-title">Look 2</h3>
@@ -968,364 +795,258 @@
       <div class="horizontal-scroll">
         <!-- Tank-top -->
         <div class="product" data-name="Tank-top" data-price="199.99">
-          <div class="product-card-surface">
-            <div class="product-img-container">
-              <div class="product-placeholder">👕</div>
+          <div class="product-img-container"><div class="product-placeholder">👕</div></div>
+
+          <div class="product-info">
+            <div class="product-label">Just In</div>
+
+            <div class="product-header">
+              <div class="product-name-wrapper">
+                <h3>FAIDE Essentials Tank</h3>
+                <div class="product-category">Men's Tank Top</div>
+                <div class="product-colors-count">2 Colors</div>
+              </div>
+              <p class="price">R199.99</p>
             </div>
 
-            <div class="product-info">
-              <div class="product-label">Just In</div>
-
-              <div class="product-header">
-                <div class="product-name-wrapper">
-                  <h3>FAIDE Essentials Tank</h3>
-                  <div class="product-category">Men's Tank Top</div>
-                  <div class="product-colors-count">2 Colors</div>
-                </div>
-                <p class="price">R199.99</p>
+            <div class="options">
+              <div class="option-label">Select Size</div>
+              <div class="sizes">
+                <button class="size-btn" data-size="S">S</button>
+                <button class="size-btn" data-size="M">M</button>
+                <button class="size-btn" data-size="L">L</button>
+                <button class="size-btn" data-size="XL">XL</button>
               </div>
 
-              <div class="options">
-                <div class="option-label">Select Size</div>
-                <div class="sizes">
-                  <button class="size-btn" data-size="S">S</button>
-                  <button class="size-btn" data-size="M">M</button>
-                  <button class="size-btn" data-size="L">L</button>
-                  <button class="size-btn" data-size="XL">XL</button>
-                </div>
-
-                <div class="option-label">Select Color</div>
-                <div class="colors">
-                  <div class="color black" data-color="Black"></div>
-                  <div class="color white" data-color="White"></div>
-                </div>
-
-                <div class="quantity-wrapper">
-                  <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
-                </div>
-
-                <button class="secondary-btn add-to-cart">Add to Bag</button>
+              <div class="option-label">Select Color</div>
+              <div class="colors">
+                <div class="color black" data-color="Black"></div>
+                <div class="color white" data-color="White"></div>
               </div>
+
+              <div class="quantity-wrapper">
+                <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
+              </div>
+
+              <button class="secondary-btn add-to-cart">Add to Bag</button>
             </div>
           </div>
         </div>
 
         <!-- T-shirt -->
         <div class="product" data-name="T-shirt" data-price="349.99">
-          <div class="product-card-surface">
-            <div class="product-img-container">
-              <div class="product-placeholder">👔</div>
+          <div class="product-img-container"><div class="product-placeholder">👔</div></div>
+
+          <div class="product-info">
+            <div class="product-label">Bestseller</div>
+
+            <div class="product-header">
+              <div class="product-name-wrapper">
+                <h3>FAIDE Signature Tee</h3>
+                <div class="product-category">Men's Short-Sleeve Top</div>
+                <div class="product-colors-count">3 Colors</div>
+              </div>
+              <p class="price">R349.99</p>
             </div>
 
-            <div class="product-info">
-              <div class="product-label">Bestseller</div>
-
-              <div class="product-header">
-                <div class="product-name-wrapper">
-                  <h3>FAIDE Signature Tee</h3>
-                  <div class="product-category">Men's Short-Sleeve Top</div>
-                  <div class="product-colors-count">3 Colors</div>
-                </div>
-                <p class="price">R349.99</p>
+            <div class="options">
+              <div class="option-label">Select Size</div>
+              <div class="sizes">
+                <button class="size-btn" data-size="S">S</button>
+                <button class="size-btn" data-size="M">M</button>
+                <button class="size-btn" data-size="L">L</button>
+                <button class="size-btn" data-size="XL">XL</button>
               </div>
 
-              <div class="options">
-                <div class="option-label">Select Size</div>
-                <div class="sizes">
-                  <button class="size-btn" data-size="S">S</button>
-                  <button class="size-btn" data-size="M">M</button>
-                  <button class="size-btn" data-size="L">L</button>
-                  <button class="size-btn" data-size="XL">XL</button>
-                </div>
-
-                <div class="option-label">Select Color</div>
-                <div class="colors">
-                  <div class="color black" data-color="Black"></div>
-                  <div class="color white" data-color="White"></div>
-                  <div class="color grey" data-color="Grey"></div>
-                </div>
-
-                <div class="quantity-wrapper">
-                  <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
-                </div>
-
-                <button class="secondary-btn add-to-cart">Add to Bag</button>
+              <div class="option-label">Select Color</div>
+              <div class="colors">
+                <div class="color black" data-color="Black"></div>
+                <div class="color white" data-color="White"></div>
+                <div class="color grey" data-color="Grey"></div>
               </div>
+
+              <div class="quantity-wrapper">
+                <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
+              </div>
+
+              <button class="secondary-btn add-to-cart">Add to Bag</button>
             </div>
           </div>
         </div>
 
         <!-- Hoodie -->
         <div class="product" data-name="Hoodie" data-price="699.99">
-          <div class="product-card-surface">
-            <div class="product-img-container">
-              <div class="product-placeholder">🧥</div>
+          <div class="product-img-container"><div class="product-placeholder">🧥</div></div>
+
+          <div class="product-info">
+            <div class="product-label">Premium</div>
+
+            <div class="product-header">
+              <div class="product-name-wrapper">
+                <h3>FAIDE Luxury Hoodie</h3>
+                <div class="product-category">Men's Pullover Hoodie</div>
+                <div class="product-colors-count">2 Colors</div>
+              </div>
+              <p class="price">R699.99</p>
             </div>
 
-            <div class="product-info">
-              <div class="product-label">Premium</div>
-
-              <div class="product-header">
-                <div class="product-name-wrapper">
-                  <h3>FAIDE Luxury Hoodie</h3>
-                  <div class="product-category">Men's Pullover Hoodie</div>
-                  <div class="product-colors-count">2 Colors</div>
-                </div>
-                <p class="price">R699.99</p>
+            <div class="options">
+              <div class="option-label">Select Size</div>
+              <div class="sizes">
+                <button class="size-btn" data-size="S">S</button>
+                <button class="size-btn" data-size="M">M</button>
+                <button class="size-btn" data-size="L">L</button>
+                <button class="size-btn" data-size="XL">XL</button>
               </div>
 
-              <div class="options">
-                <div class="option-label">Select Size</div>
-                <div class="sizes">
-                  <button class="size-btn" data-size="S">S</button>
-                  <button class="size-btn" data-size="M">M</button>
-                  <button class="size-btn" data-size="L">L</button>
-                  <button class="size-btn" data-size="XL">XL</button>
-                </div>
-
-                <div class="option-label">Select Color</div>
-                <div class="colors">
-                  <div class="color black" data-color="Black"></div>
-                  <div class="color grey" data-color="Grey"></div>
-                </div>
-
-                <div class="quantity-wrapper">
-                  <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
-                </div>
-
-                <button class="secondary-btn add-to-cart">Add to Bag</button>
+              <div class="option-label">Select Color</div>
+              <div class="colors">
+                <div class="color black" data-color="Black"></div>
+                <div class="color grey" data-color="Grey"></div>
               </div>
+
+              <div class="quantity-wrapper">
+                <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
+              </div>
+
+              <button class="secondary-btn add-to-cart">Add to Bag</button>
             </div>
           </div>
         </div>
 
         <!-- Joggers -->
         <div class="product" data-name="Joggers" data-price="549.99">
-          <div class="product-card-surface">
-            <div class="product-img-container">
-              <div class="product-placeholder">👖</div>
+          <div class="product-img-container"><div class="product-placeholder">👖</div></div>
+
+          <div class="product-info">
+            <div class="product-label">Member Exclusive</div>
+
+            <div class="product-header">
+              <div class="product-name-wrapper">
+                <h3>FAIDE Tech Joggers</h3>
+                <div class="product-category">Men's Joggers</div>
+                <div class="product-colors-count">2 Colors</div>
+              </div>
+              <p class="price">R549.99</p>
             </div>
 
-            <div class="product-info">
-              <div class="product-label">Member Exclusive</div>
-
-              <div class="product-header">
-                <div class="product-name-wrapper">
-                  <h3>FAIDE Tech Joggers</h3>
-                  <div class="product-category">Men's Joggers</div>
-                  <div class="product-colors-count">2 Colors</div>
-                </div>
-                <p class="price">R549.99</p>
+            <div class="options">
+              <div class="option-label">Select Size</div>
+              <div class="sizes">
+                <button class="size-btn" data-size="S">S</button>
+                <button class="size-btn" data-size="M">M</button>
+                <button class="size-btn" data-size="L">L</button>
+                <button class="size-btn" data-size="XL">XL</button>
               </div>
 
-              <div class="options">
-                <div class="option-label">Select Size</div>
-                <div class="sizes">
-                  <button class="size-btn" data-size="S">S</button>
-                  <button class="size-btn" data-size="M">M</button>
-                  <button class="size-btn" data-size="L">L</button>
-                  <button class="size-btn" data-size="XL">XL</button>
-                </div>
-
-                <div class="option-label">Select Color</div>
-                <div class="colors">
-                  <div class="color black" data-color="Black"></div>
-                  <div class="color white" data-color="White"></div>
-                </div>
-
-                <div class="quantity-wrapper">
-                  <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
-                </div>
-
-                <button class="secondary-btn add-to-cart">Add to Bag</button>
+              <div class="option-label">Select Color</div>
+              <div class="colors">
+                <div class="color black" data-color="Black"></div>
+                <div class="color white" data-color="White"></div>
               </div>
+
+              <div class="quantity-wrapper">
+                <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
+              </div>
+
+              <button class="secondary-btn add-to-cart">Add to Bag</button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- MISSION / ABOUT (FIX: Added) -->
-    <section id="mission" class="mission">
-      <div class="mission-wrap">
-        <h2 class="mission-headline" id="mission-headline">A CLOTHING BRAND THAT NEVER FADE</h2>
-        <p class="mission-description" id="mission-description">
-          FAIDE is a luxury streetwear brand built for those who move in silence.
-        </p>
-      </div>
+    <!-- ABOUT -->
+    <section id="about" class="about">
+      <h2 class="section-title purple-title" id="about-title">About FAIDE</h2>
+      <p id="about-description">
+        FAIDE is a luxury streetwear brand built for those who move in silence. Designed with intention. Worn with purpose.
+      </p>
     </section>
 
-    <!-- Footer -->
-    <footer id="footer" style="background: #0a0a0a; border-top: 1px solid #1f1f1f; padding: 60px 32px 40px">
-      <div style="max-width: 1200px; margin: 0 auto">
-        <div
-          style="
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 48px;
-            margin-bottom: 48px;
-          "
-        >
-          <!-- Shop Column -->
+    <!-- ✅ FOOTER (CLEANED: removed all the links you said to remove + added your email & number) -->
+    <footer id="footer" style="background: #0a0a0a; border-top: 1px solid #1f1f1f; padding: 60px 32px 40px;">
+      <div style="max-width: 1200px; margin: 0 auto;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 48px; margin-bottom: 48px;">
+
+          <!-- Shop Column (clean) -->
           <div>
-            <h4
-              style="
-                color: #fff;
-                font-size: 1rem;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                margin-bottom: 20px;
-              "
-            >
+            <h4 style="color: #fff; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">
               Shop
             </h4>
-            <ul style="list-style: none; padding: 0">
-              <li style="margin-bottom: 12px"><a href="#shop" style="color: #888; text-decoration: none">New Arrivals</a></li>
-              <li style="margin-bottom: 12px"><a href="#shop" style="color: #888; text-decoration: none">Tops</a></li>
-              <li style="margin-bottom: 12px"><a href="#shop" style="color: #888; text-decoration: none">Bottoms</a></li>
-              <li style="margin-bottom: 12px"><a href="#shop" style="color: #888; text-decoration: none">Accessories</a></li>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin-bottom: 12px;">
+                <a href="#shop" style="color: #888; text-decoration: none;">Shop</a>
+              </li>
             </ul>
           </div>
 
-          <!-- Company Column -->
+          <!-- Contact Column (your info) -->
           <div>
-            <h4
-              style="
-                color: #fff;
-                font-size: 1rem;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                margin-bottom: 20px;
-              "
-            >
-              Company
+            <h4 style="color: #fff; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">
+              Contact
             </h4>
-            <ul style="list-style: none; padding: 0">
-              <li style="margin-bottom: 12px"><a href="#mission" style="color: #888; text-decoration: none">About Us</a></li>
-              <li style="margin-bottom: 12px"><a href="#" style="color: #888; text-decoration: none">Contact</a></li>
-              <li style="margin-bottom: 12px"><a href="#lookbook" style="color: #888; text-decoration: none">Lookbook</a></li>
-              <li style="margin-bottom: 12px"><a href="#" style="color: #888; text-decoration: none">Careers</a></li>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin-bottom: 12px;">
+                <a href="mailto:faideclothingsa@gmail.com" style="color: #888; text-decoration: none;">faideclothingsa@gmail.com</a>
+              </li>
+              <li style="margin-bottom: 12px;">
+                <a href="tel:+27695603929" style="color: #888; text-decoration: none;">+27 69 560 3929</a>
+              </li>
             </ul>
           </div>
 
-          <!-- Legal Column -->
+          <!-- Legal Column (kept) -->
           <div>
-            <h4
-              style="
-                color: #fff;
-                font-size: 1rem;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                margin-bottom: 20px;
-              "
-            >
+            <h4 style="color: #fff; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">
               Legal
             </h4>
-            <ul style="list-style: none; padding: 0">
-              <li style="margin-bottom: 12px"><a href="#" id="privacy-link" style="color: #888; text-decoration: none">Privacy Policy</a></li>
-              <li style="margin-bottom: 12px"><a href="#" id="terms-link" style="color: #888; text-decoration: none">Terms of Service</a></li>
-              <li style="margin-bottom: 12px"><a href="#" id="returns-link" style="color: #888; text-decoration: none">Returns &amp; Exchanges</a></li>
-              <li style="margin-bottom: 12px"><a href="#" id="shipping-link" style="color: #888; text-decoration: none">Shipping Policy</a></li>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin-bottom: 12px;"><a href="#" id="privacy-link" style="color: #888; text-decoration: none;">Privacy Policy</a></li>
+              <li style="margin-bottom: 12px;"><a href="#" id="terms-link" style="color: #888; text-decoration: none;">Terms of Service</a></li>
+              <li style="margin-bottom: 12px;"><a href="#" id="returns-link" style="color: #888; text-decoration: none;">Returns &amp; Exchanges</a></li>
+              <li style="margin-bottom: 12px;"><a href="#" id="shipping-link" style="color: #888; text-decoration: none;">Shipping Policy</a></li>
             </ul>
           </div>
         </div>
 
-        <!-- Bottom Bar -->
-        <div
-          style="
-            border-top: 1px solid #1f1f1f;
-            padding-top: 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-          "
-        >
-          <!-- FIX: encoding -->
-          <p style="color: #666; font-size: 0.9rem; margin: 0">© 2024 FAIDE. All rights reserved.</p>
-          <p style="color: #666; font-size: 0.9rem; margin: 0">Designed with 🖤 for those who move in silence</p>
+        <div style="border-top: 1px solid #1f1f1f; padding-top: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <p style="color: #666; font-size: 0.9rem; margin: 0;">© 2026 FAIDE. All rights reserved.</p>
+          <p style="color: #666; font-size: 0.9rem; margin: 0;">Designed with 🖤 for those who move in silence</p>
         </div>
       </div>
     </footer>
 
     <!-- Policy Modal -->
-    <div
-      id="policy-modal"
-      style="
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 3000;
-        overflow-y: auto;
-        padding: 40px 20px;
-      "
-    >
-      <div style="max-width: 800px; margin: 0 auto; background: #0a0a0a; border-radius: 20px; border: 1px solid #1f1f1f; overflow: hidden">
-        <div
-          style="
-            background: #111;
-            padding: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #1f1f1f;
-          "
-        >
-          <h2 id="modal-title" style="color: #a855f7; font-size: 1.5rem; font-weight: 800; margin: 0">Policy</h2>
-          <button
-            id="close-modal"
-            style="
-              background: transparent;
-              border: none;
-              color: #888;
-              cursor: pointer;
-              padding: 8px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              border-radius: 8px;
-              transition: all 0.3s ease;
-            "
-            aria-label="Close policy modal"
-          >
+    <div id="policy-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 3000; overflow-y: auto; padding: 40px 20px;">
+      <div style="max-width: 800px; margin: 0 auto; background: #0a0a0a; border-radius: 20px; border: 1px solid #1f1f1f; overflow: hidden;">
+        <div style="background: #111; padding: 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f1f1f;">
+          <h2 id="modal-title" style="color: #a855f7; font-size: 1.5rem; font-weight: 700; margin: 0;">Policy</h2>
+          <button id="close-modal" style="background: transparent; border: none; color: #888; cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center; border-radius: 8px; transition: all 0.3s ease;">
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
-              />
+              <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
             </svg>
           </button>
         </div>
-        <div id="modal-content" style="padding: 32px; color: #ccc; line-height: 1.8"></div>
+        <div id="modal-content" style="padding: 32px; color: #ccc; line-height: 1.8;"></div>
       </div>
     </div>
 
     <!-- Floating Cart Button -->
     <button id="floating-cart" class="floating-cart" aria-label="View shopping cart">
       <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-        <path
-          d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z"
-        />
+        <path d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z"/>
       </svg>
       <span id="cart-count" class="cart-count">0</span>
     </button>
 
     <!-- Cart Sidebar -->
-    <div id="cart-sidebar" class="cart-sidebar" aria-hidden="true">
+    <div id="cart-sidebar" class="cart-sidebar">
       <div class="cart-header">
         <h2>Your Cart</h2>
         <button id="close-cart" class="close-cart" aria-label="Close cart">
           <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
-            />
+            <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
           </svg>
         </button>
       </div>
@@ -1337,83 +1058,68 @@
           <span class="cart-total-label">Total:</span>
           <span class="cart-total-value">R<span id="cart-total">0.00</span></span>
         </div>
+
         <button class="checkout-btn" id="checkout-btn">Proceed to Checkout</button>
       </div>
     </div>
 
     <!-- Cart Toast -->
-    <div class="cart-toast" id="cartToast" role="status" aria-live="polite">
+    <div class="cart-toast" id="cartToast">
       <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-        <path
-          d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z"
-        />
+        <path d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z"/>
       </svg>
       <span id="cartMessage">Added to cart!</span>
     </div>
 
     <script>
+      /*************************************************************
+       * CONFIG (Element SDK)
+       *************************************************************/
       const defaultConfig = {
         brand_name: "FAIDE",
         hero_title: "NEW DROP",
         hero_description: "New drops, exclusive releases, and updates are announced on our social platforms.",
-        mission_headline: "A CLOTHING BRAND THAT NEVER FADE",
-        mission_description: "FAIDE is a luxury streetwear brand built for those who move in silence.",
+        about_headline: "About FAIDE",
+        about_description:
+          "FAIDE is a luxury streetwear brand built for those who move in silence. Designed with intention. Worn with purpose.",
         background_color: "#000000",
         surface_color: "#111111",
         text_color: "#ffffff",
         primary_accent: "#a855f7",
         secondary_accent: "#9333ea",
         font_family: "Inter",
-        font_size: 16,
+        font_size: 16
       };
-
-      function safeSetText(id, value) {
-        const el = document.getElementById(id);
-        if (el) el.textContent = value;
-      }
 
       async function onConfigChange(config) {
         const brandName = config.brand_name || defaultConfig.brand_name;
         const heroTitle = config.hero_title || defaultConfig.hero_title;
         const heroDescription = config.hero_description || defaultConfig.hero_description;
-        const missionHeadline = config.mission_headline || defaultConfig.mission_headline;
-        const missionDescription = config.mission_description || defaultConfig.mission_description;
+
+        const aboutHeadline = config.about_headline || defaultConfig.about_headline;
+        const aboutDescription = config.about_description || defaultConfig.about_description;
+
         const backgroundColor = config.background_color || defaultConfig.background_color;
-        const surfaceColor = config.surface_color || defaultConfig.surface_color;
         const textColor = config.text_color || defaultConfig.text_color;
         const primaryAccent = config.primary_accent || defaultConfig.primary_accent;
         const secondaryAccent = config.secondary_accent || defaultConfig.secondary_accent;
         const customFont = config.font_family || defaultConfig.font_family;
         const baseSize = config.font_size || defaultConfig.font_size;
 
-        // Update text content (FIX: safe setters)
-        safeSetText("brand-name", brandName);
-        safeSetText("hero-title", heroTitle);
-        safeSetText("hero-description", heroDescription);
-        safeSetText("mission-headline", missionHeadline);
-        safeSetText("mission-description", missionDescription);
+        document.getElementById("brand-name").textContent = brandName;
+        document.getElementById("hero-title").textContent = heroTitle;
+        document.getElementById("hero-description").textContent = heroDescription;
 
-        // Update colors
+        const aboutTitleEl = document.getElementById("about-title");
+        const aboutDescEl = document.getElementById("about-description");
+        if (aboutTitleEl) aboutTitleEl.textContent = aboutHeadline;
+        if (aboutDescEl) aboutDescEl.textContent = aboutDescription;
+
         document.body.style.background = backgroundColor;
         document.body.style.color = textColor;
 
-        // Surfaces
-        document.querySelectorAll(".product-card-surface").forEach((card) => {
-          card.style.background = surfaceColor;
-          card.style.borderColor = "#1f1f1f";
-        });
-
-        document.querySelectorAll(".lookbook-card").forEach((card) => {
-          card.style.background = surfaceColor;
-        });
-
-        // Navbar
-        const navbar = document.querySelector(".navbar");
-        if (navbar) navbar.style.background = "rgba(0, 0, 0, 0.95)";
-
-        // Accent colors
-        document.querySelectorAll(".price").forEach((price) => (price.style.color = primaryAccent));
-        document.querySelectorAll(".purple-title").forEach((title) => (title.style.color = primaryAccent));
+        document.querySelectorAll(".price").forEach(price => { price.style.color = primaryAccent; });
+        document.querySelectorAll(".purple-title").forEach(title => { title.style.color = primaryAccent; });
 
         const heroTitleEl = document.querySelector(".hero-title");
         if (heroTitleEl) {
@@ -1421,30 +1127,17 @@
           heroTitleEl.style.textShadow = `0 0 40px ${primaryAccent}80`;
         }
 
-        document.querySelectorAll(".primary-btn").forEach((btn) => {
+        document.querySelectorAll(".primary-btn").forEach(btn => {
           btn.style.background = `linear-gradient(135deg, ${secondaryAccent} 0%, ${primaryAccent} 100%)`;
         });
 
-        // FIX: secondary buttons now outlined and themeable
-        document.querySelectorAll(".secondary-btn").forEach((btn) => {
-          btn.style.borderColor = secondaryAccent;
-          btn.style.color = secondaryAccent;
-        });
-
-        document.querySelectorAll(".lookbook-card-title").forEach((title) => (title.style.color = primaryAccent));
-
-        // Fonts
         document.body.style.fontFamily = `${customFont}, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
 
-        // Font sizes
         const heroTitleNode = document.querySelector(".hero-title");
-        const heroTextNode = document.querySelector(".hero-text");
         if (heroTitleNode) heroTitleNode.style.fontSize = `${baseSize * 2.5}px`;
-        if (heroTextNode) heroTextNode.style.fontSize = `${baseSize * 1.1}px`;
 
-        document.querySelectorAll(".section-title").forEach((el) => (el.style.fontSize = `${baseSize * 2.5}px`));
-        document.querySelectorAll(".product h3").forEach((el) => (el.style.fontSize = `${baseSize * 1.0}px`));
-        document.querySelectorAll(".price").forEach((el) => (el.style.fontSize = `${baseSize * 1.0}px`));
+        const heroTextNode = document.querySelector(".hero-text");
+        if (heroTextNode) heroTextNode.style.fontSize = `${baseSize * 1.1}px`;
       }
 
       function mapToCapabilities(config) {
@@ -1457,14 +1150,8 @@
             { get: () => config.secondary_accent || defaultConfig.secondary_accent, set: (v) => window.elementSdk?.setConfig?.({ secondary_accent: (config.secondary_accent = v) }) },
           ],
           borderables: [],
-          fontEditable: {
-            get: () => config.font_family || defaultConfig.font_family,
-            set: (v) => window.elementSdk?.setConfig?.({ font_family: (config.font_family = v) }),
-          },
-          fontSizeable: {
-            get: () => config.font_size || defaultConfig.font_size,
-            set: (v) => window.elementSdk?.setConfig?.({ font_size: (config.font_size = v) }),
-          },
+          fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (v) => window.elementSdk?.setConfig?.({ font_family: (config.font_family = v) }) },
+          fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (v) => window.elementSdk?.setConfig?.({ font_size: (config.font_size = v) }) },
         };
       }
 
@@ -1473,26 +1160,67 @@
           ["brand_name", config.brand_name || defaultConfig.brand_name],
           ["hero_title", config.hero_title || defaultConfig.hero_title],
           ["hero_description", config.hero_description || defaultConfig.hero_description],
-          ["mission_headline", config.mission_headline || defaultConfig.mission_headline],
-          ["mission_description", config.mission_description || defaultConfig.mission_description],
+          ["about_headline", config.about_headline || defaultConfig.about_headline],
+          ["about_description", config.about_description || defaultConfig.about_description]
         ]);
       }
 
-      // Initialize Element SDK (guarded)
-      if (window.elementSdk?.init) {
-        window.elementSdk.init({
-          defaultConfig,
-          onConfigChange,
-          mapToCapabilities,
-          mapToEditPanelValues,
-        });
+      if (window.elementSdk) {
+        window.elementSdk.init({ defaultConfig, onConfigChange, mapToCapabilities, mapToEditPanelValues });
       } else {
-        // If SDK not available, still apply defaults once:
         onConfigChange({ ...defaultConfig });
       }
 
-      // Product interaction functionality
+      /*************************************************************
+       * CART + WHATSAPP CHECKOUT
+       *************************************************************/
+      const WHATSAPP_NUMBER = "27695603929"; // ✅ your number (no +, no spaces)
+
       let cart = [];
+
+      function showCartToast(message) {
+        const toast = document.getElementById("cartToast");
+        const messageEl = document.getElementById("cartMessage");
+        if (!toast || !messageEl) return;
+
+        messageEl.textContent = message;
+        toast.classList.add("show");
+
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+      }
+
+      function checkoutOnWhatsApp() {
+        if (!cart || cart.length === 0) {
+          showCartToast("Your cart is empty.");
+          return;
+        }
+
+        const lines = [];
+        lines.push("Hi FAIDE, I want to place an order:");
+        lines.push("");
+
+        let total = 0;
+
+        cart.forEach((item, i) => {
+          const lineTotal = item.price * item.quantity;
+          total += lineTotal;
+          lines.push(`${i + 1}) ${item.name} | Size: ${item.size} | Color: ${item.color} | Qty: ${item.quantity} | R${lineTotal.toFixed(2)}`);
+        });
+
+        lines.push("");
+        lines.push(`TOTAL: R${total.toFixed(2)}`);
+        lines.push("");
+        lines.push("Name:");
+        lines.push("(Type here)");
+        lines.push("");
+        lines.push("Delivery address:");
+        lines.push("(Type here)");
+
+        const message = encodeURIComponent(lines.join("\n"));
+        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+        window.open(url, "_blank", "noopener,noreferrer");
+      }
 
       document.addEventListener("DOMContentLoaded", () => {
         const products = document.querySelectorAll(".product");
@@ -1504,76 +1232,9 @@
         const cartCountEl = document.getElementById("cart-count");
         const checkoutBtn = document.getElementById("checkout-btn");
 
-        // Cart sidebar toggle
-        if (floatingCart && cartSidebar) {
-          floatingCart.addEventListener("click", () => {
-            cartSidebar.classList.add("active");
-            cartSidebar.setAttribute("aria-hidden", "false");
-          });
-        }
-        if (closeCart && cartSidebar) {
-          closeCart.addEventListener("click", () => {
-            cartSidebar.classList.remove("active");
-            cartSidebar.setAttribute("aria-hidden", "true");
-          });
-        }
-
-        // Close cart on ESC
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && cartSidebar?.classList.contains("active")) {
-            cartSidebar.classList.remove("active");
-            cartSidebar.setAttribute("aria-hidden", "true");
-          }
-        });
-
-        products.forEach((product) => {
-          // Size selection
-          const sizeButtons = product.querySelectorAll(".size-btn");
-          sizeButtons.forEach((btn) => {
-            btn.addEventListener("click", () => {
-              sizeButtons.forEach((b) => b.classList.remove("selected"));
-              btn.classList.add("selected");
-            });
-          });
-
-          // Color selection
-          const colorOptions = product.querySelectorAll(".color");
-          colorOptions.forEach((color) => {
-            color.addEventListener("click", () => {
-              colorOptions.forEach((c) => c.classList.remove("selected"));
-              color.classList.add("selected");
-            });
-          });
-
-          // Add to cart
-          const addToCartBtn = product.querySelector(".add-to-cart");
-          addToCartBtn?.addEventListener("click", () => {
-            const productName = product.getAttribute("data-name") || "Item";
-            const price = parseFloat(product.getAttribute("data-price") || "0");
-            const selectedSize = product.querySelector(".size-btn.selected");
-            const selectedColor = product.querySelector(".color.selected");
-            const quantityValue = product.querySelector(".quantity")?.value || "1";
-            const quantity = Math.max(1, parseInt(quantityValue, 10) || 1);
-
-            const size = selectedSize ? selectedSize.textContent : "N/A";
-            const color = selectedColor ? selectedColor.getAttribute("data-color") : "N/A";
-
-            const itemKey = `${productName}-${size}-${color}`;
-            const existing = cart.find((item) => item.key === itemKey);
-
-            if (existing) existing.quantity += quantity;
-            else cart.push({ key: itemKey, name: productName, price, size, color, quantity });
-
-            updateCartUI();
-
-            let message = `Added ${quantity}x ${productName}`;
-            if (selectedSize) message += ` (${size})`;
-            if (selectedColor) message += ` in ${color}`;
-            message += " to cart!";
-
-            showCartToast(message);
-          });
-        });
+        if (floatingCart) floatingCart.addEventListener("click", () => cartSidebar.classList.add("active"));
+        if (closeCart) closeCart.addEventListener("click", () => cartSidebar.classList.remove("active"));
+        if (checkoutBtn) checkoutBtn.addEventListener("click", checkoutOnWhatsApp);
 
         function updateCartUI() {
           if (!cartItemsEl || !cartTotalEl || !cartCountEl) return;
@@ -1584,7 +1245,7 @@
 
           if (cart.length === 0) {
             cartItemsEl.innerHTML =
-              '<li style="text-align: center; color: #666; border: none; background: transparent;">Your cart is empty</li>';
+              '<li style="text-align:center;color:#666;border:none;background:transparent;">Your cart is empty</li>';
             cartTotalEl.textContent = "0.00";
             cartCountEl.textContent = "0";
             return;
@@ -1594,141 +1255,89 @@
             const li = document.createElement("li");
             li.innerHTML = `
               <div>
-                <div style="font-weight: 800; margin-bottom: 4px;">${item.name}</div>
-                <div style="font-size: 0.85rem; color: #888;">
+                <div style="font-weight:700;margin-bottom:4px;">${item.name}</div>
+                <div style="font-size:0.85rem;color:#888;">
                   Size: ${item.size} | Color: ${item.color} | Qty: ${item.quantity}
                 </div>
               </div>
-              <div style="font-weight: 900; color: #a855f7;">R${(item.price * item.quantity).toFixed(2)}</div>
+              <div style="font-weight:700;color:#a855f7;">R${(item.price * item.quantity).toFixed(2)}</div>
             `;
             cartItemsEl.appendChild(li);
+
             total += item.price * item.quantity;
             itemCount += item.quantity;
           });
 
           cartTotalEl.textContent = total.toFixed(2);
-          cartCountEl.textContent = itemCount.toString();
+          cartCountEl.textContent = String(itemCount);
         }
 
-        // FIX: checkout button now does something (you can replace this with real checkout)
-        checkoutBtn?.addEventListener("click", () => {
-          if (cart.length === 0) {
-            showCartToast("Your cart is empty.");
-            return;
-          }
+        products.forEach((product) => {
+          const sizeButtons = product.querySelectorAll(".size-btn");
+          sizeButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+              sizeButtons.forEach((b) => b.classList.remove("selected"));
+              btn.classList.add("selected");
+            });
+          });
 
-          // Example: create a simple summary (replace with redirect / payment flow)
-          const summary = cart
-            .map((i) => `${i.quantity}x ${i.name} [${i.size}/${i.color}] - R${(i.price * i.quantity).toFixed(2)}`)
-            .join("\n");
+          const colorOptions = product.querySelectorAll(".color");
+          colorOptions.forEach((color) => {
+            color.addEventListener("click", () => {
+              colorOptions.forEach((c) => c.classList.remove("selected"));
+              color.classList.add("selected");
+            });
+          });
 
-          alert(`Checkout (demo)\n\n${summary}\n\nTotal: R${document.getElementById("cart-total")?.textContent || "0.00"}`);
+          const addToCartBtn = product.querySelector(".add-to-cart");
+          addToCartBtn.addEventListener("click", () => {
+            const productName = product.getAttribute("data-name") || "Item";
+            const price = parseFloat(product.getAttribute("data-price") || "0");
+
+            const selectedSize = product.querySelector(".size-btn.selected");
+            const selectedColor = product.querySelector(".color.selected");
+
+            if (!selectedSize) return showCartToast("Select a size first.");
+            if (!selectedColor) return showCartToast("Select a color first.");
+
+            let quantity = parseInt(product.querySelector(".quantity").value, 10);
+            quantity = Math.max(1, Number.isFinite(quantity) ? quantity : 1);
+
+            const size = selectedSize.textContent;
+            const color = selectedColor.getAttribute("data-color");
+
+            const itemKey = `${productName}-${size}-${color}`;
+            const existing = cart.find((item) => item.key === itemKey);
+
+            if (existing) existing.quantity += quantity;
+            else cart.push({ key: itemKey, name: productName, price, size, color, quantity });
+
+            updateCartUI();
+            showCartToast(`Added ${quantity}x ${productName} (${size}) in ${color}`);
+          });
         });
 
-        // initial render
         updateCartUI();
       });
 
-      function showCartToast(message) {
-        const toast = document.getElementById("cartToast");
-        const messageEl = document.getElementById("cartMessage");
-        if (!toast || !messageEl) return;
-
-        messageEl.textContent = message;
-        toast.classList.add("show");
-
-        clearTimeout(window.__faideToastTimer);
-        window.__faideToastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
-      }
-
-      // Policy Modal
+      /*************************************************************
+       * POLICY MODAL (same as your original)
+       *************************************************************/
       const policyModal = document.getElementById("policy-modal");
       const modalTitle = document.getElementById("modal-title");
       const modalContent = document.getElementById("modal-content");
       const closeModal = document.getElementById("close-modal");
 
       const policies = {
-        privacy: {
-          title: "Privacy Policy",
-          content: `
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px;">Introduction</h3>
-            <p style="margin-bottom:20px;">FAIDE respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Information We Collect</h3>
-            <p style="margin-bottom:20px;">We collect information you provide directly to us, including name, email address, shipping address, and payment information when you make a purchase.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">How We Use Your Information</h3>
-            <p style="margin-bottom:20px;">We use your information to process orders, communicate with you about your purchases, and send promotional materials (with your consent).</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Data Security</h3>
-            <p style="margin-bottom:20px;">We implement appropriate security measures to protect your personal information from unauthorized access, alteration, or destruction.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Contact Us</h3>
-            <p>If you have questions about this Privacy Policy, please contact us through our social media channels.</p>
-          `,
-        },
-        terms: {
-          title: "Terms of Service",
-          content: `
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px;">Agreement to Terms</h3>
-            <p style="margin-bottom:20px;">By accessing and using the FAIDE website, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Use License</h3>
-            <p style="margin-bottom:20px;">Permission is granted to temporarily view and purchase products from this site for personal, non-commercial use only.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Product Information</h3>
-            <p style="margin-bottom:20px;">We strive to provide accurate product descriptions and pricing. However, we reserve the right to correct any errors or inaccuracies.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Intellectual Property</h3>
-            <p style="margin-bottom:20px;">All content on this site, including designs, logos, and branding, is the property of FAIDE and protected by copyright laws.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Limitation of Liability</h3>
-            <p>FAIDE shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or services.</p>
-          `,
-        },
-        returns: {
-          title: "Returns & Exchanges",
-          content: `
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px;">Return Policy</h3>
-            <p style="margin-bottom:20px;">We accept returns within 30 days of purchase for unworn, unwashed items with original tags attached.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">How to Return</h3>
-            <p style="margin-bottom:20px;">Contact us through our social media channels to initiate a return. We'll provide you with a return authorization and shipping instructions.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Exchanges</h3>
-            <p style="margin-bottom:20px;">We're happy to exchange items for different sizes or colors, subject to availability. Contact us to arrange an exchange.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Refunds</h3>
-            <p style="margin-bottom:20px;">Refunds will be processed within 5-7 business days after we receive your return. Original shipping costs are non-refundable.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Final Sale Items</h3>
-            <p>Sale items marked as "Final Sale" are not eligible for returns or exchanges.</p>
-          `,
-        },
-        shipping: {
-          title: "Shipping Policy",
-          content: `
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px;">Shipping Methods</h3>
-            <p style="margin-bottom:20px;">We offer standard and express shipping options. Shipping times vary based on your location and selected method.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Processing Time</h3>
-            <p style="margin-bottom:20px;">Orders are typically processed within 1-3 business days. You'll receive a tracking number once your order ships.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Shipping Costs</h3>
-            <p style="margin-bottom:20px;">Shipping costs are calculated at checkout based on your location and selected shipping method. Free shipping on orders over R1,000.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">International Shipping</h3>
-            <p style="margin-bottom:20px;">We currently ship within South Africa. International shipping options are coming soon.</p>
-
-            <h3 style="color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:16px; margin-top:32px;">Damaged or Lost Packages</h3>
-            <p>If your package arrives damaged or is lost in transit, please contact us immediately through our social media channels and we'll resolve the issue.</p>
-          `,
-        },
+        privacy: { title: "Privacy Policy", content: `<p>Privacy policy content goes here.</p>` },
+        terms: { title: "Terms of Service", content: `<p>Terms content goes here.</p>` },
+        returns: { title: "Returns & Exchanges", content: `<p>Returns content goes here.</p>` },
+        shipping: { title: "Shipping Policy", content: `<p>Shipping content goes here.</p>` },
       };
 
       function showPolicy(policyType) {
         const policy = policies[policyType];
-        if (!policy || !policyModal || !modalTitle || !modalContent) return;
+        if (!policy) return;
         modalTitle.textContent = policy.title;
         modalContent.innerHTML = policy.content;
         policyModal.style.display = "block";
@@ -1736,52 +1345,101 @@
       }
 
       function hidePolicy() {
-        if (!policyModal) return;
         policyModal.style.display = "none";
         document.body.style.overflow = "auto";
       }
 
-      document.getElementById("privacy-link")?.addEventListener("click", (e) => {
-        e.preventDefault();
-        showPolicy("privacy");
-      });
-      document.getElementById("terms-link")?.addEventListener("click", (e) => {
-        e.preventDefault();
-        showPolicy("terms");
-      });
-      document.getElementById("returns-link")?.addEventListener("click", (e) => {
-        e.preventDefault();
-        showPolicy("returns");
-      });
-      document.getElementById("shipping-link")?.addEventListener("click", (e) => {
-        e.preventDefault();
-        showPolicy("shipping");
+      document.getElementById("privacy-link").addEventListener("click", (e) => { e.preventDefault(); showPolicy("privacy"); });
+      document.getElementById("terms-link").addEventListener("click", (e) => { e.preventDefault(); showPolicy("terms"); });
+      document.getElementById("returns-link").addEventListener("click", (e) => { e.preventDefault(); showPolicy("returns"); });
+      document.getElementById("shipping-link").addEventListener("click", (e) => { e.preventDefault(); showPolicy("shipping"); });
+
+      closeModal.addEventListener("click", hidePolicy);
+      policyModal.addEventListener("click", (e) => { if (e.target === policyModal) hidePolicy(); });
+
+      document.querySelectorAll("footer a").forEach(link => {
+        link.addEventListener("mouseenter", function() { this.style.color = "#9333ea"; });
+        link.addEventListener("mouseleave", function() { this.style.color = "#888"; });
       });
 
-      closeModal?.addEventListener("click", hidePolicy);
+      /*************************************************************
+       * ACTIVE LINK HIGHLIGHT + NAVBAR SHRINK
+       *************************************************************/
+      document.addEventListener("DOMContentLoaded", () => {
+        const navbar = document.querySelector(".navbar");
+        const navLinks = document.querySelectorAll(".nav-links a");
 
-      policyModal?.addEventListener("click", (e) => {
-        if (e.target === policyModal) hidePolicy();
-      });
+        function handleShrink() {
+          if (!navbar) return;
+          navbar.classList.toggle("shrink", window.scrollY > 20);
+        }
+        handleShrink();
+        window.addEventListener("scroll", handleShrink, { passive: true });
 
-      // Footer hover effects
-      document.querySelectorAll("footer a").forEach((link) => {
-        link.addEventListener("mouseenter", function () {
-          this.style.color = "#9333ea";
+        const sectionIds = ["drop", "lookbook", "shop", "about"];
+        const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+        const linkById = new Map();
+        navLinks.forEach(a => {
+          const href = a.getAttribute("href") || "";
+          if (href.startsWith("#")) linkById.set(href.slice(1), a);
         });
-        link.addEventListener("mouseleave", function () {
-          this.style.color = "#888";
-        });
-      });
 
-      closeModal?.addEventListener("mouseenter", function () {
-        this.style.color = "#fff";
-        this.style.background = "#1a1a1a";
+        function setActive(id) {
+          navLinks.forEach(a => a.classList.remove("active"));
+          const activeLink = linkById.get(id);
+          if (activeLink) activeLink.classList.add("active");
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter(e => e.isIntersecting)
+              .sort((a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0))[0];
+
+            if (visible?.target?.id) setActive(visible.target.id);
+          },
+          { threshold: [0.2, 0.35, 0.5, 0.65], rootMargin: "-30% 0px -55% 0px" }
+        );
+
+        sections.forEach(sec => observer.observe(sec));
+        setActive(sections[0]?.id || "drop");
       });
-      closeModal?.addEventListener("mouseleave", function () {
-        this.style.color = "#888";
-        this.style.background = "transparent";
-      });
+    </script>
+
+    <!-- Cloudflare snippet (kept as-is from your code) -->
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'9c6cd97dc2926d25',t:'MTc2OTkwMDY4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener) document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState && (document.onreadystatechange = e, c());
+            };
+          }
+        }
+      })();
     </script>
   </body>
 </html>

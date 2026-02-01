@@ -6,16 +6,17 @@ const cartItems = document.getElementById('cart-items');
 const cartTotal = document.getElementById('cart-total');
 const cartCount = document.getElementById('cart-count');
 
+// Open/close cart
 cartBtn.addEventListener('click', () => {
   cartSidebar.classList.toggle('active');
 });
 
+// Add to cart buttons
 document.querySelectorAll('.add-to-cart').forEach(btn => {
   btn.addEventListener('click', () => {
     const product = btn.closest('.product');
     const name = product.dataset.name;
     const price = parseFloat(product.dataset.price);
-
     cart.push({ name, price });
     updateCart();
   });
@@ -24,15 +25,12 @@ document.querySelectorAll('.add-to-cart').forEach(btn => {
 function updateCart() {
   cartItems.innerHTML = '';
   let total = 0;
-
   cart.forEach(item => {
     total += item.price;
     const li = document.createElement('li');
-    li.textContent = item.name + ' - R' + item.price;
+    li.textContent = `${item.name} - R${item.price}`;
     cartItems.appendChild(li);
   });
-
   cartTotal.textContent = total.toFixed(2);
   cartCount.textContent = cart.length;
 }
-

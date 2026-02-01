@@ -616,6 +616,8 @@
         background:
           radial-gradient(80% 80% at 50% 35%, rgba(168,85,247,0.10), rgba(10,10,10,0.95) 70%),
           linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.00));
+        /* ✅ important: allow swipe capture without fighting scroll too much */
+        touch-action: pan-y;
       }
 
       .product-img-container::after{
@@ -632,12 +634,44 @@
         object-fit: contain;
         display: block;
         padding: 18px;
-        transition: transform 0.35s ease, filter 0.35s ease;
+        transition: transform 0.35s ease, filter 0.35s ease, opacity 160ms ease;
         filter: drop-shadow(0 18px 28px rgba(0,0,0,0.45)) saturate(1.05);
+        user-select: none;
+        -webkit-user-drag: none;
       }
       .product:hover .product-img{
         transform: translateY(-4px) scale(1.01);
         filter: drop-shadow(0 22px 34px rgba(0,0,0,0.55)) saturate(1.12);
+      }
+
+      /* ✅ product image pager dots */
+      .img-pager{
+        position:absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 10px;
+        z-index: 5;
+        display:flex;
+        gap: 7px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(0,0,0,0.35);
+        backdrop-filter: blur(8px);
+        pointer-events: none; /* display only (swipe changes) */
+      }
+      .img-dot{
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.28);
+        transition: transform 160ms ease, background 160ms ease, opacity 160ms ease;
+        opacity: 0.9;
+      }
+      .img-dot.active{
+        background: rgba(168,85,247,0.95);
+        transform: scale(1.35);
+        opacity: 1;
       }
 
       .product-info { padding: 8px 8px 4px; }
@@ -1302,6 +1336,7 @@
         <div class="product" data-name="FAIDE Essentials Tank" data-price="199.99">
           <div class="product-img-container">
             <img src="/images/Tank%20top.png" alt="FAIDE Essentials Tank" class="product-img" />
+            <!-- ✅ dots injected by JS when alt images exist -->
           </div>
 
           <div class="product-info">
@@ -1674,6 +1709,150 @@
       })();
 
       /*************************************************************
+       * ✅ PRODUCT ALT IMAGES (hoodie.png -> hoodie2.png etc) + SWIPE
+       *************************************************************/
+      function buildVariantSrc(baseSrc, n) {
+        // Insert number before extension: hoodie.png -> hoodie2.png
+        // Keeps %20 etc intact.
+        const qIndex = baseSrc.indexOf("?");
+        const clean = qIndex >= 0 ? baseSrc.slice(0, qIndex) : baseSrc;
+        const query = qIndex >= 0 ? baseSrc.slice(qIndex) : "";
+
+        const dot = clean.lastIndexOf(".");
+        if (dot < 0) return baseSrc;
+        const left = clean.slice(0, dot);
+        const ext = clean.slice(dot);
+        return `${left}${n}${ext}${query}`;
+      }
+
+      function imageExists(src, timeoutMs = 900) {
+        return new Promise((resolve) => {
+          const img = new Image();
+          let done = false;
+
+          const finish = (ok) => {
+            if (done) return;
+            done = true;
+            resolve(ok);
+          };
+
+          const t = setTimeout(() => finish(false), timeoutMs);
+
+          img.onload = () => { clearTimeout(t); finish(true); };
+          img.onerror = () => { clearTimeout(t); finish(false); };
+          img.src = src;
+        });
+      }
+
+      async function setupProductImageCarousel(productEl) {
+        const imgEl = productEl.querySelector(".product-img");
+        const container = productEl.querySelector(".product-img-container");
+        if (!imgEl || !container) return;
+
+        const base = imgEl.getAttribute("src") || "";
+        if (!base) return;
+
+        // Candidate list: base + base2..base4
+        const candidates = [base, buildVariantSrc(base, 2), buildVariantSrc(base, 3), buildVariantSrc(base, 4)];
+
+        // Verify which ones exist (keeps it clean even if you only upload 2 angles)
+        const checks = await Promise.all(candidates.map((s, i) => i === 0 ? Promise.resolve(true) : imageExists(s)));
+        const sources = candidates.filter((_, i) => checks[i]);
+
+        // If only 1 image exists, do nothing
+        if (sources.length <= 1) return;
+
+        // Add dots
+        const pager = document.createElement("div");
+        pager.className = "img-pager";
+        const dots = sources.map((_, i) => {
+          const d = document.createElement("span");
+          d.className = "img-dot" + (i === 0 ? " active" : "");
+          pager.appendChild(d);
+          return d;
+        });
+        container.appendChild(pager);
+
+        let index = 0;
+
+        function setIndex(next) {
+          index = (next + sources.length) % sources.length;
+          imgEl.style.opacity = "0.3";
+          requestAnimationFrame(() => {
+            imgEl.src = sources[index];
+            dots.forEach((d, i) => d.classList.toggle("active", i === index));
+            setTimeout(() => { imgEl.style.opacity = "1"; }, 60);
+          });
+        }
+
+        // Swipe gestures (mobile)
+        let startX = 0;
+        let startY = 0;
+        let tracking = false;
+        let locked = false;
+
+        container.addEventListener("touchstart", (e) => {
+          if (!e.touches || e.touches.length !== 1) return;
+          tracking = true;
+          locked = false;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+        }, { passive: true });
+
+        container.addEventListener("touchmove", (e) => {
+          if (!tracking || !e.touches || e.touches.length !== 1) return;
+
+          const dx = e.touches[0].clientX - startX;
+          const dy = e.touches[0].clientY - startY;
+
+          // Lock gesture direction early
+          if (!locked) {
+            // If it's mostly horizontal, we capture it (prevents horizontal-scroll taking over)
+            if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) {
+              locked = true;
+            } else if (Math.abs(dy) > 10) {
+              // mostly vertical = ignore
+              tracking = false;
+              return;
+            }
+          }
+
+          if (locked) {
+            // Need passive:false to prevent horizontal parent scroll when swiping images
+            e.preventDefault();
+          }
+        }, { passive: false });
+
+        container.addEventListener("touchend", (e) => {
+          if (!tracking) return;
+          tracking = false;
+
+          const endX = e.changedTouches?.[0]?.clientX ?? startX;
+          const diff = endX - startX;
+
+          if (Math.abs(diff) < 35) return;
+          if (diff < 0) setIndex(index + 1);
+          else setIndex(index - 1);
+        }, { passive: true });
+
+        // Optional: click/tap to go next (desktop + mobile quick)
+        container.addEventListener("click", (e) => {
+          // Don’t interfere with the rest of the card’s click-to-expand behavior:
+          // we ONLY advance if user clicked inside image area.
+          e.stopPropagation();
+          setIndex(index + 1);
+        });
+      }
+
+      async function initAllProductCarousels() {
+        const products = Array.from(document.querySelectorAll(".product"));
+        // Run sequentially to avoid hammering network
+        for (const p of products) {
+          await setupProductImageCarousel(p);
+        }
+      }
+
+      /*************************************************************
        * CART + WHATSAPP CHECKOUT
        *************************************************************/
       const WHATSAPP_NUMBER = "27695603929";
@@ -1834,7 +2013,10 @@
       /*************************************************************
        * MAIN DOM READY
        *************************************************************/
-      document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener("DOMContentLoaded", async () => {
+        // ✅ init product image alt-angles + swipe
+        initAllProductCarousels();
+
         const shopNowBtn = document.getElementById("shop-now-btn");
         shopNowBtn?.addEventListener("click", () => {
           document.getElementById("shop")?.scrollIntoView({ behavior: "smooth" });
@@ -1987,7 +2169,7 @@
         // Expand product card (ignore interactive clicks)
         products.forEach((product) => {
           product.addEventListener("click", (e) => {
-            const interactive = e.target.closest("button, input, .color, a");
+            const interactive = e.target.closest("button, input, .color, a, .product-img-container");
             if (interactive) return;
             product.classList.toggle("expanded");
           });

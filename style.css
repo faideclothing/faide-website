@@ -1,8 +1,4 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   background: #000;
@@ -10,22 +6,28 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+/* NAVIGATION */
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(0,0,0,0.95);
+  background: rgba(0, 0, 0, 0.95);
   border-bottom: 1px solid #1f1f1f;
+  padding: 10px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
   z-index: 1000;
 }
 
-.nav-links a {
+.navbar a {
   color: #888;
   text-decoration: none;
   font-size: 0.75rem;
   text-transform: uppercase;
 }
 
+/* HERO */
 .hero {
   padding: 140px 20px;
   text-align: center;
@@ -44,13 +46,14 @@ body {
 
 .primary-btn {
   padding: 14px 40px;
-  background: linear-gradient(135deg,#9333ea,#7c3aed);
+  background: linear-gradient(135deg, #9333ea, #7c3aed);
   border-radius: 50px;
   border: none;
   color: white;
   font-weight: 700;
 }
 
+/* SHOP */
 .shop {
   padding: 120px 20px;
 }
@@ -75,6 +78,7 @@ body {
   padding: 10px 20px;
 }
 
+/* CART */
 .floating-cart {
   position: fixed;
   bottom: 20px;

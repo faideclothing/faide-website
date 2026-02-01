@@ -332,7 +332,7 @@
       .product-img {
         width: 100%;
         height: 100%;
-        object-fit: contain; /* product style */
+        object-fit: contain;
         display: block;
         padding: 18px;
         filter: drop-shadow(0 18px 28px rgba(0,0,0,0.45));
@@ -877,7 +877,7 @@
 
       <div class="horizontal-scroll">
         <!-- Tank-top -->
-        <div class="product" data-name="Tank-top" data-price="199.99">
+        <div class="product" data-name="FAIDE Essentials Tank" data-price="199.99">
           <div class="product-img-container">
             <!-- NOTE: filename has a space -->
             <img src="/images/Tank top.png" alt="FAIDE Essentials Tank" class="product-img" />
@@ -920,7 +920,7 @@
         </div>
 
         <!-- T-shirt -->
-        <div class="product" data-name="T-shirt" data-price="349.99">
+        <div class="product" data-name="FAIDE Signature Tee" data-price="349.99">
           <div class="product-img-container">
             <img src="/images/tshirt.png" alt="FAIDE Signature Tee" class="product-img" />
           </div>
@@ -962,8 +962,50 @@
           </div>
         </div>
 
+        <!-- ✅ LONG SLEEVE (replaced Joggers + placed before Hoodie) -->
+        <div class="product" data-name="FAIDE Long Sleeve" data-price="549.99">
+          <div class="product-img-container">
+            <img src="/images/longsleeve.png" alt="FAIDE Long Sleeve" class="product-img" />
+          </div>
+
+          <div class="product-info">
+            <div class="product-label">Member Exclusive</div>
+
+            <div class="product-header">
+              <div class="product-name-wrapper">
+                <h3>FAIDE Long Sleeve</h3>
+                <div class="product-category">Men's Long Sleeve</div>
+                <div class="product-colors-count">2 Colors</div>
+              </div>
+              <p class="price">R549.99</p>
+            </div>
+
+            <div class="options">
+              <div class="option-label">Select Size</div>
+              <div class="sizes">
+                <button class="size-btn" data-size="S">S</button>
+                <button class="size-btn" data-size="M">M</button>
+                <button class="size-btn" data-size="L">L</button>
+                <button class="size-btn" data-size="XL">XL</button>
+              </div>
+
+              <div class="option-label">Select Color</div>
+              <div class="colors">
+                <div class="color black" data-color="Black"></div>
+                <div class="color white" data-color="White"></div>
+              </div>
+
+              <div class="quantity-wrapper">
+                <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
+              </div>
+
+              <button class="secondary-btn add-to-cart">Add to Bag</button>
+            </div>
+          </div>
+        </div>
+
         <!-- Hoodie -->
-        <div class="product" data-name="Hoodie" data-price="699.99">
+        <div class="product" data-name="FAIDE Luxury Hoodie" data-price="699.99">
           <div class="product-img-container">
             <img src="/images/hoodie.png" alt="FAIDE Luxury Hoodie" class="product-img" />
           </div>
@@ -1004,47 +1046,6 @@
           </div>
         </div>
 
-        <!-- Joggers (using longsleeve image you have) -->
-        <div class="product" data-name="Joggers" data-price="549.99">
-          <div class="product-img-container">
-            <img src="/images/longsleeve.png" alt="FAIDE Tech Joggers" class="product-img" />
-          </div>
-
-          <div class="product-info">
-            <div class="product-label">Member Exclusive</div>
-
-            <div class="product-header">
-              <div class="product-name-wrapper">
-                <h3>FAIDE Tech Joggers</h3>
-                <div class="product-category">Men's Joggers</div>
-                <div class="product-colors-count">2 Colors</div>
-              </div>
-              <p class="price">R549.99</p>
-            </div>
-
-            <div class="options">
-              <div class="option-label">Select Size</div>
-              <div class="sizes">
-                <button class="size-btn" data-size="S">S</button>
-                <button class="size-btn" data-size="M">M</button>
-                <button class="size-btn" data-size="L">L</button>
-                <button class="size-btn" data-size="XL">XL</button>
-              </div>
-
-              <div class="option-label">Select Color</div>
-              <div class="colors">
-                <div class="color black" data-color="Black"></div>
-                <div class="color white" data-color="White"></div>
-              </div>
-
-              <div class="quantity-wrapper">
-                <input type="number" min="1" value="1" class="quantity" aria-label="Quantity" />
-              </div>
-
-              <button class="secondary-btn add-to-cart">Add to Bag</button>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -1070,7 +1071,7 @@
           <!-- Top row -->
           <div class="footer-legal-top">
             <a href="#" id="privacy-link" class="footer-legal-link">Privacy Policy</a>
-            <a href="#" id="returns-link" class="footer-legal-link">Legal Notice</a>
+            <a href="#" id="returns-link" class="footer-legal-link">Returns &amp; Exchanges</a>
             <a href="#" id="shipping-link" class="footer-legal-link">Shipping Policy</a>
           </div>
 
@@ -1162,7 +1163,6 @@
       };
 
       async function onConfigChange(config) {
-        const brandName = config.brand_name || defaultConfig.brand_name;
         const heroTitle = config.hero_title || defaultConfig.hero_title;
         const heroDescription = config.hero_description || defaultConfig.hero_description;
 
@@ -1176,7 +1176,6 @@
         const customFont = config.font_family || defaultConfig.font_family;
         const baseSize = config.font_size || defaultConfig.font_size;
 
-        // brand_name no longer used as text logo, but keep it if you want for accessibility
         const heroTitleEl = document.getElementById("hero-title");
         const heroDescEl = document.getElementById("hero-description");
         if (heroTitleEl) heroTitleEl.textContent = heroTitle;
@@ -1400,7 +1399,7 @@
       const policies = {
         privacy: { title: "Privacy Policy", content: `<p>Privacy policy content goes here.</p>` },
         terms: { title: "Terms of Service", content: `<p>Terms content goes here.</p>` },
-        returns: { title: "Legal Notice", content: `<p>Legal notice content goes here.</p>` },
+        returns: { title: "Returns &amp; Exchanges", content: `<p>Returns &amp; exchanges content goes here.</p>` },
         shipping: { title: "Shipping Policy", content: `<p>Shipping content goes here.</p>` },
       };
 
@@ -1518,4 +1517,5 @@
       })();
     </script>
   </body>
-  </html>
+</html>
+```0

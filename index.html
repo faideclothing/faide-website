@@ -823,7 +823,7 @@
       .color.grey { background: #666; }
 
       /* =========================================================
-         ✅ Quantity Stepper (Shop Card + Product Modal)
+         ✅ Quantity Stepper (Shop Card + Product Modal) — PILL STYLE ✅
       ========================================================= */
       .qty-stepper-ui{
         display: flex;
@@ -832,14 +832,14 @@
         gap: 12px;
         width: 100%;
         padding: 10px 12px;
-        border-radius: 14px;
+        border-radius: 999px; /* ✅ pill */
         background: rgba(255,255,255,0.035);
         border: 1px solid rgba(255,255,255,0.14);
       }
       .qty-stepper-ui .qty-btn-ui{
-        width: 42px;
+        width: 44px;
         height: 40px;
-        border-radius: 12px;
+        border-radius: 999px; /* ✅ pill */
         border: 1px solid rgba(255,255,255,0.14);
         background: rgba(255,255,255,0.02);
         color: #fff;
@@ -1123,7 +1123,12 @@
         align-items: center;
         transition: all 0.25s ease;
       }
-      .cart-item:hover { border-color: var(--secondary); background: #1a1a1a; }
+
+      /* ✅ REMOVE PURPLE GLOW ON CART ITEM HOVER */
+      .cart-item:hover {
+        border-color: rgba(255,255,255,0.14);
+        background: #141414;
+      }
 
       .cart-item-img {
         width: 66px;
@@ -1196,6 +1201,13 @@
         font-size: 0.95rem;
         color: #fff;
         user-select: none;
+      }
+
+      /* ✅ REMOVE PURPLE/DEFAULT FOCUS GLOW ON CART QTY BUTTONS */
+      .qty-stepper .qty-btn:focus,
+      .qty-stepper .qty-btn:focus-visible{
+        outline: none;
+        box-shadow: none;
       }
 
       .remove-btn {

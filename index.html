@@ -11,10 +11,10 @@
     <script src="/_sdk/element_sdk.js"></script>
     <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
 
-    <!-- Tailwind -->
+    <!-- Tailwind (you’re using some utility classes like flex/justify-between/items-center) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Inter font -->
+    <!-- ✅ FIX: Load Inter properly (no @import in middle of CSS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -72,14 +72,12 @@
         padding: 24px 32px;
       }
 
-      /* ✅ UPDATED: Wordmark bigger + smoother */
       .faide-wordmark-img {
-        height: 34px;              /* was 28px */
+        height: 28px;
         width: auto;
         display: block;
         user-select: none;
-        transition: height 0.25s ease, transform 0.25s ease, filter 0.25s ease;
-        filter: drop-shadow(0 0 8px rgba(255,255,255,0.08));
+        transition: transform 0.25s ease;
       }
 
       .nav-links {
@@ -125,12 +123,7 @@
         background: rgba(0, 0, 0, 0.98);
         border-bottom-color: #2a2a2a;
       }
-
-      /* ✅ UPDATED: controlled shrink (no tiny scale) */
-      .navbar.shrink .faide-wordmark-img {
-        height: 28px;
-        transform: none;
-      }
+      .navbar.shrink .faide-wordmark-img { transform: scale(0.95); transform-origin: left center; }
 
       /* Anchor offset for fixed navbar */
       #drop, #lookbook, #shop, #about, #footer { scroll-margin-top: 110px; }
@@ -770,9 +763,7 @@
       /* Responsive */
       @media (max-width: 768px) {
         .navbar { padding: 16px 14px; }
-
-        /* ✅ UPDATED: mobile wordmark */
-        .faide-wordmark-img { height: 24px; }
+        .faide-wordmark-img { height: 22px; }
 
         .nav-links {
           display: flex;
@@ -899,6 +890,7 @@
         <!-- Tank-top -->
         <div class="product" data-name="FAIDE Essentials Tank" data-price="199.99">
           <div class="product-img-container">
+            <!-- ✅ FIX: avoid space in URL (best is rename file, but this works too) -->
             <img src="/images/Tank%20top.png" alt="FAIDE Essentials Tank" class="product-img" />
           </div>
 
@@ -1206,14 +1198,17 @@
         if (aboutTitleEl) aboutTitleEl.textContent = aboutHeadline;
         if (aboutDescEl) aboutDescEl.textContent = aboutDescription;
 
+        // ✅ FIX: apply config via CSS variables (covers "surface_color" too)
         setCSSVar("--bg", backgroundColor);
         setCSSVar("--surface", surfaceColor);
         setCSSVar("--text", textColor);
         setCSSVar("--primary", primaryAccent);
         setCSSVar("--secondary", secondaryAccent);
 
+        // keep responsiveness: DO NOT override clamp() sizes
         document.body.style.fontFamily = `${customFont}, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
 
+        // update text shadow intensity based on accent
         const heroTitleNode = document.querySelector(".hero-title");
         if (heroTitleNode) {
           heroTitleNode.style.textShadow = `0 0 40px ${primaryAccent}80`;
@@ -1254,7 +1249,7 @@
       /*************************************************************
        * CART + WHATSAPP CHECKOUT
        *************************************************************/
-      const WHATSAPP_NUMBER = "27695603929";
+      const WHATSAPP_NUMBER = "27695603929"; // your number (no +, no spaces)
       let cart = [];
 
       function showCartToast(message) {
@@ -1345,7 +1340,7 @@
       if (policyModal) policyModal.addEventListener("click", (e) => { if (e.target === policyModal) hidePolicy(); });
 
       /*************************************************************
-       * ONE DOMContentLoaded (combined)
+       * ONE DOMContentLoaded (combined) ✅ FIX
        *************************************************************/
       document.addEventListener("DOMContentLoaded", () => {
         // Shop now smooth scroll
@@ -1465,6 +1460,7 @@
             });
           });
 
+          // ✅ FIX: guard against null (prevents runtime crash)
           const addToCartBtn = product.querySelector(".add-to-cart");
           if (!addToCartBtn) return;
 
@@ -1535,4 +1531,3 @@
     </script>
   </body>
 </html>
-```0

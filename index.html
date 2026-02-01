@@ -1,1377 +1,1587 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a/index.html b/index.html
-index 80d7953ad2c2ed38aa7a29b9d090b5adfa59f27b..ed0179e0aa108acfc002323944b147ea9ce05035 100644
---- a/index.html
-+++ b/index.html
-@@ -1,868 +1,37 @@
- <!doctype html>
- <html lang="en" class="h-full">
-  <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta name="google-site-verification" content="xHQMXeonHcUZ-NTHCrtvjlR9bojEkpwc8CzKChP7I9o">
-   <title>FAIDE® | Luxury Streetwear Brand</title>
-   <script src="/_sdk/element_sdk.js"></script>
-   <script src="https://cdn.tailwindcss.com"></script>
--  <style>
--    body {
--      box-sizing: border-box;
--    }
--    
--    * { 
--      margin: 0; 
--      padding: 0; 
--      box-sizing: border-box; 
--    }
--    
--    html { 
--      scroll-behavior: smooth;
--      height: 100%;
--    }
--    
--    body { 
--      background: #000; 
--      color: #fff; 
--      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
--      overflow-x: hidden;
--      height: 100%;
--      width: 100%;
--    }
--    
--    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
--    
--    /* Animations */
--    @keyframes fadeInUp {
--      0% { opacity: 0; transform: translateY(20px); }
--      100% { opacity: 1; transform: translateY(0); }
--    }
--    
--    @keyframes float {
--      0%, 100% { transform: translateY(0px); }
--      50% { transform: translateY(-10px); }
--    }
--    
--    .fade-in-up {
--      animation: fadeInUp 1s forwards;
--    }
--    
--    .delay-1 { animation-delay: 0.3s; opacity: 0; }
--    .delay-2 { animation-delay: 0.6s; opacity: 0; }
--    .delay-3 { animation-delay: 0.9s; opacity: 0; }
--    
--    /* Navbar */
--    .navbar {
--      position: fixed;
--      top: 0;
--      left: 0;
--      right: 0;
--      width: 100%;
--      background: rgba(0, 0, 0, 0.95);
--      backdrop-filter: blur(10px);
--      border-bottom: 1px solid #1f1f1f;
--      z-index: 1000;
--      transition: all 0.3s ease;
--    }
--    
--    .faide-wordmark {
--      font-weight: 700;
--      font-size: 1.6rem;
--      letter-spacing: 0;
--      font-style: italic;
--      text-transform: uppercase;
--      background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
--      -webkit-background-clip: text;
--      -webkit-text-fill-color: transparent;
--      background-clip: text;
--    }
--    
--    .nav-links a {
--      font-size: 0.6rem;
--      letter-spacing: 0.5px;
--      text-transform: uppercase;
--      color: #888;
--      text-decoration: none;
--      transition: all 0.3s ease;
--      position: relative;
--    }
--    
--    .nav-links a:hover {
--      color: #9333ea;
--      transform: translateY(-2px);
--    }
--    
--    .nav-links a::after {
--      content: '';
--      position: absolute;
--      bottom: -4px;
--      left: 0;
--      width: 0;
--      height: 2px;
--      background: #9333ea;
--      transition: width 0.3s ease;
--    }
--    
--    .nav-links a:hover::after {
--      width: 100%;
--    }
--    
--    /* Hero Section */
--    .hero {
--      min-height: 80%;
--      display: flex;
--      align-items: center;
--      justify-content: center;
--      text-align: center;
--      flex-direction: column;
--      padding: 120px 24px 100px;
--      position: relative;
--      overflow: hidden;
--    }
--    
--    .hero::before {
--      content: '';
--      position: absolute;
--      top: 0;
--      left: 50%;
--      transform: translateX(-50%);
--      width: 600px;
--      height: 600px;
--      background: transparent;
--      pointer-events: none;
--    }
--    
--    .hero-title {
--      font-size: clamp(2.5rem, 8vw, 4rem);
--      font-weight: 800;
--      color: #a855f7;
--      text-transform: uppercase;
--      letter-spacing: 0.05em;
--      position: relative;
--      text-shadow: 0 0 40px rgba(147, 51, 234, 0.5);
--    }
--    
--    .hero-text {
--      max-width: 520px;
--      margin: 24px auto;
--      color: #aaa;
--      line-height: 1.6;
--      font-size: 1.1rem;
--    }
--    
--    .social-icon {
--      display: inline-flex;
--      align-items: center;
--      justify-content: center;
--      width: 48px;
--      height: 48px;
--      border-radius: 50%;
--      background: #111;
--      color: #888;
--      margin: 0 8px;
--      transition: all 0.3s ease;
--      border: 1px solid #222;
--    }
--    
--    .social-icon:hover {
--      background: #9333ea;
--      color: #fff;
--      transform: translateY(-4px) scale(1.1);
--      box-shadow: 0 10px 25px rgba(147, 51, 234, 0.4);
--      border-color: #9333ea;
--    }
--    
--    .primary-btn {
--      background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
--      border: none;
--      padding: 18px 48px;
--      border-radius: 50px;
--      color: #fff;
--      font-weight: 700;
--      cursor: pointer;
--      margin-top: 32px;
--      transition: all 0.3s ease;
--      text-transform: uppercase;
--      letter-spacing: 1px;
--      font-size: 0.9rem;
--      box-shadow: 0 10px 30px rgba(147, 51, 234, 0.3);
--    }
--    
--    .primary-btn:hover {
--      background: #fff;
--      color: #000;
--      transform: scale(1.05);
--      box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2);
--    }
--    
--    /* Section Title Styles */
--    .section-title {
--      font-size: 2.5rem;
--      margin-bottom: 32px;
--      font-weight: 800;
--      letter-spacing: 0.02em;
--    }
--    
--    .purple-title {
--      color: #a855f7;
--      text-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
--    }
--    
--    /* Lookbook Section */
--    .lookbook {
--      padding: 100px 0;
--    }
--    
--    .aligned-title {
--      padding-left: 32px;
--    }
--    
--    .vertical-list {
--      display: flex;
--      flex-direction: column;
--      gap: 32px;
--      padding: 0 32px;
--      margin-top: 48px;
--    }
--    
--    .lookbook-card {
--      border-radius: 20px;
--      overflow: hidden;
--      position: relative;
--      cursor: pointer;
--      background: #111;
--      height: 400px;
--      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
--      transition: all 0.4s ease;
--    }
--    
--    .lookbook-card::before {
--      content: '';
--      position: absolute;
--      top: 0;
--      left: 0;
--      right: 0;
--      bottom: 0;
--      background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
--      z-index: 1;
--    }
--    
--    .lookbook-card-img {
--      width: 100%;
--      height: 100%;
--      object-fit: cover;
--      transition: transform 0.4s ease;
--    }
--    
--    .lookbook-card:hover .lookbook-card-img {
--      transform: scale(1.1);
--    }
--    
--    .lookbook-card-title {
--      position: absolute;
--      bottom: 24px;
--      left: 24px;
--      font-size: 1.5rem;
--      font-weight: 700;
--      color: #a855f7;
--      z-index: 2;
--      opacity: 0;
--      transform: translateY(20px);
--      transition: all 0.3s ease;
--    }
--    
--    .lookbook-card:hover .lookbook-card-title {
--      opacity: 1;
--      transform: translateY(0);
--    }
--    
--    .lookbook-card:hover {
--      transform: translateY(-8px);
--      box-shadow: 0 20px 40px rgba(147, 51, 234, 0.3);
--    }
--    
--    /* Shop Section */
--    .shop {
--      margin: 140px 0 120px;
--    }
--    
--    .horizontal-scroll {
--      display: flex;
--      overflow-x: auto;
--      gap: 32px;
--      scroll-behavior: smooth;
--      scroll-snap-type: x mandatory;
--      padding: 48px 32px;
--      scrollbar-width: thin;
--      scrollbar-color: #9333ea #111;
--    }
--    
--    .horizontal-scroll::-webkit-scrollbar {
--      height: 8px;
--    }
--    
--    .horizontal-scroll::-webkit-scrollbar-track {
--      background: #111;
--      border-radius: 10px;
--    }
--    
--    .horizontal-scroll::-webkit-scrollbar-thumb {
--      background: #9333ea;
--      border-radius: 10px;
--    }
--    
--    .product {
--      min-width: 380px;
--      padding: 0;
--      background: transparent;
--      color: #fff;
--      text-align: left;
--      transition: all 0.3s ease;
--      display: flex;
--      flex-direction: column;
--      scroll-snap-align: center;
--      border: none;
--      overflow: visible;
--      position: relative;
--      cursor: pointer;
--    }
--    
--    .product-img-container {
--      width: 100%;
--      height: 380px;
--      overflow: hidden;
--      background: #f5f5f5;
--      display: flex;
--      align-items: center;
--      justify-content: center;
--      position: relative;
--      border-radius: 0;
--      margin-bottom: 16px;
--    }
--    
--    .product-img {
--      width: 100%;
--      height: 100%;
--      object-fit: cover;
--      transition: transform 0.3s ease;
--    }
--    
--    .product:hover .product-img {
--      transform: scale(1.05);
--    }
--    
--    .product-placeholder {
--      font-size: 6rem;
--      opacity: 0.15;
--      transition: all 0.3s ease;
--    }
--    
--    .product:hover .product-placeholder {
--      opacity: 0.25;
--    }
--    
--    .product-info {
--      padding: 0 4px;
--      position: relative;
--      z-index: 1;
--    }
--    
--    .product-label {
--      font-size: 0.9rem;
--      color: #9b4700;
--      font-weight: 600;
--      margin-bottom: 4px;
--      text-transform: capitalize;
--    }
--    
--    .product-header {
--      display: flex;
--      justify-content: space-between;
--      align-items: flex-start;
--      margin-bottom: 8px;
--      gap: 12px;
--    }
--    
--    .product-name-wrapper {
--      flex: 1;
--    }
--    
--    .product h3 {
--      font-size: 1rem;
--      margin: 0 0 4px 0;
--      font-weight: 600;
--      letter-spacing: 0;
--      text-transform: none;
--      color: #fff;
--      line-height: 1.4;
--    }
--    
--    .product-category {
--      font-size: 0.95rem;
--      color: #888;
--      font-weight: 400;
--      margin-bottom: 8px;
--    }
--    
--    .product-colors-count {
--      font-size: 0.95rem;
--      color: #888;
--      font-weight: 400;
--    }
--    
--    .price {
--      font-size: 1rem;
--      color: #fff;
--      font-weight: 600;
--      white-space: nowrap;
--      flex-shrink: 0;
--    }
--    
--    .options {
--      margin: 16px 0 0 0;
--      opacity: 0;
--      max-height: 0;
--      overflow: hidden;
--      transition: all 0.3s ease;
--    }
--    
--    .product:hover .options,
--    .product.expanded .options {
--      opacity: 1;
--      max-height: 400px;
--    }
--    
--    .option-label {
--      font-size: 0.85rem;
--      text-transform: none;
--      letter-spacing: 0;
--      color: #fff;
--      font-weight: 600;
--      margin-bottom: 8px;
--    }
--    
--    .sizes {
--      display: grid;
--      grid-template-columns: repeat(4, 1fr);
--      gap: 6px;
--      margin-bottom: 16px;
--    }
--    
--    .size-btn {
--      height: 40px;
--      border-radius: 4px;
--      background: transparent;
--      color: #888;
--      border: 1px solid #ccc;
--      cursor: pointer;
--      transition: all 0.2s ease;
--      font-weight: 500;
--      font-size: 0.9rem;
--      position: relative;
--      overflow: visible;
--    }
--    
--    .size-btn:hover {
--      border-color: #111;
--      color: #fff;
--    }
--    
--    .size-btn.selected {
--      background: #111;
--      color: #fff;
--      border-color: #111;
--      box-shadow: none;
--    }
--    
--    .colors {
--      display: flex;
--      gap: 8px;
--      margin-bottom: 16px;
--    }
--    
--    .color {
--      width: 36px;
--      height: 36px;
--      border-radius: 50%;
--      cursor: pointer;
--      transition: all 0.2s ease;
--      border: 2px solid transparent;
--      position: relative;
--    }
--    
--    .color::after {
--      content: '✓';
--      position: absolute;
--      top: 50%;
--      left: 50%;
--      transform: translate(-50%, -50%) scale(0);
--      color: #fff;
--      font-weight: 900;
--      font-size: 0.9rem;
--      transition: transform 0.2s ease;
--    }
--    
--    .color:hover {
--      transform: scale(1.1);
--      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
--    }
--    
--    .color.selected {
--      border-color: #111;
--      transform: scale(1.05);
--    }
--    
--    .color.selected::after {
--      transform: translate(-50%, -50%) scale(1);
--    }
--    
--    .color.black {
--      background: #000;
--      border: 2px solid #ddd;
--    }
--    
--    .color.white {
--      background: #fff;
--      border: 2px solid #ddd;
--    }
--    
--    .color.white::after {
--      color: #000;
--    }
--    
--    .color.grey {
--      background: #666;
--    }
--    
--    .quantity-wrapper {
--      display: flex;
--      align-items: center;
--      gap: 12px;
--      margin-bottom: 16px;
--    }
--    
--    .quantity {
--      flex: 1;
--      padding: 10px;
--      border-radius: 30px;
--      background: #f5f5f5;
--      border: 1px solid #e5e5e5;
--      color: #111;
--      text-align: center;
--      font-size: 0.95rem;
--      font-weight: 600;
--      transition: all 0.2s ease;
--    }
--    
--    .quantity:focus {
--      outline: none;
--      border-color: #111;
--      background: #fff;
--    }
--    
--    .secondary-btn {
--      background: #111;
--      border: none;
--      padding: 14px 24px;
--      border-radius: 30px;
--      color: #fff;
--      font-weight: 600;
--      cursor: pointer;
--      transition: all 0.2s ease;
--      text-transform: none;
--      letter-spacing: 0;
--      font-size: 0.95rem;
--      width: 100%;
--      position: relative;
--      overflow: hidden;
--      box-shadow: none;
--    }
--    
--    .secondary-btn:hover {
--      background: #333;
--      transform: none;
--      box-shadow: none;
--    }
--    
--    .secondary-btn:active {
--      transform: scale(0.98);
--    }
--    
--    /* Floating Cart Button */
--    .floating-cart {
--      position: fixed;
--      bottom: 32px;
--      right: 32px;
--      width: 64px;
--      height: 64px;
--      border-radius: 50%;
--      background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
--      color: #fff;
--      border: none;
--      cursor: pointer;
--      box-shadow: 0 10px 40px rgba(147, 51, 234, 0.5);
--      display: flex;
--      align-items: center;
--      justify-content: center;
--      z-index: 1500;
--      transition: all 0.3s ease;
--    }
--    
--    .floating-cart:hover {
--      transform: scale(1.1);
--      box-shadow: 0 15px 50px rgba(147, 51, 234, 0.7);
--    }
--    
--    .cart-count {
--      position: absolute;
--      top: 0;
--      right: 0;
--      background: #ef4444;
--      color: #fff;
--      border-radius: 50%;
--      width: 24px;
--      height: 24px;
--      display: flex;
--      align-items: center;
--      justify-content: center;
--      font-size: 0.75rem;
--      font-weight: 700;
--      border: 2px solid #000;
--    }
--    
--    /* Cart Sidebar */
--    .cart-sidebar {
--      position: fixed;
--      top: 0;
--      right: -400px;
--      width: 400px;
--      height: 100%;
--      background: #0a0a0a;
--      box-shadow: -5px 0 30px rgba(0, 0, 0, 0.8);
--      z-index: 2000;
--      transition: right 0.4s ease;
--      display: flex;
--      flex-direction: column;
--      border-left: 1px solid #1f1f1f;
--    }
--    
--    .cart-sidebar.active {
--      right: 0;
--    }
--    
--    .cart-header {
--      display: flex;
--      justify-content: space-between;
--      align-items: center;
--      padding: 24px;
--      border-bottom: 1px solid #1f1f1f;
--      background: #111;
--    }
--    
--    .cart-header h2 {
--      font-size: 1.5rem;
--      font-weight: 700;
--      color: #a855f7;
--      margin: 0;
--    }
--    
--    .close-cart {
--      background: transparent;
--      border: none;
--      color: #888;
--      cursor: pointer;
--      padding: 8px;
--      transition: all 0.3s ease;
--      display: flex;
--      align-items: center;
--      justify-content: center;
--      border-radius: 8px;
--    }
--    
--    .close-cart:hover {
--      color: #fff;
--      background: #1a1a1a;
--    }
--    
--    .cart-items {
--      flex: 1;
--      overflow-y: auto;
--      padding: 24px;
--      list-style: none;
--    }
--    
--    .cart-items li {
--      background: #111;
--      padding: 16px;
--      margin-bottom: 12px;
--      border-radius: 12px;
--      color: #fff;
--      border: 1px solid #1f1f1f;
--      display: flex;
--      justify-content: space-between;
--      align-items: center;
--      transition: all 0.3s ease;
--    }
--    
--    .cart-items li:hover {
--      border-color: #9333ea;
--      background: #1a1a1a;
--    }
--    
--    .cart-items::-webkit-scrollbar {
--      width: 6px;
--    }
--    
--    .cart-items::-webkit-scrollbar-track {
--      background: #111;
--    }
--    
--    .cart-items::-webkit-scrollbar-thumb {
--      background: #9333ea;
--      border-radius: 10px;
--    }
--    
--    .cart-footer {
--      padding: 24px;
--      border-top: 1px solid #1f1f1f;
--      background: #111;
--    }
--    
--    .cart-total-row {
--      display: flex;
--      justify-content: space-between;
--      align-items: center;
--      margin-bottom: 20px;
--      font-size: 1.3rem;
--    }
--    
--    .cart-total-label {
--      font-weight: 700;
--      color: #888;
--    }
--    
--    .cart-total-value {
--      font-weight: 700;
--      color: #a855f7;
--      font-size: 1.5rem;
--    }
--    
--    .checkout-btn {
--      width: 100%;
--      background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
--      border: none;
--      padding: 16px;
--      border-radius: 50px;
--      color: #fff;
--      font-weight: 700;
--      cursor: pointer;
--      transition: all 0.3s ease;
--      text-transform: uppercase;
--      letter-spacing: 1px;
--      font-size: 0.9rem;
--    }
--    
--    .checkout-btn:hover {
--      background: #fff;
--      color: #000;
--      transform: scale(1.02);
--    }
--    
--    /* Cart Toast */
--    .cart-toast {
--      position: fixed;
--      bottom: 110px;
--      right: 32px;
--      background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
--      color: #fff;
--      padding: 16px 24px;
--      border-radius: 12px;
--      box-shadow: 0 10px 40px rgba(147, 51, 234, 0.5);
--      transform: translateY(200px);
--      transition: transform 0.4s ease;
--      z-index: 2000;
--      display: flex;
--      align-items: center;
--      gap: 12px;
--      font-weight: 600;
--    }
--    
--    .cart-toast.show {
--      transform: translateY(0);
--    }
--    
--    /* Responsive */
--    @media (max-width: 768px) {
--      .nav-links {
--        display: none;
--      }
--      
--      .hero {
--        padding: 80px 16px 60px;
--      }
--      
--      .hero-title {
--        font-size: 2rem;
--      }
--      
--      .mission {
--        padding: 60px 16px;
--      }
--      
--      .lookbook-card {
--        height: 300px;
--      }
--      
--      .product {
--        min-width: 280px;
--      }
--      
--      .cart-sidebar {
--        width: 100%;
--        right: -100%;
--      }
--      
--      .floating-cart {
--        bottom: 24px;
--        right: 24px;
--        width: 56px;
--        height: 56px;
--      }
--      
--      .cart-toast {
--        bottom: 100px;
--        right: 24px;
--        left: 24px;
--        max-width: calc(100% - 48px);
--      }
--    }
--  </style>
--  <style>@view-transition { navigation: auto; }</style>
--  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-+  <link rel="stylesheet" href="style.css">
-+
-+<script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  </head>
-  <body class="h-full w-full"><!-- NAVBAR -->
-   <nav class="navbar flex justify-between items-center px-8 py-6">
-    <h1 class="logo" id="brand-name" style="color: #ffffff; font-weight: 700; font-size: 1.6rem; letter-spacing: 0; font-style: italic; text-transform: uppercase;">FAIDE</h1>
-    <div class="nav-links flex items-center gap-2"><a href="#drop">New Drop</a> <a href="#lookbook">Lookbook</a> <a href="#shop">Shop</a> <a href="#mission">About</a>
-    </div>
-   </nav><!-- HERO -->
-   <section id="drop" class="hero">
-    <div class="hero-content" style="position: relative; z-index: 1;">
-     <h2 class="hero-title fade-in-up delay-1" id="hero-title">NEW DROP</h2>
-     <p class="hero-text fade-in-up delay-2" id="hero-description">New drops, exclusive releases, and updates are announced on our social platforms.</p>
-     <div class="hero-social-icons fade-in-up delay-2" style="margin: 32px 0;"><a href="https://instagram.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon">
-       <svg width="20" height="20" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-       </svg></a> <a href="https://facebook.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon">
-       <svg width="20" height="20" fill="currentColor" viewbox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
-       </svg></a> <a href="https://twitter.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon">
-       <svg width="20" height="20" fill="currentColor" viewbox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-       </svg></a> <a href="https://tiktok.com/@faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon">
-       <svg width="20" height="20" fill="currentColor" viewbox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-       </svg></a>
-     </div><button class="primary-btn fade-in-up delay-3" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Shop Now</button>
-    </div>
-   </section><!-- LOOKBOOK -->
-   <section id="lookbook" class="lookbook">
-    <h2 class="section-title purple-title aligned-title">Lookbook</h2>
-@@ -1095,493 +264,29 @@
-       <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z" />
-       </svg></button>
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="xHQMXeonHcUZ-NTHCrtvjlR9bojEkpwc8CzKChP7I9o">
+  <title>FAIDE® | Luxury Streetwear Brand</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+    
+    html { 
+      scroll-behavior: smooth;
+      height: 100%;
+    }
+    
+    body { 
+      background: #000; 
+      color: #fff; 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+      height: 100%;
+      width: 100%;
+    }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .fade-in-up {
+      animation: fadeInUp 1s forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.3s; opacity: 0; }
+    .delay-2 { animation-delay: 0.6s; opacity: 0; }
+    .delay-3 { animation-delay: 0.9s; opacity: 0; }
+    
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #1f1f1f;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+    
+    .faide-wordmark {
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 0;
+      font-style: italic;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .nav-links a {
+      font-size: 0.6rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #888;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .nav-links a:hover {
+      color: #9333ea;
+      transform: translateY(-2px);
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #9333ea;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    
+    /* Hero Section */
+    .hero {
+      min-height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+      padding: 120px 24px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: transparent;
+      pointer-events: none;
+    }
+    
+    .hero-title {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 800;
+      color: #a855f7;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      position: relative;
+      text-shadow: 0 0 40px rgba(147, 51, 234, 0.5);
+    }
+    
+    .hero-text {
+      max-width: 520px;
+      margin: 24px auto;
+      color: #aaa;
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+    
+    .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #111;
+      color: #888;
+      margin: 0 8px;
+      transition: all 0.3s ease;
+      border: 1px solid #222;
+    }
+    
+    .social-icon:hover {
+      background: #9333ea;
+      color: #fff;
+      transform: translateY(-4px) scale(1.1);
+      box-shadow: 0 10px 25px rgba(147, 51, 234, 0.4);
+      border-color: #9333ea;
+    }
+    
+    .primary-btn {
+      background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+      border: none;
+      padding: 18px 48px;
+      border-radius: 50px;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 32px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 30px rgba(147, 51, 234, 0.3);
+    }
+    
+    .primary-btn:hover {
+      background: #fff;
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Section Title Styles */
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 32px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+    
+    .purple-title {
+      color: #a855f7;
+      text-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+    }
+    
+    /* Lookbook Section */
+    .lookbook {
+      padding: 100px 0;
+    }
+    
+    .aligned-title {
+      padding-left: 32px;
+    }
+    
+    .vertical-list {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      padding: 0 32px;
+      margin-top: 48px;
+    }
+    
+    .lookbook-card {
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      background: #111;
+      height: 400px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      transition: all 0.4s ease;
+    }
+    
+    .lookbook-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+      z-index: 1;
+    }
+    
+    .lookbook-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    .lookbook-card:hover .lookbook-card-img {
+      transform: scale(1.1);
+    }
+    
+    .lookbook-card-title {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #a855f7;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+    }
+    
+    .lookbook-card:hover .lookbook-card-title {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .lookbook-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(147, 51, 234, 0.3);
+    }
+    
+    /* Shop Section */
+    .shop {
+      margin: 140px 0 120px;
+    }
+    
+    .horizontal-scroll {
+      display: flex;
+      overflow-x: auto;
+      gap: 32px;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      padding: 48px 32px;
+      scrollbar-width: thin;
+      scrollbar-color: #9333ea #111;
+    }
+    
+    .horizontal-scroll::-webkit-scrollbar {
+      height: 8px;
+    }
+    
+    .horizontal-scroll::-webkit-scrollbar-track {
+      background: #111;
+      border-radius: 10px;
+    }
+    
+    .horizontal-scroll::-webkit-scrollbar-thumb {
+      background: #9333ea;
+      border-radius: 10px;
+    }
+    
+    .product {
+      min-width: 380px;
+      padding: 0;
+      background: transparent;
+      color: #fff;
+      text-align: left;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      scroll-snap-align: center;
+      border: none;
+      overflow: visible;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .product-img-container {
+      width: 100%;
+      height: 380px;
+      overflow: hidden;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border-radius: 0;
+      margin-bottom: 16px;
+    }
+    
+    .product-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .product:hover .product-img {
+      transform: scale(1.05);
+    }
+    
+    .product-placeholder {
+      font-size: 6rem;
+      opacity: 0.15;
+      transition: all 0.3s ease;
+    }
+    
+    .product:hover .product-placeholder {
+      opacity: 0.25;
+    }
+    
+    .product-info {
+      padding: 0 4px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .product-label {
+      font-size: 0.9rem;
+      color: #9b4700;
+      font-weight: 600;
+      margin-bottom: 4px;
+      text-transform: capitalize;
+    }
+    
+    .product-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      gap: 12px;
+    }
+    
+    .product-name-wrapper {
+      flex: 1;
+    }
+    
+    .product h3 {
+      font-size: 1rem;
+      margin: 0 0 4px 0;
+      font-weight: 600;
+      letter-spacing: 0;
+      text-transform: none;
+      color: #fff;
+      line-height: 1.4;
+    }
+    
+    .product-category {
+      font-size: 0.95rem;
+      color: #888;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    
+    .product-colors-count {
+      font-size: 0.95rem;
+      color: #888;
+      font-weight: 400;
+    }
+    
+    .price {
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    
+    .options {
+      margin: 16px 0 0 0;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .product:hover .options,
+    .product.expanded .options {
+      opacity: 1;
+      max-height: 400px;
+    }
+    
+    .option-label {
+      font-size: 0.85rem;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #fff;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .sizes {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    
+    .size-btn {
+      height: 40px;
+      border-radius: 4px;
+      background: transparent;
+      color: #888;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      font-size: 0.9rem;
+      position: relative;
+      overflow: visible;
+    }
+    
+    .size-btn:hover {
+      border-color: #111;
+      color: #fff;
+    }
+    
+    .size-btn.selected {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+      box-shadow: none;
+    }
+    
+    .colors {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .color {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
+      position: relative;
+    }
+    
+    .color::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      color: #fff;
+      font-weight: 900;
+      font-size: 0.9rem;
+      transition: transform 0.2s ease;
+    }
+    
+    .color:hover {
+      transform: scale(1.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .color.selected {
+      border-color: #111;
+      transform: scale(1.05);
+    }
+    
+    .color.selected::after {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    
+    .color.black {
+      background: #000;
+      border: 2px solid #ddd;
+    }
+    
+    .color.white {
+      background: #fff;
+      border: 2px solid #ddd;
+    }
+    
+    .color.white::after {
+      color: #000;
+    }
+    
+    .color.grey {
+      background: #666;
+    }
+    
+    .quantity-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .quantity {
+      flex: 1;
+      padding: 10px;
+      border-radius: 30px;
+      background: #f5f5f5;
+      border: 1px solid #e5e5e5;
+      color: #111;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    
+    .quantity:focus {
+      outline: none;
+      border-color: #111;
+      background: #fff;
+    }
+    
+    .secondary-btn {
+      background: #111;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 30px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 0.95rem;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      box-shadow: none;
+    }
+    
+    .secondary-btn:hover {
+      background: #333;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .secondary-btn:active {
+      transform: scale(0.98);
+    }
+    
+    /* Floating Cart Button */
+    .floating-cart {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 40px rgba(147, 51, 234, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1500;
+      transition: all 0.3s ease;
+    }
+    
+    .floating-cart:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 50px rgba(147, 51, 234, 0.7);
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #ef4444;
+      color: #fff;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 2px solid #000;
+    }
+    
+    /* Cart Sidebar */
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 400px;
+      height: 100%;
+      background: #0a0a0a;
+      box-shadow: -5px 0 30px rgba(0, 0, 0, 0.8);
+      z-index: 2000;
+      transition: right 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #1f1f1f;
+    }
+    
+    .cart-sidebar.active {
+      right: 0;
+    }
+    
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px;
+      border-bottom: 1px solid #1f1f1f;
+      background: #111;
+    }
+    
+    .cart-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #a855f7;
+      margin: 0;
+    }
+    
+    .close-cart {
+      background: transparent;
+      border: none;
+      color: #888;
+      cursor: pointer;
+      padding: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+    }
+    
+    .close-cart:hover {
+      color: #fff;
+      background: #1a1a1a;
+    }
+    
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      list-style: none;
+    }
+    
+    .cart-items li {
+      background: #111;
+      padding: 16px;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      color: #fff;
+      border: 1px solid #1f1f1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    
+    .cart-items li:hover {
+      border-color: #9333ea;
+      background: #1a1a1a;
+    }
+    
+    .cart-items::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .cart-items::-webkit-scrollbar-track {
+      background: #111;
+    }
+    
+    .cart-items::-webkit-scrollbar-thumb {
+      background: #9333ea;
+      border-radius: 10px;
+    }
+    
+    .cart-footer {
+      padding: 24px;
+      border-top: 1px solid #1f1f1f;
+      background: #111;
+    }
+    
+    .cart-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+    }
+    
+    .cart-total-label {
+      font-weight: 700;
+      color: #888;
+    }
+    
+    .cart-total-value {
+      font-weight: 700;
+      color: #a855f7;
+      font-size: 1.5rem;
+    }
+    
+    .checkout-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+      border: none;
+      padding: 16px;
+      border-radius: 50px;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+    }
+    
+    .checkout-btn:hover {
+      background: #fff;
+      color: #000;
+      transform: scale(1.02);
+    }
+    
+    /* Cart Toast */
+    .cart-toast {
+      position: fixed;
+      bottom: 110px;
+      right: 32px;
+      background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+      color: #fff;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(147, 51, 234, 0.5);
+      transform: translateY(200px);
+      transition: transform 0.4s ease;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+    
+    .cart-toast.show {
+      transform: translateY(0);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .hero {
+        padding: 80px 16px 60px;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .mission {
+        padding: 60px 16px;
+      }
+      
+      .lookbook-card {
+        height: 300px;
+      }
+      
+      .product {
+        min-width: 280px;
+      }
+      
+      .cart-sidebar {
+        width: 100%;
+        right: -100%;
+      }
+      
+      .floating-cart {
+        bottom: 24px;
+        right: 24px;
+        width: 56px;
+        height: 56px;
+      }
+      
+      .cart-toast {
+        bottom: 100px;
+        right: 24px;
+        left: 24px;
+        max-width: calc(100% - 48px);
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full w-full"><!-- NAVBAR -->
+  <nav class="navbar flex justify-between items-center px-8 py-6">
+   <h1 class="logo" id="brand-name" style="color: #ffffff; font-weight: 700; font-size: 1.6rem; letter-spacing: 0; font-style: italic; text-transform: uppercase;">FAIDE</h1>
+   <div class="nav-links flex items-center gap-2"><a href="#drop">New Drop</a> <a href="#lookbook">Lookbook</a> <a href="#shop">Shop</a> <a href="#mission">About</a>
+   </div>
+  </nav><!-- HERO -->
+  <section id="drop" class="hero">
+   <div class="hero-content" style="position: relative; z-index: 1;">
+    <h2 class="hero-title fade-in-up delay-1" id="hero-title">NEW DROP</h2>
+    <p class="hero-text fade-in-up delay-2" id="hero-description">New drops, exclusive releases, and updates are announced on our social platforms.</p>
+    <div class="hero-social-icons fade-in-up delay-2" style="margin: 32px 0;"><a href="https://instagram.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon">
+      <svg width="20" height="20" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+      </svg></a> <a href="https://facebook.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon">
+      <svg width="20" height="20" fill="currentColor" viewbox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+      </svg></a> <a href="https://twitter.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon">
+      <svg width="20" height="20" fill="currentColor" viewbox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg></a> <a href="https://tiktok.com/@faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon">
+      <svg width="20" height="20" fill="currentColor" viewbox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+      </svg></a>
+    </div><button class="primary-btn fade-in-up delay-3" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+   </div>
+  </section><!-- LOOKBOOK -->
+  <section id="lookbook" class="lookbook">
+   <h2 class="section-title purple-title aligned-title">Lookbook</h2>
+   <div class="vertical-list">
+    <div class="lookbook-card">
+     <div class="product-img-container" style="height: 100%;">
+      <div class="product-placeholder">
+       👕
+      </div>
      </div>
-     <div id="modal-content" style="padding: 32px; color: #ccc; line-height: 1.8;"><!-- Content will be inserted here -->
+     <h3 class="lookbook-card-title">Look 1</h3>
+    </div>
+    <div class="lookbook-card">
+     <div class="product-img-container" style="height: 100%;">
+      <div class="product-placeholder">
+       🧥
+      </div>
+     </div>
+     <h3 class="lookbook-card-title">Look 2</h3>
+    </div>
+   </div>
+  </section><!-- SHOP -->
+  <section id="shop" class="shop">
+   <h2 class="section-title purple-title aligned-title">Shop</h2>
+   <div class="horizontal-scroll"><!-- Tank-top -->
+    <div class="product" data-name="Tank-top" data-price="199.99">
+     <div class="product-img-container">
+      <div class="product-placeholder">
+       👕
+      </div>
+     </div>
+     <div class="product-info">
+      <div class="product-label">
+       Just In
+      </div>
+      <div class="product-header">
+       <div class="product-name-wrapper">
+        <h3>FAIDE Essentials Tank</h3>
+        <div class="product-category">
+         Men's Tank Top
+        </div>
+        <div class="product-colors-count">
+         2 Colors
+        </div>
+       </div>
+       <p class="price">R199.99</p>
+      </div>
+      <div class="options">
+       <div class="option-label">
+        Select Size
+       </div>
+       <div class="sizes"><button class="size-btn" data-size="S">S</button> <button class="size-btn" data-size="M">M</button> <button class="size-btn" data-size="L">L</button> <button class="size-btn" data-size="XL">XL</button>
+       </div>
+       <div class="option-label">
+        Select Color
+       </div>
+       <div class="colors">
+        <div class="color black" data-color="Black"></div>
+        <div class="color white" data-color="White"></div>
+       </div>
+       <div class="quantity-wrapper"><input type="number" min="1" value="1" class="quantity" aria-label="Quantity">
+       </div><button class="secondary-btn add-to-cart">Add to Bag</button>
+      </div>
+     </div>
+    </div><!-- T-shirt -->
+    <div class="product" data-name="T-shirt" data-price="349.99">
+     <div class="product-img-container">
+      <div class="product-placeholder">
+       👔
+      </div>
+     </div>
+     <div class="product-info">
+      <div class="product-label">
+       Bestseller
+      </div>
+      <div class="product-header">
+       <div class="product-name-wrapper">
+        <h3>FAIDE Signature Tee</h3>
+        <div class="product-category">
+         Men's Short-Sleeve Top
+        </div>
+        <div class="product-colors-count">
+         3 Colors
+        </div>
+       </div>
+       <p class="price">R349.99</p>
+      </div>
+      <div class="options">
+       <div class="option-label">
+        Select Size
+       </div>
+       <div class="sizes"><button class="size-btn" data-size="S">S</button> <button class="size-btn" data-size="M">M</button> <button class="size-btn" data-size="L">L</button> <button class="size-btn" data-size="XL">XL</button>
+       </div>
+       <div class="option-label">
+        Select Color
+       </div>
+       <div class="colors">
+        <div class="color black" data-color="Black"></div>
+        <div class="color white" data-color="White"></div>
+        <div class="color grey" data-color="Grey"></div>
+       </div>
+       <div class="quantity-wrapper"><input type="number" min="1" value="1" class="quantity" aria-label="Quantity">
+       </div><button class="secondary-btn add-to-cart">Add to Bag</button>
+      </div>
+     </div>
+    </div><!-- Hoodie -->
+    <div class="product" data-name="Hoodie" data-price="699.99">
+     <div class="product-img-container">
+      <div class="product-placeholder">
+       🧥
+      </div>
+     </div>
+     <div class="product-info">
+      <div class="product-label">
+       Premium
+      </div>
+      <div class="product-header">
+       <div class="product-name-wrapper">
+        <h3>FAIDE Luxury Hoodie</h3>
+        <div class="product-category">
+         Men's Pullover Hoodie
+        </div>
+        <div class="product-colors-count">
+         2 Colors
+        </div>
+       </div>
+       <p class="price">R699.99</p>
+      </div>
+      <div class="options">
+       <div class="option-label">
+        Select Size
+       </div>
+       <div class="sizes"><button class="size-btn" data-size="S">S</button> <button class="size-btn" data-size="M">M</button> <button class="size-btn" data-size="L">L</button> <button class="size-btn" data-size="XL">XL</button>
+       </div>
+       <div class="option-label">
+        Select Color
+       </div>
+       <div class="colors">
+        <div class="color black" data-color="Black"></div>
+        <div class="color grey" data-color="Grey"></div>
+       </div>
+       <div class="quantity-wrapper"><input type="number" min="1" value="1" class="quantity" aria-label="Quantity">
+       </div><button class="secondary-btn add-to-cart">Add to Bag</button>
+      </div>
+     </div>
+    </div><!-- Joggers -->
+    <div class="product" data-name="Joggers" data-price="549.99">
+     <div class="product-img-container">
+      <div class="product-placeholder">
+       👖
+      </div>
+     </div>
+     <div class="product-info">
+      <div class="product-label">
+       Member Exclusive
+      </div>
+      <div class="product-header">
+       <div class="product-name-wrapper">
+        <h3>FAIDE Tech Joggers</h3>
+        <div class="product-category">
+         Men's Joggers
+        </div>
+        <div class="product-colors-count">
+         2 Colors
+        </div>
+       </div>
+       <p class="price">R549.99</p>
+      </div>
+      <div class="options">
+       <div class="option-label">
+        Select Size
+       </div>
+       <div class="sizes"><button class="size-btn" data-size="S">S</button> <button class="size-btn" data-size="M">M</button> <button class="size-btn" data-size="L">L</button> <button class="size-btn" data-size="XL">XL</button>
+       </div>
+       <div class="option-label">
+        Select Color
+       </div>
+       <div class="colors">
+        <div class="color black" data-color="Black"></div>
+        <div class="color white" data-color="White"></div>
+       </div>
+       <div class="quantity-wrapper"><input type="number" min="1" value="1" class="quantity" aria-label="Quantity">
+       </div><button class="secondary-btn add-to-cart">Add to Bag</button>
+      </div>
      </div>
     </div>
-   </div><!-- Floating Cart Button --> <button id="floating-cart" class="floating-cart" aria-label="View shopping cart">
-    <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z" />
-    </svg><span id="cart-count" class="cart-count">0</span> </button> <!-- Cart Sidebar -->
-   <div id="cart-sidebar" class="cart-sidebar">
-    <div class="cart-header">
-     <h2>Your Cart</h2><button id="close-cart" class="close-cart" aria-label="Close cart">
+   </div>
+  </section><!-- Footer -->
+  <footer id="footer" style="background: #0a0a0a; border-top: 1px solid #1f1f1f; padding: 60px 32px 40px;">
+   <div style="max-width: 1200px; margin: 0 auto;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 48px; margin-bottom: 48px;"><!-- Shop Column -->
+     <div>
+      <h4 style="color: #fff; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">Shop</h4>
+      <ul style="list-style: none; padding: 0;">
+       <li style="margin-bottom: 12px;"><a href="#shop" style="color: #888; text-decoration: none; transition: color 0.3s ease;">New Arrivals</a></li>
+       <li style="margin-bottom: 12px;"><a href="#shop" style="color: #888; text-decoration: none; transition: color 0.3s ease;">Tops</a></li>
+       <li style="margin-bottom: 12px;"><a href="#shop" style="color: #888; text-decoration: none; transition: color 0.3s ease;">Bottoms</a></li>
+       <li style="margin-bottom: 12px;"><a href="#shop" style="color: #888; text-decoration: none; transition: color 0.3s ease;">Accessories</a></li>
+      </ul>
+     </div><!-- Company Column -->
+     <div>
+      <h4 style="color: #fff; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">Company</h4>
+      <ul style="list-style: none; padding: 0;">
+       <li style="margin-bottom: 12px;"><a href="#mission" style="color: #888; text-decoration: none; transition: color 0.3s ease;">About Us</a></li>
+       <li style="margin-bottom: 12px;"><a href="#" style="color: #888; text-decoration: none; transition: color 0.3s ease;">Contact</a></li>
+       <li style="margin-bottom: 12px;"><a href="#lookbook" style="color: #888; text-decoration: none; transition: color 0.3s ease;">Lookbook</a></li>
+       <li style="margin-bottom: 12px;"><a href="#" style="color: #888; text-decoration: none; transition: color 0.3s ease;">Careers</a></li>
+      </ul>
+     </div><!-- Legal Column -->
+     <div>
+      <h4 style="color: #fff; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">Legal</h4>
+      <ul style="list-style: none; padding: 0;">
+       <li style="margin-bottom: 12px;"><a href="#" id="privacy-link" style="color: #888; text-decoration: none; transition: color 0.3s ease;">Privacy Policy</a></li>
+       <li style="margin-bottom: 12px;"><a href="#" id="terms-link" style="color: #888; text-decoration: none; transition: color 0.3s ease;">Terms of Service</a></li>
+       <li style="margin-bottom: 12px;"><a href="#" id="returns-link" style="color: #888; text-decoration: none; transition: color 0.3s ease;">Returns &amp; Exchanges</a></li>
+       <li style="margin-bottom: 12px;"><a href="#" id="shipping-link" style="color: #888; text-decoration: none; transition: color 0.3s ease;">Shipping Policy</a></li>
+      </ul>
+     </div>
+    </div><!-- Bottom Bar -->
+    <div style="border-top: 1px solid #1f1f1f; padding-top: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+     <p style="color: #666; font-size: 0.9rem; margin: 0;">�� 2024 FAIDE. All rights reserved.</p>
+     <p style="color: #666; font-size: 0.9rem; margin: 0;">Designed with 🖤 for those who move in silence</p>
+    </div>
+   </div>
+  </footer><!-- Policy Modal -->
+  <div id="policy-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 3000; overflow-y: auto; padding: 40px 20px;">
+   <div style="max-width: 800px; margin: 0 auto; background: #0a0a0a; border-radius: 20px; border: 1px solid #1f1f1f; overflow: hidden;">
+    <div style="background: #111; padding: 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f1f1f;">
+     <h2 id="modal-title" style="color: #a855f7; font-size: 1.5rem; font-weight: 700; margin: 0;">Policy</h2><button id="close-modal" style="background: transparent; border: none; color: #888; cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center; border-radius: 8px; transition: all 0.3s ease;">
       <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z" />
       </svg></button>
     </div>
-    <ul id="cart-items" class="cart-items"></ul>
-    <div class="cart-footer">
-     <div class="cart-total-row"><span class="cart-total-label">Total:</span> <span class="cart-total-value">R<span id="cart-total">0.00</span></span>
-     </div><button class="checkout-btn">Proceed to Checkout</button>
+    <div id="modal-content" style="padding: 32px; color: #ccc; line-height: 1.8;"><!-- Content will be inserted here -->
     </div>
-   </div><!-- Cart Toast -->
-   <div class="cart-toast" id="cartToast">
-    <svg width="20" height="20" fill="currentColor" viewbox="0 0 24 24"><path d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z" />
-    </svg><span id="cartMessage">Added to cart!</span>
    </div>
--  <script>
--    const defaultConfig = {
--      brand_name: 'FAIDE',
--      hero_title: 'NEW DROP',
--      hero_description: 'New drops, exclusive releases, and updates are announced on our social platforms.',
--      mission_headline: 'A CLOTHING BRAND THAT NEVER FADE',
--      mission_description: 'FAIDE is a luxury streetwear brand built for those who move in silence.',
--      background_color: '#000000',
--      surface_color: '#111111',
--      text_color: '#ffffff',
--      primary_accent: '#a855f7',
--      secondary_accent: '#9333ea',
--      font_family: 'Inter',
--      font_size: 16
--    };
--
--    async function onConfigChange(config) {
--      const brandName = config.brand_name || defaultConfig.brand_name;
--      const heroTitle = config.hero_title || defaultConfig.hero_title;
--      const heroDescription = config.hero_description || defaultConfig.hero_description;
--      const missionHeadline = config.mission_headline || defaultConfig.mission_headline;
--      const missionDescription = config.mission_description || defaultConfig.mission_description;
--      const backgroundColor = config.background_color || defaultConfig.background_color;
--      const surfaceColor = config.surface_color || defaultConfig.surface_color;
--      const textColor = config.text_color || defaultConfig.text_color;
--      const primaryAccent = config.primary_accent || defaultConfig.primary_accent;
--      const secondaryAccent = config.secondary_accent || defaultConfig.secondary_accent;
--      const customFont = config.font_family || defaultConfig.font_family;
--      const baseSize = config.font_size || defaultConfig.font_size;
--      
--      // Update text content
--      document.getElementById('brand-name').textContent = brandName;
--      document.getElementById('hero-title').textContent = heroTitle;
--      document.getElementById('hero-description').textContent = heroDescription;
--      document.getElementById('mission-headline').textContent = missionHeadline;
--      document.getElementById('mission-description').textContent = missionDescription;
--      
--      // Update colors
--      document.body.style.background = backgroundColor;
--      document.body.style.color = textColor;
--      
--      // Update all products and surfaces with surface color
--      const products = document.querySelectorAll('.product');
--      products.forEach(product => {
--        product.style.background = `linear-gradient(135deg, ${surfaceColor} 0%, ${backgroundColor} 100%)`;
--      });
--      
--      const cards = document.querySelectorAll('.lookbook-card');
--      cards.forEach(card => {
--        card.style.background = surfaceColor;
--      });
--      
--      const navbar = document.querySelector('.navbar');
--      navbar.style.background = `rgba(0, 0, 0, 0.95)`;
--      
--      // Update accent colors
--      const prices = document.querySelectorAll('.price');
--      prices.forEach(price => {
--        price.style.color = primaryAccent;
--      });
--      
--      const purpleTitles = document.querySelectorAll('.purple-title');
--      purpleTitles.forEach(title => {
--        title.style.color = primaryAccent;
--      });
--      
--      const heroTitle2 = document.querySelector('.hero-title');
--      heroTitle2.style.color = primaryAccent;
--      heroTitle2.style.textShadow = `0 0 40px ${primaryAccent}80`;
--      
--      const primaryBtns = document.querySelectorAll('.primary-btn');
--      primaryBtns.forEach(btn => {
--        btn.style.background = `linear-gradient(135deg, ${secondaryAccent} 0%, ${primaryAccent} 100%)`;
--      });
--      
--      const secondaryBtns = document.querySelectorAll('.secondary-btn');
--      secondaryBtns.forEach(btn => {
--        btn.style.borderColor = secondaryAccent;
--        btn.style.color = secondaryAccent;
--      });
--      
--      const lookbookTitles = document.querySelectorAll('.lookbook-card-title');
--      lookbookTitles.forEach(title => {
--        title.style.color = primaryAccent;
--      });
--      
--      // Update fonts
--      const fontStack = `${customFont}, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
--      document.body.style.fontFamily = fontStack;
--      
--      // Update font sizes
--      document.querySelector('.hero-title').style.fontSize = `${baseSize * 2.5}px`;
--      document.querySelector('.hero-text').style.fontSize = `${baseSize * 1.1}px`;
--      document.querySelectorAll('.section-title').forEach(el => {
--        el.style.fontSize = `${baseSize * 2.5}px`;
--      });
--      document.querySelectorAll('.product h3').forEach(el => {
--        el.style.fontSize = `${baseSize * 1.3}px`;
--      });
--      document.querySelectorAll('.price').forEach(el => {
--        el.style.fontSize = `${baseSize * 1.4}px`;
--      });
--    }
--
--    function mapToCapabilities(config) {
--      return {
--        recolorables: [
--          {
--            get: () => config.background_color || defaultConfig.background_color,
--            set: (value) => {
--              config.background_color = value;
--              if (window.elementSdk) {
--                window.elementSdk.setConfig({ background_color: value });
--              }
--            }
--          },
--          {
--            get: () => config.surface_color || defaultConfig.surface_color,
--            set: (value) => {
--              config.surface_color = value;
--              if (window.elementSdk) {
--                window.elementSdk.setConfig({ surface_color: value });
--              }
--            }
--          },
--          {
--            get: () => config.text_color || defaultConfig.text_color,
--            set: (value) => {
--              config.text_color = value;
--              if (window.elementSdk) {
--                window.elementSdk.setConfig({ text_color: value });
--              }
--            }
--          },
--          {
--            get: () => config.primary_accent || defaultConfig.primary_accent,
--            set: (value) => {
--              config.primary_accent = value;
--              if (window.elementSdk) {
--                window.elementSdk.setConfig({ primary_accent: value });
--              }
--            }
--          },
--          {
--            get: () => config.secondary_accent || defaultConfig.secondary_accent,
--            set: (value) => {
--              config.secondary_accent = value;
--              if (window.elementSdk) {
--                window.elementSdk.setConfig({ secondary_accent: value });
--              }
--            }
--          }
--        ],
--        borderables: [],
--        fontEditable: {
--          get: () => config.font_family || defaultConfig.font_family,
--          set: (value) => {
--            config.font_family = value;
--            if (window.elementSdk) {
--              window.elementSdk.setConfig({ font_family: value });
--            }
--          }
--        },
--        fontSizeable: {
--          get: () => config.font_size || defaultConfig.font_size,
--          set: (value) => {
--            config.font_size = value;
--            if (window.elementSdk) {
--              window.elementSdk.setConfig({ font_size: value });
--            }
--          }
--        }
--      };
--    }
--
--    function mapToEditPanelValues(config) {
--      return new Map([
--        ['brand_name', config.brand_name || defaultConfig.brand_name],
--        ['hero_title', config.hero_title || defaultConfig.hero_title],
--        ['hero_description', config.hero_description || defaultConfig.hero_description],
--        ['mission_headline', config.mission_headline || defaultConfig.mission_headline],
--        ['mission_description', config.mission_description || defaultConfig.mission_description]
--      ]);
--    }
--
--    // Initialize Element SDK
--    if (window.elementSdk) {
--      window.elementSdk.init({
--        defaultConfig,
--        onConfigChange,
--        mapToCapabilities,
--        mapToEditPanelValues
--      });
--    }
--
--    // Product interaction functionality
--    let cart = [];
--
--    document.addEventListener('DOMContentLoaded', () => {
--      const products = document.querySelectorAll('.product');
--      const floatingCart = document.getElementById('floating-cart');
--      const cartSidebar = document.getElementById('cart-sidebar');
--      const closeCart = document.getElementById('close-cart');
--      const cartItemsEl = document.getElementById('cart-items');
--      const cartTotalEl = document.getElementById('cart-total');
--      const cartCountEl = document.getElementById('cart-count');
--      
--      // Cart sidebar toggle
--      if (floatingCart) {
--        floatingCart.addEventListener('click', () => cartSidebar.classList.add('active'));
--      }
--      if (closeCart) {
--        closeCart.addEventListener('click', () => cartSidebar.classList.remove('active'));
--      }
--      
--      products.forEach(product => {
--        // Size selection
--        const sizeButtons = product.querySelectorAll('.size-btn');
--        sizeButtons.forEach(btn => {
--          btn.addEventListener('click', () => {
--            sizeButtons.forEach(b => b.classList.remove('selected'));
--            btn.classList.add('selected');
--          });
--        });
--        
--        // Color selection
--        const colorOptions = product.querySelectorAll('.color');
--        colorOptions.forEach(color => {
--          color.addEventListener('click', () => {
--            colorOptions.forEach(c => c.classList.remove('selected'));
--            color.classList.add('selected');
--          });
--        });
--        
--        // Add to cart
--        const addToCartBtn = product.querySelector('.add-to-cart');
--        addToCartBtn.addEventListener('click', () => {
--          const productName = product.getAttribute('data-name');
--          const price = parseFloat(product.getAttribute('data-price'));
--          const selectedSize = product.querySelector('.size-btn.selected');
--          const selectedColor = product.querySelector('.color.selected');
--          const quantity = parseInt(product.querySelector('.quantity').value);
--          
--          const size = selectedSize ? selectedSize.textContent : 'N/A';
--          const color = selectedColor ? selectedColor.getAttribute('data-color') : 'N/A';
--          
--          // Create unique item key
--          const itemKey = `${productName}-${size}-${color}`;
--          
--          // Check if item exists in cart
--          const existing = cart.find(item => item.key === itemKey);
--          if (existing) {
--            existing.quantity += quantity;
--          } else {
--            cart.push({
--              key: itemKey,
--              name: productName,
--              price: price,
--              size: size,
--              color: color,
--              quantity: quantity
--            });
--          }
--          
--          updateCartUI();
--          
--          let message = `Added ${quantity}x ${productName}`;
--          if (selectedSize) message += ` (${size})`;
--          if (selectedColor) message += ` in ${color}`;
--          message += ' to cart!';
--          
--          showCartToast(message);
--        });
--      });
--      
--      function updateCartUI() {
--        if (!cartItemsEl || !cartTotalEl || !cartCountEl) return;
--        
--        cartItemsEl.innerHTML = '';
--        let total = 0;
--        let itemCount = 0;
--        
--        cart.forEach((item, index) => {
--          const li = document.createElement('li');
--          li.innerHTML = `
--            <div>
--              <div style="font-weight: 700; margin-bottom: 4px;">${item.name}</div>
--              <div style="font-size: 0.85rem; color: #888;">
--                Size: ${item.size} | Color: ${item.color} | Qty: ${item.quantity}
--              </div>
--            </div>
--            <div style="font-weight: 700; color: #a855f7;">R${(item.price * item.quantity).toFixed(2)}</div>
--          `;
--          cartItemsEl.appendChild(li);
--          total += item.price * item.quantity;
--          itemCount += item.quantity;
--        });
--        
--        cartTotalEl.textContent = total.toFixed(2);
--        cartCountEl.textContent = itemCount;
--        
--        if (itemCount === 0) {
--          cartItemsEl.innerHTML = '<li style="text-align: center; color: #666; border: none; background: transparent;">Your cart is empty</li>';
--        }
--      }
--    });
--
--    function showCartToast(message) {
--      const toast = document.getElementById('cartToast');
--      const messageEl = document.getElementById('cartMessage');
--      
--      messageEl.textContent = message;
--      toast.classList.add('show');
--      
--      setTimeout(() => {
--        toast.classList.remove('show');
--      }, 3000);
--    }
--
--    // Policy Modal Functionality
--    const policyModal = document.getElementById('policy-modal');
--    const modalTitle = document.getElementById('modal-title');
--    const modalContent = document.getElementById('modal-content');
--    const closeModal = document.getElementById('close-modal');
--
--    const policies = {
--      privacy: {
--        title: 'Privacy Policy',
--        content: `
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;">Introduction</h3>
--          <p style="margin-bottom: 20px;">FAIDE respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Information We Collect</h3>
--          <p style="margin-bottom: 20px;">We collect information you provide directly to us, including name, email address, shipping address, and payment information when you make a purchase.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">How We Use Your Information</h3>
--          <p style="margin-bottom: 20px;">We use your information to process orders, communicate with you about your purchases, and send promotional materials (with your consent).</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Data Security</h3>
--          <p style="margin-bottom: 20px;">We implement appropriate security measures to protect your personal information from unauthorized access, alteration, or destruction.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Contact Us</h3>
--          <p>If you have questions about this Privacy Policy, please contact us through our social media channels.</p>
--        `
--      },
--      terms: {
--        title: 'Terms of Service',
--        content: `
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;">Agreement to Terms</h3>
--          <p style="margin-bottom: 20px;">By accessing and using the FAIDE website, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Use License</h3>
--          <p style="margin-bottom: 20px;">Permission is granted to temporarily view and purchase products from this site for personal, non-commercial use only.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Product Information</h3>
--          <p style="margin-bottom: 20px;">We strive to provide accurate product descriptions and pricing. However, we reserve the right to correct any errors or inaccuracies.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Intellectual Property</h3>
--          <p style="margin-bottom: 20px;">All content on this site, including designs, logos, and branding, is the property of FAIDE and protected by copyright laws.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Limitation of Liability</h3>
--          <p>FAIDE shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or services.</p>
--        `
--      },
--      returns: {
--        title: 'Returns & Exchanges',
--        content: `
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;">Return Policy</h3>
--          <p style="margin-bottom: 20px;">We accept returns within 30 days of purchase for unworn, unwashed items with original tags attached.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">How to Return</h3>
--          <p style="margin-bottom: 20px;">Contact us through our social media channels to initiate a return. We'll provide you with a return authorization and shipping instructions.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Exchanges</h3>
--          <p style="margin-bottom: 20px;">We're happy to exchange items for different sizes or colors, subject to availability. Contact us to arrange an exchange.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Refunds</h3>
--          <p style="margin-bottom: 20px;">Refunds will be processed within 5-7 business days after we receive your return. Original shipping costs are non-refundable.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Final Sale Items</h3>
--          <p>Sale items marked as "Final Sale" are not eligible for returns or exchanges.</p>
--        `
--      },
--      shipping: {
--        title: 'Shipping Policy',
--        content: `
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;">Shipping Methods</h3>
--          <p style="margin-bottom: 20px;">We offer standard and express shipping options. Shipping times vary based on your location and selected method.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Processing Time</h3>
--          <p style="margin-bottom: 20px;">Orders are typically processed within 1-3 business days. You'll receive a tracking number once your order ships.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Shipping Costs</h3>
--          <p style="margin-bottom: 20px;">Shipping costs are calculated at checkout based on your location and selected shipping method. Free shipping on orders over R1,000.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">International Shipping</h3>
--          <p style="margin-bottom: 20px;">We currently ship within South Africa. International shipping options are coming soon.</p>
--          
--          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Damaged or Lost Packages</h3>
--          <p>If your package arrives damaged or is lost in transit, please contact us immediately through our social media channels and we'll resolve the issue.</p>
--        `
--      }
--    };
--
--    function showPolicy(policyType) {
--      const policy = policies[policyType];
--      if (policy) {
--        modalTitle.textContent = policy.title;
--        modalContent.innerHTML = policy.content;
--        policyModal.style.display = 'block';
--        document.body.style.overflow = 'hidden';
--      }
--    }
--
--    function hidePolicy() {
--      policyModal.style.display = 'none';
--      document.body.style.overflow = 'auto';
--    }
--
--    document.getElementById('privacy-link').addEventListener('click', (e) => {
--      e.preventDefault();
--      showPolicy('privacy');
--    });
--
--    document.getElementById('terms-link').addEventListener('click', (e) => {
--      e.preventDefault();
--      showPolicy('terms');
--    });
--
--    document.getElementById('returns-link').addEventListener('click', (e) => {
--      e.preventDefault();
--      showPolicy('returns');
--    });
--
--    document.getElementById('shipping-link').addEventListener('click', (e) => {
--      e.preventDefault();
--      showPolicy('shipping');
--    });
--
--    closeModal.addEventListener('click', hidePolicy);
--
--    policyModal.addEventListener('click', (e) => {
--      if (e.target === policyModal) {
--        hidePolicy();
--      }
--    });
--
--    // Footer link hover effects
--    document.querySelectorAll('footer a').forEach(link => {
--      link.addEventListener('mouseenter', function() {
--        this.style.color = '#9333ea';
--      });
--      link.addEventListener('mouseleave', function() {
--        this.style.color = '#888';
--      });
--    });
- 
--    document.getElementById('close-modal').addEventListener('mouseenter', function() {
--      this.style.color = '#fff';
--      this.style.background = '#1a1a1a';
--    });
--    document.getElementById('close-modal').addEventListener('mouseleave', function() {
--      this.style.color = '#888';
--      this.style.background = 'transparent';
--    });
--  </script>
-- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c6cd97dc2926d25',t:'MTc2OTkwMDY4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-+  <script src="app.js" defer></script>
-+ </body>
- </html>
-\ No newline at end of file
- 
-EOF
-)
+  </div><!-- Floating Cart Button --> <button id="floating-cart" class="floating-cart" aria-label="View shopping cart">
+   <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z" />
+   </svg><span id="cart-count" class="cart-count">0</span> </button> <!-- Cart Sidebar -->
+  <div id="cart-sidebar" class="cart-sidebar">
+   <div class="cart-header">
+    <h2>Your Cart</h2><button id="close-cart" class="close-cart" aria-label="Close cart">
+     <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z" />
+     </svg></button>
+   </div>
+   <ul id="cart-items" class="cart-items"></ul>
+   <div class="cart-footer">
+    <div class="cart-total-row"><span class="cart-total-label">Total:</span> <span class="cart-total-value">R<span id="cart-total">0.00</span></span>
+    </div><button class="checkout-btn">Proceed to Checkout</button>
+   </div>
+  </div><!-- Cart Toast -->
+  <div class="cart-toast" id="cartToast">
+   <svg width="20" height="20" fill="currentColor" viewbox="0 0 24 24"><path d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z" />
+   </svg><span id="cartMessage">Added to cart!</span>
+  </div>
+  <script>
+    const defaultConfig = {
+      brand_name: 'FAIDE',
+      hero_title: 'NEW DROP',
+      hero_description: 'New drops, exclusive releases, and updates are announced on our social platforms.',
+      mission_headline: 'A CLOTHING BRAND THAT NEVER FADE',
+      mission_description: 'FAIDE is a luxury streetwear brand built for those who move in silence.',
+      background_color: '#000000',
+      surface_color: '#111111',
+      text_color: '#ffffff',
+      primary_accent: '#a855f7',
+      secondary_accent: '#9333ea',
+      font_family: 'Inter',
+      font_size: 16
+    };
+
+    async function onConfigChange(config) {
+      const brandName = config.brand_name || defaultConfig.brand_name;
+      const heroTitle = config.hero_title || defaultConfig.hero_title;
+      const heroDescription = config.hero_description || defaultConfig.hero_description;
+      const missionHeadline = config.mission_headline || defaultConfig.mission_headline;
+      const missionDescription = config.mission_description || defaultConfig.mission_description;
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryAccent = config.primary_accent || defaultConfig.primary_accent;
+      const secondaryAccent = config.secondary_accent || defaultConfig.secondary_accent;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      
+      // Update text content
+      document.getElementById('brand-name').textContent = brandName;
+      document.getElementById('hero-title').textContent = heroTitle;
+      document.getElementById('hero-description').textContent = heroDescription;
+      document.getElementById('mission-headline').textContent = missionHeadline;
+      document.getElementById('mission-description').textContent = missionDescription;
+      
+      // Update colors
+      document.body.style.background = backgroundColor;
+      document.body.style.color = textColor;
+      
+      // Update all products and surfaces with surface color
+      const products = document.querySelectorAll('.product');
+      products.forEach(product => {
+        product.style.background = `linear-gradient(135deg, ${surfaceColor} 0%, ${backgroundColor} 100%)`;
+      });
+      
+      const cards = document.querySelectorAll('.lookbook-card');
+      cards.forEach(card => {
+        card.style.background = surfaceColor;
+      });
+      
+      const navbar = document.querySelector('.navbar');
+      navbar.style.background = `rgba(0, 0, 0, 0.95)`;
+      
+      // Update accent colors
+      const prices = document.querySelectorAll('.price');
+      prices.forEach(price => {
+        price.style.color = primaryAccent;
+      });
+      
+      const purpleTitles = document.querySelectorAll('.purple-title');
+      purpleTitles.forEach(title => {
+        title.style.color = primaryAccent;
+      });
+      
+      const heroTitle2 = document.querySelector('.hero-title');
+      heroTitle2.style.color = primaryAccent;
+      heroTitle2.style.textShadow = `0 0 40px ${primaryAccent}80`;
+      
+      const primaryBtns = document.querySelectorAll('.primary-btn');
+      primaryBtns.forEach(btn => {
+        btn.style.background = `linear-gradient(135deg, ${secondaryAccent} 0%, ${primaryAccent} 100%)`;
+      });
+      
+      const secondaryBtns = document.querySelectorAll('.secondary-btn');
+      secondaryBtns.forEach(btn => {
+        btn.style.borderColor = secondaryAccent;
+        btn.style.color = secondaryAccent;
+      });
+      
+      const lookbookTitles = document.querySelectorAll('.lookbook-card-title');
+      lookbookTitles.forEach(title => {
+        title.style.color = primaryAccent;
+      });
+      
+      // Update fonts
+      const fontStack = `${customFont}, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
+      document.body.style.fontFamily = fontStack;
+      
+      // Update font sizes
+      document.querySelector('.hero-title').style.fontSize = `${baseSize * 2.5}px`;
+      document.querySelector('.hero-text').style.fontSize = `${baseSize * 1.1}px`;
+      document.querySelectorAll('.section-title').forEach(el => {
+        el.style.fontSize = `${baseSize * 2.5}px`;
+      });
+      document.querySelectorAll('.product h3').forEach(el => {
+        el.style.fontSize = `${baseSize * 1.3}px`;
+      });
+      document.querySelectorAll('.price').forEach(el => {
+        el.style.fontSize = `${baseSize * 1.4}px`;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.primary_accent || defaultConfig.primary_accent,
+            set: (value) => {
+              config.primary_accent = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ primary_accent: value });
+              }
+            }
+          },
+          {
+            get: () => config.secondary_accent || defaultConfig.secondary_accent,
+            set: (value) => {
+              config.secondary_accent = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ secondary_accent: value });
+              }
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['brand_name', config.brand_name || defaultConfig.brand_name],
+        ['hero_title', config.hero_title || defaultConfig.hero_title],
+        ['hero_description', config.hero_description || defaultConfig.hero_description],
+        ['mission_headline', config.mission_headline || defaultConfig.mission_headline],
+        ['mission_description', config.mission_description || defaultConfig.mission_description]
+      ]);
+    }
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Product interaction functionality
+    let cart = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const products = document.querySelectorAll('.product');
+      const floatingCart = document.getElementById('floating-cart');
+      const cartSidebar = document.getElementById('cart-sidebar');
+      const closeCart = document.getElementById('close-cart');
+      const cartItemsEl = document.getElementById('cart-items');
+      const cartTotalEl = document.getElementById('cart-total');
+      const cartCountEl = document.getElementById('cart-count');
+      
+      // Cart sidebar toggle
+      if (floatingCart) {
+        floatingCart.addEventListener('click', () => cartSidebar.classList.add('active'));
+      }
+      if (closeCart) {
+        closeCart.addEventListener('click', () => cartSidebar.classList.remove('active'));
+      }
+      
+      products.forEach(product => {
+        // Size selection
+        const sizeButtons = product.querySelectorAll('.size-btn');
+        sizeButtons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            sizeButtons.forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+          });
+        });
+        
+        // Color selection
+        const colorOptions = product.querySelectorAll('.color');
+        colorOptions.forEach(color => {
+          color.addEventListener('click', () => {
+            colorOptions.forEach(c => c.classList.remove('selected'));
+            color.classList.add('selected');
+          });
+        });
+        
+        // Add to cart
+        const addToCartBtn = product.querySelector('.add-to-cart');
+        addToCartBtn.addEventListener('click', () => {
+          const productName = product.getAttribute('data-name');
+          const price = parseFloat(product.getAttribute('data-price'));
+          const selectedSize = product.querySelector('.size-btn.selected');
+          const selectedColor = product.querySelector('.color.selected');
+          const quantity = parseInt(product.querySelector('.quantity').value);
+          
+          const size = selectedSize ? selectedSize.textContent : 'N/A';
+          const color = selectedColor ? selectedColor.getAttribute('data-color') : 'N/A';
+          
+          // Create unique item key
+          const itemKey = `${productName}-${size}-${color}`;
+          
+          // Check if item exists in cart
+          const existing = cart.find(item => item.key === itemKey);
+          if (existing) {
+            existing.quantity += quantity;
+          } else {
+            cart.push({
+              key: itemKey,
+              name: productName,
+              price: price,
+              size: size,
+              color: color,
+              quantity: quantity
+            });
+          }
+          
+          updateCartUI();
+          
+          let message = `Added ${quantity}x ${productName}`;
+          if (selectedSize) message += ` (${size})`;
+          if (selectedColor) message += ` in ${color}`;
+          message += ' to cart!';
+          
+          showCartToast(message);
+        });
+      });
+      
+      function updateCartUI() {
+        if (!cartItemsEl || !cartTotalEl || !cartCountEl) return;
+        
+        cartItemsEl.innerHTML = '';
+        let total = 0;
+        let itemCount = 0;
+        
+        cart.forEach((item, index) => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <div>
+              <div style="font-weight: 700; margin-bottom: 4px;">${item.name}</div>
+              <div style="font-size: 0.85rem; color: #888;">
+                Size: ${item.size} | Color: ${item.color} | Qty: ${item.quantity}
+              </div>
+            </div>
+            <div style="font-weight: 700; color: #a855f7;">R${(item.price * item.quantity).toFixed(2)}</div>
+          `;
+          cartItemsEl.appendChild(li);
+          total += item.price * item.quantity;
+          itemCount += item.quantity;
+        });
+        
+        cartTotalEl.textContent = total.toFixed(2);
+        cartCountEl.textContent = itemCount;
+        
+        if (itemCount === 0) {
+          cartItemsEl.innerHTML = '<li style="text-align: center; color: #666; border: none; background: transparent;">Your cart is empty</li>';
+        }
+      }
+    });
+
+    function showCartToast(message) {
+      const toast = document.getElementById('cartToast');
+      const messageEl = document.getElementById('cartMessage');
+      
+      messageEl.textContent = message;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Policy Modal Functionality
+    const policyModal = document.getElementById('policy-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalContent = document.getElementById('modal-content');
+    const closeModal = document.getElementById('close-modal');
+
+    const policies = {
+      privacy: {
+        title: 'Privacy Policy',
+        content: `
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;">Introduction</h3>
+          <p style="margin-bottom: 20px;">FAIDE respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Information We Collect</h3>
+          <p style="margin-bottom: 20px;">We collect information you provide directly to us, including name, email address, shipping address, and payment information when you make a purchase.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">How We Use Your Information</h3>
+          <p style="margin-bottom: 20px;">We use your information to process orders, communicate with you about your purchases, and send promotional materials (with your consent).</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Data Security</h3>
+          <p style="margin-bottom: 20px;">We implement appropriate security measures to protect your personal information from unauthorized access, alteration, or destruction.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Contact Us</h3>
+          <p>If you have questions about this Privacy Policy, please contact us through our social media channels.</p>
+        `
+      },
+      terms: {
+        title: 'Terms of Service',
+        content: `
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;">Agreement to Terms</h3>
+          <p style="margin-bottom: 20px;">By accessing and using the FAIDE website, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Use License</h3>
+          <p style="margin-bottom: 20px;">Permission is granted to temporarily view and purchase products from this site for personal, non-commercial use only.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Product Information</h3>
+          <p style="margin-bottom: 20px;">We strive to provide accurate product descriptions and pricing. However, we reserve the right to correct any errors or inaccuracies.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Intellectual Property</h3>
+          <p style="margin-bottom: 20px;">All content on this site, including designs, logos, and branding, is the property of FAIDE and protected by copyright laws.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Limitation of Liability</h3>
+          <p>FAIDE shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or services.</p>
+        `
+      },
+      returns: {
+        title: 'Returns & Exchanges',
+        content: `
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;">Return Policy</h3>
+          <p style="margin-bottom: 20px;">We accept returns within 30 days of purchase for unworn, unwashed items with original tags attached.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">How to Return</h3>
+          <p style="margin-bottom: 20px;">Contact us through our social media channels to initiate a return. We'll provide you with a return authorization and shipping instructions.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Exchanges</h3>
+          <p style="margin-bottom: 20px;">We're happy to exchange items for different sizes or colors, subject to availability. Contact us to arrange an exchange.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Refunds</h3>
+          <p style="margin-bottom: 20px;">Refunds will be processed within 5-7 business days after we receive your return. Original shipping costs are non-refundable.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Final Sale Items</h3>
+          <p>Sale items marked as "Final Sale" are not eligible for returns or exchanges.</p>
+        `
+      },
+      shipping: {
+        title: 'Shipping Policy',
+        content: `
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;">Shipping Methods</h3>
+          <p style="margin-bottom: 20px;">We offer standard and express shipping options. Shipping times vary based on your location and selected method.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Processing Time</h3>
+          <p style="margin-bottom: 20px;">Orders are typically processed within 1-3 business days. You'll receive a tracking number once your order ships.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Shipping Costs</h3>
+          <p style="margin-bottom: 20px;">Shipping costs are calculated at checkout based on your location and selected shipping method. Free shipping on orders over R1,000.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">International Shipping</h3>
+          <p style="margin-bottom: 20px;">We currently ship within South Africa. International shipping options are coming soon.</p>
+          
+          <h3 style="color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; margin-top: 32px;">Damaged or Lost Packages</h3>
+          <p>If your package arrives damaged or is lost in transit, please contact us immediately through our social media channels and we'll resolve the issue.</p>
+        `
+      }
+    };
+
+    function showPolicy(policyType) {
+      const policy = policies[policyType];
+      if (policy) {
+        modalTitle.textContent = policy.title;
+        modalContent.innerHTML = policy.content;
+        policyModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function hidePolicy() {
+      policyModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    document.getElementById('privacy-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      showPolicy('privacy');
+    });
+
+    document.getElementById('terms-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      showPolicy('terms');
+    });
+
+    document.getElementById('returns-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      showPolicy('returns');
+    });
+
+    document.getElementById('shipping-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      showPolicy('shipping');
+    });
+
+    closeModal.addEventListener('click', hidePolicy);
+
+    policyModal.addEventListener('click', (e) => {
+      if (e.target === policyModal) {
+        hidePolicy();
+      }
+    });
+
+    // Footer link hover effects
+    document.querySelectorAll('footer a').forEach(link => {
+      link.addEventListener('mouseenter', function() {
+        this.style.color = '#9333ea';
+      });
+      link.addEventListener('mouseleave', function() {
+        this.style.color = '#888';
+      });
+    });
+
+    document.getElementById('close-modal').addEventListener('mouseenter', function() {
+      this.style.color = '#fff';
+      this.style.background = '#1a1a1a';
+    });
+    document.getElementById('close-modal').addEventListener('mouseleave', function() {
+      this.style.color = '#888';
+      this.style.background = 'transparent';
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c6cd97dc2926d25',t:'MTc2OTkwMDY4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

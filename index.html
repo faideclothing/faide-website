@@ -768,12 +768,21 @@
         font-size: 0.95rem;
       }
 
-      .size-btn:hover { border-color: rgba(255,255,255,0.22); color: #fff; }
-      .size-btn.selected {
-        background: rgba(168,85,247,0.12);
+      /* ✅ FAIDE hover (non-selected) */
+      .size-btn:hover:not(.selected) {
+        border-color: rgba(168,85,247,0.4);
         color: #fff;
-        border-color: rgba(168,85,247,0.55);
-        box-shadow: 0 0 0 2px rgba(168,85,247,0.14) inset;
+      }
+
+      /* ✅ FAIDE selected state (purple like Add to Bag) */
+      .size-btn.selected {
+        background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+        color: #fff;
+        border-color: rgba(168,85,247,0.85);
+        box-shadow:
+          0 0 0 2px rgba(168,85,247,0.25) inset,
+          0 6px 18px rgba(147,51,234,0.35);
+        transform: translateY(-1px);
       }
 
       .colors { display: flex; gap: 10px; margin-bottom: 18px; }
@@ -1147,32 +1156,46 @@
         justify-content: center;
       }
 
-      .qty-stepper {
+      /* =========================================================
+         ✅ CART QTY: pill shape like Add to Bag (gradient shell)
+      ========================================================= */
+      .qty-stepper{
         display: inline-flex;
         align-items: center;
-        border: 1px solid rgba(255,255,255,0.10);
+        border-radius: 999px;
+        padding: 1px; /* gradient border thickness */
+        background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+        box-shadow: 0 10px 26px rgba(147, 51, 234, 0.22);
+      }
+      .qty-stepper-inner{
+        display: inline-flex;
+        align-items: center;
         border-radius: 999px;
         overflow: hidden;
-        background: rgba(255,255,255,0.02);
+        background: rgba(0,0,0,0.55);
+        border: 1px solid rgba(255,255,255,0.10);
       }
-      .qty-btn {
-        width: 32px;
-        height: 30px;
+      .qty-btn{
+        width: 34px;
+        height: 32px;
         border: none;
         background: transparent;
         color: #fff;
         cursor: pointer;
-        transition: background 0.2s ease;
-        font-weight: 900;
-        font-size: 1rem;
+        transition: background 0.2s ease, transform 0.12s ease;
+        font-weight: 950;
+        font-size: 1.05rem;
+        line-height: 1;
       }
-      .qty-btn:hover { background: rgba(255,255,255,0.06); }
-      .qty-value {
-        width: 34px;
+      .qty-btn:hover{ background: rgba(255,255,255,0.08); }
+      .qty-btn:active{ transform: scale(0.98); }
+      .qty-value{
+        width: 38px;
         text-align: center;
-        font-weight: 800;
-        font-size: 0.9rem;
+        font-weight: 950;
+        font-size: 0.95rem;
         color: #fff;
+        user-select: none;
       }
 
       .remove-btn {
@@ -2386,9 +2409,11 @@
               </div>
               <div class="cart-item-actions">
                 <div class="qty-stepper" aria-label="Quantity controls">
-                  <button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">−</button>
-                  <div class="qty-value" aria-label="Quantity">${item.quantity}</div>
-                  <button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button>
+                  <div class="qty-stepper-inner">
+                    <button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">−</button>
+                    <div class="qty-value" aria-label="Quantity">${item.quantity}</div>
+                    <button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button>
+                  </div>
                 </div>
                 <button type="button" class="remove-btn" data-action="remove" aria-label="Remove item">Remove</button>
               </div>

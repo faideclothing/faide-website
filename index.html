@@ -676,22 +676,27 @@
         max-width: 70ch;
       }
 
+      /* ✅ UPDATED: remove divider between About + Contact */
       .about-contact {
-        margin-top: 26px;
-        padding-top: 22px;
-        border-top: 1px solid var(--border);
+        margin-top: 18px;
+        padding-top: 0;
+        border-top: none;
         display: grid;
         gap: 10px;
         max-width: 720px;
       }
+
+      /* ✅ UPDATED: CONTACT in FAIDE purple */
       .about-contact h4{
-        color:#fff;
+        color: var(--primary);
         font-size: 0.95rem;
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 1px;
         margin: 0 0 6px 0;
+        text-shadow: 0 0 18px rgba(168, 85, 247, 0.45);
       }
+
       .about-contact a{
         color: var(--muted);
         text-decoration:none;
@@ -710,13 +715,14 @@
       footer a { transition: color 0.25s ease; }
       footer a:hover { color: var(--secondary); }
 
+      /* ✅ UPDATED: remove extra divider inside footer so only 1 divider exists (footer border-top inline) */
       .footer-legal {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 18px;
         padding-top: 28px;
-        border-top: 1px solid var(--border);
+        border-top: none;
       }
 
       .footer-legal-top {
@@ -1303,6 +1309,7 @@
     </section>
 
     <!-- FOOTER -->
+    <!-- ✅ Only divider kept is THIS border-top on footer -->
     <footer id="footer" style="background:#0a0a0a; border-top:1px solid var(--border); padding: 42px 32px 40px;">
       <div style="max-width: 1200px; margin: 0 auto;">
         <div class="footer-legal">

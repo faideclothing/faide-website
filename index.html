@@ -646,6 +646,46 @@
       .img-pager{ display:none !important; }
       .img-dot{ display:none !important; }
 
+      /* =========================================================
+         ✅ THUMBNAILS (SHOP + PRODUCT MODAL)
+      ========================================================= */
+      .thumb-row{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 10px;
+        margin-bottom: 6px;
+      }
+
+      .thumb{
+        height: 74px;
+        border-radius: 18px;
+        overflow: hidden;
+        border: 2px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.02);
+        cursor: pointer;
+        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .thumb img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        user-select: none;
+        -webkit-user-drag: none;
+        pointer-events: none;
+      }
+
+      .thumb.active{
+        border-color: rgba(168,85,247,0.95);
+        box-shadow: 0 0 0 3px rgba(168,85,247,0.14);
+      }
+
       .product-info { padding: 10px 10px 6px; }
 
       .product-label {
@@ -887,6 +927,8 @@
         .horizontal-scroll{ padding-left: var(--px-sm); padding-right: var(--px-sm); gap: 16px; }
         .product{ min-width: 270px; padding: 12px; }
         .product-img-container{ height: 290px; }
+        .thumb{ height: 64px; border-radius: 16px; }
+        .thumb-row{ gap: 10px; }
       }
 
       /* =========================================================
@@ -1419,9 +1461,10 @@
 
           <div class="gallery-viewport" id="pm-viewport" style="display:grid; grid-template-rows: 1fr auto; gap: 14px; padding: 14px;">
             <!-- image -->
-            <div style="position:relative; overflow:hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.35);">
+            <div style="position:relative; overflow:hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.35); padding: 14px;">
               <img id="pm-img" class="gallery-zoom-img" alt="Product image" src="" style="cursor: default;" />
-              <!-- ✅ dots removed -->
+              <!-- ✅ thumbnails (4 max) -->
+              <div class="thumb-row" id="pm-thumbs" style="margin-top: 14px;"></div>
             </div>
 
             <!-- details -->
@@ -1473,6 +1516,8 @@
           <div class="product-img-container">
             <img src="/images/Tank%20top.png" alt="FAIDE Essentials Tank" class="product-img" />
           </div>
+          <!-- ✅ thumbnails -->
+          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Just In</div>
@@ -1519,6 +1564,8 @@
           <div class="product-img-container">
             <img src="/images/tshirt.png" alt="FAIDE Signature Tee" class="product-img" />
           </div>
+          <!-- ✅ thumbnails -->
+          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Bestseller</div>
@@ -1566,6 +1613,8 @@
           <div class="product-img-container">
             <img src="/images/longsleeve.png" alt="FAIDE Long Sleeve" class="product-img" />
           </div>
+          <!-- ✅ thumbnails -->
+          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Member Exclusive</div>
@@ -1612,6 +1661,8 @@
           <div class="product-img-container">
             <img src="/images/hoodie.png" alt="FAIDE Luxury Hoodie" class="product-img" />
           </div>
+          <!-- ✅ thumbnails -->
+          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Premium</div>
@@ -1860,7 +1911,7 @@
       })();
 
       /*************************************************************
-       * ✅ PRODUCT ALT IMAGES + SWIPE (DOTS REMOVED)
+       * ✅ PRODUCT ALT IMAGES + SWIPE + THUMBNAILS (NO DOTS)
        *************************************************************/
       function buildVariantSrc(baseSrc, n) {
         const qIndex = baseSrc.indexOf("?");
@@ -1896,28 +1947,55 @@
       async function setupProductImageCarousel(productEl) {
         const imgEl = productEl.querySelector(".product-img");
         const container = productEl.querySelector(".product-img-container");
-        if (!imgEl || !container) return;
+        const thumbRow = productEl.querySelector("[data-thumb-row]");
+        if (!imgEl || !container || !thumbRow) return;
 
         const base = imgEl.getAttribute("src") || "";
         if (!base) return;
 
         const candidates = [base, buildVariantSrc(base, 2), buildVariantSrc(base, 3), buildVariantSrc(base, 4)];
         const checks = await Promise.all(candidates.map((s, i) => i === 0 ? Promise.resolve(true) : imageExists(s)));
-        const sources = candidates.filter((_, i) => checks[i]);
+        const sources = candidates.filter((_, i) => checks[i]).slice(0, 4);
 
-        if (sources.length <= 1) return;
+        if (sources.length <= 1) {
+          thumbRow.innerHTML = "";
+          return;
+        }
 
         let index = 0;
+
+        function renderThumbs() {
+          thumbRow.innerHTML = "";
+          sources.forEach((src, i) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "thumb" + (i === index ? " active" : "");
+            btn.setAttribute("aria-label", `View image ${i + 1}`);
+            btn.innerHTML = `<img src="${src}" alt="" loading="lazy" />`;
+
+            btn.addEventListener("click", (e) => {
+              e.preventDefault();
+              e.stopPropagation(); // ✅ prevents opening modal
+              setIndex(i);
+            });
+
+            thumbRow.appendChild(btn);
+          });
+        }
 
         function setIndex(next) {
           index = (next + sources.length) % sources.length;
           imgEl.style.opacity = "0.3";
           requestAnimationFrame(() => {
             imgEl.src = sources[index];
+            renderThumbs();
             setTimeout(() => { imgEl.style.opacity = "1"; }, 60);
           });
         }
 
+        renderThumbs();
+
+        // ✅ Swipe only (no tap-to-switch)
         let startX = 0;
         let startY = 0;
         let tracking = false;
@@ -1956,6 +2034,9 @@
           if (diff < 0) setIndex(index + 1);
           else setIndex(index - 1);
         }, { passive: true });
+
+        // expose on element for modal
+        productEl.__imgSources = sources;
       }
 
       async function initAllProductCarousels() {
@@ -2213,7 +2294,8 @@
        * MAIN DOM READY
        *************************************************************/
       document.addEventListener("DOMContentLoaded", async () => {
-        initAllProductCarousels();
+        // ✅ IMPORTANT: wait so thumbs are ready
+        await initAllProductCarousels();
 
         const shopNowBtn = document.getElementById("shop-now-btn");
         shopNowBtn?.addEventListener("click", () => scrollToSectionId("shop"));
@@ -2499,7 +2581,7 @@
         });
 
         /*************************************************************
-         * ✅ SHOP FULLSCREEN PRODUCT MODAL
+         * ✅ SHOP FULLSCREEN PRODUCT MODAL (WITH THUMBS)
          *************************************************************/
         const pm = {
           modal: document.getElementById("product-modal"),
@@ -2507,7 +2589,7 @@
           prev: document.getElementById("pm-prev"),
           next: document.getElementById("pm-next"),
           img: document.getElementById("pm-img"),
-          pager: document.getElementById("pm-pager"),
+          thumbs: document.getElementById("pm-thumbs"),
           title: document.getElementById("pm-title"),
           subtitle: document.getElementById("pm-subtitle"),
 
@@ -2528,6 +2610,24 @@
 
         const pmStepperRoot = document.querySelector('.qty-stepper-ui[data-qty-root="pm"]');
         const pmStepper = pmStepperRoot ? setupQtyStepper(pmStepperRoot) : null;
+
+        function pmRenderThumbs() {
+          if (!pm.thumbs) return;
+          pm.thumbs.innerHTML = "";
+          pmSources.slice(0, 4).forEach((src, i) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "thumb" + (i === pmIndex ? " active" : "");
+            btn.setAttribute("aria-label", `View image ${i + 1}`);
+            btn.innerHTML = `<img src="${src}" alt="" loading="lazy" />`;
+            btn.addEventListener("click", (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              pmSetImage(i);
+            });
+            pm.thumbs.appendChild(btn);
+          });
+        }
 
         function pmOpen() {
           if (!pm.modal) return;
@@ -2552,17 +2652,23 @@
           requestAnimationFrame(() => {
             pm.img.src = pmSources[pmIndex];
             pm.subtitle.textContent = `${pmIndex + 1} / ${pmSources.length}`;
+            pmRenderThumbs();
             setTimeout(() => (pm.img.style.opacity = "1"), 60);
           });
         }
 
         async function pmBuildImagesFromProduct(productEl) {
+          // If carousel already detected sources, use those (fast)
+          if (Array.isArray(productEl.__imgSources) && productEl.__imgSources.length) {
+            return productEl.__imgSources.slice(0, 4);
+          }
+
           const imgEl = productEl.querySelector(".product-img");
           const base = imgEl?.getAttribute("src") || "";
           if (!base) return [""];
           const candidates = [base, buildVariantSrc(base, 2), buildVariantSrc(base, 3), buildVariantSrc(base, 4)];
           const checks = await Promise.all(candidates.map((s, i) => (i === 0 ? Promise.resolve(true) : imageExists(s))));
-          return candidates.filter((_, i) => checks[i]);
+          return candidates.filter((_, i) => checks[i]).slice(0, 4);
         }
 
         function pmUpdateAddState() {
@@ -2657,6 +2763,7 @@
           pmOpen();
         }
 
+        // ✅ Swipe in product modal (image)
         let pmTouchStartX = null;
         pm.img?.addEventListener("touchstart", (e) => {
           if (!e.touches || e.touches.length !== 1) return;
@@ -2717,9 +2824,10 @@
           pmClose();
         });
 
+        // ✅ Open modal only when clicking non-interactive areas
         products.forEach((productEl) => {
           productEl.addEventListener("click", (e) => {
-            const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options");
+            const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options, .thumb-row");
             if (interactive) return;
             openProductModal(productEl);
           });

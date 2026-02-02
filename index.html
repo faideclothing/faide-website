@@ -558,7 +558,7 @@
       .horizontal-scroll::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
 
       .product {
-        min-width: 420px; /* UPDATED: wider editorial cards */
+        min-width: 420px;
         padding: 14px;
         color: #fff;
         text-align: left;
@@ -581,7 +581,6 @@
       .product::before,
       .product::after { content: none !important; }
 
-      /* UPDATED: remove purple glow on hover (keep subtle lift only) */
       @media (hover: hover) and (pointer: fine) {
         .product:hover{
           transform: translateY(-4px);
@@ -590,7 +589,6 @@
             0 14px 32px rgba(0,0,0,0.75),
             0 1px 0 rgba(255,255,255,0.04) inset;
         }
-        /* UPDATED: remove image glow on hover */
         .product:hover .product-img{
           transform: translateY(-2px) scale(1.005);
           filter: drop-shadow(0 16px 24px rgba(0,0,0,0.55));
@@ -643,12 +641,10 @@
 
       .img-pager{ display:none !important; }
       .img-dot{ display:none !important; }
-
-      /* UPDATED: disable/hide card thumbnails completely (cards stay static image only) */
       .product [data-thumb-row]{ display: none !important; }
 
       /* =========================================================
-         ✅ THUMBNAILS (used in product modal only)
+         ✅ THUMBNAILS (product modal only)
       ========================================================= */
       .thumb-row{
         display: grid;
@@ -687,7 +683,6 @@
         box-shadow: 0 0 0 3px rgba(168,85,247,0.14);
       }
 
-      /* ✅ FIX: Product modal image + thumbs layout (prevents clipping) */
       .pm-media{
         display: grid;
         grid-template-rows: 1fr auto;
@@ -712,7 +707,6 @@
         display: block;
         cursor: default;
       }
-      /* Ensure thumbs never get squashed */
       #pm-thumbs{ align-content: start; }
 
       .product-info { padding: 10px 10px 6px; }
@@ -952,7 +946,7 @@
 
       @media (max-width: 768px){
         .horizontal-scroll{ padding-left: var(--px-sm); padding-right: var(--px-sm); gap: 16px; }
-        .product{ min-width: 300px; padding: 12px; } /* UPDATED: mobile card width */
+        .product{ min-width: 300px; padding: 12px; }
         .product-img-container{ height: 290px; }
         .thumb{ height: 64px; border-radius: 16px; }
         .thumb-row{ gap: 10px; }
@@ -1199,7 +1193,6 @@
         justify-content: center;
       }
 
-      /* UPDATED: cart stepper pill with NO glow */
       .qty-stepper{
         display: inline-flex;
         align-items: center;
@@ -1390,31 +1383,31 @@
 
         <div class="hero-social-icons fade-in-up delay-2" style="margin: 32px 0;">
           <a href="https://instagram.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
             </svg>
           </a>
 
           <a href="https://facebook.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
             </svg>
           </a>
 
           <a href="https://twitter.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
           </a>
 
           <a href="https://tiktok.com/@faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="TikTok">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
             </svg>
           </a>
         </div>
 
-        <button class="primary-btn fade-in-up delay-3" id="shop-now-btn">Shop Now</button>
+        <button class="primary-btn fade-in-up delay-3" id="shop-now-btn" type="button">Shop Now</button>
       </div>
     </section>
 
@@ -1489,7 +1482,6 @@
           <button type="button" class="gallery-nav gallery-prev" id="pm-prev" aria-label="Previous image">‹</button>
 
           <div class="gallery-viewport" id="pm-viewport" style="display:grid; grid-template-rows: 1fr auto; gap: 14px; padding: 14px;">
-            <!-- ✅ FIXED: media (image + thumbs) cannot be clipped -->
             <div class="pm-media">
               <div class="pm-image-shell">
                 <img id="pm-img" alt="Product image" src="" />
@@ -1497,7 +1489,6 @@
               <div class="thumb-row" id="pm-thumbs"></div>
             </div>
 
-            <!-- details -->
             <div id="pm-details" style="width:100%; max-width: 720px; margin: 0 auto;">
               <div style="display:flex; justify-content:space-between; align-items:flex-start; gap: 12px; margin-bottom: 10px;">
                 <div style="min-width:0;">
@@ -1778,8 +1769,9 @@
       <div style="max-width:800px; margin:0 auto; background:#0a0a0a; border-radius:20px; border:1px solid var(--border); overflow:hidden;">
         <div style="background:var(--surface); padding:24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border);">
           <h2 id="modal-title" style="color:var(--primary); font-size:1.5rem; font-weight:700; margin:0;">Policy</h2>
-          <button id="close-modal" type="button" style="background:transparent; border:none; color:#888; cursor:pointer; padding:8px; display:flex; align-items:center; justify-content:center; border-radius:8px; transition:all 0.3s ease;">
-            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+          <button id="close-modal" type="button" aria-label="Close policy"
+            style="background:transparent; border:none; color:#888; cursor:pointer; padding:8px; display:flex; align-items:center; justify-content:center; border-radius:8px; transition:all 0.3s ease;">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
             </svg>
           </button>
@@ -1793,7 +1785,7 @@
 
     <!-- Floating Cart Button -->
     <button id="floating-cart" class="floating-cart" aria-label="View shopping cart" type="button">
-      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z"/>
       </svg>
       <span id="cart-count" class="cart-count">0</span>
@@ -1804,7 +1796,7 @@
       <div class="cart-header">
         <h2>Your Cart</h2>
         <button id="close-cart" class="close-cart" aria-label="Close cart" type="button">
-          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
           </svg>
         </button>
@@ -1826,7 +1818,7 @@
 
     <!-- Cart Toast -->
     <div class="cart-toast" id="cartToast" role="status" aria-live="polite">
-      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z"/>
       </svg>
       <span id="cartMessage">Added to cart!</span>
@@ -1834,7 +1826,7 @@
 
     <script>
       /*************************************************************
-       * ✅ SINGLE shared helper (removed duplicate)
+       * ✅ Shared helpers
        *************************************************************/
       function clickOnEnterSpace(el, fn) {
         el.addEventListener("keydown", (e) => {
@@ -1843,6 +1835,28 @@
             fn();
           }
         });
+      }
+
+      // ✅ Scroll lock manager (fixes “unlock while another modal is open” bugs)
+      const ScrollLock = (() => {
+        let locks = 0;
+        const lock = () => {
+          locks += 1;
+          document.body.classList.add("lock-scroll");
+        };
+        const unlock = () => {
+          locks = Math.max(0, locks - 1);
+          if (locks === 0) document.body.classList.remove("lock-scroll");
+        };
+        const reset = () => {
+          locks = 0;
+          document.body.classList.remove("lock-scroll");
+        };
+        return { lock, unlock, reset, count: () => locks };
+      })();
+
+      function safeText(s) {
+        return String(s ?? "").replace(/[<>]/g, "");
       }
 
       /*************************************************************
@@ -2110,19 +2124,27 @@
       function showPolicy(policyType) {
         const policy = policies[policyType];
         if (!policy) return;
+
         lastFocusedEl = document.activeElement;
 
         if (modalTitle) modalTitle.textContent = policy.title;
         if (modalContent) modalContent.innerHTML = policy.content;
-        if (policyModal) policyModal.style.display = "block";
 
-        document.body.classList.add("lock-scroll");
+        if (policyModal) {
+          policyModal.style.display = "block";
+          policyModal.setAttribute("aria-hidden", "false");
+        }
+
+        ScrollLock.lock();
         setTimeout(() => closeModal?.focus(), 0);
       }
 
       function hidePolicy() {
-        if (policyModal) policyModal.style.display = "none";
-        document.body.classList.remove("lock-scroll");
+        if (policyModal) {
+          policyModal.style.display = "none";
+          policyModal.setAttribute("aria-hidden", "true");
+        }
+        ScrollLock.unlock();
         if (lastFocusedEl && typeof lastFocusedEl.focus === "function") lastFocusedEl.focus();
       }
 
@@ -2289,8 +2311,7 @@
 
           for (const sec of sections) {
             if (!sec) continue;
-            const top = sec.offsetTop;
-            if (top <= refY) current = sec.id;
+            if (sec.offsetTop <= refY) current = sec.id;
           }
           setActive(current);
         }
@@ -2319,16 +2340,28 @@
         const cartCountEl = document.getElementById("cart-count");
         const checkoutBtn = document.getElementById("checkout-btn");
 
+        // ✅ Remove inline onerror dependency:
+        function createCartImg(src, alt) {
+          const img = document.createElement("img");
+          img.className = "cart-item-img";
+          img.src = src || "";
+          img.alt = alt || "";
+          img.addEventListener("error", () => {
+            img.style.display = "none";
+          });
+          return img;
+        }
+
         function openCart() {
           cartSidebar?.classList.add("active");
           cartOverlay?.classList.add("active");
-          document.body.classList.add("lock-scroll");
+          ScrollLock.lock();
         }
 
         function closeCartPanel() {
           cartSidebar?.classList.remove("active");
           cartOverlay?.classList.remove("active");
-          document.body.classList.remove("lock-scroll");
+          ScrollLock.unlock();
         }
 
         floatingCart?.addEventListener("click", openCart);
@@ -2374,40 +2407,47 @@
             const li = document.createElement("li");
             li.className = "cart-item";
 
-            li.innerHTML = `
-              <img class="cart-item-img" src="${item.image || ""}" alt="${item.name}" onerror="this.style.display='none';" />
-              <div class="cart-item-info">
-                <div class="cart-item-title">${item.name}</div>
-                <div class="cart-item-meta">Size: ${item.size} • Color: ${item.color}</div>
-                <div class="cart-item-price">R${lineTotal.toFixed(2)}</div>
-              </div>
-              <div class="cart-item-actions">
-                <div class="qty-stepper" aria-label="Quantity controls">
-                  <div class="qty-stepper-inner">
-                    <button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">−</button>
-                    <div class="qty-value" aria-label="Quantity">${item.quantity}</div>
-                    <button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button>
-                  </div>
-                </div>
-                <button type="button" class="remove-btn" data-action="remove" aria-label="Remove item">Remove</button>
-              </div>
+            const img = createCartImg(item.image, item.name);
+
+            const info = document.createElement("div");
+            info.className = "cart-item-info";
+            info.innerHTML = `
+              <div class="cart-item-title">${safeText(item.name)}</div>
+              <div class="cart-item-meta">Size: ${safeText(item.size)} • Color: ${safeText(item.color)}</div>
+              <div class="cart-item-price">R${lineTotal.toFixed(2)}</div>
             `;
 
-            li.querySelector('[data-action="dec"]').addEventListener("click", () => {
+            const actions = document.createElement("div");
+            actions.className = "cart-item-actions";
+            actions.innerHTML = `
+              <div class="qty-stepper" aria-label="Quantity controls">
+                <div class="qty-stepper-inner">
+                  <button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">−</button>
+                  <div class="qty-value" aria-label="Quantity">${item.quantity}</div>
+                  <button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button>
+                </div>
+              </div>
+              <button type="button" class="remove-btn" data-action="remove" aria-label="Remove item">Remove</button>
+            `;
+
+            actions.querySelector('[data-action="dec"]').addEventListener("click", () => {
               item.quantity = Math.max(1, item.quantity - 1);
               updateCartUI();
             });
 
-            li.querySelector('[data-action="inc"]').addEventListener("click", () => {
+            actions.querySelector('[data-action="inc"]').addEventListener("click", () => {
               item.quantity += 1;
               updateCartUI();
             });
 
-            li.querySelector('[data-action="remove"]').addEventListener("click", () => {
+            actions.querySelector('[data-action="remove"]').addEventListener("click", () => {
               cart.splice(idx, 1);
               updateCartUI();
             });
 
+            li.appendChild(img);
+            li.appendChild(info);
+            li.appendChild(actions);
             cartItemsEl.appendChild(li);
           });
 
@@ -2495,17 +2535,6 @@
 
         updateCartUI();
 
-        document.addEventListener("keydown", (e) => {
-          if (e.key !== "Escape") return;
-
-          if (policyModal && policyModal.style.display === "block") hidePolicy();
-          if (cartSidebar?.classList.contains("active")) {
-            cartSidebar.classList.remove("active");
-            cartOverlay?.classList.remove("active");
-            document.body.classList.remove("lock-scroll");
-          }
-        });
-
         /*************************************************************
          * ✅ SHOP FULLSCREEN PRODUCT MODAL (WITH THUMBS)
          *************************************************************/
@@ -2518,13 +2547,11 @@
           thumbs: document.getElementById("pm-thumbs"),
           title: document.getElementById("pm-title"),
           subtitle: document.getElementById("pm-subtitle"),
-
           label: document.getElementById("pm-label"),
           name: document.getElementById("pm-name"),
           category: document.getElementById("pm-category"),
           colorsCount: document.getElementById("pm-colors"),
           price: document.getElementById("pm-price"),
-
           sizes: document.getElementById("pm-sizes"),
           colorsRow: document.getElementById("pm-colors-row"),
           add: document.getElementById("pm-add"),
@@ -2534,7 +2561,7 @@
         let pmIndex = 0;
         let pmActiveProductEl = null;
 
-        const pmStepperRoot = document.querySelector('.qty-stepper-ui[data-qty-root="pm"]');
+        const pmStepperRoot = pm.modal?.querySelector('.qty-stepper-ui[data-qty-root="pm"]');
         const pmStepper = pmStepperRoot ? setupQtyStepper(pmStepperRoot) : null;
 
         function pmRenderThumbs() {
@@ -2559,7 +2586,7 @@
           if (!pm.modal) return;
           pm.modal.classList.add("active");
           pm.modal.setAttribute("aria-hidden", "false");
-          document.body.classList.add("lock-scroll");
+          ScrollLock.lock();
           pm.close?.focus();
         }
 
@@ -2567,7 +2594,7 @@
           if (!pm.modal) return;
           pm.modal.classList.remove("active");
           pm.modal.setAttribute("aria-hidden", "true");
-          document.body.classList.remove("lock-scroll");
+          ScrollLock.unlock();
           pmActiveProductEl = null;
         }
 
@@ -2589,7 +2616,8 @@
           if (!base) return [""];
           const candidates = [base, buildVariantSrc(base, 2), buildVariantSrc(base, 3), buildVariantSrc(base, 4)];
           const checks = await Promise.all(candidates.map((s, i) => (i === 0 ? Promise.resolve(true) : imageExists(s))));
-          return candidates.filter((_, i) => checks[i]).slice(0, 4);
+          const found = candidates.filter((_, i) => checks[i]).slice(0, 4);
+          return found.length ? found : [base];
         }
 
         function pmUpdateAddState() {
@@ -2654,7 +2682,6 @@
           const name = productEl.getAttribute("data-name") || "Item";
           const price = productEl.querySelector(".price")?.textContent?.trim() || "";
           const label = productEl.querySelector(".product-label")?.textContent?.trim() || "";
-
           const category = productEl.querySelector(".product-category")?.textContent?.trim() || "";
           const colorsCount = productEl.querySelector(".product-colors-count")?.textContent?.trim() || "";
 
@@ -2704,13 +2731,6 @@
 
         pm.close?.addEventListener("click", pmClose);
         pm.modal?.addEventListener("click", (e) => { if (e.target === pm.modal) pmClose(); });
-
-        document.addEventListener("keydown", (e) => {
-          if (!pm.modal?.classList.contains("active")) return;
-          if (e.key === "Escape") pmClose();
-          if (e.key === "ArrowRight") pmSetImage(pmIndex + 1);
-          if (e.key === "ArrowLeft") pmSetImage(pmIndex - 1);
-        });
 
         pm.add?.addEventListener("click", () => {
           if (!pmActiveProductEl) return;
@@ -2817,20 +2837,21 @@
         }
 
         function openGallery(index) {
-          if (!galleryItems.length) return;
+          if (!galleryItems.length || !galleryModal) return;
           setGallery(index);
 
           galleryModal.classList.add("active");
           galleryModal.setAttribute("aria-hidden", "false");
-          document.body.classList.add("lock-scroll");
+          ScrollLock.lock();
 
           galleryClose?.focus();
         }
 
         function closeGallery() {
+          if (!galleryModal) return;
           galleryModal.classList.remove("active");
           galleryModal.setAttribute("aria-hidden", "true");
-          document.body.classList.remove("lock-scroll");
+          ScrollLock.unlock();
           resetZoom();
         }
 
@@ -2856,13 +2877,6 @@
 
         galleryModal?.addEventListener("click", (e) => {
           if (e.target === galleryModal) closeGallery();
-        });
-
-        document.addEventListener("keydown", (e) => {
-          if (!galleryModal?.classList.contains("active")) return;
-          if (e.key === "Escape") closeGallery();
-          if (scale <= 1.01 && e.key === "ArrowRight") nextGallery();
-          if (scale <= 1.01 && e.key === "ArrowLeft") prevGallery();
         });
 
         function toggleZoomAt(clientX, clientY) {
@@ -2988,6 +3002,19 @@
           if (diff < 0) nextGallery();
           else prevGallery();
         }, { passive: true });
+
+        /*************************************************************
+         * ✅ SINGLE global Escape handler (no double handlers)
+         *************************************************************/
+        document.addEventListener("keydown", (e) => {
+          if (e.key !== "Escape") return;
+
+          // Close top-most things safely without breaking other locks
+          if (policyModal && policyModal.style.display === "block") return hidePolicy();
+          if (pm.modal?.classList.contains("active")) return pmClose();
+          if (galleryModal?.classList.contains("active")) return closeGallery();
+          if (cartSidebar?.classList.contains("active")) return closeCartPanel();
+        });
       });
     </script>
 
@@ -3027,4 +3054,3 @@
     </script>
   </body>
 </html>
-```0

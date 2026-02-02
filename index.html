@@ -106,12 +106,12 @@
       .nav-links {
         display: flex;
         align-items: center;
-        gap: 18px; /* keep exact spacing */
+        gap: 18px; /* keep spacing */
       }
 
-      /* ✅ increase nav button size, keep spacing */
+      /* ✅ Navbar: increase "button" size keeping existing space */
       .nav-links a {
-        font-size: 0.72rem;
+        font-size: 0.7rem;
         letter-spacing: 1px;
         text-transform: uppercase;
         color: var(--muted);
@@ -119,15 +119,15 @@
         transition: all 0.25s ease;
         position: relative;
         white-space: nowrap;
+        padding: 12px 0; /* bigger tap target without changing gap */
         line-height: 1;
-        padding: 6px 0; /* slightly taller target without changing gap */
       }
 
       .nav-links a:hover { color: var(--secondary); transform: translateY(-1px); }
       .nav-links a::after {
         content: "";
         position: absolute;
-        bottom: -4px;
+        bottom: 6px;
         left: 0;
         width: 0;
         height: 2px;
@@ -159,9 +159,7 @@
           max-width: 68vw;
         }
         .nav-links::-webkit-scrollbar { display: none; }
-
-        /* keep exact space on mobile too */
-        .nav-links a { font-size: 0.68rem; letter-spacing: 0.8px; color: #777; padding: 6px 0; }
+        .nav-links a { font-size: 0.62rem; letter-spacing: 0.8px; color: #777; padding: 12px 0; }
       }
 
       /* =========================================================
@@ -192,9 +190,7 @@
       }
 
       /* =========================================================
-         HERO (✅ 1:1 IMAGE BACKGROUND)
-         Put your square image here:
-         /images/hero-1x1.png   (upload to your GitHub images folder)
+         HERO
       ========================================================= */
       .hero {
         min-height: 80%;
@@ -209,33 +205,20 @@
         padding-right: var(--px);
       }
 
+      /* ✅ Hero: full image background hero.png */
       .hero-bg {
         position: absolute;
         inset: 0;
+        background: url("/images/hero.png") center/cover no-repeat;
         opacity: 1;
+        filter: saturate(1) contrast(1.02);
         pointer-events: none;
       }
-
-      /* ✅ square artwork centered */
-      .hero-bg::before{
-        content:"";
-        position:absolute;
-        left:50%;
-        top:52%;
-        transform: translate(-50%,-50%);
-        width: min(560px, 78vw);
-        aspect-ratio: 1 / 1;
-        background: url("/images/hero-1x1.png") center/contain no-repeat;
-        opacity: 0.16;
-        filter: saturate(0.95) contrast(1.05);
-      }
-
-      /* ✅ your existing vignette */
       .hero-bg::after{
         content:"";
         position:absolute;
         inset:0;
-        background: radial-gradient(80% 60% at 50% 40%, rgba(168,85,247,0.12), rgba(0,0,0,0.85) 70%, rgba(0,0,0,0.95));
+        background: radial-gradient(80% 60% at 50% 40%, rgba(168,85,247,0.10), rgba(0,0,0,0.78) 70%, rgba(0,0,0,0.92));
       }
 
       .hero-content{ max-width: 900px; margin: 0 auto; }
@@ -307,7 +290,6 @@
       @media (max-width: 768px){
         .hero{ padding-left: var(--px-sm); padding-right: var(--px-sm); }
         .hero-title{ font-size: 2rem; }
-        .hero-bg::before{ width: min(520px, 84vw); opacity: 0.14; }
       }
 
       /* =========================================================
@@ -335,35 +317,38 @@
       }
 
       /* =========================================================
-         LOOKBOOK (cards unchanged)
+         LOOKBOOK
       ========================================================= */
       .lookbook { padding-left: 0; padding-right: 0; }
 
+      /* ✅ Lookbook: edge-to-edge width */
       .vertical-list {
-        max-width: var(--container);
-        margin: 26px auto 0;
-        padding: 0 var(--px);
+        max-width: none;
+        margin: 26px 0 0;
+        padding: 0;
         display: flex;
         flex-direction: column;
         gap: 26px;
       }
 
+      /* ✅ Lookbook: remove rounded edges + remove glow/lift hover */
       .lookbook-card {
-        border-radius: var(--card-radius);
+        border-radius: 0;
         overflow: hidden;
         position: relative;
         cursor: pointer;
-        background: var(--surface);
+        background: #000;
         height: 440px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-        transition: all 0.4s ease;
+        box-shadow: none;
+        transition: none;
+        width: 100%;
       }
 
       .lookbook-card::before {
         content: "";
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+        background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.75) 100%);
         z-index: 1;
         pointer-events: none;
       }
@@ -376,101 +361,161 @@
         font-weight: 700;
         color: var(--primary);
         z-index: 2;
-        opacity: 0;
-        transform: translateY(18px);
-        transition: all 0.3s ease;
+        opacity: 1;
+        transform: none;
+        transition: none;
       }
 
-      .lookbook-card:hover .lookbook-card-title { opacity: 1; transform: translateY(0); }
-      .lookbook-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(147, 51, 234, 0.3);
-      }
+      /* remove hover animations */
+      .lookbook-card:hover .lookbook-card-title { opacity: 1; transform: none; }
+      .lookbook-card:hover { transform: none; box-shadow: none; }
 
       .lookbook-img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
-        filter: contrast(1.05);
+        filter: none;
+        border-radius: 0;
       }
 
       @media (max-width: 768px) {
-        .vertical-list { padding: 0 var(--px-sm); gap: 18px; }
+        .vertical-list { padding: 0; gap: 18px; }
         .lookbook-card { height: 320px; }
       }
 
       /* =========================================================
-         ✅ LOOKBOOK FULLSCREEN (edge-to-edge, no barrier, no arrows, no rounding)
+         FULLSCREEN GALLERY (LOOKBOOK + PRODUCT MODAL SHARED)
       ========================================================= */
-      .lookbook-modal{
+      .gallery-modal{
         position: fixed;
         inset: 0;
+        background: rgba(0,0,0,0.92);
         z-index: 2600;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.22s ease;
-        background: #000;
+        transition: opacity 0.25s ease;
       }
-      .lookbook-modal.active{
+      .gallery-modal.active{
         opacity: 1;
         pointer-events: auto;
       }
 
-      .lb-close{
-        position: fixed;
-        top: 14px;
-        right: 14px;
-        z-index: 5;
-        border: 1px solid rgba(255,255,255,0.18);
-        background: rgba(0,0,0,0.35);
+      .gallery-frame{
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+      }
+
+      .gallery-topbar{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 18px 18px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        background: rgba(10,10,10,0.55);
+        backdrop-filter: blur(10px);
+      }
+
+      .gallery-meta{
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+      }
+      .gallery-title{
+        font-weight: 900;
+        color: var(--primary);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 0.95rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .gallery-counter{
+        color: #888;
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+
+      .gallery-btn{
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(255,255,255,0.03);
         color: #fff;
         padding: 10px 14px;
         border-radius: 999px;
         cursor: pointer;
-        font-weight: 900;
+        transition: all 0.2s ease;
+        font-weight: 800;
         letter-spacing: 0.02em;
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        backdrop-filter: blur(10px);
+        gap: 8px;
       }
-      .lb-close:hover{
-        background: rgba(255,255,255,0.06);
-        border-color: rgba(255,255,255,0.28);
+      .gallery-btn:hover{
+        background: rgba(255,255,255,0.08);
+        border-color: rgba(255,255,255,0.24);
         transform: translateY(-1px);
       }
 
-      .lb-stage{
-        position: absolute;
-        inset: 0;
+      /* ✅ Lookbook modal: fullscreen image, no rounded, no arrows */
+      .gallery-stage{
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0; /* ✅ touch edge */
-        overflow: hidden;
+        padding: 0;
       }
 
-      /* ✅ edge-to-edge image area (no rounded viewport, no border) */
-      .lb-img{
+      .gallery-nav{ display:none !important; } /* remove switch arrows */
+
+      .gallery-viewport{
         width: 100vw;
-        height: 100vh;
+        height: calc(100vh - 72px - 56px);
+        position: relative;
+        overflow: hidden;
+        touch-action: pan-x pan-y;
+        border-radius: 0;
+        border: none;
+        background: transparent;
+      }
+
+      @media (max-width: 768px){
+        .gallery-viewport{
+          height: calc(100vh - 72px - 56px);
+        }
+      }
+
+      .gallery-zoom-img{
+        width: 100%;
+        height: 100%;
         object-fit: contain;
         display: block;
-        user-select: none;
-        -webkit-user-drag: none;
         transform-origin: center center;
         transform: translate3d(0,0,0) scale(1);
+        transition: transform 120ms ease;
+        user-select: none;
+        -webkit-user-drag: none;
         cursor: zoom-in;
-        touch-action: none; /* ✅ prevents browser double-tap zoom */
       }
-      .lb-img.zoomed{ cursor: grab; }
-      .lb-img.zoomed:active{ cursor: grabbing; }
+
+      .gallery-zoom-img.zoomed{ cursor: grab; }
+      .gallery-zoom-img.zoomed:active{ cursor: grabbing; }
+
+      .gallery-bottombar{
+        padding: 12px 18px 18px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        color: #777;
+        font-size: 0.85rem;
+      }
 
       /* =========================================================
-         ✅ SHOP (two-column cards + horizontal scroll on desktop/tablet)
-         - remove visible rounded card shape
-         - image is the actual "card" column shape
+         ✅ SHOP
       ========================================================= */
       .shop { margin: 0; }
 
@@ -479,84 +524,158 @@
         margin: 0 auto;
         display: flex;
         overflow-x: auto;
-        gap: 22px;
+        gap: 24px;
         scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
         padding: 26px var(--px);
         scrollbar-width: thin;
-        scrollbar-color: var(--secondary) #0b0b0b;
+        scrollbar-color: rgba(255,255,255,0.10) transparent;
       }
 
-      .horizontal-scroll::-webkit-scrollbar { height: 8px; }
-      .horizontal-scroll::-webkit-scrollbar-track { background: #0b0b0b; border-radius: 10px; }
-      .horizontal-scroll::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
+      .horizontal-scroll::-webkit-scrollbar { height: 6px; }
+      .horizontal-scroll::-webkit-scrollbar-track { background: transparent; }
+      .horizontal-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 999px; }
 
+      /* ✅ Shop: 2-column grid on mobile, keep horizontal scroll for tablet/desktop */
+      @media (max-width: 768px){
+        .horizontal-scroll{
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          overflow-x: visible;
+          scroll-snap-type: none;
+          gap: 16px;
+          padding: 26px var(--px-sm);
+        }
+      }
+
+      /* ✅ Shop cards: remove rounded edges + remove borders + use actual image */
       .product {
-        min-width: 540px;                 /* desktop/tablet scroll cards */
+        min-width: 420px;
+        padding: 0;
+        color: #fff;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
         scroll-snap-align: center;
         cursor: pointer;
-
-        /* ✅ remove visible rounded card / shape */
         border-radius: 0;
-        border: none;
+        position: relative;
         background: transparent;
+        border: none;
         box-shadow: none;
-
-        /* ✅ two-column layout */
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 18px;
-        padding: 0;
+        transition: none;
       }
 
-      .product::before,
-      .product::after { content: none !important; }
+      @media (hover: hover) and (pointer: fine) {
+        .product:hover{ transform: none; border-color: transparent; box-shadow: none; }
+        .product:hover .product-img{ transform: none; filter: none; }
+        .product:hover .options{ opacity: 1; max-height: 520px; transform: translateY(0); }
+      }
 
-      /* ✅ image is the “card shape” (no rounding, full bleed) */
       .product-img-container {
         width: 100%;
         height: 360px;
         overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         position: relative;
-        margin: 0;
-
+        margin-bottom: 14px;
         border-radius: 0;
         border: none;
-        background: #000;
+        background: transparent;
+        touch-action: pan-y;
       }
 
-      .product-img-container::after{
-        content:"";
-        position:absolute;
-        inset:0;
-        background: linear-gradient(180deg, rgba(0,0,0,0.00) 35%, rgba(0,0,0,0.65) 100%);
-        pointer-events:none;
-      }
+      .product-img-container::after{ content:none !important; }
 
       .product-img {
         width: 100%;
         height: 100%;
-        object-fit: cover;   /* ✅ image becomes card face */
+        object-fit: cover; /* actual image fill */
         display: block;
-        padding: 0;          /* ✅ no inner padding */
-        transition: transform 0.28s ease, opacity 160ms ease;
+        padding: 0;
+        transition: opacity 160ms ease;
         filter: none;
         user-select: none;
         -webkit-user-drag: none;
       }
 
-      /* right column details */
-      .product-info {
-        padding: 6px 0 0; /* ✅ reduce “footer” height feel */
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-      }
-
       .img-pager{ display:none !important; }
       .img-dot{ display:none !important; }
-
       .product [data-thumb-row]{ display: none !important; }
+
+      @media (max-width: 768px){
+        .product{ min-width: 0; }
+        .product-img-container{ height: 220px; }
+      }
+
+      /* =========================================================
+         ✅ THUMBNAILS (used in product modal only)
+      ========================================================= */
+      .thumb-row{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 10px;
+        margin-bottom: 6px;
+      }
+
+      .thumb{
+        height: 74px;
+        border-radius: 0; /* keep modal clean */
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.02);
+        cursor: pointer;
+        transition: border-color 0.18s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .thumb img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        user-select: none;
+        -webkit-user-drag: none;
+        pointer-events: none;
+      }
+
+      .thumb.active{
+        border-color: rgba(168,85,247,0.95);
+      }
+
+      .pm-media{
+        display: grid;
+        grid-template-rows: 1fr auto;
+        gap: 14px;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+      }
+      .pm-image-shell{
+        position: relative;
+        overflow: hidden;
+        border-radius: 0; /* no rounded edges */
+        border: none;
+        background: #000;
+        padding: 0;
+        min-height: 0;
+      }
+      .pm-image-shell img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        cursor: default;
+      }
+      #pm-thumbs{ align-content: start; }
+
+      .product-info { padding: 10px 0 6px; }
 
       .product-label {
         font-size: 0.78rem;
@@ -573,7 +692,7 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: 8px; /* smaller */
+        margin-bottom: 10px;
         gap: 12px;
       }
 
@@ -592,7 +711,7 @@
         font-size: 0.95rem;
         color: #9a9a9a;
         font-weight: 600;
-        margin-bottom: 8px; /* smaller */
+        margin-bottom: 10px;
       }
 
       .price {
@@ -605,7 +724,7 @@
       }
 
       .options {
-        margin: 10px 0 0 0;
+        margin: 16px 0 0 0;
         opacity: 0;
         max-height: 0;
         overflow: hidden;
@@ -617,17 +736,6 @@
         opacity: 1;
         max-height: 520px;
         transform: translateY(0);
-      }
-
-      @media (hover: hover) and (pointer: fine) {
-        .product:hover .product-img{
-          transform: scale(1.02);
-        }
-        .product:hover .options{
-          opacity: 1;
-          max-height: 520px;
-          transform: translateY(0);
-        }
       }
 
       @media (hover: none) and (pointer: coarse) {
@@ -647,7 +755,7 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 8px;
-        margin-bottom: 16px;
+        margin-bottom: 18px;
       }
 
       .size-btn {
@@ -677,7 +785,7 @@
         transform: translateY(-1px);
       }
 
-      .colors { display: flex; gap: 10px; margin-bottom: 16px; }
+      .colors { display: flex; gap: 10px; margin-bottom: 18px; }
 
       .color {
         width: 38px;
@@ -715,7 +823,7 @@
       .color.grey { background: #666; }
 
       /* =========================================================
-         ✅ Quantity Stepper — PILL (no glow) (kept)
+         ✅ Quantity Stepper — PILL (no glow)
       ========================================================= */
       .qty-stepper-ui{
         display: flex;
@@ -763,7 +871,7 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 16px;
+        margin-bottom: 18px;
       }
 
       .quantity{ display:none !important; }
@@ -771,7 +879,7 @@
       .secondary-btn {
         background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
         border: 1px solid rgba(255,255,255,0.10);
-        padding: 14px 22px; /* slightly tighter */
+        padding: 16px 24px;
         border-radius: 999px;
         color: #fff;
         font-weight: 950;
@@ -802,33 +910,17 @@
         border-color: rgba(255,255,255,0.08) !important;
       }
 
-      /* ✅ responsive: keep horizontal scroll on tablet/desktop, stack on mobile */
-      @media (max-width: 768px){
-        .horizontal-scroll{ padding-left: var(--px-sm); padding-right: var(--px-sm); gap: 16px; }
-        .product{
-          min-width: 84vw;
-          grid-template-columns: 1fr;
-          gap: 12px;
-        }
-        .product-img-container{ height: 320px; }
-      }
-
       /* =========================================================
-         Divider between Shop and About
+         DIVIDER (between Shop and About)
       ========================================================= */
       .section-divider{
+        height: 1px;
+        background: rgba(255,255,255,0.10);
         max-width: var(--container);
         margin: 0 auto;
-        padding: 0 var(--px);
-      }
-      .section-divider hr{
-        border: none;
-        height: 1px;
-        background: linear-gradient(90deg, rgba(255,255,255,0), rgba(168,85,247,0.55), rgba(255,255,255,0));
-        opacity: 0.65;
       }
       @media (max-width: 768px){
-        .section-divider{ padding: 0 var(--px-sm); }
+        .section-divider{ margin: 0 var(--px-sm); }
       }
 
       /* =========================================================
@@ -880,7 +972,7 @@
       }
 
       /* =========================================================
-         FOOTER (slightly shorter)
+         FOOTER
       ========================================================= */
       footer a { transition: color 0.25s ease; }
       footer a:hover { color: var(--secondary); }
@@ -889,18 +981,19 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 14px;
-        padding-top: 18px;
+        gap: 16px;
+        padding-top: 0;
         border-top: none;
       }
 
       .footer-legal-top {
         display: flex;
-        gap: 28px;
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
         text-align: center;
+        gap: 0;
+        line-height: 1.8;
       }
 
       .footer-legal-link {
@@ -909,16 +1002,28 @@
         text-decoration: none;
       }
 
+      .footer-sep{
+        color: #666;
+        padding: 0 10px;
+        user-select: none;
+      }
+
       .footer-legal-mid { text-align: center; }
 
       .footer-legal-mid a {
         color: var(--muted2);
-        font-size: 1.02rem;
+        font-size: 1.05rem;
         text-decoration: none;
       }
 
+      /* ✅ Footer: decrease width on mobile */
+      @media (max-width:768px){
+        footer#footer{ padding-left: var(--px-sm) !important; padding-right: var(--px-sm) !important; }
+        .footer-legal-top{ max-width: 360px; }
+      }
+
       /* =========================================================
-         FLOATING CART (unchanged)
+         FLOATING CART
       ========================================================= */
       .floating-cart {
         position: fixed;
@@ -1041,14 +1146,15 @@
         background: #141414;
       }
 
+      /* ✅ Cart: image fills inside border */
       .cart-item-img {
         width: 66px;
         height: 66px;
         border-radius: 12px;
         border: 1px solid rgba(255,255,255,0.08);
         background: rgba(255,255,255,0.02);
-        object-fit: contain;
-        padding: 8px;
+        object-fit: cover;
+        padding: 0;
       }
 
       .cart-item-title {
@@ -1137,7 +1243,7 @@
 
       .cart-items::-webkit-scrollbar { width: 6px; }
       .cart-items::-webkit-scrollbar-track { background: var(--surface); }
-      .cart-items::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
+      .cart-items::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
 
       .cart-footer {
         padding: 24px;
@@ -1232,7 +1338,7 @@
       }
 
       /* =========================================================
-         PRODUCT MODAL (kept exactly as your updated version)
+         ✅ UPDATED: PRODUCT MODAL = FULLSCREEN + REMOVE SCROLL INDICATOR + NO OUTER SHAPE
       ========================================================= */
       #product-modal.gallery-modal{
         background: rgba(0,0,0,0.96);
@@ -1257,11 +1363,11 @@
         align-items: flex-start;
         justify-content: center;
         padding: 14px 14px 22px;
-      }
 
-      #product-modal .gallery-stage::-webkit-scrollbar{ width: 6px; }
-      #product-modal .gallery-stage::-webkit-scrollbar-track{ background: rgba(255,255,255,0.03); }
-      #product-modal .gallery-stage::-webkit-scrollbar-thumb{ background: rgba(168,85,247,0.55); border-radius: 10px; }
+        /* ✅ remove visible purple scroll indicator */
+        scrollbar-width: none;
+      }
+      #product-modal .gallery-stage::-webkit-scrollbar{ width: 0; height: 0; }
 
       #pm-prev, #pm-next{ display: none !important; }
 
@@ -1276,69 +1382,20 @@
         padding: 0 !important;
       }
 
-      .thumb-row{
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-top: 10px;
-        margin-bottom: 6px;
-      }
-
-      .thumb{
-        height: 74px;
-        border-radius: 18px;
-        overflow: hidden;
-        border: 2px solid rgba(255,255,255,0.10);
-        background: rgba(255,255,255,0.02);
-        cursor: pointer;
-        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-      }
-
-      .thumb img{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        user-select: none;
-        -webkit-user-drag: none;
-        pointer-events: none;
-      }
-
-      .thumb.active{
-        border-color: rgba(168,85,247,0.95);
-        box-shadow: 0 0 0 3px rgba(168,85,247,0.14);
-      }
-
-      .pm-media{
-        display: grid;
-        grid-template-rows: 1fr auto;
-        gap: 14px;
-        width: 100%;
-        height: 100%;
-        min-height: 0;
-      }
-      .pm-image-shell{
-        position: relative;
-        overflow: hidden;
-        border-radius: 22px;
-        border: none;
-        background: #000;
-        padding: 0;
-        min-height: 0;
+      #product-modal .pm-image-shell{
         height: min(54vh, 520px);
+        border-radius: 0;
+        overflow: hidden;
+        background: #000;
+        padding: 0 !important;
+        border: none !important;
       }
-      .pm-image-shell img{
+      #product-modal .pm-image-shell img{
         width: 100%;
         height: 100%;
         object-fit: contain;
         display: block;
-        cursor: default;
       }
-      #pm-thumbs{ align-content: start; }
 
       #product-modal .pm-hint{
         color:#777;
@@ -1423,50 +1480,45 @@
       </div>
     </section>
 
-    <!-- ✅ LOOKBOOK FULLSCREEN (no arrows, no frame, close top-right) -->
-    <div id="lookbook-modal" class="lookbook-modal" aria-hidden="true" role="dialog" aria-label="Lookbook full screen">
-      <button type="button" class="lb-close" id="lb-close" aria-label="Close lookbook">
-        Close
-        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
-        </svg>
-      </button>
-      <div class="lb-stage">
-        <img id="lb-img" class="lb-img" alt="Lookbook image" src="" />
+    <!-- ✅ FULLSCREEN LOOKBOOK GALLERY MODAL -->
+    <div id="gallery-modal" class="gallery-modal" aria-hidden="true" role="dialog" aria-label="Lookbook gallery">
+      <div class="gallery-frame" id="gallery-frame">
+        <div class="gallery-topbar">
+          <div class="gallery-meta">
+            <div class="gallery-title" id="gallery-title">Look</div>
+            <div class="gallery-counter" id="gallery-counter">1 / 1</div>
+          </div>
+
+          <button type="button" class="gallery-btn" id="gallery-close" aria-label="Close gallery">
+            Close
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="gallery-stage">
+          <div class="gallery-viewport" id="gallery-viewport">
+            <img id="gallery-img" class="gallery-zoom-img" alt="Lookbook image" src="" />
+          </div>
+        </div>
+
+        <div class="gallery-bottombar">
+          <span>Tip: Double tap / Double click to zoom • Pinch to zoom • Drag to pan</span>
+        </div>
       </div>
     </div>
 
-    <!-- ✅ FULLSCREEN PRODUCT MODAL (SHOP) — YOUR UPDATED VERSION KEPT -->
+    <!-- ✅ FULLSCREEN PRODUCT MODAL (SHOP) -->
     <div id="product-modal" class="gallery-modal" aria-hidden="true" role="dialog" aria-label="Product details">
       <div class="gallery-frame">
-        <div class="gallery-topbar" style="
-          display:flex; align-items:center; justify-content:space-between; gap:14px;
-          padding: 18px 18px;
-          border-bottom: 1px solid rgba(255,255,255,0.08);
-          background: rgba(10,10,10,0.55);
-          backdrop-filter: blur(10px);
-        ">
-          <div class="gallery-meta" style="display:flex; flex-direction:column; gap:4px; min-width:0;">
-            <div class="gallery-title" style="
-              font-weight:900; color:var(--primary); letter-spacing:0.04em; text-transform:uppercase;
-              font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-            ">PRODUCT</div>
-            <div class="gallery-counter" id="pm-subtitle" style="color:#888; font-size:0.85rem; font-weight:700;">1 / 1</div>
+        <div class="gallery-topbar">
+          <div class="gallery-meta">
+            <div class="gallery-title">PRODUCT</div>
+            <div class="gallery-counter" id="pm-subtitle">1 / 1</div>
           </div>
 
-          <button type="button" class="gallery-btn" id="pm-close" aria-label="Close product" style="
-            border:1px solid rgba(255,255,255,0.14);
-            background: rgba(255,255,255,0.03);
-            color:#fff;
-            padding:10px 14px;
-            border-radius:999px;
-            cursor:pointer;
-            transition:all .2s ease;
-            font-weight:800;
-            display:inline-flex;
-            align-items:center;
-            gap:8px;
-          ">
+          <button type="button" class="gallery-btn" id="pm-close" aria-label="Close product">
             Close
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
@@ -1476,7 +1528,6 @@
 
         <div class="gallery-stage">
           <div class="gallery-viewport" id="pm-viewport" style="display:grid; grid-template-rows: auto auto; gap: 14px;">
-            <!-- media -->
             <div class="pm-media">
               <div class="pm-image-shell">
                 <img id="pm-img" alt="Product image" src="" />
@@ -1484,7 +1535,6 @@
               <div class="thumb-row" id="pm-thumbs"></div>
             </div>
 
-            <!-- details -->
             <div id="pm-details" style="width:100%; max-width: 720px; margin: 0 auto;">
               <div style="display:flex; justify-content:space-between; align-items:flex-start; gap: 12px; margin-bottom: 10px;">
                 <div style="min-width:0;">
@@ -1529,6 +1579,7 @@
           <div class="product-img-container">
             <img src="/images/Tank%20top.png" alt="FAIDE Essentials Tank" class="product-img" />
           </div>
+          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Just In</div>
@@ -1536,7 +1587,7 @@
             <div class="product-header">
               <div class="product-name-wrapper">
                 <h3>FAIDE Essentials Tank</h3>
-                <div class="product-category">Unisex Tank Top</div>
+                <div class="product-category">UNISEX Tank Top</div>
                 <div class="product-colors-count">2 Colors</div>
               </div>
               <p class="price">R199.99</p>
@@ -1575,6 +1626,7 @@
           <div class="product-img-container">
             <img src="/images/tshirt.png" alt="FAIDE Signature Tee" class="product-img" />
           </div>
+          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Bestseller</div>
@@ -1582,7 +1634,7 @@
             <div class="product-header">
               <div class="product-name-wrapper">
                 <h3>FAIDE Signature Tee</h3>
-                <div class="product-category">Unisex Short-Sleeve Top</div>
+                <div class="product-category">UNISEX Short-Sleeve Top</div>
                 <div class="product-colors-count">3 Colors</div>
               </div>
               <p class="price">R349.99</p>
@@ -1622,6 +1674,7 @@
           <div class="product-img-container">
             <img src="/images/longsleeve.png" alt="FAIDE Long Sleeve" class="product-img" />
           </div>
+          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Member Exclusive</div>
@@ -1629,7 +1682,7 @@
             <div class="product-header">
               <div class="product-name-wrapper">
                 <h3>FAIDE Long Sleeve</h3>
-                <div class="product-category">Unisex Long Sleeve</div>
+                <div class="product-category">UNISEX Long Sleeve</div>
                 <div class="product-colors-count">2 Colors</div>
               </div>
               <p class="price">R549.99</p>
@@ -1668,6 +1721,7 @@
           <div class="product-img-container">
             <img src="/images/hoodie.png" alt="FAIDE Luxury Hoodie" class="product-img" />
           </div>
+          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Premium</div>
@@ -1675,7 +1729,7 @@
             <div class="product-header">
               <div class="product-name-wrapper">
                 <h3>FAIDE Luxury Hoodie</h3>
-                <div class="product-category">Unisex Pullover Hoodie</div>
+                <div class="product-category">UNISEX Pullover Hoodie</div>
                 <div class="product-colors-count">2 Colors</div>
               </div>
               <p class="price">R699.99</p>
@@ -1712,7 +1766,7 @@
     </section>
 
     <!-- ✅ Divider between Shop and About -->
-    <div class="section-divider" aria-hidden="true"><hr></div>
+    <div class="section-divider" aria-hidden="true"></div>
 
     <!-- ABOUT -->
     <section id="about" class="about">
@@ -1728,28 +1782,29 @@
       </div>
     </section>
 
-    <!-- FOOTER (shorter) -->
-    <footer id="footer" style="background:#0a0a0a; border-top:1px solid var(--border); padding: 28px 32px 26px;">
+    <!-- FOOTER -->
+    <footer id="footer" style="background:#0a0a0a; border-top:1px solid var(--border); padding: 42px 32px 40px;">
       <div style="max-width: 1200px; margin: 0 auto;">
         <div class="footer-legal">
-          <div class="footer-legal-top">
+          <!-- ✅ Footer policy order + separators -->
+          <div class="footer-legal-top" aria-label="Policies">
             <a href="#" id="privacy-link" class="footer-legal-link">Privacy Policy</a>
-            <a href="#" id="returns-link" class="footer-legal-link">Returns &amp; Exchanges</a>
+            <span class="footer-sep">|</span>
             <a href="#" id="shipping-link" class="footer-legal-link">Shipping Policy</a>
+            <span class="footer-sep">|</span>
+            <a href="#" id="terms-link" class="footer-legal-link">Terms of Service</a>
+            <span class="footer-sep">|</span>
+            <a href="#" id="returns-link" class="footer-legal-link">Return and exchange</a>
           </div>
 
-          <div class="footer-legal-mid">
-            <a href="#" id="terms-link">Terms of Service</a>
-          </div>
-
-          <p style="color:#666; font-size:0.92rem; margin: 2px 0 0; text-align:center;">
+          <p style="color:#666; font-size:0.95rem; margin: 6px 0 0; text-align:center;">
             © 2026 FAIDE. All rights reserved.
           </p>
         </div>
       </div>
     </footer>
 
-    <!-- Policy Modal -->
+    <!-- Policy Modal (kept as-is) -->
     <div
       id="policy-modal"
       role="dialog"
@@ -1965,6 +2020,25 @@
       }
 
       /*************************************************************
+       * ✅ CART MEMORY (localStorage)
+       *************************************************************/
+      const CART_STORAGE_KEY = "faide_cart_v1";
+      function loadCartFromStorage(){
+        try{
+          const raw = localStorage.getItem(CART_STORAGE_KEY);
+          const parsed = raw ? JSON.parse(raw) : [];
+          return Array.isArray(parsed) ? parsed : [];
+        }catch(_){
+          return [];
+        }
+      }
+      function saveCartToStorage(nextCart){
+        try{
+          localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(nextCart || []));
+        }catch(_){}
+      }
+
+      /*************************************************************
        * CART + WHATSAPP CHECKOUT
        *************************************************************/
       const WHATSAPP_NUMBER = "27695603929";
@@ -2139,7 +2213,7 @@
       }
 
       /*************************************************************
-       * ✅ Qty stepper (kept)
+       * ✅ Qty stepper
        *************************************************************/
       function setupQtyStepper(rootEl, { onChange } = {}) {
         const valueEl = rootEl.querySelector("[data-qty-value]");
@@ -2289,7 +2363,7 @@
         window.addEventListener("resize", () => { updateActiveFromScroll(); }, { passive: true });
 
         /*************************************************************
-         * CART (unchanged logic)
+         * CART
          *************************************************************/
         const products = document.querySelectorAll(".product");
         const floatingCart = document.getElementById("floating-cart");
@@ -2300,6 +2374,9 @@
         const cartTotalEl = document.getElementById("cart-total");
         const cartCountEl = document.getElementById("cart-count");
         const checkoutBtn = document.getElementById("checkout-btn");
+
+        /* ✅ load cart from storage on start */
+        cart = loadCartFromStorage();
 
         function openCart() {
           cartSidebar?.classList.add("active");
@@ -2334,6 +2411,9 @@
 
         function updateCartUI() {
           if (!cartItemsEl || !cartTotalEl || !cartCountEl) return;
+
+          /* ✅ persist cart on every render change */
+          saveCartToStorage(cart);
 
           cartItemsEl.innerHTML = "";
           let total = 0;
@@ -2489,7 +2569,7 @@
         });
 
         /*************************************************************
-         * ✅ SHOP FULLSCREEN PRODUCT MODAL (WITH THUMBS) (kept)
+         * ✅ SHOP FULLSCREEN PRODUCT MODAL (WITH THUMBS)
          *************************************************************/
         const pm = {
           modal: document.getElementById("product-modal"),
@@ -2552,15 +2632,31 @@
           pmActiveProductEl = null;
         }
 
+        /* ✅ Product modal: fix switch glitch (prevent duplicate swaps) */
+        let __pmSwapToken = 0;
         function pmSetImage(i) {
           if (!pmSources.length || !pm.img) return;
+          const token = ++__pmSwapToken;
+
           pmIndex = (i + pmSources.length) % pmSources.length;
-          pm.img.style.opacity = "0.25";
-          requestAnimationFrame(() => {
-            pm.img.src = pmSources[pmIndex];
+          const nextSrc = pmSources[pmIndex];
+
+          if (pm.img.getAttribute("src") === nextSrc) {
             if (pm.subtitle) pm.subtitle.textContent = `${pmIndex + 1} / ${pmSources.length}`;
             pmRenderThumbs();
-            setTimeout(() => (pm.img.style.opacity = "1"), 60);
+            return;
+          }
+
+          pm.img.style.opacity = "0.25";
+          requestAnimationFrame(() => {
+            if (token !== __pmSwapToken) return;
+            pm.img.src = nextSrc;
+            if (pm.subtitle) pm.subtitle.textContent = `${pmIndex + 1} / ${pmSources.length}`;
+            pmRenderThumbs();
+            setTimeout(() => {
+              if (token !== __pmSwapToken) return;
+              pm.img.style.opacity = "1";
+            }, 60);
           });
         }
 
@@ -2728,206 +2824,214 @@
         });
 
         /*************************************************************
-         * ✅ LOOKBOOK FULLSCREEN (new) + FIX double-tap zoom glitch
-         * - no arrows / no barriers / edge-to-edge
+         * LOOKBOOK FULLSCREEN GALLERY + ZOOM
          *************************************************************/
         const lookbookCards = Array.from(document.querySelectorAll(".lookbook-card"));
-        const lbModal = document.getElementById("lookbook-modal");
-        const lbImg = document.getElementById("lb-img");
-        const lbClose = document.getElementById("lb-close");
+        const galleryModal = document.getElementById("gallery-modal");
+        const galleryImg = document.getElementById("gallery-img");
+        const galleryClose = document.getElementById("gallery-close");
+        const galleryCounter = document.getElementById("gallery-counter");
+        const galleryTitle = document.getElementById("gallery-title");
+        const galleryViewport = document.getElementById("gallery-viewport");
 
-        const lbItems = lookbookCards
+        const galleryItems = lookbookCards
           .map((card) => {
             const img = card.querySelector("img");
-            return img?.getAttribute("src") ? img.getAttribute("src") : null;
+            const title = card.querySelector(".lookbook-card-title")?.textContent?.trim() || "Look";
+            return img?.getAttribute("src") ? { src: img.getAttribute("src"), title } : null;
           })
           .filter(Boolean);
 
-        let lbIndex = 0;
+        let galleryIndex = 0;
+        let touchStartX = null;
 
-        // zoom state
-        let lbScale = 1;
-        let lbTx = 0;
-        let lbTy = 0;
+        let scale = 1;
+        let tx = 0;
+        let ty = 0;
 
-        let lbDragging = false;
-        let lbDragStartX = 0;
-        let lbDragStartY = 0;
-        let lbDragStartTx = 0;
-        let lbDragStartTy = 0;
+        let dragging = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let dragStartTx = tx;
+        let dragStartTy = ty;
 
-        let lbPinchStartDist = 0;
-        let lbPinchStartScale = 1;
-        let lbPinchMid = { x: 0, y: 0 };
+        let pinchStartDist = 0;
+        let pinchStartScale = 1;
+        let pinchMid = { x: 0, y: 0 };
 
-        function lbClamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+        function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
 
-        function lbApply(){
-          if (!lbImg) return;
-          lbImg.style.transform = `translate3d(${lbTx}px, ${lbTy}px, 0) scale(${lbScale})`;
-          lbImg.classList.toggle("zoomed", lbScale > 1.01);
+        function applyTransform() {
+          if (!galleryImg) return;
+          galleryImg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
+          galleryImg.classList.toggle("zoomed", scale > 1.01);
         }
 
-        function lbReset(){
-          lbScale = 1;
-          lbTx = 0;
-          lbTy = 0;
-          lbApply();
+        function resetZoom() {
+          scale = 1;
+          tx = 0;
+          ty = 0;
+          applyTransform();
         }
 
-        function lbSet(index){
-          if (!lbItems.length) return;
-          lbIndex = (index + lbItems.length) % lbItems.length;
-          lbImg.src = lbItems[lbIndex];
-          lbReset();
+        function setGallery(index) {
+          if (!galleryItems.length) return;
+          galleryIndex = (index + galleryItems.length) % galleryItems.length;
+
+          const item = galleryItems[galleryIndex];
+          galleryImg.src = item.src;
+          galleryImg.alt = item.title;
+          galleryTitle.textContent = item.title;
+          galleryCounter.textContent = `${galleryIndex + 1} / ${galleryItems.length}`;
+
+          resetZoom();
         }
 
-        function lbOpen(index){
-          if (!lbItems.length) return;
-          lbSet(index);
-          lbModal.classList.add("active");
-          lbModal.setAttribute("aria-hidden","false");
+        function openGallery(index) {
+          if (!galleryItems.length) return;
+          setGallery(index);
+
+          galleryModal.classList.add("active");
+          galleryModal.setAttribute("aria-hidden", "false");
           document.body.classList.add("lock-scroll");
-          lbClose?.focus();
+
+          galleryClose?.focus();
         }
 
-        function lbCloseFn(){
-          lbModal.classList.remove("active");
-          lbModal.setAttribute("aria-hidden","true");
+        function closeGallery() {
+          galleryModal.classList.remove("active");
+          galleryModal.setAttribute("aria-hidden", "true");
           document.body.classList.remove("lock-scroll");
-          lbReset();
+          resetZoom();
         }
 
         lookbookCards.forEach((card, idx) => {
-          card.addEventListener("click", () => lbOpen(idx));
-          clickOnEnterSpace(card, () => lbOpen(idx));
+          card.addEventListener("click", () => openGallery(idx));
+          clickOnEnterSpace(card, () => openGallery(idx));
         });
 
-        lbClose?.addEventListener("click", lbCloseFn);
-        lbModal?.addEventListener("click", (e) => {
-          if (e.target === lbModal) lbCloseFn();
+        galleryClose?.addEventListener("click", closeGallery);
+
+        galleryModal?.addEventListener("click", (e) => {
+          if (e.target === galleryModal) closeGallery();
         });
 
         document.addEventListener("keydown", (e) => {
-          if (!lbModal?.classList.contains("active")) return;
-          if (e.key === "Escape") lbCloseFn();
+          if (!galleryModal?.classList.contains("active")) return;
+          if (e.key === "Escape") closeGallery();
         });
 
-        function lbDistance(t1, t2){
+        function toggleZoomAt(clientX, clientY) {
+          if (!galleryViewport) return;
+
+          const rect = galleryViewport.getBoundingClientRect();
+          const x = clientX - rect.left - rect.width / 2;
+          const y = clientY - rect.top - rect.height / 2;
+
+          if (scale <= 1.01) {
+            scale = 2.2;
+            tx = -x;
+            ty = -y;
+          } else {
+            resetZoom();
+            return;
+          }
+
+          tx = clamp(tx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
+          ty = clamp(ty, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
+
+          applyTransform();
+        }
+
+        galleryImg?.addEventListener("dblclick", (e) => {
+          e.preventDefault();
+          toggleZoomAt(e.clientX, e.clientY);
+        });
+
+        function distance(t1, t2) {
           const dx = t2.clientX - t1.clientX;
           const dy = t2.clientY - t1.clientY;
           return Math.hypot(dx, dy);
         }
 
-        // ✅ Fix: prevent browser double-tap zoom + stable custom double-tap
-        let lbLastTap = 0;
-        function lbToggleZoomAt(clientX, clientY){
-          const rect = lbImg.getBoundingClientRect();
-          const cx = clientX - (rect.left + rect.width/2);
-          const cy = clientY - (rect.top + rect.height/2);
+        let lastTap = 0;
 
-          if (lbScale <= 1.01){
-            lbScale = 2.2;
-            lbTx = -cx;
-            lbTy = -cy;
-          } else {
-            lbReset();
-            return;
-          }
-
-          // clamp within bounds relative to viewport
-          const vw = window.innerWidth;
-          const vh = window.innerHeight;
-          lbTx = lbClamp(lbTx, -vw*(lbScale-1)*0.5, vw*(lbScale-1)*0.5);
-          lbTy = lbClamp(lbTy, -vh*(lbScale-1)*0.5, vh*(lbScale-1)*0.5);
-          lbApply();
-        }
-
-        // Use non-passive so we can preventDefault and stop the glitch
-        lbImg?.addEventListener("touchstart", (e) => {
-          if (!lbModal.classList.contains("active")) return;
-          e.preventDefault();
+        galleryViewport?.addEventListener("touchstart", (e) => {
+          if (!galleryModal?.classList.contains("active")) return;
 
           const now = Date.now();
-          if (e.touches.length === 1){
-            if (now - lbLastTap < 260){
+          if (e.touches.length === 1) {
+            if (now - lastTap < 260) {
               const t = e.touches[0];
-              lbToggleZoomAt(t.clientX, t.clientY);
-              lbLastTap = 0;
+              toggleZoomAt(t.clientX, t.clientY);
+              lastTap = 0;
               return;
             }
-            lbLastTap = now;
+            lastTap = now;
+          }
 
-            if (lbScale > 1.01){
-              lbDragging = true;
-              lbDragStartX = e.touches[0].clientX;
-              lbDragStartY = e.touches[0].clientY;
-              lbDragStartTx = lbTx;
-              lbDragStartTy = lbTy;
+          if (e.touches.length === 1) {
+            touchStartX = e.touches[0].clientX;
+
+            if (scale > 1.01) {
+              dragging = true;
+              dragStartX = e.touches[0].clientX;
+              dragStartY = e.touches[0].clientY;
+              dragStartTx = tx;
+              dragStartTy = ty;
             }
           }
 
-          if (e.touches.length === 2){
-            lbPinchStartDist = lbDistance(e.touches[0], e.touches[1]);
-            lbPinchStartScale = lbScale;
-            lbPinchMid = {
+          if (e.touches.length === 2) {
+            pinchStartDist = distance(e.touches[0], e.touches[1]);
+            pinchStartScale = scale;
+            pinchMid = {
               x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
               y: (e.touches[0].clientY + e.touches[1].clientY) / 2
             };
           }
-        }, { passive: false });
+        }, { passive: true });
 
-        lbImg?.addEventListener("touchmove", (e) => {
-          if (!lbModal.classList.contains("active")) return;
-          e.preventDefault();
+        galleryViewport?.addEventListener("touchmove", (e) => {
+          if (!galleryModal?.classList.contains("active") || !galleryViewport) return;
 
-          // pinch
-          if (e.touches.length === 2){
-            const d = lbDistance(e.touches[0], e.touches[1]);
-            const next = lbClamp(lbPinchStartScale * (d / lbPinchStartDist), 1, 3);
+          if (e.touches.length === 2) {
+            const d = distance(e.touches[0], e.touches[1]);
+            const next = clamp(pinchStartScale * (d / pinchStartDist), 1, 3);
 
-            const vw = window.innerWidth;
-            const vh = window.innerHeight;
+            const rect = galleryViewport.getBoundingClientRect();
+            const cx = pinchMid.x - rect.left - rect.width / 2;
+            const cy = pinchMid.y - rect.top - rect.height / 2;
 
-            const cx = lbPinchMid.x - vw/2;
-            const cy = lbPinchMid.y - vh/2;
+            const ratio = next / scale;
+            tx = (tx - cx) * ratio + cx;
+            ty = (ty - cy) * ratio + cy;
+            scale = next;
 
-            const ratio = next / lbScale;
-            lbTx = (lbTx - cx) * ratio + cx;
-            lbTy = (lbTy - cy) * ratio + cy;
-            lbScale = next;
+            tx = clamp(tx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
+            ty = clamp(ty, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
 
-            lbTx = lbClamp(lbTx, -vw*(lbScale-1)*0.5, vw*(lbScale-1)*0.5);
-            lbTy = lbClamp(lbTy, -vh*(lbScale-1)*0.5, vh*(lbScale-1)*0.5);
-            lbApply();
+            applyTransform();
             return;
           }
 
-          // drag pan
-          if (e.touches.length === 1 && lbScale > 1.01 && lbDragging){
+          if (e.touches.length === 1 && scale > 1.01 && dragging) {
             const t = e.touches[0];
-            const dx = t.clientX - lbDragStartX;
-            const dy = t.clientY - lbDragStartY;
+            const dx = t.clientX - dragStartX;
+            const dy = t.clientY - dragStartY;
 
-            const vw = window.innerWidth;
-            const vh = window.innerHeight;
+            const rect = galleryViewport.getBoundingClientRect();
+            tx = clamp(dragStartTx + dx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
+            ty = clamp(dragStartTy + dy, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
 
-            lbTx = lbClamp(lbDragStartTx + dx, -vw*(lbScale-1)*0.5, vw*(lbScale-1)*0.5);
-            lbTy = lbClamp(lbDragStartTy + dy, -vh*(lbScale-1)*0.5, vh*(lbScale-1)*0.5);
-            lbApply();
+            applyTransform();
           }
-        }, { passive: false });
-
-        lbImg?.addEventListener("touchend", (e) => {
-          lbDragging = false;
         }, { passive: true });
 
-        // desktop double-click zoom
-        lbImg?.addEventListener("dblclick", (e) => {
-          e.preventDefault();
-          lbToggleZoomAt(e.clientX, e.clientY);
-        });
-
+        galleryViewport?.addEventListener("touchend", () => {
+          dragging = false;
+          touchStartX = null;
+        }, { passive: true });
       });
     </script>
 

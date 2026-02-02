@@ -106,11 +106,12 @@
       .nav-links {
         display: flex;
         align-items: center;
-        gap: 18px;
+        gap: 18px; /* keep exact spacing */
       }
 
+      /* ✅ increase nav button size, keep spacing */
       .nav-links a {
-        font-size: 0.6rem;
+        font-size: 0.72rem;
         letter-spacing: 1px;
         text-transform: uppercase;
         color: var(--muted);
@@ -118,6 +119,8 @@
         transition: all 0.25s ease;
         position: relative;
         white-space: nowrap;
+        line-height: 1;
+        padding: 6px 0; /* slightly taller target without changing gap */
       }
 
       .nav-links a:hover { color: var(--secondary); transform: translateY(-1px); }
@@ -156,7 +159,9 @@
           max-width: 68vw;
         }
         .nav-links::-webkit-scrollbar { display: none; }
-        .nav-links a { font-size: 0.55rem; letter-spacing: 0.8px; color: #777; }
+
+        /* keep exact space on mobile too */
+        .nav-links a { font-size: 0.68rem; letter-spacing: 0.8px; color: #777; padding: 6px 0; }
       }
 
       /* =========================================================
@@ -187,7 +192,9 @@
       }
 
       /* =========================================================
-         HERO
+         HERO (✅ 1:1 IMAGE BACKGROUND)
+         Put your square image here:
+         /images/hero-1x1.png   (upload to your GitHub images folder)
       ========================================================= */
       .hero {
         min-height: 80%;
@@ -205,11 +212,25 @@
       .hero-bg {
         position: absolute;
         inset: 0;
-        background: url("/images/tshirt2.png") center/cover no-repeat;
-        opacity: 0.09;
-        filter: saturate(0.9) contrast(1.05);
+        opacity: 1;
         pointer-events: none;
       }
+
+      /* ✅ square artwork centered */
+      .hero-bg::before{
+        content:"";
+        position:absolute;
+        left:50%;
+        top:52%;
+        transform: translate(-50%,-50%);
+        width: min(560px, 78vw);
+        aspect-ratio: 1 / 1;
+        background: url("/images/hero-1x1.png") center/contain no-repeat;
+        opacity: 0.16;
+        filter: saturate(0.95) contrast(1.05);
+      }
+
+      /* ✅ your existing vignette */
       .hero-bg::after{
         content:"";
         position:absolute;
@@ -286,6 +307,7 @@
       @media (max-width: 768px){
         .hero{ padding-left: var(--px-sm); padding-right: var(--px-sm); }
         .hero-title{ font-size: 2rem; }
+        .hero-bg::before{ width: min(520px, 84vw); opacity: 0.14; }
       }
 
       /* =========================================================
@@ -313,7 +335,7 @@
       }
 
       /* =========================================================
-         LOOKBOOK
+         LOOKBOOK (cards unchanged)
       ========================================================= */
       .lookbook { padding-left: 0; padding-right: 0; }
 
@@ -379,164 +401,76 @@
       }
 
       /* =========================================================
-         FULLSCREEN GALLERY (LOOKBOOK + PRODUCT MODAL SHARED)
+         ✅ LOOKBOOK FULLSCREEN (edge-to-edge, no barrier, no arrows, no rounding)
       ========================================================= */
-      .gallery-modal{
+      .lookbook-modal{
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.92);
         z-index: 2600;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.25s ease;
+        transition: opacity 0.22s ease;
+        background: #000;
       }
-      .gallery-modal.active{
+      .lookbook-modal.active{
         opacity: 1;
         pointer-events: auto;
       }
 
-      .gallery-frame{
-        position: absolute;
-        inset: 0;
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-      }
-
-      .gallery-topbar{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-        padding: 18px 18px;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-        background: rgba(10,10,10,0.55);
-        backdrop-filter: blur(10px);
-      }
-
-      .gallery-meta{
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        min-width: 0;
-      }
-      .gallery-title{
-        font-weight: 900;
-        color: var(--primary);
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        font-size: 0.95rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .gallery-counter{
-        color: #888;
-        font-size: 0.85rem;
-        font-weight: 700;
-      }
-
-      .gallery-btn{
-        border: 1px solid rgba(255,255,255,0.14);
-        background: rgba(255,255,255,0.03);
+      .lb-close{
+        position: fixed;
+        top: 14px;
+        right: 14px;
+        z-index: 5;
+        border: 1px solid rgba(255,255,255,0.18);
+        background: rgba(0,0,0,0.35);
         color: #fff;
         padding: 10px 14px;
         border-radius: 999px;
         cursor: pointer;
-        transition: all 0.2s ease;
-        font-weight: 800;
+        font-weight: 900;
         letter-spacing: 0.02em;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+        backdrop-filter: blur(10px);
       }
-      .gallery-btn:hover{
-        background: rgba(255,255,255,0.08);
-        border-color: rgba(255,255,255,0.24);
+      .lb-close:hover{
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(255,255,255,0.28);
         transform: translateY(-1px);
       }
 
-      .gallery-stage{
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 18px;
-      }
-
-      .gallery-nav{
+      .lb-stage{
         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 52px;
-        height: 52px;
-        border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.14);
-        background: rgba(255,255,255,0.04);
-        color: #fff;
-        cursor: pointer;
+        inset: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.2s ease;
-        user-select: none;
-      }
-      .gallery-nav:hover{
-        background: rgba(255,255,255,0.10);
-        border-color: rgba(255,255,255,0.26);
-      }
-      .gallery-prev{ left: 18px; }
-      .gallery-next{ right: 18px; }
-
-      @media (max-width: 768px){
-        .gallery-prev{ left: 10px; }
-        .gallery-next{ right: 10px; }
-        .gallery-nav{ width: 46px; height: 46px; }
-      }
-
-      .gallery-viewport{
-        width: min(1200px, 92vw);
-        height: min(78vh, 760px);
-        position: relative;
+        padding: 0; /* ✅ touch edge */
         overflow: hidden;
-        touch-action: pan-x pan-y;
-        border-radius: 18px;
-        border: 1px solid rgba(255,255,255,0.10);
-        background:
-          radial-gradient(80% 80% at 50% 35%, rgba(168,85,247,0.10), rgba(10,10,10,0.95) 70%),
-          linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.00));
       }
 
-      .gallery-zoom-img{
-        width: 100%;
-        height: 100%;
+      /* ✅ edge-to-edge image area (no rounded viewport, no border) */
+      .lb-img{
+        width: 100vw;
+        height: 100vh;
         object-fit: contain;
         display: block;
-        transform-origin: center center;
-        transform: translate3d(0,0,0) scale(1);
-        transition: transform 140ms ease;
         user-select: none;
         -webkit-user-drag: none;
+        transform-origin: center center;
+        transform: translate3d(0,0,0) scale(1);
         cursor: zoom-in;
+        touch-action: none; /* ✅ prevents browser double-tap zoom */
       }
-
-      .gallery-zoom-img.zoomed{
-        cursor: grab;
-      }
-      .gallery-zoom-img.zoomed:active{
-        cursor: grabbing;
-      }
-
-      .gallery-bottombar{
-        padding: 12px 18px 18px;
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        color: #777;
-        font-size: 0.85rem;
-      }
+      .lb-img.zoomed{ cursor: grab; }
+      .lb-img.zoomed:active{ cursor: grabbing; }
 
       /* =========================================================
-         ✅ SHOP
+         ✅ SHOP (two-column cards + horizontal scroll on desktop/tablet)
+         - remove visible rounded card shape
+         - image is the actual "card" column shape
       ========================================================= */
       .shop { margin: 0; }
 
@@ -545,7 +479,7 @@
         margin: 0 auto;
         display: flex;
         overflow-x: auto;
-        gap: 24px;
+        gap: 22px;
         scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
         padding: 26px var(--px);
@@ -558,160 +492,71 @@
       .horizontal-scroll::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
 
       .product {
-        min-width: 420px;
-        padding: 14px;
-        color: #fff;
-        text-align: left;
-        display: flex;
-        flex-direction: column;
+        min-width: 540px;                 /* desktop/tablet scroll cards */
         scroll-snap-align: center;
         cursor: pointer;
-        border-radius: var(--card-radius);
-        position: relative;
 
-        background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
-        border: 1px solid rgba(255,255,255,0.10);
-        box-shadow:
-          0 10px 26px rgba(0,0,0,0.70),
-          0 1px 0 rgba(255,255,255,0.04) inset;
+        /* ✅ remove visible rounded card / shape */
+        border-radius: 0;
+        border: none;
+        background: transparent;
+        box-shadow: none;
 
-        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        /* ✅ two-column layout */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        padding: 0;
       }
 
       .product::before,
       .product::after { content: none !important; }
 
-      @media (hover: hover) and (pointer: fine) {
-        .product:hover{
-          transform: translateY(-4px);
-          border-color: rgba(255,255,255,0.18);
-          box-shadow:
-            0 14px 32px rgba(0,0,0,0.75),
-            0 1px 0 rgba(255,255,255,0.04) inset;
-        }
-        .product:hover .product-img{
-          transform: translateY(-2px) scale(1.005);
-          filter: drop-shadow(0 16px 24px rgba(0,0,0,0.55));
-        }
-        .product:hover .options{
-          opacity: 1;
-          max-height: 520px;
-          transform: translateY(0);
-        }
-      }
-
+      /* ✅ image is the “card shape” (no rounding, full bleed) */
       .product-img-container {
         width: 100%;
         height: 360px;
         overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         position: relative;
-        margin-bottom: 14px;
-        border-radius: var(--img-radius);
+        margin: 0;
 
-        border: 1px solid rgba(255,255,255,0.10);
-        background:
-          radial-gradient(120% 90% at 50% 35%, rgba(255,255,255,0.035), rgba(0,0,0,0.92) 70%),
-          linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.00));
-
-        touch-action: pan-y;
+        border-radius: 0;
+        border: none;
+        background: #000;
       }
 
       .product-img-container::after{
         content:"";
         position:absolute;
         inset:0;
-        background: linear-gradient(180deg, rgba(0,0,0,0.00) 35%, rgba(0,0,0,0.62) 100%);
+        background: linear-gradient(180deg, rgba(0,0,0,0.00) 35%, rgba(0,0,0,0.65) 100%);
         pointer-events:none;
       }
 
       .product-img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;   /* ✅ image becomes card face */
         display: block;
-        padding: 18px;
-        transition: transform 0.28s ease, filter 0.28s ease, opacity 160ms ease;
-        filter: drop-shadow(0 16px 24px rgba(0,0,0,0.55)) saturate(1.04);
+        padding: 0;          /* ✅ no inner padding */
+        transition: transform 0.28s ease, opacity 160ms ease;
+        filter: none;
         user-select: none;
         -webkit-user-drag: none;
+      }
+
+      /* right column details */
+      .product-info {
+        padding: 6px 0 0; /* ✅ reduce “footer” height feel */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
       }
 
       .img-pager{ display:none !important; }
       .img-dot{ display:none !important; }
 
       .product [data-thumb-row]{ display: none !important; }
-
-      /* =========================================================
-         ✅ THUMBNAILS (used in product modal only)
-      ========================================================= */
-      .thumb-row{
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-top: 10px;
-        margin-bottom: 6px;
-      }
-
-      .thumb{
-        height: 74px;
-        border-radius: 18px;
-        overflow: hidden;
-        border: 2px solid rgba(255,255,255,0.10);
-        background: rgba(255,255,255,0.02);
-        cursor: pointer;
-        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-      }
-
-      .thumb img{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        user-select: none;
-        -webkit-user-drag: none;
-        pointer-events: none;
-      }
-
-      .thumb.active{
-        border-color: rgba(168,85,247,0.95);
-        box-shadow: 0 0 0 3px rgba(168,85,247,0.14);
-      }
-
-      /* ✅ FIX: Product modal image + thumbs layout (prevents clipping) */
-      .pm-media{
-        display: grid;
-        grid-template-rows: 1fr auto;
-        gap: 14px;
-        width: 100%;
-        height: 100%;
-        min-height: 0;
-      }
-      .pm-image-shell{
-        position: relative;
-        overflow: hidden;
-        border-radius: 20px;
-        border: none;                 /* ✅ no box frame */
-        background: #000;            /* ✅ flush feel */
-        padding: 0;                  /* ✅ remove inner padding */
-        min-height: 0;
-      }
-      .pm-image-shell img{
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        display: block;
-        cursor: default;
-      }
-      #pm-thumbs{ align-content: start; }
-
-      .product-info { padding: 10px 10px 6px; }
 
       .product-label {
         font-size: 0.78rem;
@@ -728,7 +573,7 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: 10px;
+        margin-bottom: 8px; /* smaller */
         gap: 12px;
       }
 
@@ -747,7 +592,7 @@
         font-size: 0.95rem;
         color: #9a9a9a;
         font-weight: 600;
-        margin-bottom: 10px;
+        margin-bottom: 8px; /* smaller */
       }
 
       .price {
@@ -760,7 +605,7 @@
       }
 
       .options {
-        margin: 16px 0 0 0;
+        margin: 10px 0 0 0;
         opacity: 0;
         max-height: 0;
         overflow: hidden;
@@ -772,6 +617,17 @@
         opacity: 1;
         max-height: 520px;
         transform: translateY(0);
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        .product:hover .product-img{
+          transform: scale(1.02);
+        }
+        .product:hover .options{
+          opacity: 1;
+          max-height: 520px;
+          transform: translateY(0);
+        }
       }
 
       @media (hover: none) and (pointer: coarse) {
@@ -791,7 +647,7 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 8px;
-        margin-bottom: 18px;
+        margin-bottom: 16px;
       }
 
       .size-btn {
@@ -821,7 +677,7 @@
         transform: translateY(-1px);
       }
 
-      .colors { display: flex; gap: 10px; margin-bottom: 18px; }
+      .colors { display: flex; gap: 10px; margin-bottom: 16px; }
 
       .color {
         width: 38px;
@@ -859,7 +715,7 @@
       .color.grey { background: #666; }
 
       /* =========================================================
-         ✅ Quantity Stepper — PILL (no glow)
+         ✅ Quantity Stepper — PILL (no glow) (kept)
       ========================================================= */
       .qty-stepper-ui{
         display: flex;
@@ -907,7 +763,7 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 18px;
+        margin-bottom: 16px;
       }
 
       .quantity{ display:none !important; }
@@ -915,7 +771,7 @@
       .secondary-btn {
         background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
         border: 1px solid rgba(255,255,255,0.10);
-        padding: 16px 24px;
+        padding: 14px 22px; /* slightly tighter */
         border-radius: 999px;
         color: #fff;
         font-weight: 950;
@@ -946,12 +802,33 @@
         border-color: rgba(255,255,255,0.08) !important;
       }
 
+      /* ✅ responsive: keep horizontal scroll on tablet/desktop, stack on mobile */
       @media (max-width: 768px){
         .horizontal-scroll{ padding-left: var(--px-sm); padding-right: var(--px-sm); gap: 16px; }
-        .product{ min-width: 300px; padding: 12px; }
-        .product-img-container{ height: 290px; }
-        .thumb{ height: 64px; border-radius: 16px; }
-        .thumb-row{ gap: 10px; }
+        .product{
+          min-width: 84vw;
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        .product-img-container{ height: 320px; }
+      }
+
+      /* =========================================================
+         Divider between Shop and About
+      ========================================================= */
+      .section-divider{
+        max-width: var(--container);
+        margin: 0 auto;
+        padding: 0 var(--px);
+      }
+      .section-divider hr{
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(255,255,255,0), rgba(168,85,247,0.55), rgba(255,255,255,0));
+        opacity: 0.65;
+      }
+      @media (max-width: 768px){
+        .section-divider{ padding: 0 var(--px-sm); }
       }
 
       /* =========================================================
@@ -1003,7 +880,7 @@
       }
 
       /* =========================================================
-         FOOTER
+         FOOTER (slightly shorter)
       ========================================================= */
       footer a { transition: color 0.25s ease; }
       footer a:hover { color: var(--secondary); }
@@ -1012,14 +889,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 18px;
-        padding-top: 28px;
+        gap: 14px;
+        padding-top: 18px;
         border-top: none;
       }
 
       .footer-legal-top {
         display: flex;
-        gap: 34px;
+        gap: 28px;
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
@@ -1036,12 +913,12 @@
 
       .footer-legal-mid a {
         color: var(--muted2);
-        font-size: 1.05rem;
+        font-size: 1.02rem;
         text-decoration: none;
       }
 
       /* =========================================================
-         FLOATING CART
+         FLOATING CART (unchanged)
       ========================================================= */
       .floating-cart {
         position: fixed;
@@ -1355,18 +1232,16 @@
       }
 
       /* =========================================================
-         ✅ UPDATED: PRODUCT MODAL = FULLSCREEN (NO OUTER SHAPE) + SCROLL
+         PRODUCT MODAL (kept exactly as your updated version)
       ========================================================= */
       #product-modal.gallery-modal{
         background: rgba(0,0,0,0.96);
       }
 
-      /* Make product modal a 2-row grid: topbar + scroll content */
       #product-modal .gallery-frame{
         grid-template-rows: auto 1fr;
       }
 
-      /* Sticky topbar like your screenshot */
       #product-modal .gallery-topbar{
         position: sticky;
         top: 0;
@@ -1376,7 +1251,6 @@
         backdrop-filter: blur(10px);
       }
 
-      /* Scroll INSIDE modal */
       #product-modal .gallery-stage{
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
@@ -1389,12 +1263,8 @@
       #product-modal .gallery-stage::-webkit-scrollbar-track{ background: rgba(255,255,255,0.03); }
       #product-modal .gallery-stage::-webkit-scrollbar-thumb{ background: rgba(168,85,247,0.55); border-radius: 10px; }
 
-      /* Remove side nav buttons (your “switch error buttons”) */
-      #pm-prev, #pm-next{
-        display: none !important;
-      }
+      #pm-prev, #pm-next{ display: none !important; }
 
-      /* Make viewport NOT a fixed “card”, just a container */
       #product-modal #pm-viewport{
         width: min(760px, 94vw);
         height: auto !important;
@@ -1406,23 +1276,70 @@
         padding: 0 !important;
       }
 
-      /* Keep the inner image rounded + flush */
-      #product-modal .pm-image-shell{
-        height: min(54vh, 520px);
-        border-radius: 22px;
-        overflow: hidden;
-        background: #000;
-        padding: 0 !important;
-        border: none !important;
+      .thumb-row{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 10px;
+        margin-bottom: 6px;
       }
-      #product-modal .pm-image-shell img{
+
+      .thumb{
+        height: 74px;
+        border-radius: 18px;
+        overflow: hidden;
+        border: 2px solid rgba(255,255,255,0.10);
+        background: rgba(255,255,255,0.02);
+        cursor: pointer;
+        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .thumb img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        user-select: none;
+        -webkit-user-drag: none;
+        pointer-events: none;
+      }
+
+      .thumb.active{
+        border-color: rgba(168,85,247,0.95);
+        box-shadow: 0 0 0 3px rgba(168,85,247,0.14);
+      }
+
+      .pm-media{
+        display: grid;
+        grid-template-rows: 1fr auto;
+        gap: 14px;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+      }
+      .pm-image-shell{
+        position: relative;
+        overflow: hidden;
+        border-radius: 22px;
+        border: none;
+        background: #000;
+        padding: 0;
+        min-height: 0;
+        height: min(54vh, 520px);
+      }
+      .pm-image-shell img{
         width: 100%;
         height: 100%;
         object-fit: contain;
         display: block;
+        cursor: default;
       }
+      #pm-thumbs{ align-content: start; }
 
-      /* Bottom hint like screenshot */
       #product-modal .pm-hint{
         color:#777;
         text-align:center;
@@ -1506,49 +1423,50 @@
       </div>
     </section>
 
-    <!-- ✅ FULLSCREEN LOOKBOOK GALLERY MODAL -->
-    <div id="gallery-modal" class="gallery-modal" aria-hidden="true" role="dialog" aria-label="Lookbook gallery">
-      <div class="gallery-frame" id="gallery-frame">
-        <div class="gallery-topbar">
-          <div class="gallery-meta">
-            <div class="gallery-title" id="gallery-title">Look</div>
-            <div class="gallery-counter" id="gallery-counter">1 / 1</div>
-          </div>
-
-          <button type="button" class="gallery-btn" id="gallery-close" aria-label="Close gallery">
-            Close
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
-            </svg>
-          </button>
-        </div>
-
-        <div class="gallery-stage">
-          <button type="button" class="gallery-nav gallery-prev" id="gallery-prev" aria-label="Previous image">‹</button>
-
-          <div class="gallery-viewport" id="gallery-viewport">
-            <img id="gallery-img" class="gallery-zoom-img" alt="Lookbook image" src="" />
-          </div>
-
-          <button type="button" class="gallery-nav gallery-next" id="gallery-next" aria-label="Next image">›</button>
-        </div>
-
-        <div class="gallery-bottombar">
-          <span>Tip: Double tap / Double click to zoom • Pinch to zoom • Drag to pan</span>
-        </div>
+    <!-- ✅ LOOKBOOK FULLSCREEN (no arrows, no frame, close top-right) -->
+    <div id="lookbook-modal" class="lookbook-modal" aria-hidden="true" role="dialog" aria-label="Lookbook full screen">
+      <button type="button" class="lb-close" id="lb-close" aria-label="Close lookbook">
+        Close
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
+        </svg>
+      </button>
+      <div class="lb-stage">
+        <img id="lb-img" class="lb-img" alt="Lookbook image" src="" />
       </div>
     </div>
 
-    <!-- ✅ FULLSCREEN PRODUCT MODAL (SHOP) — UPDATED (NO OUTER SHAPE + SCROLL) -->
+    <!-- ✅ FULLSCREEN PRODUCT MODAL (SHOP) — YOUR UPDATED VERSION KEPT -->
     <div id="product-modal" class="gallery-modal" aria-hidden="true" role="dialog" aria-label="Product details">
       <div class="gallery-frame">
-        <div class="gallery-topbar">
-          <div class="gallery-meta">
-            <div class="gallery-title">PRODUCT</div>
-            <div class="gallery-counter" id="pm-subtitle">1 / 1</div>
+        <div class="gallery-topbar" style="
+          display:flex; align-items:center; justify-content:space-between; gap:14px;
+          padding: 18px 18px;
+          border-bottom: 1px solid rgba(255,255,255,0.08);
+          background: rgba(10,10,10,0.55);
+          backdrop-filter: blur(10px);
+        ">
+          <div class="gallery-meta" style="display:flex; flex-direction:column; gap:4px; min-width:0;">
+            <div class="gallery-title" style="
+              font-weight:900; color:var(--primary); letter-spacing:0.04em; text-transform:uppercase;
+              font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+            ">PRODUCT</div>
+            <div class="gallery-counter" id="pm-subtitle" style="color:#888; font-size:0.85rem; font-weight:700;">1 / 1</div>
           </div>
 
-          <button type="button" class="gallery-btn" id="pm-close" aria-label="Close product">
+          <button type="button" class="gallery-btn" id="pm-close" aria-label="Close product" style="
+            border:1px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.03);
+            color:#fff;
+            padding:10px 14px;
+            border-radius:999px;
+            cursor:pointer;
+            transition:all .2s ease;
+            font-weight:800;
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+          ">
             Close
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
@@ -1556,7 +1474,6 @@
           </button>
         </div>
 
-        <!-- ✅ scroll area is the stage -->
         <div class="gallery-stage">
           <div class="gallery-viewport" id="pm-viewport" style="display:grid; grid-template-rows: auto auto; gap: 14px;">
             <!-- media -->
@@ -1612,7 +1529,6 @@
           <div class="product-img-container">
             <img src="/images/Tank%20top.png" alt="FAIDE Essentials Tank" class="product-img" />
           </div>
-          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Just In</div>
@@ -1620,7 +1536,7 @@
             <div class="product-header">
               <div class="product-name-wrapper">
                 <h3>FAIDE Essentials Tank</h3>
-                <div class="product-category">Men's Tank Top</div>
+                <div class="product-category">Unisex Tank Top</div>
                 <div class="product-colors-count">2 Colors</div>
               </div>
               <p class="price">R199.99</p>
@@ -1659,7 +1575,6 @@
           <div class="product-img-container">
             <img src="/images/tshirt.png" alt="FAIDE Signature Tee" class="product-img" />
           </div>
-          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Bestseller</div>
@@ -1667,7 +1582,7 @@
             <div class="product-header">
               <div class="product-name-wrapper">
                 <h3>FAIDE Signature Tee</h3>
-                <div class="product-category">Men's Short-Sleeve Top</div>
+                <div class="product-category">Unisex Short-Sleeve Top</div>
                 <div class="product-colors-count">3 Colors</div>
               </div>
               <p class="price">R349.99</p>
@@ -1707,7 +1622,6 @@
           <div class="product-img-container">
             <img src="/images/longsleeve.png" alt="FAIDE Long Sleeve" class="product-img" />
           </div>
-          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Member Exclusive</div>
@@ -1715,7 +1629,7 @@
             <div class="product-header">
               <div class="product-name-wrapper">
                 <h3>FAIDE Long Sleeve</h3>
-                <div class="product-category">Men's Long Sleeve</div>
+                <div class="product-category">Unisex Long Sleeve</div>
                 <div class="product-colors-count">2 Colors</div>
               </div>
               <p class="price">R549.99</p>
@@ -1754,7 +1668,6 @@
           <div class="product-img-container">
             <img src="/images/hoodie.png" alt="FAIDE Luxury Hoodie" class="product-img" />
           </div>
-          <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
             <div class="product-label">Premium</div>
@@ -1762,7 +1675,7 @@
             <div class="product-header">
               <div class="product-name-wrapper">
                 <h3>FAIDE Luxury Hoodie</h3>
-                <div class="product-category">Men's Pullover Hoodie</div>
+                <div class="product-category">Unisex Pullover Hoodie</div>
                 <div class="product-colors-count">2 Colors</div>
               </div>
               <p class="price">R699.99</p>
@@ -1798,6 +1711,9 @@
       </div>
     </section>
 
+    <!-- ✅ Divider between Shop and About -->
+    <div class="section-divider" aria-hidden="true"><hr></div>
+
     <!-- ABOUT -->
     <section id="about" class="about">
       <h2 class="section-title purple-title" id="about-title">About FAIDE</h2>
@@ -1812,8 +1728,8 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer id="footer" style="background:#0a0a0a; border-top:1px solid var(--border); padding: 42px 32px 40px;">
+    <!-- FOOTER (shorter) -->
+    <footer id="footer" style="background:#0a0a0a; border-top:1px solid var(--border); padding: 28px 32px 26px;">
       <div style="max-width: 1200px; margin: 0 auto;">
         <div class="footer-legal">
           <div class="footer-legal-top">
@@ -1826,7 +1742,7 @@
             <a href="#" id="terms-link">Terms of Service</a>
           </div>
 
-          <p style="color:#666; font-size:0.95rem; margin: 6px 0 0; text-align:center;">
+          <p style="color:#666; font-size:0.92rem; margin: 2px 0 0; text-align:center;">
             © 2026 FAIDE. All rights reserved.
           </p>
         </div>
@@ -2223,7 +2139,7 @@
       }
 
       /*************************************************************
-       * ✅ Qty stepper
+       * ✅ Qty stepper (kept)
        *************************************************************/
       function setupQtyStepper(rootEl, { onChange } = {}) {
         const valueEl = rootEl.querySelector("[data-qty-value]");
@@ -2373,7 +2289,7 @@
         window.addEventListener("resize", () => { updateActiveFromScroll(); }, { passive: true });
 
         /*************************************************************
-         * CART
+         * CART (unchanged logic)
          *************************************************************/
         const products = document.querySelectorAll(".product");
         const floatingCart = document.getElementById("floating-cart");
@@ -2573,13 +2489,13 @@
         });
 
         /*************************************************************
-         * ✅ SHOP FULLSCREEN PRODUCT MODAL (WITH THUMBS)
+         * ✅ SHOP FULLSCREEN PRODUCT MODAL (WITH THUMBS) (kept)
          *************************************************************/
         const pm = {
           modal: document.getElementById("product-modal"),
           close: document.getElementById("pm-close"),
-          prev: document.getElementById("pm-prev"),  // (hidden/removed by CSS)
-          next: document.getElementById("pm-next"),  // (hidden/removed by CSS)
+          prev: document.getElementById("pm-prev"),
+          next: document.getElementById("pm-next"),
           img: document.getElementById("pm-img"),
           thumbs: document.getElementById("pm-thumbs"),
           subtitle: document.getElementById("pm-subtitle"),
@@ -2812,243 +2728,206 @@
         });
 
         /*************************************************************
-         * LOOKBOOK FULLSCREEN GALLERY + ZOOM
+         * ✅ LOOKBOOK FULLSCREEN (new) + FIX double-tap zoom glitch
+         * - no arrows / no barriers / edge-to-edge
          *************************************************************/
         const lookbookCards = Array.from(document.querySelectorAll(".lookbook-card"));
-        const galleryModal = document.getElementById("gallery-modal");
-        const galleryImg = document.getElementById("gallery-img");
-        const galleryClose = document.getElementById("gallery-close");
-        const galleryPrev = document.getElementById("gallery-prev");
-        const galleryNext = document.getElementById("gallery-next");
-        const galleryCounter = document.getElementById("gallery-counter");
-        const galleryTitle = document.getElementById("gallery-title");
-        const galleryViewport = document.getElementById("gallery-viewport");
+        const lbModal = document.getElementById("lookbook-modal");
+        const lbImg = document.getElementById("lb-img");
+        const lbClose = document.getElementById("lb-close");
 
-        const galleryItems = lookbookCards
+        const lbItems = lookbookCards
           .map((card) => {
             const img = card.querySelector("img");
-            const title = card.querySelector(".lookbook-card-title")?.textContent?.trim() || "Look";
-            return img?.getAttribute("src") ? { src: img.getAttribute("src"), title } : null;
+            return img?.getAttribute("src") ? img.getAttribute("src") : null;
           })
           .filter(Boolean);
 
-        let galleryIndex = 0;
-        let touchStartX = null;
+        let lbIndex = 0;
 
-        let scale = 1;
-        let tx = 0;
-        let ty = 0;
+        // zoom state
+        let lbScale = 1;
+        let lbTx = 0;
+        let lbTy = 0;
 
-        let dragging = false;
-        let dragStartX = 0;
-        let dragStartY = 0;
-        let dragStartTx = tx;
-        let dragStartTy = ty;
+        let lbDragging = false;
+        let lbDragStartX = 0;
+        let lbDragStartY = 0;
+        let lbDragStartTx = 0;
+        let lbDragStartTy = 0;
 
-        let pinchStartDist = 0;
-        let pinchStartScale = 1;
-        let pinchMid = { x: 0, y: 0 };
+        let lbPinchStartDist = 0;
+        let lbPinchStartScale = 1;
+        let lbPinchMid = { x: 0, y: 0 };
 
-        function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+        function lbClamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
 
-        function applyTransform() {
-          if (!galleryImg) return;
-          galleryImg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
-          galleryImg.classList.toggle("zoomed", scale > 1.01);
+        function lbApply(){
+          if (!lbImg) return;
+          lbImg.style.transform = `translate3d(${lbTx}px, ${lbTy}px, 0) scale(${lbScale})`;
+          lbImg.classList.toggle("zoomed", lbScale > 1.01);
         }
 
-        function resetZoom() {
-          scale = 1;
-          tx = 0;
-          ty = 0;
-          applyTransform();
+        function lbReset(){
+          lbScale = 1;
+          lbTx = 0;
+          lbTy = 0;
+          lbApply();
         }
 
-        function setGallery(index) {
-          if (!galleryItems.length) return;
-          galleryIndex = (index + galleryItems.length) % galleryItems.length;
-
-          const item = galleryItems[galleryIndex];
-          galleryImg.src = item.src;
-          galleryImg.alt = item.title;
-          galleryTitle.textContent = item.title;
-          galleryCounter.textContent = `${galleryIndex + 1} / ${galleryItems.length}`;
-
-          resetZoom();
+        function lbSet(index){
+          if (!lbItems.length) return;
+          lbIndex = (index + lbItems.length) % lbItems.length;
+          lbImg.src = lbItems[lbIndex];
+          lbReset();
         }
 
-        function openGallery(index) {
-          if (!galleryItems.length) return;
-          setGallery(index);
-
-          galleryModal.classList.add("active");
-          galleryModal.setAttribute("aria-hidden", "false");
+        function lbOpen(index){
+          if (!lbItems.length) return;
+          lbSet(index);
+          lbModal.classList.add("active");
+          lbModal.setAttribute("aria-hidden","false");
           document.body.classList.add("lock-scroll");
-
-          galleryClose?.focus();
+          lbClose?.focus();
         }
 
-        function closeGallery() {
-          galleryModal.classList.remove("active");
-          galleryModal.setAttribute("aria-hidden", "true");
+        function lbCloseFn(){
+          lbModal.classList.remove("active");
+          lbModal.setAttribute("aria-hidden","true");
           document.body.classList.remove("lock-scroll");
-          resetZoom();
+          lbReset();
         }
-
-        function nextGallery() { setGallery(galleryIndex + 1); }
-        function prevGallery() { setGallery(galleryIndex - 1); }
 
         lookbookCards.forEach((card, idx) => {
-          card.addEventListener("click", () => openGallery(idx));
-          clickOnEnterSpace(card, () => openGallery(idx));
+          card.addEventListener("click", () => lbOpen(idx));
+          clickOnEnterSpace(card, () => lbOpen(idx));
         });
 
-        galleryClose?.addEventListener("click", closeGallery);
-
-        galleryPrev?.addEventListener("click", () => {
-          if (scale > 1.01) return;
-          prevGallery();
-        });
-
-        galleryNext?.addEventListener("click", () => {
-          if (scale > 1.01) return;
-          nextGallery();
-        });
-
-        galleryModal?.addEventListener("click", (e) => {
-          if (e.target === galleryModal) closeGallery();
+        lbClose?.addEventListener("click", lbCloseFn);
+        lbModal?.addEventListener("click", (e) => {
+          if (e.target === lbModal) lbCloseFn();
         });
 
         document.addEventListener("keydown", (e) => {
-          if (!galleryModal?.classList.contains("active")) return;
-          if (e.key === "Escape") closeGallery();
-          if (scale <= 1.01 && e.key === "ArrowRight") nextGallery();
-          if (scale <= 1.01 && e.key === "ArrowLeft") prevGallery();
+          if (!lbModal?.classList.contains("active")) return;
+          if (e.key === "Escape") lbCloseFn();
         });
 
-        function toggleZoomAt(clientX, clientY) {
-          if (!galleryViewport) return;
-
-          const rect = galleryViewport.getBoundingClientRect();
-          const x = clientX - rect.left - rect.width / 2;
-          const y = clientY - rect.top - rect.height / 2;
-
-          if (scale <= 1.01) {
-            scale = 2.2;
-            tx = -x;
-            ty = -y;
-          } else {
-            resetZoom();
-            return;
-          }
-
-          tx = clamp(tx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
-          ty = clamp(ty, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
-
-          applyTransform();
-        }
-
-        galleryImg?.addEventListener("dblclick", (e) => {
-          e.preventDefault();
-          toggleZoomAt(e.clientX, e.clientY);
-        });
-
-        function distance(t1, t2) {
+        function lbDistance(t1, t2){
           const dx = t2.clientX - t1.clientX;
           const dy = t2.clientY - t1.clientY;
           return Math.hypot(dx, dy);
         }
 
-        let lastTap = 0;
+        // ✅ Fix: prevent browser double-tap zoom + stable custom double-tap
+        let lbLastTap = 0;
+        function lbToggleZoomAt(clientX, clientY){
+          const rect = lbImg.getBoundingClientRect();
+          const cx = clientX - (rect.left + rect.width/2);
+          const cy = clientY - (rect.top + rect.height/2);
 
-        galleryViewport?.addEventListener("touchstart", (e) => {
-          if (!galleryModal?.classList.contains("active")) return;
+          if (lbScale <= 1.01){
+            lbScale = 2.2;
+            lbTx = -cx;
+            lbTy = -cy;
+          } else {
+            lbReset();
+            return;
+          }
+
+          // clamp within bounds relative to viewport
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          lbTx = lbClamp(lbTx, -vw*(lbScale-1)*0.5, vw*(lbScale-1)*0.5);
+          lbTy = lbClamp(lbTy, -vh*(lbScale-1)*0.5, vh*(lbScale-1)*0.5);
+          lbApply();
+        }
+
+        // Use non-passive so we can preventDefault and stop the glitch
+        lbImg?.addEventListener("touchstart", (e) => {
+          if (!lbModal.classList.contains("active")) return;
+          e.preventDefault();
 
           const now = Date.now();
-          if (e.touches.length === 1) {
-            if (now - lastTap < 260) {
+          if (e.touches.length === 1){
+            if (now - lbLastTap < 260){
               const t = e.touches[0];
-              toggleZoomAt(t.clientX, t.clientY);
-              lastTap = 0;
+              lbToggleZoomAt(t.clientX, t.clientY);
+              lbLastTap = 0;
               return;
             }
-            lastTap = now;
-          }
+            lbLastTap = now;
 
-          if (e.touches.length === 1) {
-            touchStartX = e.touches[0].clientX;
-
-            if (scale > 1.01) {
-              dragging = true;
-              dragStartX = e.touches[0].clientX;
-              dragStartY = e.touches[0].clientY;
-              dragStartTx = tx;
-              dragStartTy = ty;
+            if (lbScale > 1.01){
+              lbDragging = true;
+              lbDragStartX = e.touches[0].clientX;
+              lbDragStartY = e.touches[0].clientY;
+              lbDragStartTx = lbTx;
+              lbDragStartTy = lbTy;
             }
           }
 
-          if (e.touches.length === 2) {
-            pinchStartDist = distance(e.touches[0], e.touches[1]);
-            pinchStartScale = scale;
-            pinchMid = {
+          if (e.touches.length === 2){
+            lbPinchStartDist = lbDistance(e.touches[0], e.touches[1]);
+            lbPinchStartScale = lbScale;
+            lbPinchMid = {
               x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
               y: (e.touches[0].clientY + e.touches[1].clientY) / 2
             };
           }
-        }, { passive: true });
+        }, { passive: false });
 
-        galleryViewport?.addEventListener("touchmove", (e) => {
-          if (!galleryModal?.classList.contains("active") || !galleryViewport) return;
+        lbImg?.addEventListener("touchmove", (e) => {
+          if (!lbModal.classList.contains("active")) return;
+          e.preventDefault();
 
-          if (e.touches.length === 2) {
-            const d = distance(e.touches[0], e.touches[1]);
-            const next = clamp(pinchStartScale * (d / pinchStartDist), 1, 3);
+          // pinch
+          if (e.touches.length === 2){
+            const d = lbDistance(e.touches[0], e.touches[1]);
+            const next = lbClamp(lbPinchStartScale * (d / lbPinchStartDist), 1, 3);
 
-            const rect = galleryViewport.getBoundingClientRect();
-            const cx = pinchMid.x - rect.left - rect.width / 2;
-            const cy = pinchMid.y - rect.top - rect.height / 2;
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
 
-            const ratio = next / scale;
-            tx = (tx - cx) * ratio + cx;
-            ty = (ty - cy) * ratio + cy;
-            scale = next;
+            const cx = lbPinchMid.x - vw/2;
+            const cy = lbPinchMid.y - vh/2;
 
-            tx = clamp(tx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
-            ty = clamp(ty, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
+            const ratio = next / lbScale;
+            lbTx = (lbTx - cx) * ratio + cx;
+            lbTy = (lbTy - cy) * ratio + cy;
+            lbScale = next;
 
-            applyTransform();
+            lbTx = lbClamp(lbTx, -vw*(lbScale-1)*0.5, vw*(lbScale-1)*0.5);
+            lbTy = lbClamp(lbTy, -vh*(lbScale-1)*0.5, vh*(lbScale-1)*0.5);
+            lbApply();
             return;
           }
 
-          if (e.touches.length === 1 && scale > 1.01 && dragging) {
+          // drag pan
+          if (e.touches.length === 1 && lbScale > 1.01 && lbDragging){
             const t = e.touches[0];
-            const dx = t.clientX - dragStartX;
-            const dy = t.clientY - dragStartY;
+            const dx = t.clientX - lbDragStartX;
+            const dy = t.clientY - lbDragStartY;
 
-            const rect = galleryViewport.getBoundingClientRect();
-            tx = clamp(dragStartTx + dx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
-            ty = clamp(dragStartTy + dy, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
 
-            applyTransform();
+            lbTx = lbClamp(lbDragStartTx + dx, -vw*(lbScale-1)*0.5, vw*(lbScale-1)*0.5);
+            lbTy = lbClamp(lbDragStartTy + dy, -vh*(lbScale-1)*0.5, vh*(lbScale-1)*0.5);
+            lbApply();
           }
+        }, { passive: false });
+
+        lbImg?.addEventListener("touchend", (e) => {
+          lbDragging = false;
         }, { passive: true });
 
-        galleryViewport?.addEventListener("touchend", (e) => {
-          dragging = false;
+        // desktop double-click zoom
+        lbImg?.addEventListener("dblclick", (e) => {
+          e.preventDefault();
+          lbToggleZoomAt(e.clientX, e.clientY);
+        });
 
-          if (scale > 1.01) return;
-
-          if (touchStartX == null) return;
-          const endX = e.changedTouches?.[0]?.clientX ?? null;
-          if (endX == null) return;
-
-          const diff = endX - touchStartX;
-          touchStartX = null;
-
-          if (Math.abs(diff) < 40) return;
-          if (diff < 0) nextGallery();
-          else prevGallery();
-        }, { passive: true });
       });
     </script>
 

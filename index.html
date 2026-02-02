@@ -78,7 +78,7 @@
       .delay-3 { animation-delay: 0.9s; opacity: 0; }
 
       /* =========================================================
-         NAVBAR (bigger tap targets, same spacing)
+         NAVBAR
       ========================================================= */
       .navbar {
         position: fixed;
@@ -106,11 +106,12 @@
       .nav-links {
         display: flex;
         align-items: center;
-        gap: 18px; /* keep existing space */
+        gap: 18px; /* keep spacing */
       }
 
+      /* ✅ Navbar: increase "button" size keeping existing space */
       .nav-links a {
-        font-size: 0.6rem;
+        font-size: 0.7rem;
         letter-spacing: 1px;
         text-transform: uppercase;
         color: var(--muted);
@@ -118,11 +119,8 @@
         transition: all 0.25s ease;
         position: relative;
         white-space: nowrap;
-
-        /* ✅ bigger button size without changing spacing */
-        padding: 12px 10px;
+        padding: 12px 0; /* bigger tap target without changing gap */
         line-height: 1;
-        border-radius: 10px;
       }
 
       .nav-links a:hover { color: var(--secondary); transform: translateY(-1px); }
@@ -130,15 +128,15 @@
         content: "";
         position: absolute;
         bottom: 6px;
-        left: 10px;
+        left: 0;
         width: 0;
         height: 2px;
         background: var(--secondary);
         transition: width 0.25s ease;
       }
-      .nav-links a:hover::after { width: calc(100% - 20px); }
+      .nav-links a:hover::after { width: 100%; }
       .nav-links a.active { color: var(--primary); }
-      .nav-links a.active::after { width: calc(100% - 20px); background: var(--primary); }
+      .nav-links a.active::after { width: 100%; background: var(--primary); }
 
       .navbar.shrink {
         height: 72px;
@@ -161,12 +159,7 @@
           max-width: 68vw;
         }
         .nav-links::-webkit-scrollbar { display: none; }
-        .nav-links a {
-          font-size: 0.55rem;
-          letter-spacing: 0.8px;
-          color: #777;
-          padding: 12px 10px; /* keep bigger tap */
-        }
+        .nav-links a { font-size: 0.62rem; letter-spacing: 0.8px; color: #777; padding: 12px 0; }
       }
 
       /* =========================================================
@@ -197,7 +190,7 @@
       }
 
       /* =========================================================
-         HERO (full image background: hero.png)
+         HERO
       ========================================================= */
       .hero {
         min-height: 80%;
@@ -212,24 +205,23 @@
         padding-right: var(--px);
       }
 
+      /* ✅ Hero: full image background hero.png */
       .hero-bg {
         position: absolute;
         inset: 0;
         background: url("/images/hero.png") center/cover no-repeat;
         opacity: 1;
-        filter: saturate(1) contrast(1.05);
+        filter: saturate(1) contrast(1.02);
         pointer-events: none;
       }
       .hero-bg::after{
         content:"";
         position:absolute;
         inset:0;
-        background:
-          radial-gradient(80% 60% at 50% 40%, rgba(168,85,247,0.12), rgba(0,0,0,0.72) 65%, rgba(0,0,0,0.92)),
-          linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.85));
+        background: radial-gradient(80% 60% at 50% 40%, rgba(168,85,247,0.10), rgba(0,0,0,0.78) 70%, rgba(0,0,0,0.92));
       }
 
-      .hero-content{ max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+      .hero-content{ max-width: 900px; margin: 0 auto; }
 
       .hero-title {
         font-size: var(--h1);
@@ -257,19 +249,18 @@
         width: 48px;
         height: 48px;
         border-radius: 50%;
-        background: rgba(17,17,17,0.7);
-        color: #cfcfcf;
+        background: #111;
+        color: #888;
         margin: 0 8px;
         transition: all 0.3s ease;
-        border: 1px solid rgba(255,255,255,0.10);
-        backdrop-filter: blur(6px);
+        border: 1px solid #222;
       }
 
       .social-icon:hover {
         background: var(--secondary);
         color: #fff;
-        transform: translateY(-4px) scale(1.05);
-        box-shadow: 0 10px 25px rgba(147, 51, 234, 0.35);
+        transform: translateY(-4px) scale(1.1);
+        box-shadow: 0 10px 25px rgba(147, 51, 234, 0.4);
         border-color: var(--secondary);
       }
 
@@ -326,53 +317,56 @@
       }
 
       /* =========================================================
-         LOOKBOOK (full edge, no rounded, no glow/lift hover)
+         LOOKBOOK
       ========================================================= */
       .lookbook { padding-left: 0; padding-right: 0; }
 
+      /* ✅ Lookbook: edge-to-edge width */
       .vertical-list {
-        width: 100%;
-        max-width: 100%;
+        max-width: none;
         margin: 26px 0 0;
-        padding: 0;                 /* ✅ touch edges */
+        padding: 0;
         display: flex;
         flex-direction: column;
-        gap: 0;                     /* edge-to-edge stack */
+        gap: 26px;
       }
 
+      /* ✅ Lookbook: remove rounded edges + remove glow/lift hover */
       .lookbook-card {
-        border-radius: 0;           /* ✅ no rounded */
+        border-radius: 0;
         overflow: hidden;
         position: relative;
         cursor: pointer;
         background: #000;
         height: 440px;
-        box-shadow: none;           /* ✅ remove glow */
-        transition: none;           /* ✅ remove lift */
+        box-shadow: none;
+        transition: none;
+        width: 100%;
       }
 
       .lookbook-card::before {
         content: "";
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.78) 100%);
+        background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.75) 100%);
         z-index: 1;
         pointer-events: none;
       }
 
       .lookbook-card-title {
         position: absolute;
-        bottom: 18px;
-        left: 16px;
-        font-size: 1.1rem;
-        font-weight: 800;
+        bottom: 22px;
+        left: 22px;
+        font-size: 1.4rem;
+        font-weight: 700;
         color: var(--primary);
         z-index: 2;
-        opacity: 1;                /* ✅ always visible */
+        opacity: 1;
         transform: none;
         transition: none;
       }
 
+      /* remove hover animations */
       .lookbook-card:hover .lookbook-card-title { opacity: 1; transform: none; }
       .lookbook-card:hover { transform: none; box-shadow: none; }
 
@@ -381,10 +375,12 @@
         height: 100%;
         object-fit: cover;
         display: block;
-        filter: contrast(1.05);
+        filter: none;
+        border-radius: 0;
       }
 
       @media (max-width: 768px) {
+        .vertical-list { padding: 0; gap: 18px; }
         .lookbook-card { height: 320px; }
       }
 
@@ -417,7 +413,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 14px;
-        padding: 16px 16px;
+        padding: 18px 18px;
         border-bottom: 1px solid rgba(255,255,255,0.08);
         background: rgba(10,10,10,0.55);
         backdrop-filter: blur(10px);
@@ -465,46 +461,32 @@
         transform: translateY(-1px);
       }
 
+      /* ✅ Lookbook modal: fullscreen image, no rounded, no arrows */
       .gallery-stage{
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0; /* ✅ full screen image */
+        padding: 0;
       }
 
-      .gallery-nav{
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 52px;
-        height: 52px;
-        border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.14);
-        background: rgba(255,255,255,0.04);
-        color: #fff;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-        user-select: none;
-      }
-      .gallery-prev{ left: 18px; }
-      .gallery-next{ right: 18px; }
-
-      /* ✅ LOOKBOOK MODAL: remove switch arrows */
-      #gallery-prev, #gallery-next{ display:none !important; }
+      .gallery-nav{ display:none !important; } /* remove switch arrows */
 
       .gallery-viewport{
-        width: 100vw;               /* ✅ full screen */
-        height: calc(100vh - 64px - 44px); /* topbar + bottombar approx */
+        width: 100vw;
+        height: calc(100vh - 72px - 56px);
         position: relative;
         overflow: hidden;
         touch-action: pan-x pan-y;
-        border-radius: 0;           /* ✅ no rounded */
-        border: none;               /* ✅ no border */
-        background: transparent;    /* ✅ clean */
+        border-radius: 0;
+        border: none;
+        background: transparent;
+      }
+
+      @media (max-width: 768px){
+        .gallery-viewport{
+          height: calc(100vh - 72px - 56px);
+        }
       }
 
       .gallery-zoom-img{
@@ -514,21 +496,17 @@
         display: block;
         transform-origin: center center;
         transform: translate3d(0,0,0) scale(1);
-        transition: none;           /* ✅ helps remove “zoom glitch” feel */
+        transition: transform 120ms ease;
         user-select: none;
         -webkit-user-drag: none;
         cursor: zoom-in;
       }
 
-      .gallery-zoom-img.zoomed{
-        cursor: grab;
-      }
-      .gallery-zoom-img.zoomed:active{
-        cursor: grabbing;
-      }
+      .gallery-zoom-img.zoomed{ cursor: grab; }
+      .gallery-zoom-img.zoomed:active{ cursor: grabbing; }
 
       .gallery-bottombar{
-        padding: 10px 12px 12px;
+        padding: 12px 18px 18px;
         display: flex;
         justify-content: center;
         gap: 10px;
@@ -537,11 +515,7 @@
       }
 
       /* =========================================================
-         SHOP
-         - Mobile: 2-column grid (no horizontal scroll)
-         - Tablet/Desktop: keep horizontal scroll
-         - No rounded edges / border
-         - Use actual image (no padding, cover)
+         ✅ SHOP
       ========================================================= */
       .shop { margin: 0; }
 
@@ -554,33 +528,49 @@
         scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
         padding: 26px var(--px);
-        scrollbar-width: auto; /* keep on desktop */
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255,255,255,0.10) transparent;
       }
 
-      /* keep desktop scrollbar styling but not purple indicator “line” on mobile */
-      .horizontal-scroll::-webkit-scrollbar { height: 8px; }
-      .horizontal-scroll::-webkit-scrollbar-track { background: #0b0b0b; border-radius: 10px; }
-      .horizontal-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.22); border-radius: 10px; }
+      .horizontal-scroll::-webkit-scrollbar { height: 6px; }
+      .horizontal-scroll::-webkit-scrollbar-track { background: transparent; }
+      .horizontal-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 999px; }
 
+      /* ✅ Shop: 2-column grid on mobile, keep horizontal scroll for tablet/desktop */
+      @media (max-width: 768px){
+        .horizontal-scroll{
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          overflow-x: visible;
+          scroll-snap-type: none;
+          gap: 16px;
+          padding: 26px var(--px-sm);
+        }
+      }
+
+      /* ✅ Shop cards: remove rounded edges + remove borders + use actual image */
       .product {
         min-width: 420px;
-        padding: 0;                 /* ✅ cleaner */
+        padding: 0;
         color: #fff;
         text-align: left;
         display: flex;
         flex-direction: column;
         scroll-snap-align: center;
         cursor: pointer;
-
-        border-radius: 0;           /* ✅ no rounded */
-        background: transparent;    /* ✅ no card bg */
-        border: none;               /* ✅ no border */
-        box-shadow: none;           /* ✅ no glow */
+        border-radius: 0;
+        position: relative;
+        background: transparent;
+        border: none;
+        box-shadow: none;
         transition: none;
       }
 
-      .product::before,
-      .product::after { content: none !important; }
+      @media (hover: hover) and (pointer: fine) {
+        .product:hover{ transform: none; border-color: transparent; box-shadow: none; }
+        .product:hover .product-img{ transform: none; filter: none; }
+        .product:hover .options{ opacity: 1; max-height: 520px; transform: translateY(0); }
+      }
 
       .product-img-container {
         width: 100%;
@@ -590,22 +580,22 @@
         align-items: center;
         justify-content: center;
         position: relative;
-        margin-bottom: 12px;
-
-        border-radius: 0;           /* ✅ no rounded */
-        border: none;               /* ✅ no border */
-        background: transparent;    /* ✅ use actual image */
+        margin-bottom: 14px;
+        border-radius: 0;
+        border: none;
+        background: transparent;
+        touch-action: pan-y;
       }
 
-      .product-img-container::after{ content:none; }
+      .product-img-container::after{ content:none !important; }
 
       .product-img {
         width: 100%;
         height: 100%;
-        object-fit: cover;          /* ✅ actual image fill */
+        object-fit: cover; /* actual image fill */
         display: block;
-        padding: 0;                 /* ✅ remove padding */
-        transition: none;
+        padding: 0;
+        transition: opacity 160ms ease;
         filter: none;
         user-select: none;
         -webkit-user-drag: none;
@@ -615,13 +605,83 @@
       .img-dot{ display:none !important; }
       .product [data-thumb-row]{ display: none !important; }
 
-      .product-info { padding: 6px 6px 0; }
+      @media (max-width: 768px){
+        .product{ min-width: 0; }
+        .product-img-container{ height: 220px; }
+      }
+
+      /* =========================================================
+         ✅ THUMBNAILS (used in product modal only)
+      ========================================================= */
+      .thumb-row{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 10px;
+        margin-bottom: 6px;
+      }
+
+      .thumb{
+        height: 74px;
+        border-radius: 0; /* keep modal clean */
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.02);
+        cursor: pointer;
+        transition: border-color 0.18s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .thumb img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        user-select: none;
+        -webkit-user-drag: none;
+        pointer-events: none;
+      }
+
+      .thumb.active{
+        border-color: rgba(168,85,247,0.95);
+      }
+
+      .pm-media{
+        display: grid;
+        grid-template-rows: 1fr auto;
+        gap: 14px;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+      }
+      .pm-image-shell{
+        position: relative;
+        overflow: hidden;
+        border-radius: 0; /* no rounded edges */
+        border: none;
+        background: #000;
+        padding: 0;
+        min-height: 0;
+      }
+      .pm-image-shell img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        cursor: default;
+      }
+      #pm-thumbs{ align-content: start; }
+
+      .product-info { padding: 10px 0 6px; }
 
       .product-label {
-        font-size: 0.72rem;
+        font-size: 0.78rem;
         color: var(--primary);
         font-weight: 900;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
         text-transform: uppercase;
         letter-spacing: 1.15px;
         opacity: 0.95;
@@ -632,30 +692,30 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
         gap: 12px;
       }
 
       .product-name-wrapper { flex: 1; }
 
       .product h3 {
-        font-size: 0.98rem;
+        font-size: 1.05rem;
         margin: 0 0 6px 0;
-        font-weight: 850;
+        font-weight: 800;
         color: #fff;
         line-height: 1.35;
       }
 
       .product-category,
       .product-colors-count {
-        font-size: 0.92rem;
+        font-size: 0.95rem;
         color: #9a9a9a;
-        font-weight: 650;
-        margin-bottom: 8px;
+        font-weight: 600;
+        margin-bottom: 10px;
       }
 
       .price {
-        font-size: 1.02rem;
+        font-size: 1.05rem;
         color: #fff;
         font-weight: 900;
         white-space: nowrap;
@@ -664,7 +724,7 @@
       }
 
       .options {
-        margin: 14px 0 0 0;
+        margin: 16px 0 0 0;
         opacity: 0;
         max-height: 0;
         overflow: hidden;
@@ -763,7 +823,7 @@
       .color.grey { background: #666; }
 
       /* =========================================================
-         ✅ Quantity Stepper — PILL
+         ✅ Quantity Stepper — PILL (no glow)
       ========================================================= */
       .qty-stepper-ui{
         display: flex;
@@ -813,6 +873,7 @@
         gap: 12px;
         margin-bottom: 18px;
       }
+
       .quantity{ display:none !important; }
 
       .secondary-btn {
@@ -849,33 +910,22 @@
         border-color: rgba(255,255,255,0.08) !important;
       }
 
-      @media (max-width: 768px){
-        /* ✅ MOBILE: 2-column grid, no horizontal scroll */
-        .horizontal-scroll{
-          max-width: 100%;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          overflow: visible;
-          scroll-snap-type: none;
-          padding: 18px var(--px-sm);
-          gap: 18px 14px;
-        }
-        .horizontal-scroll::-webkit-scrollbar{ display:none; }
-        .product{ min-width: 0; }
-        .product-img-container{ height: 230px; }
-        .product-info{ padding: 6px 2px 0; }
-      }
-
       /* =========================================================
-         ABOUT + DIVIDER
+         DIVIDER (between Shop and About)
       ========================================================= */
       .section-divider{
         height: 1px;
-        width: 100%;
-        background: rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.10);
+        max-width: var(--container);
+        margin: 0 auto;
+      }
+      @media (max-width: 768px){
+        .section-divider{ margin: 0 var(--px-sm); }
       }
 
+      /* =========================================================
+         ABOUT
+      ========================================================= */
       .about {
         max-width: 900px;
         margin: 0 auto;
@@ -922,7 +972,7 @@
       }
 
       /* =========================================================
-         FOOTER (mobile matches screenshot)
+         FOOTER
       ========================================================= */
       footer a { transition: color 0.25s ease; }
       footer a:hover { color: var(--secondary); }
@@ -931,62 +981,45 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 14px;
-        padding-top: 22px;
+        gap: 16px;
+        padding-top: 0;
         border-top: none;
-        text-align: center;
       }
 
-      .footer-links-row{
+      .footer-legal-top {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
-        gap: 10px;
         text-align: center;
+        gap: 0;
+        line-height: 1.8;
       }
 
       .footer-legal-link {
         color: var(--muted2);
         font-size: 0.95rem;
         text-decoration: none;
-        white-space: nowrap;
       }
 
       .footer-sep{
-        color: rgba(255,255,255,0.18);
-        font-weight: 800;
-        margin: 0 6px;
+        color: #666;
+        padding: 0 10px;
         user-select: none;
       }
 
-      @media (max-width: 768px){
-        /* ✅ Decrease width on mobile */
-        footer{
-          padding-left: 16px !important;
-          padding-right: 16px !important;
-        }
-        .footer-wrap{
-          max-width: 420px; /* ✅ tighter like screenshot */
-          margin: 0 auto;
-        }
-        .footer-links-row{
-          gap: 0;
-          line-height: 1.8;
-        }
-        .footer-legal-link{
-          font-size: 1.05rem;
-        }
-        .footer-sep{
-          margin: 0 10px;
-        }
-        .footer-return{
-          margin-top: 6px;
-          font-size: 1.05rem;
-          color: var(--muted2);
-          text-decoration: none;
-          display: inline-block;
-        }
+      .footer-legal-mid { text-align: center; }
+
+      .footer-legal-mid a {
+        color: var(--muted2);
+        font-size: 1.05rem;
+        text-decoration: none;
+      }
+
+      /* ✅ Footer: decrease width on mobile */
+      @media (max-width:768px){
+        footer#footer{ padding-left: var(--px-sm) !important; padding-right: var(--px-sm) !important; }
+        .footer-legal-top{ max-width: 360px; }
       }
 
       /* =========================================================
@@ -1113,15 +1146,15 @@
         background: #141414;
       }
 
-      /* ✅ Cart image fill inside border */
+      /* ✅ Cart: image fills inside border */
       .cart-item-img {
         width: 66px;
         height: 66px;
         border-radius: 12px;
         border: 1px solid rgba(255,255,255,0.08);
         background: rgba(255,255,255,0.02);
-        object-fit: cover; /* ✅ fill */
-        padding: 0;       /* ✅ no inner padding */
+        object-fit: cover;
+        padding: 0;
       }
 
       .cart-item-title {
@@ -1210,7 +1243,7 @@
 
       .cart-items::-webkit-scrollbar { width: 6px; }
       .cart-items::-webkit-scrollbar-track { background: var(--surface); }
-      .cart-items::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.22); border-radius: 10px; }
+      .cart-items::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
 
       .cart-footer {
         padding: 24px;
@@ -1305,9 +1338,7 @@
       }
 
       /* =========================================================
-         PRODUCT MODAL
-         - fix switch glitch (no opacity flicker)
-         - remove purple scroll indicator
+         ✅ UPDATED: PRODUCT MODAL = FULLSCREEN + REMOVE SCROLL INDICATOR + NO OUTER SHAPE
       ========================================================= */
       #product-modal.gallery-modal{
         background: rgba(0,0,0,0.96);
@@ -1333,9 +1364,10 @@
         justify-content: center;
         padding: 14px 14px 22px;
 
-        scrollbar-width: none;             /* ✅ remove */
+        /* ✅ remove visible purple scroll indicator */
+        scrollbar-width: none;
       }
-      #product-modal .gallery-stage::-webkit-scrollbar{ width: 0; height: 0; } /* ✅ remove */
+      #product-modal .gallery-stage::-webkit-scrollbar{ width: 0; height: 0; }
 
       #pm-prev, #pm-next{ display: none !important; }
 
@@ -1350,10 +1382,9 @@
         padding: 0 !important;
       }
 
-      /* keep inner image flush, and remove rounded edges */
       #product-modal .pm-image-shell{
         height: min(54vh, 520px);
-        border-radius: 0;       /* ✅ no rounded */
+        border-radius: 0;
         overflow: hidden;
         background: #000;
         padding: 0 !important;
@@ -1372,67 +1403,6 @@
         padding: 18px 0 0;
         font-size: 0.9rem;
       }
-
-      /* thumbs still rounded (optional) */
-      .thumb-row{
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-top: 10px;
-        margin-bottom: 6px;
-      }
-      .thumb{
-        height: 74px;
-        border-radius: 14px;
-        overflow: hidden;
-        border: 2px solid rgba(255,255,255,0.10);
-        background: rgba(255,255,255,0.02);
-        cursor: pointer;
-        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-      }
-      .thumb img{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        user-select: none;
-        -webkit-user-drag: none;
-        pointer-events: none;
-      }
-      .thumb.active{
-        border-color: rgba(168,85,247,0.95);
-        box-shadow: 0 0 0 3px rgba(168,85,247,0.14);
-      }
-
-      .pm-media{
-        display: grid;
-        grid-template-rows: 1fr auto;
-        gap: 14px;
-        width: 100%;
-        height: 100%;
-        min-height: 0;
-      }
-      .pm-image-shell{
-        position: relative;
-        overflow: hidden;
-        border-radius: 0;
-        border: none;
-        background: #000;
-        padding: 0;
-        min-height: 0;
-      }
-      .pm-image-shell img{
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        display: block;
-        cursor: default;
-      }
-      #pm-thumbs{ align-content: start; }
     </style>
 
     <style>@view-transition { navigation: auto; }</style>
@@ -1457,7 +1427,7 @@
     <section id="drop" class="hero">
       <div class="hero-bg" aria-hidden="true"></div>
 
-      <div class="hero-content">
+      <div class="hero-content" style="position: relative; z-index: 1;">
         <h2 class="hero-title fade-in-up delay-1" id="hero-title">NEW DROP</h2>
         <p class="hero-text fade-in-up delay-2" id="hero-description">
           New drops, exclusive releases, and updates are announced on our social platforms.
@@ -1528,13 +1498,9 @@
         </div>
 
         <div class="gallery-stage">
-          <button type="button" class="gallery-nav gallery-prev" id="gallery-prev" aria-label="Previous image">‹</button>
-
           <div class="gallery-viewport" id="gallery-viewport">
             <img id="gallery-img" class="gallery-zoom-img" alt="Lookbook image" src="" />
           </div>
-
-          <button type="button" class="gallery-nav gallery-next" id="gallery-next" aria-label="Next image">›</button>
         </div>
 
         <div class="gallery-bottombar">
@@ -1763,7 +1729,7 @@
             <div class="product-header">
               <div class="product-name-wrapper">
                 <h3>FAIDE Luxury Hoodie</h3>
-                <div class="product-category">UNISEX Hoodie</div>
+                <div class="product-category">UNISEX Pullover Hoodie</div>
                 <div class="product-colors-count">2 Colors</div>
               </div>
               <p class="price">R699.99</p>
@@ -1818,18 +1784,18 @@
 
     <!-- FOOTER -->
     <footer id="footer" style="background:#0a0a0a; border-top:1px solid var(--border); padding: 42px 32px 40px;">
-      <div class="footer-wrap" style="max-width: 1200px; margin: 0 auto;">
+      <div style="max-width: 1200px; margin: 0 auto;">
         <div class="footer-legal">
-          <!-- ✅ Mobile looks like: Privacy | Shipping | Terms |  (next line) Return and exchange -->
-          <div class="footer-links-row" aria-label="Footer policy links">
+          <!-- ✅ Footer policy order + separators -->
+          <div class="footer-legal-top" aria-label="Policies">
             <a href="#" id="privacy-link" class="footer-legal-link">Privacy Policy</a>
-            <span class="footer-sep" aria-hidden="true">|</span>
+            <span class="footer-sep">|</span>
             <a href="#" id="shipping-link" class="footer-legal-link">Shipping Policy</a>
-            <span class="footer-sep" aria-hidden="true">|</span>
+            <span class="footer-sep">|</span>
             <a href="#" id="terms-link" class="footer-legal-link">Terms of Service</a>
+            <span class="footer-sep">|</span>
+            <a href="#" id="returns-link" class="footer-legal-link">Return and exchange</a>
           </div>
-
-          <a href="#" id="returns-link" class="footer-return footer-legal-link">Return and exchange</a>
 
           <p style="color:#666; font-size:0.95rem; margin: 6px 0 0; text-align:center;">
             © 2026 FAIDE. All rights reserved.
@@ -1905,7 +1871,7 @@
 
     <script>
       /*************************************************************
-       * ✅ SINGLE shared helper
+       * ✅ SINGLE shared helper (removed duplicate)
        *************************************************************/
       function clickOnEnterSpace(el, fn) {
         el.addEventListener("keydown", (e) => {
@@ -2054,40 +2020,29 @@
       }
 
       /*************************************************************
-       * CART + WHATSAPP CHECKOUT (with localStorage memory)
+       * ✅ CART MEMORY (localStorage)
        *************************************************************/
-      const WHATSAPP_NUMBER = "27695603929";
       const CART_STORAGE_KEY = "faide_cart_v1";
-      let cart = [];
-
-      function loadCart() {
-        try {
+      function loadCartFromStorage(){
+        try{
           const raw = localStorage.getItem(CART_STORAGE_KEY);
-          if (!raw) return [];
-          const parsed = JSON.parse(raw);
-          if (!Array.isArray(parsed)) return [];
-          return parsed
-            .filter(x => x && typeof x === "object")
-            .map(x => ({
-              key: String(x.key || ""),
-              name: String(x.name || "Item"),
-              price: Number(x.price || 0),
-              size: String(x.size || ""),
-              color: String(x.color || ""),
-              quantity: Math.max(1, Number(x.quantity || 1)),
-              image: String(x.image || "")
-            }))
-            .filter(x => x.key && x.name);
-        } catch {
+          const parsed = raw ? JSON.parse(raw) : [];
+          return Array.isArray(parsed) ? parsed : [];
+        }catch(_){
           return [];
         }
       }
-
-      function saveCart() {
-        try {
-          localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-        } catch {}
+      function saveCartToStorage(nextCart){
+        try{
+          localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(nextCart || []));
+        }catch(_){}
       }
+
+      /*************************************************************
+       * CART + WHATSAPP CHECKOUT
+       *************************************************************/
+      const WHATSAPP_NUMBER = "27695603929";
+      let cart = [];
 
       function showCartToast(message) {
         const toast = document.getElementById("cartToast");
@@ -2408,7 +2363,7 @@
         window.addEventListener("resize", () => { updateActiveFromScroll(); }, { passive: true });
 
         /*************************************************************
-         * CART (with memory)
+         * CART
          *************************************************************/
         const products = document.querySelectorAll(".product");
         const floatingCart = document.getElementById("floating-cart");
@@ -2420,8 +2375,8 @@
         const cartCountEl = document.getElementById("cart-count");
         const checkoutBtn = document.getElementById("checkout-btn");
 
-        // ✅ load saved cart
-        cart = loadCart();
+        /* ✅ load cart from storage on start */
+        cart = loadCartFromStorage();
 
         function openCart() {
           cartSidebar?.classList.add("active");
@@ -2457,6 +2412,9 @@
         function updateCartUI() {
           if (!cartItemsEl || !cartTotalEl || !cartCountEl) return;
 
+          /* ✅ persist cart on every render change */
+          saveCartToStorage(cart);
+
           cartItemsEl.innerHTML = "";
           let total = 0;
           let itemCount = 0;
@@ -2467,7 +2425,6 @@
             cartTotalEl.textContent = "0.00";
             cartCountEl.textContent = "0";
             setCheckoutState();
-            saveCart();
             return;
           }
 
@@ -2520,7 +2477,6 @@
           cartCountEl.textContent = String(itemCount);
 
           setCheckoutState();
-          saveCart(); // ✅ persist every change
         }
 
         products.forEach((product) => {
@@ -2614,11 +2570,12 @@
 
         /*************************************************************
          * ✅ SHOP FULLSCREEN PRODUCT MODAL (WITH THUMBS)
-         * - fix switch glitch (no opacity flicker)
          *************************************************************/
         const pm = {
           modal: document.getElementById("product-modal"),
           close: document.getElementById("pm-close"),
+          prev: document.getElementById("pm-prev"),
+          next: document.getElementById("pm-next"),
           img: document.getElementById("pm-img"),
           thumbs: document.getElementById("pm-thumbs"),
           subtitle: document.getElementById("pm-subtitle"),
@@ -2675,24 +2632,32 @@
           pmActiveProductEl = null;
         }
 
+        /* ✅ Product modal: fix switch glitch (prevent duplicate swaps) */
+        let __pmSwapToken = 0;
         function pmSetImage(i) {
           if (!pmSources.length || !pm.img) return;
+          const token = ++__pmSwapToken;
+
           pmIndex = (i + pmSources.length) % pmSources.length;
-
           const nextSrc = pmSources[pmIndex];
-          if (pm.subtitle) pm.subtitle.textContent = `${pmIndex + 1} / ${pmSources.length}`;
 
-          // ✅ no flicker/glitch: swap after load
-          const pre = new Image();
-          pre.onload = () => {
-            pm.img.src = nextSrc;
+          if (pm.img.getAttribute("src") === nextSrc) {
+            if (pm.subtitle) pm.subtitle.textContent = `${pmIndex + 1} / ${pmSources.length}`;
             pmRenderThumbs();
-          };
-          pre.onerror = () => {
+            return;
+          }
+
+          pm.img.style.opacity = "0.25";
+          requestAnimationFrame(() => {
+            if (token !== __pmSwapToken) return;
             pm.img.src = nextSrc;
+            if (pm.subtitle) pm.subtitle.textContent = `${pmIndex + 1} / ${pmSources.length}`;
             pmRenderThumbs();
-          };
-          pre.src = nextSrc;
+            setTimeout(() => {
+              if (token !== __pmSwapToken) return;
+              pm.img.style.opacity = "1";
+            }, 60);
+          });
         }
 
         async function pmBuildImagesFromProduct(productEl) {
@@ -2865,8 +2830,6 @@
         const galleryModal = document.getElementById("gallery-modal");
         const galleryImg = document.getElementById("gallery-img");
         const galleryClose = document.getElementById("gallery-close");
-        const galleryPrev = document.getElementById("gallery-prev");
-        const galleryNext = document.getElementById("gallery-next");
         const galleryCounter = document.getElementById("gallery-counter");
         const galleryTitle = document.getElementById("gallery-title");
         const galleryViewport = document.getElementById("gallery-viewport");
@@ -2942,19 +2905,12 @@
           resetZoom();
         }
 
-        function nextGallery() { setGallery(galleryIndex + 1); }
-        function prevGallery() { setGallery(galleryIndex - 1); }
-
         lookbookCards.forEach((card, idx) => {
           card.addEventListener("click", () => openGallery(idx));
           clickOnEnterSpace(card, () => openGallery(idx));
         });
 
         galleryClose?.addEventListener("click", closeGallery);
-
-        // arrows are hidden; keep handlers harmless
-        galleryPrev?.addEventListener("click", () => { if (scale > 1.01) return; prevGallery(); });
-        galleryNext?.addEventListener("click", () => { if (scale > 1.01) return; nextGallery(); });
 
         galleryModal?.addEventListener("click", (e) => {
           if (e.target === galleryModal) closeGallery();
@@ -2963,8 +2919,6 @@
         document.addEventListener("keydown", (e) => {
           if (!galleryModal?.classList.contains("active")) return;
           if (e.key === "Escape") closeGallery();
-          if (scale <= 1.01 && e.key === "ArrowRight") nextGallery();
-          if (scale <= 1.01 && e.key === "ArrowLeft") prevGallery();
         });
 
         function toggleZoomAt(clientX, clientY) {
@@ -3074,21 +3028,9 @@
           }
         }, { passive: true });
 
-        galleryViewport?.addEventListener("touchend", (e) => {
+        galleryViewport?.addEventListener("touchend", () => {
           dragging = false;
-
-          if (scale > 1.01) return;
-
-          if (touchStartX == null) return;
-          const endX = e.changedTouches?.[0]?.clientX ?? null;
-          if (endX == null) return;
-
-          const diff = endX - touchStartX;
           touchStartX = null;
-
-          if (Math.abs(diff) < 40) return;
-          if (diff < 0) nextGallery();
-          else prevGallery();
         }, { passive: true });
       });
     </script>

@@ -37,7 +37,6 @@
         --muted2: #777777;
         --border: #1f1f1f;
 
-        /* ✅ GLOBAL LAYOUT SYSTEM */
         --nav-h: 86px;
         --container: 1200px;
         --px: 32px;
@@ -537,7 +536,7 @@
       }
 
       /* =========================================================
-         ✅ SHOP (SOLID / NO GLOW / STRONGER READABILITY)
+         ✅ SHOP
       ========================================================= */
       .shop { margin: 0; }
 
@@ -558,7 +557,6 @@
       .horizontal-scroll::-webkit-scrollbar-track { background: #0b0b0b; border-radius: 10px; }
       .horizontal-scroll::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
 
-      /* ✅ Solid card */
       .product {
         min-width: 360px;
         padding: 14px;
@@ -583,7 +581,6 @@
       .product::before,
       .product::after { content: none !important; }
 
-      /* ✅ Hover effects ONLY on real hover devices */
       @media (hover: hover) and (pointer: fine) {
         .product:hover{
           transform: translateY(-6px);
@@ -642,12 +639,11 @@
         -webkit-user-drag: none;
       }
 
-      /* ✅ REMOVE DOTS COMPLETELY */
       .img-pager{ display:none !important; }
       .img-dot{ display:none !important; }
 
       /* =========================================================
-         ✅ THUMBNAILS (SHOP + PRODUCT MODAL)
+         ✅ THUMBNAILS
       ========================================================= */
       .thumb-row{
         display: grid;
@@ -685,6 +681,34 @@
         border-color: rgba(168,85,247,0.95);
         box-shadow: 0 0 0 3px rgba(168,85,247,0.14);
       }
+
+      /* ✅ FIX: Product modal image + thumbs layout (prevents clipping) */
+      .pm-media{
+        display: grid;
+        grid-template-rows: 1fr auto;
+        gap: 14px;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+      }
+      .pm-image-shell{
+        position: relative;
+        overflow: hidden;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.10);
+        background: rgba(0,0,0,0.35);
+        padding: 14px;
+        min-height: 0;
+      }
+      .pm-image-shell img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        cursor: default;
+      }
+      /* Ensure thumbs never get squashed */
+      #pm-thumbs{ align-content: start; }
 
       .product-info { padding: 10px 10px 6px; }
 
@@ -743,14 +767,12 @@
         transition: opacity 0.25s ease, max-height 0.35s ease, transform 0.25s ease;
       }
 
-      /* ✅ Only show options when explicitly expanded (desktop hover handled above) */
       .product.expanded .options {
         opacity: 1;
         max-height: 520px;
         transform: translateY(0);
       }
 
-      /* ✅ On touch devices: keep options hidden */
       @media (hover: none) and (pointer: coarse) {
         .options { display: none !important; }
         .product { cursor: default; }
@@ -836,7 +858,7 @@
       .color.grey { background: #666; }
 
       /* =========================================================
-         ✅ Quantity Stepper (Shop Card + Product Modal) — PILL STYLE ✅
+         ✅ Quantity Stepper — PILL
       ========================================================= */
       .qty-stepper-ui{
         display: flex;
@@ -1460,11 +1482,12 @@
           <button type="button" class="gallery-nav gallery-prev" id="pm-prev" aria-label="Previous image">‹</button>
 
           <div class="gallery-viewport" id="pm-viewport" style="display:grid; grid-template-rows: 1fr auto; gap: 14px; padding: 14px;">
-            <!-- image -->
-            <div style="position:relative; overflow:hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.35); padding: 14px;">
-              <img id="pm-img" class="gallery-zoom-img" alt="Product image" src="" style="cursor: default;" />
-              <!-- ✅ thumbnails (4 max) -->
-              <div class="thumb-row" id="pm-thumbs" style="margin-top: 14px;"></div>
+            <!-- ✅ FIXED: media (image + thumbs) cannot be clipped -->
+            <div class="pm-media">
+              <div class="pm-image-shell">
+                <img id="pm-img" alt="Product image" src="" />
+              </div>
+              <div class="thumb-row" id="pm-thumbs"></div>
             </div>
 
             <!-- details -->
@@ -1516,7 +1539,6 @@
           <div class="product-img-container">
             <img src="/images/Tank%20top.png" alt="FAIDE Essentials Tank" class="product-img" />
           </div>
-          <!-- ✅ thumbnails -->
           <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
@@ -1564,7 +1586,6 @@
           <div class="product-img-container">
             <img src="/images/tshirt.png" alt="FAIDE Signature Tee" class="product-img" />
           </div>
-          <!-- ✅ thumbnails -->
           <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
@@ -1613,7 +1634,6 @@
           <div class="product-img-container">
             <img src="/images/longsleeve.png" alt="FAIDE Long Sleeve" class="product-img" />
           </div>
-          <!-- ✅ thumbnails -->
           <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
@@ -1661,7 +1681,6 @@
           <div class="product-img-container">
             <img src="/images/hoodie.png" alt="FAIDE Luxury Hoodie" class="product-img" />
           </div>
-          <!-- ✅ thumbnails -->
           <div class="thumb-row" data-thumb-row></div>
 
           <div class="product-info">
@@ -1808,6 +1827,18 @@
 
     <script>
       /*************************************************************
+       * ✅ SINGLE shared helper (removed duplicate)
+       *************************************************************/
+      function clickOnEnterSpace(el, fn) {
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            fn();
+          }
+        });
+      }
+
+      /*************************************************************
        * CONFIG (Element SDK)
        *************************************************************/
       const defaultConfig = {
@@ -1911,7 +1942,7 @@
       })();
 
       /*************************************************************
-       * ✅ PRODUCT ALT IMAGES + SWIPE + THUMBNAILS (NO DOTS)
+       * ✅ PRODUCT ALT IMAGES + SWIPE + THUMBNAILS
        *************************************************************/
       function buildVariantSrc(baseSrc, n) {
         const qIndex = baseSrc.indexOf("?");
@@ -1975,7 +2006,7 @@
 
             btn.addEventListener("click", (e) => {
               e.preventDefault();
-              e.stopPropagation(); // ✅ prevents opening modal
+              e.stopPropagation();
               setIndex(i);
             });
 
@@ -1995,7 +2026,6 @@
 
         renderThumbs();
 
-        // ✅ Swipe only (no tap-to-switch)
         let startX = 0;
         let startY = 0;
         let tracking = false;
@@ -2035,7 +2065,6 @@
           else setIndex(index - 1);
         }, { passive: true });
 
-        // expose on element for modal
         productEl.__imgSources = sources;
       }
 
@@ -2219,7 +2248,7 @@
       }
 
       /*************************************************************
-       * ✅ Qty stepper (supports long-press fast increment)
+       * ✅ Qty stepper
        *************************************************************/
       function setupQtyStepper(rootEl, { onChange } = {}) {
         const valueEl = rootEl.querySelector("[data-qty-value]");
@@ -2294,7 +2323,6 @@
        * MAIN DOM READY
        *************************************************************/
       document.addEventListener("DOMContentLoaded", async () => {
-        // ✅ IMPORTANT: wait so thumbs are ready
         await initAllProductCarousels();
 
         const shopNowBtn = document.getElementById("shop-now-btn");
@@ -2482,15 +2510,6 @@
           setCheckoutState();
         }
 
-        function clickOnEnterSpace(el, fn) {
-          el.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              fn();
-            }
-          });
-        }
-
         products.forEach((product) => {
           const stepperRoot = product.querySelector('.qty-stepper-ui[data-qty-root="card"]');
           const stepper = stepperRoot ? setupQtyStepper(stepperRoot) : null;
@@ -2646,19 +2665,18 @@
         }
 
         function pmSetImage(i) {
-          if (!pmSources.length) return;
+          if (!pmSources.length || !pm.img) return;
           pmIndex = (i + pmSources.length) % pmSources.length;
           pm.img.style.opacity = "0.25";
           requestAnimationFrame(() => {
             pm.img.src = pmSources[pmIndex];
-            pm.subtitle.textContent = `${pmIndex + 1} / ${pmSources.length}`;
+            if (pm.subtitle) pm.subtitle.textContent = `${pmIndex + 1} / ${pmSources.length}`;
             pmRenderThumbs();
             setTimeout(() => (pm.img.style.opacity = "1"), 60);
           });
         }
 
         async function pmBuildImagesFromProduct(productEl) {
-          // If carousel already detected sources, use those (fast)
           if (Array.isArray(productEl.__imgSources) && productEl.__imgSources.length) {
             return productEl.__imgSources.slice(0, 4);
           }
@@ -2723,9 +2741,7 @@
             };
 
             div.addEventListener("click", select);
-            div.addEventListener("keydown", (e) => {
-              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(); }
-            });
+            clickOnEnterSpace(div, select);
 
             pm.colorsRow.appendChild(div);
           });
@@ -2763,7 +2779,6 @@
           pmOpen();
         }
 
-        // ✅ Swipe in product modal (image)
         let pmTouchStartX = null;
         pm.img?.addEventListener("touchstart", (e) => {
           if (!e.touches || e.touches.length !== 1) return;
@@ -2824,7 +2839,6 @@
           pmClose();
         });
 
-        // ✅ Open modal only when clicking non-interactive areas
         products.forEach((productEl) => {
           productEl.addEventListener("click", (e) => {
             const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options, .thumb-row");
@@ -2864,8 +2878,8 @@
         let dragging = false;
         let dragStartX = 0;
         let dragStartY = 0;
-        let dragStartTx = 0;
-        let dragStartTy = 0;
+        let dragStartTx = tx;
+        let dragStartTy = ty;
 
         let pinchStartDist = 0;
         let pinchStartScale = 1;
@@ -2919,15 +2933,6 @@
 
         function nextGallery() { setGallery(galleryIndex + 1); }
         function prevGallery() { setGallery(galleryIndex - 1); }
-
-        function clickOnEnterSpace(el, fn) {
-          el.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              fn();
-            }
-          });
-        }
 
         lookbookCards.forEach((card, idx) => {
           card.addEventListener("click", () => openGallery(idx));
@@ -2983,52 +2988,6 @@
           e.preventDefault();
           toggleZoomAt(e.clientX, e.clientY);
         });
-
-        galleryViewport?.addEventListener("wheel", (e) => {
-          if (!galleryModal?.classList.contains("active")) return;
-          e.preventDefault();
-
-          const delta = e.deltaY > 0 ? -0.12 : 0.12;
-          const next = clamp(scale + delta, 1, 3);
-
-          const rect = galleryViewport.getBoundingClientRect();
-          const cx = e.clientX - rect.left - rect.width / 2;
-          const cy = e.clientY - rect.top - rect.height / 2;
-
-          const ratio = next / scale;
-          tx = (tx - cx) * ratio + cx;
-          ty = (ty - cy) * ratio + cy;
-
-          scale = next;
-
-          tx = clamp(tx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
-          ty = clamp(ty, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
-
-          applyTransform();
-        }, { passive: false });
-
-        galleryImg?.addEventListener("mousedown", (e) => {
-          if (scale <= 1.01) return;
-          e.preventDefault();
-          dragging = true;
-          dragStartX = e.clientX;
-          dragStartY = e.clientY;
-          dragStartTx = tx;
-          dragStartTy = ty;
-        });
-
-        window.addEventListener("mousemove", (e) => {
-          if (!dragging || !galleryViewport) return;
-          const dx = e.clientX - dragStartX;
-          const dy = e.clientY - dragStartY;
-
-          const rect = galleryViewport.getBoundingClientRect();
-          tx = clamp(dragStartTx + dx, -rect.width * (scale - 1) * 0.5, rect.width * (scale - 1) * 0.5);
-          ty = clamp(dragStartTy + dy, -rect.height * (scale - 1) * 0.5, rect.height * (scale - 1) * 0.5);
-          applyTransform();
-        });
-
-        window.addEventListener("mouseup", () => { dragging = false; });
 
         function distance(t1, t2) {
           const dx = t2.clientX - t1.clientX;

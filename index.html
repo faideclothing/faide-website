@@ -696,10 +696,10 @@
       .pm-image-shell{
         position: relative;
         overflow: hidden;
-        border-radius: 16px;
-        border: 1px solid rgba(255,255,255,0.10);
-        background: rgba(0,0,0,0.35);
-        padding: 14px;
+        border-radius: 20px;
+        border: none;                 /* ✅ no box frame */
+        background: #000;            /* ✅ flush feel */
+        padding: 0;                  /* ✅ remove inner padding */
         min-height: 0;
       }
       .pm-image-shell img{
@@ -1353,6 +1353,82 @@
         .cart-item-info{ grid-area: info; }
         .cart-item-actions{ grid-area: actions; align-items:flex-start; flex-direction: row; justify-content: space-between; }
       }
+
+      /* =========================================================
+         ✅ UPDATED: PRODUCT MODAL = FULLSCREEN (NO OUTER SHAPE) + SCROLL
+      ========================================================= */
+      #product-modal.gallery-modal{
+        background: rgba(0,0,0,0.96);
+      }
+
+      /* Make product modal a 2-row grid: topbar + scroll content */
+      #product-modal .gallery-frame{
+        grid-template-rows: auto 1fr;
+      }
+
+      /* Sticky topbar like your screenshot */
+      #product-modal .gallery-topbar{
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.35));
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        backdrop-filter: blur(10px);
+      }
+
+      /* Scroll INSIDE modal */
+      #product-modal .gallery-stage{
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 14px 14px 22px;
+      }
+
+      #product-modal .gallery-stage::-webkit-scrollbar{ width: 6px; }
+      #product-modal .gallery-stage::-webkit-scrollbar-track{ background: rgba(255,255,255,0.03); }
+      #product-modal .gallery-stage::-webkit-scrollbar-thumb{ background: rgba(168,85,247,0.55); border-radius: 10px; }
+
+      /* Remove side nav buttons (your “switch error buttons”) */
+      #pm-prev, #pm-next{
+        display: none !important;
+      }
+
+      /* Make viewport NOT a fixed “card”, just a container */
+      #product-modal #pm-viewport{
+        width: min(760px, 94vw);
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        border: none !important;
+        background: transparent !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+      }
+
+      /* Keep the inner image rounded + flush */
+      #product-modal .pm-image-shell{
+        height: min(54vh, 520px);
+        border-radius: 22px;
+        overflow: hidden;
+        background: #000;
+        padding: 0 !important;
+        border: none !important;
+      }
+      #product-modal .pm-image-shell img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+
+      /* Bottom hint like screenshot */
+      #product-modal .pm-hint{
+        color:#777;
+        text-align:center;
+        padding: 18px 0 0;
+        font-size: 0.9rem;
+      }
     </style>
 
     <style>@view-transition { navigation: auto; }</style>
@@ -1463,13 +1539,13 @@
       </div>
     </div>
 
-    <!-- ✅ FULLSCREEN PRODUCT MODAL (SHOP) -->
+    <!-- ✅ FULLSCREEN PRODUCT MODAL (SHOP) — UPDATED (NO OUTER SHAPE + SCROLL) -->
     <div id="product-modal" class="gallery-modal" aria-hidden="true" role="dialog" aria-label="Product details">
       <div class="gallery-frame">
         <div class="gallery-topbar">
           <div class="gallery-meta">
-            <div class="gallery-title" id="pm-title">Product</div>
-            <div class="gallery-counter" id="pm-subtitle"></div>
+            <div class="gallery-title">PRODUCT</div>
+            <div class="gallery-counter" id="pm-subtitle">1 / 1</div>
           </div>
 
           <button type="button" class="gallery-btn" id="pm-close" aria-label="Close product">
@@ -1480,10 +1556,10 @@
           </button>
         </div>
 
-        <div class="gallery-stage" style="padding: 16px;">
-          <button type="button" class="gallery-nav gallery-prev" id="pm-prev" aria-label="Previous image">‹</button>
-
-          <div class="gallery-viewport" id="pm-viewport" style="display:grid; grid-template-rows: 1fr auto; gap: 14px; padding: 14px;">
+        <!-- ✅ scroll area is the stage -->
+        <div class="gallery-stage">
+          <div class="gallery-viewport" id="pm-viewport" style="display:grid; grid-template-rows: auto auto; gap: 14px;">
+            <!-- media -->
             <div class="pm-media">
               <div class="pm-image-shell">
                 <img id="pm-img" alt="Product image" src="" />
@@ -1491,6 +1567,7 @@
               <div class="thumb-row" id="pm-thumbs"></div>
             </div>
 
+            <!-- details -->
             <div id="pm-details" style="width:100%; max-width: 720px; margin: 0 auto;">
               <div style="display:flex; justify-content:space-between; align-items:flex-start; gap: 12px; margin-bottom: 10px;">
                 <div style="min-width:0;">
@@ -1517,14 +1594,10 @@
               </div>
 
               <button type="button" class="secondary-btn" id="pm-add" disabled>Add to Bag</button>
+
+              <div class="pm-hint">Swipe images • Select size &amp; color • Add to Bag</div>
             </div>
           </div>
-
-          <button type="button" class="gallery-nav gallery-next" id="pm-next" aria-label="Next image">›</button>
-        </div>
-
-        <div class="gallery-bottombar">
-          <span>Swipe images • Select size & color • Add to Bag</span>
         </div>
       </div>
     </div>
@@ -1839,25 +1912,6 @@
       }
 
       /*************************************************************
-       * ✅ FIX: unified scroll lock manager
-       *************************************************************/
-      let __lockCount = 0;
-
-      function lockScroll() {
-        __lockCount++;
-        document.body.classList.add("lock-scroll");
-      }
-
-      function unlockScroll() {
-        __lockCount = Math.max(0, __lockCount - 1);
-        if (__lockCount === 0) document.body.classList.remove("lock-scroll");
-      }
-
-      function isModalActive(el) {
-        return !!el && el.classList && el.classList.contains("active");
-      }
-
-      /*************************************************************
        * CONFIG (Element SDK)
        *************************************************************/
       const defaultConfig = {
@@ -2128,13 +2182,13 @@
         if (modalContent) modalContent.innerHTML = policy.content;
         if (policyModal) policyModal.style.display = "block";
 
-        lockScroll();
+        document.body.classList.add("lock-scroll");
         setTimeout(() => closeModal?.focus(), 0);
       }
 
       function hidePolicy() {
         if (policyModal) policyModal.style.display = "none";
-        unlockScroll();
+        document.body.classList.remove("lock-scroll");
         if (lastFocusedEl && typeof lastFocusedEl.focus === "function") lastFocusedEl.focus();
       }
 
@@ -2334,13 +2388,13 @@
         function openCart() {
           cartSidebar?.classList.add("active");
           cartOverlay?.classList.add("active");
-          lockScroll();
+          document.body.classList.add("lock-scroll");
         }
 
         function closeCartPanel() {
           cartSidebar?.classList.remove("active");
           cartOverlay?.classList.remove("active");
-          unlockScroll();
+          document.body.classList.remove("lock-scroll");
         }
 
         floatingCart?.addEventListener("click", openCart);
@@ -2507,17 +2561,27 @@
 
         updateCartUI();
 
+        document.addEventListener("keydown", (e) => {
+          if (e.key !== "Escape") return;
+
+          if (policyModal && policyModal.style.display === "block") hidePolicy();
+          if (cartSidebar?.classList.contains("active")) {
+            cartSidebar.classList.remove("active");
+            cartOverlay?.classList.remove("active");
+            document.body.classList.remove("lock-scroll");
+          }
+        });
+
         /*************************************************************
          * ✅ SHOP FULLSCREEN PRODUCT MODAL (WITH THUMBS)
          *************************************************************/
         const pm = {
           modal: document.getElementById("product-modal"),
           close: document.getElementById("pm-close"),
-          prev: document.getElementById("pm-prev"),
-          next: document.getElementById("pm-next"),
+          prev: document.getElementById("pm-prev"),  // (hidden/removed by CSS)
+          next: document.getElementById("pm-next"),  // (hidden/removed by CSS)
           img: document.getElementById("pm-img"),
           thumbs: document.getElementById("pm-thumbs"),
-          title: document.getElementById("pm-title"),
           subtitle: document.getElementById("pm-subtitle"),
 
           label: document.getElementById("pm-label"),
@@ -2535,8 +2599,7 @@
         let pmIndex = 0;
         let pmActiveProductEl = null;
 
-        // ✅ FIX 1: scope to modal (not document)
-        const pmStepperRoot = pm.modal?.querySelector?.('.qty-stepper-ui[data-qty-root="pm"]');
+        const pmStepperRoot = document.querySelector('.qty-stepper-ui[data-qty-root="pm"]');
         const pmStepper = pmStepperRoot ? setupQtyStepper(pmStepperRoot) : null;
 
         function pmRenderThumbs() {
@@ -2561,7 +2624,7 @@
           if (!pm.modal) return;
           pm.modal.classList.add("active");
           pm.modal.setAttribute("aria-hidden", "false");
-          lockScroll();
+          document.body.classList.add("lock-scroll");
           pm.close?.focus();
         }
 
@@ -2569,7 +2632,7 @@
           if (!pm.modal) return;
           pm.modal.classList.remove("active");
           pm.modal.setAttribute("aria-hidden", "true");
-          unlockScroll();
+          document.body.classList.remove("lock-scroll");
           pmActiveProductEl = null;
         }
 
@@ -2594,7 +2657,6 @@
           return candidates.filter((_, i) => checks[i]).slice(0, 4);
         }
 
-        // ✅ KEEP YOUR ORIGINAL pmUpdateAddState (no changes)
         function pmUpdateAddState() {
           const selectedSize = pm.sizes.querySelector(".size-btn.selected");
           const selectedColor = pm.colorsRow.querySelector(".color.selected");
@@ -2661,7 +2723,6 @@
           const category = productEl.querySelector(".product-category")?.textContent?.trim() || "";
           const colorsCount = productEl.querySelector(".product-colors-count")?.textContent?.trim() || "";
 
-          pm.title.textContent = "Product";
           pm.label.textContent = label;
           pm.name.textContent = name;
           pm.category.textContent = category;
@@ -2702,11 +2763,15 @@
           else pmSetImage(pmIndex - 1);
         }, { passive: true });
 
-        pm.prev?.addEventListener("click", () => pmSetImage(pmIndex - 1));
-        pm.next?.addEventListener("click", () => pmSetImage(pmIndex + 1));
-
         pm.close?.addEventListener("click", pmClose);
         pm.modal?.addEventListener("click", (e) => { if (e.target === pm.modal) pmClose(); });
+
+        document.addEventListener("keydown", (e) => {
+          if (!pm.modal?.classList.contains("active")) return;
+          if (e.key === "Escape") pmClose();
+          if (e.key === "ArrowRight") pmSetImage(pmIndex + 1);
+          if (e.key === "ArrowLeft") pmSetImage(pmIndex - 1);
+        });
 
         pm.add?.addEventListener("click", () => {
           if (!pmActiveProductEl) return;
@@ -2740,8 +2805,7 @@
 
         products.forEach((productEl) => {
           productEl.addEventListener("click", (e) => {
-            // ✅ FIX 5: include qty pill as "interactive" so modal doesn't open
-            const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options, .thumb-row, .qty-stepper-ui");
+            const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options, .thumb-row");
             if (interactive) return;
             openProductModal(productEl);
           });
@@ -2819,7 +2883,7 @@
 
           galleryModal.classList.add("active");
           galleryModal.setAttribute("aria-hidden", "false");
-          lockScroll();
+          document.body.classList.add("lock-scroll");
 
           galleryClose?.focus();
         }
@@ -2827,7 +2891,7 @@
         function closeGallery() {
           galleryModal.classList.remove("active");
           galleryModal.setAttribute("aria-hidden", "true");
-          unlockScroll();
+          document.body.classList.remove("lock-scroll");
           resetZoom();
         }
 
@@ -2853,6 +2917,13 @@
 
         galleryModal?.addEventListener("click", (e) => {
           if (e.target === galleryModal) closeGallery();
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (!galleryModal?.classList.contains("active")) return;
+          if (e.key === "Escape") closeGallery();
+          if (scale <= 1.01 && e.key === "ArrowRight") nextGallery();
+          if (scale <= 1.01 && e.key === "ArrowLeft") prevGallery();
         });
 
         function toggleZoomAt(clientX, clientY) {
@@ -2921,7 +2992,7 @@
             pinchStartScale = scale;
             pinchMid = {
               x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
-              y: (e.touches[0].clientY + e.touches[1].clientX) / 2
+              y: (e.touches[0].clientY + e.touches[1].clientY) / 2
             };
           }
         }, { passive: true });
@@ -2978,33 +3049,6 @@
           if (diff < 0) nextGallery();
           else prevGallery();
         }, { passive: true });
-
-        /*************************************************************
-         * ✅ FIX 3: ONE unified Escape handler (policy > pm > gallery > cart)
-         *************************************************************/
-        document.addEventListener("keydown", (e) => {
-          if (e.key !== "Escape") return;
-
-          if (policyModal && policyModal.style.display === "block") {
-            hidePolicy();
-            return;
-          }
-
-          if (isModalActive(pm.modal)) {
-            pmClose();
-            return;
-          }
-
-          if (isModalActive(galleryModal)) {
-            closeGallery();
-            return;
-          }
-
-          if (cartSidebar?.classList.contains("active")) {
-            closeCartPanel();
-            return;
-          }
-        });
       });
     </script>
 

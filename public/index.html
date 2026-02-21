@@ -11,11 +11,12 @@
       content="FAIDE® luxury streetwear. New drops, exclusive releases, and curated essentials. Designed with intention. Worn with purpose."
     />
     <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://faide-website.vercel.app/" />
+    <link rel="canonical" href="https://faideclothing.com/" />
     <meta name="theme-color" content="#000000" />
 
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
     <link rel="preload" as="image" href="/images/hero.png" />
     <link rel="preload" as="image" href="/images/faide-wordmark.png" />
 
@@ -26,9 +27,9 @@
       property="og:description"
       content="Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials."
     />
-    <meta property="og:url" content="https://faide-website.vercel.app/" />
-    <meta property="og:image" content="https://faide-website.vercel.app/images/hero.png" />
-    <meta property="og:image:secure_url" content="https://faide-website.vercel.app/images/hero.png" />
+    <meta property="og:url" content="https://faideclothing.com/" />
+    <meta property="og:image" content="https://faideclothing.com/images/hero.png" />
+    <meta property="og:image:secure_url" content="https://faideclothing.com/images/hero.png" />
     <meta property="og:image:alt" content="FAIDE luxury streetwear hero image" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -42,17 +43,17 @@
       name="twitter:description"
       content="Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials."
     />
-    <meta name="twitter:image" content="https://faide-website.vercel.app/images/hero.png" />
+    <meta name="twitter:image" content="https://faideclothing.com/images/hero.png" />
     <meta name="twitter:image:alt" content="FAIDE luxury streetwear hero image" />
 
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Brand",
-        "@id": "https://faide-website.vercel.app/#brand",
+        "@id": "https://faideclothing.com/#brand",
         "name": "FAIDE",
-        "url": "https://faide-website.vercel.app/",
-        "logo": "https://faide-website.vercel.app/images/faide-wordmark.png",
+        "url": "https://faideclothing.com/",
+        "logo": "https://faideclothing.com/images/faide-wordmark.png",
         "description": "FAIDE is a luxury streetwear brand designed with intention and worn with purpose.",
         "sameAs": [
           "https://www.facebook.com/faideclothing",
@@ -63,12 +64,6 @@
       }
     </script>
 
-    <script src="/_sdk/element_sdk.js" defer></script>
-    <script src="/_sdk/data_sdk.js" defer></script>
-
-    <!-- Tailwind kept (you still have a few utility classes); remove if you want to fully CSS-only -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -76,15 +71,11 @@
       rel="stylesheet"
     />
 
-    <!-- ✅ Moved all inline CSS to /assets/css/styles.css -->
-    <link rel="stylesheet" href="/assets/css/styles.css" />
-
-    <!-- ✅ Moved all inline JS to /assets/js/app.js -->
-    <script src="/assets/js/app.js" defer></script>
+    <link rel="stylesheet" href="/assets/css/style.css" />
   </head>
 
-  <body class="h-full w-full">
-    <nav class="navbar flex justify-between items-center">
+  <body>
+    <nav class="navbar">
       <a
         href="/#drop"
         aria-label="FAIDE Home"
@@ -146,6 +137,7 @@
       </div>
     </div>
 
+    <!-- ROUTE: LOOKBOOK -->
     <main id="route-lookbook" class="route-page" aria-hidden="true">
       <div class="route-shell">
         <div class="route-topbar">
@@ -160,7 +152,7 @@
 
           <div style="display:flex; flex-direction:column; align-items:center; flex:1;">
             <div class="route-title">LOOKBOOK</div>
-            <div class="route-subtitle" id="rlb-counter">1 / 2</div>
+            <div class="route-subtitle" id="rlb-counter">1 / 1</div>
           </div>
 
           <div style="width:90px;"></div>
@@ -172,6 +164,7 @@
       </div>
     </main>
 
+    <!-- ROUTE: PRODUCT -->
     <main id="route-product" class="route-page" aria-hidden="true">
       <div class="route-shell">
         <div class="route-topbar">
@@ -204,10 +197,7 @@
             <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:10px;">
               <div style="min-width:0;">
                 <div id="rpp-label" class="product-label" style="margin-bottom:8px;"></div>
-                <h3
-                  id="rpp-name"
-                  style="font-size:1.2rem; font-weight:950; color:#fff; line-height:1.25; margin:0 0 6px;"
-                ></h3>
+                <h3 id="rpp-name" style="font-size:1.2rem; font-weight:950; color:#fff; line-height:1.25; margin:0 0 6px;"></h3>
                 <div id="rpp-category" style="color:#9a9a9a; font-weight:800;"></div>
                 <div id="rpp-colors" style="color:#9a9a9a; font-weight:800; margin-top:6px;"></div>
               </div>
@@ -238,6 +228,7 @@
       </div>
     </main>
 
+    <!-- MAIN SITE -->
     <div id="site-content">
       <section id="drop" class="hero">
         <div class="hero-bg" aria-hidden="true"></div>
@@ -306,207 +297,12 @@
 
       <section id="lookbook" class="lookbook">
         <h2 class="section-title purple-title aligned-title">Lookbook</h2>
-
-        <div class="vertical-list">
-          <div class="lookbook-card" data-look="1" role="button" tabindex="0" aria-label="Open Lookbook 1">
-            <img src="/images/lookbook1.png" alt="FAIDE Lookbook 1" class="lookbook-img" />
-          </div>
-
-          <div class="lookbook-card" data-look="2" role="button" tabindex="0" aria-label="Open Lookbook 2">
-            <img src="/images/lookbook2.png" alt="FAIDE Lookbook 2" class="lookbook-img" />
-          </div>
-        </div>
+        <div class="vertical-list" id="lookbook-list"></div>
       </section>
 
       <section id="shop" class="shop">
         <h2 class="section-title purple-title aligned-title">Shop</h2>
-
-        <div class="horizontal-scroll">
-          <div class="product" data-name="FAIDE Essentials Tank" data-price="199.99">
-            <div class="product-img-container">
-              <img src="/images/tank-top.png" alt="FAIDE Essentials Tank" class="product-img" />
-            </div>
-            <div class="thumb-row" data-thumb-row></div>
-
-            <div class="product-info">
-              <div class="product-label">Just In</div>
-
-              <div class="product-header">
-                <div class="product-name-wrapper">
-                  <h3>FAIDE Essentials Tank</h3>
-                  <div class="product-category">UNISEX Tank Top</div>
-                  <div class="product-colors-count">2 Colors</div>
-                </div>
-                <p class="price">R199.99</p>
-              </div>
-
-              <div class="options" aria-label="Tank options">
-                <div class="option-label">Select Size</div>
-                <div class="sizes">
-                  <button type="button" class="size-btn" data-size="S">S</button>
-                  <button type="button" class="size-btn" data-size="M">M</button>
-                  <button type="button" class="size-btn" data-size="L">L</button>
-                  <button type="button" class="size-btn" data-size="XL">XL</button>
-                </div>
-
-                <div class="option-label">Select Color</div>
-                <div class="colors">
-                  <div class="color black" role="button" tabindex="0" aria-label="Black" data-color="Black"></div>
-                  <div class="color white" role="button" tabindex="0" aria-label="White" data-color="White"></div>
-                </div>
-
-                <div class="quantity-wrapper">
-                  <div class="qty-stepper-ui" data-qty-root="card">
-                    <button type="button" class="qty-btn-ui" data-qty-btn="dec" aria-label="Decrease quantity">−</button>
-                    <div class="qty-value-ui" data-qty-value>1</div>
-                    <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
-                  </div>
-                </div>
-
-                <button type="button" class="secondary-btn add-to-cart" disabled>Add to Bag</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="product" data-name="FAIDE Signature Tee" data-price="349.99">
-            <div class="product-img-container">
-              <img src="/images/tshirt.png" alt="FAIDE Signature Tee" class="product-img" />
-            </div>
-            <div class="thumb-row" data-thumb-row></div>
-
-            <div class="product-info">
-              <div class="product-label">Bestseller</div>
-
-              <div class="product-header">
-                <div class="product-name-wrapper">
-                  <h3>FAIDE Signature Tee</h3>
-                  <div class="product-category">UNISEX Short-Sleeve Top</div>
-                  <div class="product-colors-count">3 Colors</div>
-                </div>
-                <p class="price">R349.99</p>
-              </div>
-
-              <div class="options" aria-label="Tee options">
-                <div class="option-label">Select Size</div>
-                <div class="sizes">
-                  <button type="button" class="size-btn" data-size="S">S</button>
-                  <button type="button" class="size-btn" data-size="M">M</button>
-                  <button type="button" class="size-btn" data-size="L">L</button>
-                  <button type="button" class="size-btn" data-size="XL">XL</button>
-                </div>
-
-                <div class="option-label">Select Color</div>
-                <div class="colors">
-                  <div class="color black" role="button" tabindex="0" aria-label="Black" data-color="Black"></div>
-                  <div class="color white" role="button" tabindex="0" aria-label="White" data-color="White"></div>
-                  <div class="color grey" role="button" tabindex="0" aria-label="Grey" data-color="Grey"></div>
-                </div>
-
-                <div class="quantity-wrapper">
-                  <div class="qty-stepper-ui" data-qty-root="card">
-                    <button type="button" class="qty-btn-ui" data-qty-btn="dec" aria-label="Decrease quantity">−</button>
-                    <div class="qty-value-ui" data-qty-value>1</div>
-                    <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
-                  </div>
-                </div>
-
-                <button type="button" class="secondary-btn add-to-cart" disabled>Add to Bag</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="product" data-name="FAIDE Long Sleeve" data-price="549.99">
-            <div class="product-img-container">
-              <img src="/images/longsleeve.png" alt="FAIDE Long Sleeve" class="product-img" />
-            </div>
-            <div class="thumb-row" data-thumb-row></div>
-
-            <div class="product-info">
-              <div class="product-label">Member Exclusive</div>
-
-              <div class="product-header">
-                <div class="product-name-wrapper">
-                  <h3>FAIDE Long Sleeve</h3>
-                  <div class="product-category">UNISEX Long Sleeve</div>
-                  <div class="product-colors-count">2 Colors</div>
-                </div>
-                <p class="price">R549.99</p>
-              </div>
-
-              <div class="options" aria-label="Long sleeve options">
-                <div class="option-label">Select Size</div>
-                <div class="sizes">
-                  <button type="button" class="size-btn" data-size="S">S</button>
-                  <button type="button" class="size-btn" data-size="M">M</button>
-                  <button type="button" class="size-btn" data-size="L">L</button>
-                  <button type="button" class="size-btn" data-size="XL">XL</button>
-                </div>
-
-                <div class="option-label">Select Color</div>
-                <div class="colors">
-                  <div class="color black" role="button" tabindex="0" aria-label="Black" data-color="Black"></div>
-                  <div class="color white" role="button" tabindex="0" aria-label="White" data-color="White"></div>
-                </div>
-
-                <div class="quantity-wrapper">
-                  <div class="qty-stepper-ui" data-qty-root="card">
-                    <button type="button" class="qty-btn-ui" data-qty-btn="dec" aria-label="Decrease quantity">−</button>
-                    <div class="qty-value-ui" data-qty-value>1</div>
-                    <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
-                  </div>
-                </div>
-
-                <button type="button" class="secondary-btn add-to-cart" disabled>Add to Bag</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="product" data-name="FAIDE Luxury Hoodie" data-price="699.99">
-            <div class="product-img-container">
-              <img src="/images/hoodie.png" alt="FAIDE Luxury Hoodie" class="product-img" />
-            </div>
-            <div class="thumb-row" data-thumb-row></div>
-
-            <div class="product-info">
-              <div class="product-label">Premium</div>
-
-              <div class="product-header">
-                <div class="product-name-wrapper">
-                  <h3>FAIDE Luxury Hoodie</h3>
-                  <div class="product-category">UNISEX Pullover Hoodie</div>
-                  <div class="product-colors-count">2 Colors</div>
-                </div>
-                <p class="price">R699.99</p>
-              </div>
-
-              <div class="options" aria-label="Hoodie options">
-                <div class="option-label">Select Size</div>
-                <div class="sizes">
-                  <button type="button" class="size-btn" data-size="S">S</button>
-                  <button type="button" class="size-btn" data-size="M">M</button>
-                  <button type="button" class="size-btn" data-size="L">L</button>
-                  <button type="button" class="size-btn" data-size="XL">XL</button>
-                </div>
-
-                <div class="option-label">Select Color</div>
-                <div class="colors">
-                  <div class="color black" role="button" tabindex="0" aria-label="Black" data-color="Black"></div>
-                  <div class="color grey" role="button" tabindex="0" aria-label="Grey" data-color="Grey"></div>
-                </div>
-
-                <div class="quantity-wrapper">
-                  <div class="qty-stepper-ui" data-qty-root="card">
-                    <button type="button" class="qty-btn-ui" data-qty-btn="dec" aria-label="Decrease quantity">−</button>
-                    <div class="qty-value-ui" data-qty-value>1</div>
-                    <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
-                  </div>
-                </div>
-
-                <button type="button" class="secondary-btn add-to-cart" disabled>Add to Bag</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="horizontal-scroll" id="shop-products"></div>
       </section>
 
       <div class="section-divider" aria-hidden="true"></div>
@@ -514,8 +310,7 @@
       <section id="about" class="about">
         <h2 class="section-title purple-title" id="about-title">About FAIDE</h2>
         <p id="about-description">
-          FAIDE is a luxury streetwear brand built for those who move in silence. Designed with intention. Worn with
-          purpose.
+          FAIDE is a luxury streetwear brand built for those who move in silence. Designed with intention. Worn with purpose.
         </p>
 
         <div class="about-contact">
@@ -546,6 +341,7 @@
       </footer>
     </div>
 
+    <!-- POLICY MODAL -->
     <div
       id="policy-modal"
       role="dialog"
@@ -561,7 +357,7 @@
           <button
             id="close-modal"
             type="button"
-            style="background:transparent; border:none; color:#888; cursor:pointer; padding:8px; display:flex; align-items:center; justify-content:center; border-radius:8px; transition:all 0.3s ease;"
+            style="background:transparent; border:none; color:#888; cursor:pointer; padding:8px; display:flex; align-items:center; justify-content:center; border-radius:8px;"
             aria-label="Close policy"
           >
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -575,6 +371,7 @@
       </div>
     </div>
 
+    <!-- CART -->
     <div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
 
     <button id="floating-cart" class="floating-cart" aria-label="View shopping cart" type="button">
@@ -620,5 +417,7 @@
       </svg>
       <span id="cartMessage">Added to cart!</span>
     </div>
+
+    <script src="/assets/js/app.js" defer></script>
   </body>
 </html>

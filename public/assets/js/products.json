@@ -1,25 +1,36 @@
 {
-  "currency": "zar",
+  "currency": "ZAR",
   "products": [
     {
-      "id": "tank",
+      "id": "tank-essentials",
       "name": "FAIDE Essentials Tank",
       "label": "Just In",
       "category": "UNISEX Tank Top",
       "price": 199.99,
-      "colors": ["Black", "White"],
+      "featuredRank": 2,
+      "description": "Breathable essentials tank with a clean fit. Designed with intention.",
+      "images": ["/images/tank-top.png", "/images/tank-top1.png", "/images/tank-top2.png", "/images/tank-top3.png"],
       "sizes": ["S", "M", "L", "XL"],
-      "images": ["/images/tank-top.png", "/images/tank-top1.png", "/images/tank-top2.png", "/images/tank-top3.png"]
+      "colors": [
+        { "name": "Black", "class": "black" },
+        { "name": "White", "class": "white" }
+      ]
     },
     {
-      "id": "tee",
+      "id": "tee-signature",
       "name": "FAIDE Signature Tee",
       "label": "Bestseller",
       "category": "UNISEX Short-Sleeve Top",
       "price": 349.99,
-      "colors": ["Black", "White", "Grey"],
+      "featuredRank": 1,
+      "description": "Signature tee with premium feel and everyday structure.",
+      "images": ["/images/tshirt.png", "/images/tshirt1.png", "/images/tshirt2.png", "/images/tshirt3.png"],
       "sizes": ["S", "M", "L", "XL"],
-      "images": ["/images/tshirt.png", "/images/tshirt1.png", "/images/tshirt2.png", "/images/tshirt3.png"]
+      "colors": [
+        { "name": "Black", "class": "black" },
+        { "name": "White", "class": "white" },
+        { "name": "Grey", "class": "grey" }
+      ]
     },
     {
       "id": "longsleeve",
@@ -27,20 +38,29 @@
       "label": "Member Exclusive",
       "category": "UNISEX Long Sleeve",
       "price": 549.99,
-      "colors": ["Black", "White"],
+      "featuredRank": 3,
+      "description": "Long sleeve built for clean layering and sharp presence.",
+      "images": ["/images/longsleeve.png", "/images/longsleeve1.png", "/images/longsleeve2.png", "/images/longsleeve3.png"],
       "sizes": ["S", "M", "L", "XL"],
-      "images": ["/images/longsleeve.png", "/images/longsleeve1.png", "/images/longsleeve2.png", "/images/longsleeve3.png"]
+      "colors": [
+        { "name": "Black", "class": "black" },
+        { "name": "White", "class": "white" }
+      ]
     },
     {
-      "id": "hoodie",
+      "id": "hoodie-luxury",
       "name": "FAIDE Luxury Hoodie",
       "label": "Premium",
       "category": "UNISEX Pullover Hoodie",
       "price": 699.99,
-      "colors": ["Black", "Grey"],
+      "featuredRank": 4,
+      "description": "Premium hoodie with a heavy feel and luxury finish.",
+      "images": ["/images/hoodie.png", "/images/hoodie1.png", "/images/hoodie2.png", "/images/hoodie3.png"],
       "sizes": ["S", "M", "L", "XL"],
-      "images": ["/images/hoodie.png", "/images/hoodie1.png", "/images/hoodie2.png", "/images/hoodie3.png"]
+      "colors": [
+        { "name": "Black", "class": "black" },
+        { "name": "Grey", "class": "grey" }
+      ]
     }
-  ],
-  "lookbook": ["/images/lookbook1.png", "/images/lookbook2.png"]
+  ]
 }

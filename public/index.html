@@ -16,12 +16,9 @@
 
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-    <!-- Preload key images -->
     <link rel="preload" as="image" href="/images/hero.png" />
     <link rel="preload" as="image" href="/images/faide-wordmark.png" />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="FAIDE® | Luxury Streetwear Brand" />
     <meta property="og:site_name" content="FAIDE®" />
@@ -38,7 +35,6 @@
     <meta property="og:image:type" content="image/png" />
     <meta property="og:locale" content="en_US" />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@faideclothing" />
     <meta name="twitter:title" content="FAIDE® | Luxury Streetwear Brand" />
@@ -49,7 +45,6 @@
     <meta name="twitter:image" content="https://faide-website.vercel.app/images/hero.png" />
     <meta name="twitter:image:alt" content="FAIDE luxury streetwear hero image" />
 
-    <!-- Schema -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -68,14 +63,12 @@
       }
     </script>
 
-    <!-- SDK -->
     <script src="/_sdk/element_sdk.js" defer></script>
     <script src="/_sdk/data_sdk.js" defer></script>
 
-    <!-- Tailwind (kept because you use utility classes in HTML) -->
+    <!-- Tailwind kept (you still have a few utility classes); remove if you want to fully CSS-only -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -83,10 +76,10 @@
       rel="stylesheet"
     />
 
-    <!-- Your CSS -->
+    <!-- ✅ Moved all inline CSS to /assets/css/styles.css -->
     <link rel="stylesheet" href="/assets/css/styles.css" />
 
-    <!-- Your JS -->
+    <!-- ✅ Moved all inline JS to /assets/js/app.js -->
     <script src="/assets/js/app.js" defer></script>
   </head>
 
@@ -97,12 +90,7 @@
         aria-label="FAIDE Home"
         style="display:flex; align-items:center; gap:10px; text-decoration:none;"
       >
-        <img
-          src="/images/faide-wordmark.png"
-          alt="FAIDE"
-          class="faide-wordmark-img"
-          id="brand-wordmark"
-        />
+        <img src="/images/faide-wordmark.png" alt="FAIDE" class="faide-wordmark-img" id="brand-wordmark" />
       </a>
 
       <div class="nav-links" aria-label="Primary navigation">
@@ -158,7 +146,6 @@
       </div>
     </div>
 
-    <!-- LOOKBOOK ROUTE -->
     <main id="route-lookbook" class="route-page" aria-hidden="true">
       <div class="route-shell">
         <div class="route-topbar">
@@ -185,7 +172,6 @@
       </div>
     </main>
 
-    <!-- PRODUCT ROUTE -->
     <main id="route-product" class="route-page" aria-hidden="true">
       <div class="route-shell">
         <div class="route-topbar">
@@ -252,7 +238,6 @@
       </div>
     </main>
 
-    <!-- MAIN SITE -->
     <div id="site-content">
       <section id="drop" class="hero">
         <div class="hero-bg" aria-hidden="true"></div>
@@ -561,7 +546,6 @@
       </footer>
     </div>
 
-    <!-- POLICY MODAL -->
     <div
       id="policy-modal"
       role="dialog"
@@ -591,7 +575,6 @@
       </div>
     </div>
 
-    <!-- CART -->
     <div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
 
     <button id="floating-cart" class="floating-cart" aria-label="View shopping cart" type="button">

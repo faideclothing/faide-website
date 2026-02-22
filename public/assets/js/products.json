@@ -1,0 +1,65 @@
+{
+  "lookbook": [
+    { "id": 1, "image": "images/lookbook1.png", "alt": "FAIDE Lookbook 1" },
+    { "id": 2, "image": "images/lookbook2.png", "alt": "FAIDE Lookbook 2" }
+  ],
+  "products": [
+    {
+      "id": "tank",
+      "name": "FAIDE Essentials Tank",
+      "label": "Just In",
+      "category": "UNISEX Tank Top",
+      "price": 199.99,
+      "currencySymbol": "R",
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": [
+        { "name": "Black", "className": "color black" },
+        { "name": "White", "className": "color white" }
+      ],
+      "images": ["images/tank-top.png", "images/tank-top1.png", "images/tank-top2.png", "images/tank-top3.png"]
+    },
+    {
+      "id": "tee",
+      "name": "FAIDE Signature Tee",
+      "label": "Bestseller",
+      "category": "UNISEX Short-Sleeve Top",
+      "price": 349.99,
+      "currencySymbol": "R",
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": [
+        { "name": "Black", "className": "color black" },
+        { "name": "White", "className": "color white" },
+        { "name": "Grey", "className": "color grey" }
+      ],
+      "images": ["images/tshirt.png", "images/tshirt1.png", "images/tshirt2.png", "images/tshirt3.png"]
+    },
+    {
+      "id": "longsleeve",
+      "name": "FAIDE Long Sleeve",
+      "label": "Member Exclusive",
+      "category": "UNISEX Long Sleeve",
+      "price": 549.99,
+      "currencySymbol": "R",
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": [
+        { "name": "Black", "className": "color black" },
+        { "name": "White", "className": "color white" }
+      ],
+      "images": ["images/longsleeve.png", "images/longsleeve1.png", "images/longsleeve2.png", "images/longsleeve3.png"]
+    },
+    {
+      "id": "hoodie",
+      "name": "FAIDE Luxury Hoodie",
+      "label": "Premium",
+      "category": "UNISEX Pullover Hoodie",
+      "price": 699.99,
+      "currencySymbol": "R",
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": [
+        { "name": "Black", "className": "color black" },
+        { "name": "Grey", "className": "color grey" }
+      ],
+      "images": ["images/hoodie.png", "images/hoodie1.png", "images/hoodie2.png", "images/hoodie3.png"]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
-
   try {
+    if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+
     const { orderID } = req.body || {};
     if (!orderID) return res.status(400).json({ error: "Missing orderID" });
 
@@ -9,33 +9,28 @@ export default async function handler(req, res) {
     const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
 
     if (!clientId || !clientSecret) {
-      return res.status(500).json({ error: "Missing PAYPAL_CLIENT_ID or PAYPAL_CLIENT_SECRET" });
+      return res.status(500).json({ error: "Missing PAYPAL env vars" });
     }
 
-    const env = (process.env.PAYPAL_ENV || "live").toLowerCase();
-    const baseUrl = env === "sandbox" ? "https://api-m.sandbox.paypal.com" : "https://api-m.paypal.com";
+    const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
 
-    const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
-
-    // Access token
-    const tokenResp = await fetch(`${baseUrl}/v1/oauth2/token`, {
+    // Get access token
+    const tokenRes = await fetch("https://api-m.paypal.com/v1/oauth2/token", {
       method: "POST",
       headers: {
-        Authorization: `Basic ${auth}`,
+        Authorization: `Basic ${basicAuth}`,
         "Content-Type": "application/x-www-form-urlencoded"
       },
       body: "grant_type=client_credentials"
     });
 
-    const tokenData = await tokenResp.json();
-    if (!tokenResp.ok) {
-      return res.status(500).json({ error: "PayPal token error", details: tokenData });
-    }
+    const tokenData = await tokenRes.json();
+    if (!tokenRes.ok) return res.status(500).json({ error: tokenData?.error_description || "Token error" });
 
     const accessToken = tokenData.access_token;
 
-    // Capture
-    const captureResp = await fetch(`${baseUrl}/v2/checkout/orders/${orderID}/capture`, {
+    // Capture order
+    const capRes = await fetch(`https://api-m.paypal.com/v2/checkout/orders/${orderID}/capture`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -43,13 +38,12 @@ export default async function handler(req, res) {
       }
     });
 
-    const captureData = await captureResp.json();
-    if (!captureResp.ok) {
-      return res.status(500).json({ error: "PayPal capture error", details: captureData });
-    }
+    const capData = await capRes.json();
+    if (!capRes.ok) return res.status(500).json({ error: capData?.message || "Capture error" });
 
-    return res.status(200).json({ status: "captured", capture: captureData });
+    return res.status(200).json(capData);
   } catch (err) {
-    return res.status(500).json({ error: "Server error", details: String(err) });
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
   }
 }

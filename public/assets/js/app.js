@@ -208,8 +208,18 @@ async function loadProducts() {
   const res = await fetch("/assets/js/products.json", { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to load products.json");
   const data = await res.json();
-  const currency = String(data.currency || "ZAR");
-  const products = Array.isArray(data.products) ? data.products : [];
+
+  // Accept either:
+  // 1) { currency: "ZAR", products: [...] }
+  // 2) [ ...products ]  (legacy)
+  const products = Array.isArray(data)
+    ? data
+    : (Array.isArray(data.products) ? data.products : []);
+
+  const currency = (!Array.isArray(data) && data.currency)
+    ? String(data.currency)
+    : "ZAR";
+
   return { currency, products };
 }
 
@@ -393,7 +403,6 @@ function checkoutOnWhatsApp() {
 async function checkoutWithCard(currency = "ZAR") {
   if (!cart || cart.length === 0) return showCartToast("Your cart is empty.");
 
-  // Stripe expects integer "unit_amount" in cents
   const payload = {
     cart: cart.map((item) => ({
       id: String(item.id),
@@ -414,9 +423,19 @@ async function checkoutWithCard(currency = "ZAR") {
       body: JSON.stringify(payload)
     });
 
+    const ct = res.headers.get("content-type") || "";
+
+    // IMPORTANT: prevents "Unexpected token 'T'" when server returns HTML
+    if (!ct.includes("application/json")) {
+      const text = await res.text();
+      console.error("Non-JSON response from /api/create-checkout-session:", res.status, text.slice(0, 300));
+      return showCartToast("Card checkout API not working. Try WhatsApp checkout.");
+    }
+
     const data = await res.json();
+
     if (!res.ok || !data?.url) {
-      console.error(data);
+      console.error("Checkout error:", res.status, data);
       return showCartToast("Card checkout failed. Try WhatsApp checkout.");
     }
 
@@ -591,11 +610,10 @@ function renderLookbookRoute(i) {
 }
 
 async function buildImagesFromProduct(product) {
-  // Start with declared images
   const bases = Array.isArray(product.images) ? product.images.filter(Boolean) : [];
   const base = bases[0] || "";
-
   if (!base) return [""];
+
   const candidates = [
     ...bases,
     buildVariantSrc(base, 1),
@@ -604,11 +622,9 @@ async function buildImagesFromProduct(product) {
     buildVariantSrc(base, 4)
   ].filter(Boolean);
 
-  // Deduplicate while keeping order
   const unique = [];
   candidates.forEach((s) => { if (!unique.includes(s)) unique.push(s); });
 
-  // Validate first 4 quickly
   const slice = unique.slice(0, 6);
   const checks = await Promise.all(slice.map((s, i) => (i === 0 ? true : imageExists(s))));
   const ok = slice.filter((_, i) => checks[i]).slice(0, 4);
@@ -633,10 +649,22 @@ function renderSizes(product, mountEl, onSelect) {
   });
 }
 
+// FIX: supports ["Black","White"] OR [{name,class}]
 function renderColors(product, mountEl, onSelect) {
-  const colors = Array.isArray(product.colors) && product.colors.length
+  const raw = Array.isArray(product.colors) && product.colors.length
     ? product.colors
-    : [{ name:"Black", class:"black" }, { name:"White", class:"white" }];
+    : ["Black", "White"];
+
+  const colors = raw.map((c) => {
+    if (typeof c === "string") {
+      const cls = c.toLowerCase().replace(/\s+/g, "-");
+      return { name: c, class: cls };
+    }
+    return {
+      name: c?.name || "Color",
+      class: c?.class || String(c?.name || "").toLowerCase().replace(/\s+/g, "-")
+    };
+  });
 
   mountEl.innerHTML = "";
   colors.forEach((c) => {
@@ -655,7 +683,6 @@ function renderColors(product, mountEl, onSelect) {
 
     div.addEventListener("click", select);
     clickOnEnterSpace(div, select);
-
     mountEl.appendChild(div);
   });
 }
@@ -751,7 +778,6 @@ async function renderProductRoute(products, id) {
 
 // ---- Init ----
 document.addEventListener("DOMContentLoaded", async () => {
-  // nav shrink
   const navbar = $(".navbar");
   function handleShrink() {
     if (!navbar) return;
@@ -760,7 +786,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   handleShrink();
   window.addEventListener("scroll", handleShrink, { passive: true });
 
-  // mobile panels
   const navLinks = $all('[data-nav-link="main"]');
 
   const searchBtn = $("#mobile-search-btn");
@@ -813,10 +838,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   menuBtn?.addEventListener("click", openMenu);
   navLinks.forEach((a) => a.addEventListener("click", () => closeMobilePanels()));
 
-  // buttons
   $("#shop-now-btn")?.addEventListener("click", () => scrollToSectionId("shop"));
 
-  // policies
   onClick("privacy-link", () => showPolicy("privacy"));
   onClick("terms-link", () => showPolicy("terms"));
   onClick("returns-link", () => showPolicy("returns"));
@@ -824,16 +847,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   $("#close-modal")?.addEventListener("click", hidePolicy);
   $("#policy-modal")?.addEventListener("click", (e) => { if (e.target === $("#policy-modal")) hidePolicy(); });
 
-  // cart open/close
   $("#floating-cart")?.addEventListener("click", openCart);
   $("#close-cart")?.addEventListener("click", closeCartPanel);
   $("#cart-overlay")?.addEventListener("click", closeCartPanel);
 
-  // load cart
   cart = loadCartFromStorage();
   updateCartUI();
 
-  // load products + render shop
   let currency = "ZAR";
   let products = [];
   try {
@@ -873,14 +893,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     showCartToast("Failed to load products.");
   }
 
-  // lookbook click
   $all(".lookbook-card").forEach((card) => {
     const go = () => gotoLookbook(card.getAttribute("data-look") || "1");
     card.addEventListener("click", go);
     clickOnEnterSpace(card, go);
   });
 
-  // checkout buttons
   $("#checkout-wa-btn")?.addEventListener("click", () => {
     if ($("#checkout-wa-btn")?.disabled) return showCartToast("Add items to checkout.");
     checkoutOnWhatsApp();
@@ -891,11 +909,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     checkoutWithCard(currency);
   });
 
-  // routes
   const params = new URLSearchParams(window.location.search);
   const page = params.get("page");
 
-  // nav link behavior inside routes
   navLinks.forEach((a) => {
     a.addEventListener("click", (e) => {
       const href = a.getAttribute("href") || "";
@@ -916,7 +932,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   } else {
     showRoute(null);
 
-    // active nav while scrolling
     const sectionIds = ["drop", "lookbook", "shop", "about"];
     const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
 
@@ -984,7 +999,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Escape key
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
 

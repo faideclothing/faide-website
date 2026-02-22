@@ -1,28 +1,10 @@
-/* FAIDE Store App (single-file vanilla JS)
- * - Renders products from /assets/js/products.json
- * - Cart (localStorage)
- * - Product + Lookbook routes (query params)
- * - Checkout link + WhatsApp fallback
- */
-
 (function () {
-  "use strict";
+  function $(id) {
+    return document.getElementById(id);
+  }
 
-  // ---------- Utilities ----------
-  function $(sel, root = document) {
-    return root.querySelector(sel);
-  }
-  function $all(sel, root = document) {
-    return Array.from(root.querySelectorAll(sel));
-  }
-  function clamp(n, min, max) {
-    return Math.max(min, Math.min(max, n));
-  }
-  function moneyZAR(n) {
-    const v = Number(n || 0);
-    return `R${v.toFixed(2)}`;
-  }
   function clickOnEnterSpace(el, fn) {
+    if (!el) return;
     el.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
@@ -31,108 +13,180 @@
     });
   }
 
-  // ---------- Config + Data ----------
-  const CART_STORAGE_KEY = "faide_cart_v2";
-  let STORE = { currency: "ZAR", whatsappNumber: "27695603929", products: [] };
-  let cart = [];
+  // ---------- SDK config (kept) ----------
+  const defaultConfig = {
+    brand_name: "FAIDE",
+    hero_title: "NEW DROP",
+    hero_description: "New drops, exclusive releases, and updates are announced on our social platforms.",
+    about_headline: "About FAIDE",
+    about_description:
+      "FAIDE is a luxury streetwear brand built for those who move in silence. Designed with intention. Worn with purpose.",
+    background_color: "#000000",
+    surface_color: "#111111",
+    text_color: "#ffffff",
+    primary_accent: "#a855f7",
+    secondary_accent: "#9333ea",
+    font_family: "Inter",
+    font_size: 16
+  };
 
-  async function loadProducts() {
-    const res = await fetch("/assets/js/products.json", { cache: "no-store" });
-    if (!res.ok) throw new Error("Failed to load products.json");
-    const json = await res.json();
-    STORE = {
-      currency: json.currency || "ZAR",
-      whatsappNumber: json.whatsappNumber || "27695603929",
-      products: Array.isArray(json.products) ? json.products : [],
+  function setCSSVar(name, value) {
+    if (!value) return;
+    document.documentElement.style.setProperty(name, value);
+  }
+
+  async function onConfigChange(config) {
+    const heroTitle = config.hero_title || defaultConfig.hero_title;
+    const heroDescription = config.hero_description || defaultConfig.hero_description;
+    const aboutHeadline = config.about_headline || defaultConfig.about_headline;
+    const aboutDescription = config.about_description || defaultConfig.about_description;
+
+    const heroTitleEl = $("hero-title");
+    const heroDescEl = $("hero-description");
+    if (heroTitleEl) heroTitleEl.textContent = heroTitle;
+    if (heroDescEl) heroDescEl.textContent = heroDescription;
+
+    const aboutTitleEl = $("about-title");
+    const aboutDescEl = $("about-description");
+    if (aboutTitleEl) aboutTitleEl.textContent = aboutHeadline;
+    if (aboutDescEl) aboutDescEl.textContent = aboutDescription;
+
+    setCSSVar("--bg", config.background_color || defaultConfig.background_color);
+    setCSSVar("--surface", config.surface_color || defaultConfig.surface_color);
+    setCSSVar("--text", config.text_color || defaultConfig.text_color);
+    setCSSVar("--primary", config.primary_accent || defaultConfig.primary_accent);
+    setCSSVar("--secondary", config.secondary_accent || defaultConfig.secondary_accent);
+
+    const customFont = config.font_family || defaultConfig.font_family;
+    document.body.style.fontFamily = `${customFont}, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
+  }
+
+  function mapToCapabilities(config) {
+    return {
+      recolorables: [
+        {
+          get: () => config.background_color || defaultConfig.background_color,
+          set: (v) => window.elementSdk?.setConfig?.({ background_color: (config.background_color = v) })
+        },
+        {
+          get: () => config.surface_color || defaultConfig.surface_color,
+          set: (v) => window.elementSdk?.setConfig?.({ surface_color: (config.surface_color = v) })
+        },
+        {
+          get: () => config.text_color || defaultConfig.text_color,
+          set: (v) => window.elementSdk?.setConfig?.({ text_color: (config.text_color = v) })
+        },
+        {
+          get: () => config.primary_accent || defaultConfig.primary_accent,
+          set: (v) => window.elementSdk?.setConfig?.({ primary_accent: (config.primary_accent = v) })
+        },
+        {
+          get: () => config.secondary_accent || defaultConfig.secondary_accent,
+          set: (v) => window.elementSdk?.setConfig?.({ secondary_accent: (config.secondary_accent = v) })
+        }
+      ],
+      borderables: [],
+      fontEditable: {
+        get: () => config.font_family || defaultConfig.font_family,
+        set: (v) => window.elementSdk?.setConfig?.({ font_family: (config.font_family = v) })
+      },
+      fontSizeable: {
+        get: () => config.font_size || defaultConfig.font_size,
+        set: (v) => window.elementSdk?.setConfig?.({ font_size: (config.font_size = v) })
+      }
     };
   }
 
-  function loadCartFromStorage() {
-    try {
-      const raw = localStorage.getItem(CART_STORAGE_KEY);
-      const parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
+  function mapToEditPanelValues(config) {
+    return new Map([
+      ["brand_name", config.brand_name || defaultConfig.brand_name],
+      ["hero_title", config.hero_title || defaultConfig.hero_title],
+      ["hero_description", config.hero_description || defaultConfig.hero_description],
+      ["about_headline", config.about_headline || defaultConfig.about_headline],
+      ["about_description", config.about_description || defaultConfig.about_description]
+    ]);
+  }
+
+  async function waitForElementSdk(timeoutMs = 2500) {
+    const start = Date.now();
+    while (!window.elementSdk) {
+      if (Date.now() - start > timeoutMs) return false;
+      await new Promise((r) => setTimeout(r, 50));
     }
-  }
-  function saveCartToStorage(nextCart) {
-    try {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(nextCart || []));
-    } catch {}
+    return true;
   }
 
-  // ---------- Toast ----------
-  function showCartToast(message) {
-    const toast = $("#cartToast");
-    const msg = $("#cartMessage");
-    if (!toast || !msg) return;
-    msg.textContent = message;
-    toast.classList.add("show");
-    clearTimeout(window.__toastTimer);
-    window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+  (async () => {
+    const ready = await waitForElementSdk();
+    if (ready) window.elementSdk.init({ defaultConfig, onConfigChange, mapToCapabilities, mapToEditPanelValues });
+    else onConfigChange({ ...defaultConfig });
+  })();
+
+  // ---------- Data ----------
+  async function loadCatalog() {
+    // relative path for GitHub Pages
+    const url = new URL("assets/js/products.json", window.location.href).toString();
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error("Failed to load products.json");
+    return res.json();
   }
 
-  // ---------- Cart Core ----------
-  function cartTotals() {
-    let total = 0;
-    let count = 0;
-    for (const item of cart) {
-      total += (Number(item.price) || 0) * (Number(item.quantity) || 0);
-      count += Number(item.quantity) || 0;
-    }
-    return { total, count };
+  // ---------- Helpers ----------
+  function getNavOffsetPx() {
+    const nav = document.querySelector(".navbar");
+    const navH = nav?.getBoundingClientRect?.().height || 86;
+    return Math.round(navH + 18);
   }
 
-  function findProductById(id) {
-    return STORE.products.find((p) => Number(p.id) === Number(id)) || null;
+  function scrollToSectionId(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.pageYOffset - getNavOffsetPx();
+    window.scrollTo({ top, behavior: "smooth" });
   }
 
-  function upsertCartItem({ productId, name, price, size, color, quantity, image }) {
-    const key = `${productId}-${size}-${color}`;
-    const existing = cart.find((x) => x.key === key);
-    if (existing) {
-      existing.quantity += quantity;
-      existing.image = image || existing.image;
-    } else {
-      cart.push({ key, productId, name, price, size, color, quantity, image: image || "" });
-    }
-    saveCartToStorage(cart);
-  }
-
-  // ---------- WhatsApp Checkout ----------
-  function checkoutOnWhatsApp() {
-    if (!cart || cart.length === 0) return showCartToast("Your cart is empty.");
-    const lines = ["Hi FAIDE, I want to place an order:", ""];
-    let total = 0;
-
-    cart.forEach((item, i) => {
-      const lineTotal = (Number(item.price) || 0) * (Number(item.quantity) || 0);
-      total += lineTotal;
-      lines.push(
-        `${i + 1}) ${item.name} | Size: ${item.size} | Color: ${item.color} | Qty: ${item.quantity} | ${moneyZAR(lineTotal)}`
-      );
+  function toQueryUrl(params) {
+    const url = new URL(window.location.href);
+    url.hash = "";
+    Object.keys(params).forEach((k) => {
+      if (params[k] == null || params[k] === "") url.searchParams.delete(k);
+      else url.searchParams.set(k, String(params[k]));
     });
-
-    lines.push(
-      "",
-      `TOTAL: ${moneyZAR(total)}`,
-      "",
-      "Name:",
-      "(Type here)",
-      "",
-      "Delivery address:",
-      "(Type here)"
-    );
-
-    window.open(
-      `https://wa.me/${STORE.whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    const qs = url.searchParams.toString();
+    return qs ? url.pathname + "?" + qs : url.pathname;
   }
 
-  // ---------- Qty Stepper ----------
+  function gotoLookbook(i) {
+    window.location.href = toQueryUrl({ page: "lookbook", i });
+  }
+
+  function gotoProduct(id) {
+    window.location.href = toQueryUrl({ page: "product", id });
+  }
+
+  function showRoute(page) {
+    const site = $("site-content");
+    const rlb = $("route-lookbook");
+    const rpp = $("route-product");
+
+    rlb?.classList.remove("active");
+    rpp?.classList.remove("active");
+    rlb?.setAttribute("aria-hidden", "true");
+    rpp?.setAttribute("aria-hidden", "true");
+    if (site) site.style.display = "block";
+
+    if (page === "lookbook") {
+      if (site) site.style.display = "none";
+      rlb?.classList.add("active");
+      rlb?.setAttribute("aria-hidden", "false");
+    }
+    if (page === "product") {
+      if (site) site.style.display = "none";
+      rpp?.classList.add("active");
+      rpp?.setAttribute("aria-hidden", "false");
+    }
+  }
+
   function setupQtyStepper(rootEl, { onChange } = {}) {
     const valueEl = rootEl.querySelector("[data-qty-value]");
     const incBtn = rootEl.querySelector('[data-qty-btn="inc"]');
@@ -146,11 +200,11 @@
 
     const render = () => {
       valueEl.textContent = String(qty);
-      if (typeof onChange === "function") onChange(qty);
+      onChange?.(qty);
     };
 
     const setQty = (next) => {
-      qty = Math.max(1, Number(next) || 1);
+      qty = Math.max(1, next);
       render();
     };
 
@@ -202,95 +256,291 @@
     return { getQty: () => qty, setQty };
   }
 
-  // ---------- Router Helpers ----------
-  function toQueryUrl(params) {
-    const url = new URL(window.location.href);
-    url.hash = "";
-    Object.keys(params).forEach((k) => {
-      if (params[k] == null || params[k] === "") url.searchParams.delete(k);
-      else url.searchParams.set(k, String(params[k]));
+  // ---------- Cart ----------
+  const CART_STORAGE_KEY = "faide_cart_v2";
+  function loadCartFromStorage() {
+    try {
+      const raw = localStorage.getItem(CART_STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+  function saveCartToStorage(nextCart) {
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(nextCart || []));
+    } catch {}
+  }
+
+  function showCartToast(message) {
+    const toast = $("cartToast");
+    const messageEl = $("cartMessage");
+    if (!toast || !messageEl) return;
+    messageEl.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+  }
+
+  // ---------- Policies ----------
+  function initPolicies() {
+    const policyModal = $("policy-modal");
+    const modalTitle = $("modal-title");
+    const modalContent = $("modal-content");
+    const closeModal = $("close-modal");
+
+    const policies = {
+      privacy: {
+        title: "Privacy Policy",
+        content: `
+          <p style="margin-bottom:14px;"><strong>FAIDE Privacy Policy</strong></p>
+          <p style="margin-bottom:14px;">We respect your privacy. This policy explains what information we collect, why we collect it, and how we use it.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">What we collect</h3>
+          <ul style="margin-left:18px; margin-bottom:14px;">
+            <li>Contact details you provide (name, phone number, email).</li>
+            <li>Order details (items, size, color, quantity, delivery address).</li>
+            <li>Basic site analytics (to improve performance and experience).</li>
+          </ul>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">How we use it</h3>
+          <ul style="margin-left:18px; margin-bottom:14px;">
+            <li>To process and fulfill your order.</li>
+            <li>To communicate about your order (shipping updates, questions).</li>
+            <li>To improve the website and product experience.</li>
+          </ul>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Your choices</h3>
+          <p style="margin-bottom:14px;">You can request to update or delete your information by contacting us at <a style="color:var(--primary); text-decoration:none;" href="mailto:faideclothingsa@gmail.com">faideclothingsa@gmail.com</a>.</p>
+        `
+      },
+      terms: {
+        title: "Terms of Service",
+        content: `
+          <p style="margin-bottom:14px;"><strong>FAIDE Terms of Service</strong></p>
+          <p style="margin-bottom:14px;">By using this website, you agree to the terms below.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Orders</h3>
+          <ul style="margin-left:18px; margin-bottom:14px;">
+            <li>Card checkout will be enabled soon.</li>
+            <li>We may contact you for size/color confirmation when checkout is live.</li>
+          </ul>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Pricing</h3>
+          <p style="margin-bottom:14px;">Prices are listed in ZAR (R). We reserve the right to correct errors and update pricing.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Availability</h3>
+          <p style="margin-bottom:14px;">Stock availability may change.</p>
+        `
+      },
+      returns: {
+        title: "Returns & Exchanges",
+        content: `
+          <p style="margin-bottom:14px;"><strong>Returns & Exchanges</strong></p>
+          <p style="margin-bottom:14px;">If something isn’t right, we’ll work with you.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Eligibility</h3>
+          <ul style="margin-left:18px; margin-bottom:14px;">
+            <li>Items must be unworn, unwashed, and in original condition.</li>
+            <li>Request must be made within 7 days of delivery.</li>
+          </ul>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Exchanges</h3>
+          <p style="margin-bottom:14px;">Size exchanges are accepted if stock is available.</p>
+        `
+      },
+      shipping: {
+        title: "Shipping Policy",
+        content: `
+          <p style="margin-bottom:14px;"><strong>Shipping Policy</strong></p>
+          <p style="margin-bottom:14px;">We ship orders within South Africa. Delivery times depend on your location.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Processing time</h3>
+          <p style="margin-bottom:14px;">Orders are typically processed within 1–3 business days after confirmation.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Delivery</h3>
+          <ul style="margin-left:18px; margin-bottom:14px;">
+            <li>Estimated delivery: 2–7 business days (varies by region).</li>
+            <li>Tracking may be provided depending on courier service.</li>
+          </ul>
+        `
+      }
+    };
+
+    let lastFocusedEl = null;
+    function showPolicy(type) {
+      const policy = policies[type];
+      if (!policy) return;
+      lastFocusedEl = document.activeElement;
+      if (modalTitle) modalTitle.textContent = policy.title;
+      if (modalContent) modalContent.innerHTML = policy.content;
+      if (policyModal) policyModal.style.display = "block";
+      document.body.classList.add("lock-scroll");
+      setTimeout(() => closeModal?.focus(), 0);
+    }
+    function hidePolicy() {
+      if (policyModal) policyModal.style.display = "none";
+      document.body.classList.remove("lock-scroll");
+      if (lastFocusedEl && typeof lastFocusedEl.focus === "function") lastFocusedEl.focus();
+    }
+
+    function onClick(id, fn) {
+      const el = $(id);
+      if (!el) return;
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        fn();
+      });
+    }
+
+    onClick("privacy-link", () => showPolicy("privacy"));
+    onClick("terms-link", () => showPolicy("terms"));
+    onClick("returns-link", () => showPolicy("returns"));
+    onClick("shipping-link", () => showPolicy("shipping"));
+
+    closeModal?.addEventListener("click", hidePolicy);
+    policyModal?.addEventListener("click", (e) => {
+      if (e.target === policyModal) hidePolicy();
     });
-    const qs = url.searchParams.toString();
-    return qs ? url.pathname + "?" + qs : url.pathname;
-  }
-  function gotoLookbook(i) {
-    window.location.href = toQueryUrl({ page: "lookbook", i });
-  }
-  function gotoProduct(id) {
-    window.location.href = toQueryUrl({ page: "product", id });
-  }
-  function showRoute(page) {
-    const site = $("#site-content");
-    const rlb = $("#route-lookbook");
-    const rpp = $("#route-product");
 
-    rlb?.classList.remove("active");
-    rpp?.classList.remove("active");
-    rlb?.setAttribute("aria-hidden", "true");
-    rpp?.setAttribute("aria-hidden", "true");
-    if (site) site.style.display = "block";
+    return { hidePolicy };
+  }
 
-    if (page === "lookbook") {
-      if (site) site.style.display = "none";
-      rlb?.classList.add("active");
-      rlb?.setAttribute("aria-hidden", "false");
-    }
-    if (page === "product") {
-      if (site) site.style.display = "none";
-      rpp?.classList.add("active");
-      rpp?.setAttribute("aria-hidden", "false");
+  // ---------- Checkout modal (Coming Soon) ----------
+  const CHECKOUT_PROFILE_KEY = "faide_checkout_profile_v1";
+  function loadCheckoutProfile() {
+    try {
+      const raw = localStorage.getItem(CHECKOUT_PROFILE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
     }
   }
+  function saveCheckoutProfile(profile) {
+    try {
+      localStorage.setItem(CHECKOUT_PROFILE_KEY, JSON.stringify(profile || {}));
+    } catch {}
+  }
 
-  // ---------- Rendering Products ----------
-  function renderProducts() {
-    const host = $("#products-scroll");
-    if (!host) return;
+  function initCheckoutModal(getCartTotals) {
+    const overlay = $("checkout-modal");
+    const close1 = $("checkout-close");
+    const close2 = $("checkout-close-2");
+    const itemsCount = $("checkout-items-count");
+    const totalEl = $("checkout-total");
+    const submit = $("co-submit");
 
-    host.innerHTML = "";
+    const nameEl = $("co-name");
+    const emailEl = $("co-email");
+    const phoneEl = $("co-phone");
+    const cityEl = $("co-city");
 
-    for (const p of STORE.products) {
-      const productEl = document.createElement("div");
-      productEl.className = "product";
-      productEl.setAttribute("data-product-id", String(p.id));
+    function open() {
+      const { itemCount, total } = getCartTotals();
+      if (itemsCount) itemsCount.textContent = String(itemCount);
+      if (totalEl) totalEl.textContent = total.toFixed(2);
 
-      const mainImage = (p.images && p.images[0]) || "";
-      const colorsCount = Array.isArray(p.colors) ? p.colors.length : 0;
+      const profile = loadCheckoutProfile();
+      if (profile) {
+        if (nameEl) nameEl.value = profile.name || "";
+        if (emailEl) emailEl.value = profile.email || "";
+        if (phoneEl) phoneEl.value = profile.phone || "";
+        if (cityEl) cityEl.value = profile.city || "";
+      }
 
-      productEl.innerHTML = `
+      if (overlay) overlay.style.display = "block";
+      document.body.classList.add("lock-scroll");
+      setTimeout(() => emailEl?.focus(), 50);
+    }
+
+    function close() {
+      if (overlay) overlay.style.display = "none";
+      document.body.classList.remove("lock-scroll");
+    }
+
+    close1?.addEventListener("click", close);
+    close2?.addEventListener("click", close);
+    overlay?.addEventListener("click", (e) => {
+      if (e.target === overlay) close();
+    });
+
+    submit?.addEventListener("click", () => {
+      const profile = {
+        name: nameEl?.value?.trim() || "",
+        email: emailEl?.value?.trim() || "",
+        phone: phoneEl?.value?.trim() || "",
+        city: cityEl?.value?.trim() || ""
+      };
+
+      if (!profile.email) return showCartToast("Please enter an email.");
+      saveCheckoutProfile(profile);
+      showCartToast("Saved. We’ll notify you when payments go live.");
+      close();
+    });
+
+    return { open, close };
+  }
+
+  // ---------- Render ----------
+  function formatPriceZAR(price) {
+    const n = Number(price || 0);
+    return `R${n.toFixed(2)}`;
+  }
+
+  function renderLookbook(listEl, lookbookItems) {
+    if (!listEl) return;
+    listEl.innerHTML = "";
+    lookbookItems.forEach((item) => {
+      const card = document.createElement("div");
+      card.className = "lookbook-card";
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("aria-label", `Open Lookbook ${item.id}`);
+      card.innerHTML = `<img src="${item.image}" alt="${item.alt || "Lookbook"}" class="lookbook-img" />`;
+      const go = () => gotoLookbook(String(item.id));
+      card.addEventListener("click", go);
+      clickOnEnterSpace(card, go);
+      listEl.appendChild(card);
+    });
+  }
+
+  function renderShop(shopEl, products) {
+    if (!shopEl) return;
+    shopEl.innerHTML = "";
+
+    products.forEach((p) => {
+      const card = document.createElement("div");
+      card.className = "product";
+      card.setAttribute("data-product-id", p.id);
+
+      const colorsCountText = `${(p.colors || []).length} Colors`;
+
+      // Build options
+      const sizesHtml = (p.sizes || ["S", "M", "L", "XL"])
+        .map((s) => `<button type="button" class="size-btn" data-size="${s}">${s}</button>`)
+        .join("");
+
+      const colorsHtml = (p.colors || [])
+        .map(
+          (c) =>
+            `<div class="${c.className}" role="button" tabindex="0" aria-label="${c.name}" data-color="${c.name}"></div>`
+        )
+        .join("");
+
+      card.innerHTML = `
         <div class="product-img-container">
-          <img src="${mainImage}" alt="${escapeHtml(p.name)}" class="product-img" loading="lazy" />
+          <img src="${(p.images && p.images[0]) || ""}" alt="${p.name}" class="product-img" />
         </div>
 
         <div class="product-info">
-          <div class="product-label">${escapeHtml(p.label || "New")}</div>
+          <div class="product-label">${p.label || "New"}</div>
 
           <div class="product-header">
             <div class="product-name-wrapper">
-              <h3>${escapeHtml(p.name)}</h3>
-              <div class="product-category">${escapeHtml(p.category || "")}</div>
-              <div class="product-colors-count">${colorsCount} Colors</div>
+              <h3>${p.name}</h3>
+              <div class="product-category">${p.category || ""}</div>
+              <div class="product-colors-count">${colorsCountText}</div>
             </div>
-            <p class="price">${moneyZAR(p.price)}</p>
+            <p class="price">${formatPriceZAR(p.price)}</p>
           </div>
 
-          <div class="options" aria-label="${escapeHtml(p.name)} options">
+          <div class="options" aria-label="Product options">
             <div class="option-label">Select Size</div>
-            <div class="sizes">
-              ${(p.sizes || ["S", "M", "L", "XL"])
-                .map((s) => `<button type="button" class="size-btn" data-size="${escapeHtml(s)}">${escapeHtml(s)}</button>`)
-                .join("")}
-            </div>
+            <div class="sizes">${sizesHtml}</div>
 
             <div class="option-label">Select Color</div>
-            <div class="colors">
-              ${(p.colors || [])
-                .map((c) => {
-                  const cls = String(c).toLowerCase() === "black" ? "black" : String(c).toLowerCase() === "white" ? "white" : "grey";
-                  return `<div class="color ${cls}" role="button" tabindex="0" aria-label="${escapeHtml(c)}" data-color="${escapeHtml(c)}"></div>`;
-                })
-                .join("")}
-            </div>
+            <div class="colors">${colorsHtml}</div>
 
             <div class="quantity-wrapper">
               <div class="qty-stepper-ui" data-qty-root="card">
@@ -305,471 +555,22 @@
         </div>
       `;
 
-      // Expand on tap (optional)
-      productEl.addEventListener("mouseenter", () => productEl.classList.add("expanded"));
-      productEl.addEventListener("mouseleave", () => productEl.classList.remove("expanded"));
-
-      // Setup option selections
-      const stepperRoot = productEl.querySelector('.qty-stepper-ui[data-qty-root="card"]');
-      const stepper = stepperRoot ? setupQtyStepper(stepperRoot) : null;
-
-      const sizeButtons = $all(".size-btn", productEl);
-      const colorOptions = $all(".color", productEl);
-      const addBtn = $(".add-to-cart", productEl);
-
-      const updateAddBtn = () => {
-        const selectedSize = $(".size-btn.selected", productEl);
-        const selectedColor = $(".color.selected", productEl);
-        if (addBtn) addBtn.disabled = !(selectedSize && selectedColor);
-      };
-
-      sizeButtons.forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          sizeButtons.forEach((b) => b.classList.remove("selected"));
-          btn.classList.add("selected");
-          productEl.classList.add("expanded");
-          updateAddBtn();
-        });
-      });
-
-      colorOptions.forEach((c) => {
-        const select = (e) => {
-          e?.stopPropagation?.();
-          colorOptions.forEach((x) => x.classList.remove("selected"));
-          c.classList.add("selected");
-          productEl.classList.add("expanded");
-          updateAddBtn();
-        };
-        c.addEventListener("click", select);
-        clickOnEnterSpace(c, select);
-      });
-
-      updateAddBtn();
-
-      addBtn?.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const selectedSize = $(".size-btn.selected", productEl);
-        const selectedColor = $(".color.selected", productEl);
-        if (!selectedSize) return showCartToast("Select a size first.");
-        if (!selectedColor) return showCartToast("Select a color first.");
-
-        let quantity = stepper?.getQty?.() ?? 1;
-        quantity = Math.max(1, Number.isFinite(quantity) ? quantity : 1);
-
-        const size = selectedSize.textContent.trim();
-        const color = selectedColor.getAttribute("data-color") || "Color";
-        const image = mainImage;
-
-        upsertCartItem({
-          productId: p.id,
-          name: p.name,
-          price: Number(p.price) || 0,
-          size,
-          color,
-          quantity,
-          image,
-        });
-
-        updateCartUI();
-        showCartToast(`Added ${quantity}x ${p.name} (${size}) in ${color}`);
-        stepper?.setQty?.(1);
-      });
-
-      // Click card -> product route (avoid interacting elements)
-      productEl.addEventListener("click", (e) => {
-        const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options");
-        if (interactive) return;
-        gotoProduct(String(p.id));
-      });
-
-      host.appendChild(productEl);
-    }
-  }
-
-  function escapeHtml(s) {
-    return String(s ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
-  // ---------- Cart UI ----------
-  function updateCartUI() {
-    const cartSidebar = $("#cart-sidebar");
-    const cartOverlay = $("#cart-overlay");
-    const cartItemsEl = $("#cart-items");
-    const cartTotalEl = $("#cart-total");
-    const cartCountEl = $("#cart-count");
-    const checkoutLink = $("#checkout-link");
-    const whatsappBtn = $("#whatsapp-checkout");
-
-    saveCartToStorage(cart);
-
-    const { total, count } = cartTotals();
-
-    if (cartTotalEl) cartTotalEl.textContent = total.toFixed(2);
-    if (cartCountEl) cartCountEl.textContent = String(count);
-
-    const empty = cart.length === 0;
-    if (checkoutLink) checkoutLink.setAttribute("aria-disabled", empty ? "true" : "false");
-    if (whatsappBtn) whatsappBtn.disabled = empty;
-
-    if (!cartItemsEl) return;
-
-    cartItemsEl.innerHTML = "";
-
-    if (empty) {
-      cartItemsEl.innerHTML =
-        '<li style="text-align:center;color:#666;border:none;background:transparent;padding:14px 0;">Your cart is empty</li>';
-      return;
-    }
-
-    cart.forEach((item, idx) => {
-      const lineTotal = (Number(item.price) || 0) * (Number(item.quantity) || 0);
-
-      const li = document.createElement("li");
-      li.className = "cart-item";
-      li.innerHTML = `
-        <img class="cart-item-img" src="${item.image || ""}" alt="${escapeHtml(item.name)}" onerror="this.style.display='none';" />
-        <div class="cart-item-info">
-          <div class="cart-item-title">${escapeHtml(item.name)}</div>
-          <div class="cart-item-meta">Size: ${escapeHtml(item.size)} • Color: ${escapeHtml(item.color)}</div>
-          <div class="cart-item-price">${moneyZAR(lineTotal)}</div>
-        </div>
-        <div class="cart-item-actions">
-          <div class="qty-stepper" aria-label="Quantity controls">
-            <div class="qty-stepper-inner">
-              <button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">−</button>
-              <div class="qty-value" aria-label="Quantity">${Number(item.quantity) || 1}</div>
-              <button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button>
-            </div>
-          </div>
-          <button type="button" class="remove-btn" data-action="remove" aria-label="Remove item">Remove</button>
-        </div>
-      `;
-
-      li.querySelector('[data-action="dec"]').addEventListener("click", () => {
-        item.quantity = Math.max(1, (Number(item.quantity) || 1) - 1);
-        updateCartUI();
-      });
-      li.querySelector('[data-action="inc"]').addEventListener("click", () => {
-        item.quantity = (Number(item.quantity) || 1) + 1;
-        updateCartUI();
-      });
-      li.querySelector('[data-action="remove"]').addEventListener("click", () => {
-        cart.splice(idx, 1);
-        updateCartUI();
-      });
-
-      cartItemsEl.appendChild(li);
-    });
-
-    // keep state
-    if (cartSidebar?.classList.contains("active")) cartOverlay?.classList.add("active");
-  }
-
-  function openCart() {
-    $("#cart-sidebar")?.classList.add("active");
-    $("#cart-overlay")?.classList.add("active");
-    document.body.classList.add("lock-scroll");
-  }
-  function closeCartPanel() {
-    $("#cart-sidebar")?.classList.remove("active");
-    $("#cart-overlay")?.classList.remove("active");
-    document.body.classList.remove("lock-scroll");
-  }
-
-  // ---------- Policies ----------
-  const policies = {
-    privacy: {
-      title: "Privacy Policy",
-      content: `
-        <p style="margin-bottom:14px;"><strong>FAIDE Privacy Policy</strong></p>
-        <p style="margin-bottom:14px;">We respect your privacy. This policy explains what information we collect, why we collect it, and how we use it.</p>
-        <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">What we collect</h3>
-        <ul style="margin-left:18px; margin-bottom:14px;">
-          <li>Contact details you provide (name, phone number, email).</li>
-          <li>Order details (items, size, color, quantity, delivery address).</li>
-          <li>Basic site analytics (to improve performance and experience).</li>
-        </ul>
-        <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">How we use it</h3>
-        <ul style="margin-left:18px; margin-bottom:14px;">
-          <li>To process and fulfill your order.</li>
-          <li>To communicate about your order (shipping updates, questions).</li>
-          <li>To improve the website and product experience.</li>
-        </ul>
-        <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Your choices</h3>
-        <p style="margin-bottom:14px;">You can request to update or delete your information by contacting us at <a style="color:var(--primary); text-decoration:none;" href="mailto:faideclothingsa@gmail.com">faideclothingsa@gmail.com</a>.</p>
-      `,
-    },
-    terms: {
-      title: "Terms of Service",
-      content: `
-        <p style="margin-bottom:14px;"><strong>FAIDE Terms of Service</strong></p>
-        <p style="margin-bottom:14px;">By using this website and placing an order, you agree to the terms below.</p>
-        <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Orders</h3>
-        <ul style="margin-left:18px; margin-bottom:14px;">
-          <li>Orders are paid online at checkout or confirmed via WhatsApp if you choose that option.</li>
-          <li>We may contact you if we need size/color confirmation or address clarification.</li>
-        </ul>
-        <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Pricing</h3>
-        <p style="margin-bottom:14px;">Prices are listed in ZAR (R). We reserve the right to correct errors and update pricing.</p>
-        <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Availability</h3>
-        <p style="margin-bottom:14px;">Stock availability may change. If an item is unavailable, we’ll offer an alternative or refund.</p>
-      `,
-    },
-    returns: {
-      title: "Returns & Exchanges",
-      content: `
-        <p style="margin-bottom:14px;"><strong>Returns & Exchanges</strong></p>
-        <p style="margin-bottom:14px;">If something isn’t right, we’ll work with you.</p>
-        <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Eligibility</h3>
-        <ul style="margin-left:18px; margin-bottom:14px;">
-          <li>Items must be unworn, unwashed, and in original condition.</li>
-          <li>Request must be made within 7 days of delivery.</li>
-        </ul>
-        <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Exchanges</h3>
-        <p style="margin-bottom:14px;">Size exchanges are accepted if stock is available.</p>
-        <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">How to request</h3>
-        <p style="margin-bottom:14px;">Contact us on WhatsApp or email with your order details.</p>
-      `,
-    },
-    shipping: {
-      title: "Shipping Policy",
-      content: `
-        <p style="margin-bottom:14px;"><strong>Shipping Policy</strong></p>
-        <p style="margin-bottom:14px;">We ship orders within South Africa. Delivery times depend on your location.</p>
-        <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Processing time</h3>
-        <p style="margin-bottom:14px;">Orders are typically processed within 1–3 business days after payment.</p>
-        <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Delivery</h3>
-        <ul style="margin-left:18px; margin-bottom:14px;">
-          <li>Estimated delivery: 2–7 business days (varies by region).</li>
-          <li>Tracking may be provided depending on courier service.</li>
-        </ul>
-        <p style="margin-bottom:14px;">Questions? Email <a style="color:var(--primary); text-decoration:none;" href="mailto:faideclothingsa@gmail.com">faideclothingsa@gmail.com</a></p>
-      `,
-    },
-  };
-
-  let lastFocusedEl = null;
-  function showPolicy(policyType) {
-    const policy = policies[policyType];
-    if (!policy) return;
-    const modal = $("#policy-modal");
-    const title = $("#modal-title");
-    const content = $("#modal-content");
-    lastFocusedEl = document.activeElement;
-
-    if (title) title.textContent = policy.title;
-    if (content) content.innerHTML = policy.content;
-    if (modal) modal.style.display = "block";
-
-    document.body.classList.add("lock-scroll");
-    setTimeout(() => $("#close-modal")?.focus(), 0);
-  }
-  function hidePolicy() {
-    const modal = $("#policy-modal");
-    if (modal) modal.style.display = "none";
-    document.body.classList.remove("lock-scroll");
-    if (lastFocusedEl && typeof lastFocusedEl.focus === "function") lastFocusedEl.focus();
-  }
-
-  // ---------- Nav scroll helpers ----------
-  function getNavOffsetPx() {
-    const nav = $(".navbar");
-    const navH = nav?.getBoundingClientRect?.().height || 86;
-    return Math.round(navH + 18);
-  }
-  function scrollToSectionId(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const top = el.getBoundingClientRect().top + window.pageYOffset - getNavOffsetPx();
-    window.scrollTo({ top, behavior: "smooth" });
-  }
-
-  // ---------- Lookbook + Product Routes ----------
-  function renderLookbookRoute(i) {
-    const idx = Math.max(1, parseInt(i || "1", 10));
-    const cards = $all(".lookbook-card");
-    const total = cards.length || 1;
-    const safeIdx = Math.min(idx, total);
-
-    const card = cards[safeIdx - 1] || cards[0];
-    const src = card?.querySelector("img")?.getAttribute("src") || "";
-
-    const rlbImg = $("#rlb-img");
-    const rlbCounter = $("#rlb-counter");
-    if (rlbImg) rlbImg.src = src;
-    if (rlbCounter) rlbCounter.textContent = `${safeIdx} / ${total}`;
-  }
-
-  function renderProductRoute(idStr) {
-    const id = parseInt(idStr || "1", 10);
-    const p = findProductById(id);
-    if (!p) return;
-
-    const img = $("#rpp-img");
-    const thumbs = $("#rpp-thumbs");
-    const subtitle = $("#rpp-subtitle");
-    const label = $("#rpp-label");
-    const name = $("#rpp-name");
-    const category = $("#rpp-category");
-    const colorsCount = $("#rpp-colors");
-    const price = $("#rpp-price");
-    const sizes = $("#rpp-sizes");
-    const colorsRow = $("#rpp-colors-row");
-    const addBtn = $("#rpp-add");
-
-    if (label) label.textContent = p.label || "";
-    if (name) name.textContent = p.name || "";
-    if (category) category.textContent = p.category || "";
-    if (colorsCount) colorsCount.textContent = `${(p.colors || []).length} Colors`;
-    if (price) price.textContent = moneyZAR(p.price);
-
-    // images
-    const sources = Array.isArray(p.images) && p.images.length ? p.images.slice(0, 4) : [];
-    let activeIndex = 0;
-    const setImage = (i) => {
-      activeIndex = clamp(i, 0, Math.max(0, sources.length - 1));
-      if (img) img.src = sources[activeIndex] || "";
-      if (subtitle) subtitle.textContent = `${activeIndex + 1} / ${sources.length || 1}`;
-      renderThumbs();
-    };
-    const renderThumbs = () => {
-      if (!thumbs) return;
-      thumbs.innerHTML = "";
-      sources.forEach((src, i) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "thumb" + (i === activeIndex ? " active" : "");
-        btn.setAttribute("aria-label", `View image ${i + 1}`);
-        btn.innerHTML = `<img src="${src}" alt="" loading="lazy" />`;
-        btn.addEventListener("click", () => setImage(i));
-        thumbs.appendChild(btn);
-      });
-    };
-    setImage(0);
-
-    // sizes
-    if (sizes) {
-      sizes.innerHTML = "";
-      (p.sizes || ["S", "M", "L", "XL"]).forEach((s) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "size-btn";
-        btn.textContent = s;
-        btn.addEventListener("click", () => {
-          $all(".size-btn", sizes).forEach((x) => x.classList.remove("selected"));
-          btn.classList.add("selected");
-          updateAddState();
-        });
-        sizes.appendChild(btn);
-      });
-    }
-
-    // colors
-    if (colorsRow) {
-      colorsRow.innerHTML = "";
-      (p.colors || []).forEach((c) => {
-        const cls = String(c).toLowerCase() === "black" ? "black" : String(c).toLowerCase() === "white" ? "white" : "grey";
-        const div = document.createElement("div");
-        div.className = `color ${cls}`;
-        div.setAttribute("role", "button");
-        div.setAttribute("tabindex", "0");
-        div.setAttribute("aria-label", c);
-        div.setAttribute("data-color", c);
-
-        const select = () => {
-          $all(".color", colorsRow).forEach((x) => x.classList.remove("selected"));
-          div.classList.add("selected");
-          updateAddState();
-        };
-        div.addEventListener("click", select);
-        clickOnEnterSpace(div, select);
-
-        colorsRow.appendChild(div);
-      });
-    }
-
-    // qty
-    const stepperRoot = document.querySelector('.qty-stepper-ui[data-qty-root="rpp"]');
-    const stepper = stepperRoot ? setupQtyStepper(stepperRoot) : null;
-
-    function updateAddState() {
-      const hasSize = sizes?.querySelector(".size-btn.selected");
-      const hasColor = colorsRow?.querySelector(".color.selected");
-      if (addBtn) addBtn.disabled = !(hasSize && hasColor);
-    }
-    updateAddState();
-
-    addBtn?.addEventListener("click", () => {
-      const selectedSize = sizes?.querySelector(".size-btn.selected");
-      const selectedColor = colorsRow?.querySelector(".color.selected");
-      if (!selectedSize) return showCartToast("Select a size first.");
-      if (!selectedColor) return showCartToast("Select a color first.");
-
-      let quantity = stepper?.getQty?.() ?? 1;
-      quantity = Math.max(1, Number.isFinite(quantity) ? quantity : 1);
-
-      const size = selectedSize.textContent.trim();
-      const color = selectedColor.getAttribute("data-color") || "Color";
-      const imageSrc = sources[activeIndex] || sources[0] || "";
-
-      upsertCartItem({
-        productId: p.id,
-        name: p.name,
-        price: Number(p.price) || 0,
-        size,
-        color,
-        quantity,
-        image: imageSrc,
-      });
-
-      updateCartUI();
-      showCartToast(`Added ${quantity}x ${p.name} (${size}) in ${color}`);
-      stepper?.setQty?.(1);
+      shopEl.appendChild(card);
     });
   }
 
-  // ---------- Init ----------
+  // ---------- Main ----------
   document.addEventListener("DOMContentLoaded", async () => {
-    // Load data
-    try {
-      await loadProducts();
-    } catch (e) {
-      console.error(e);
-      showCartToast("Error loading products.");
-    }
+    $("shop-now-btn")?.addEventListener("click", () => scrollToSectionId("shop"));
 
-    // Load cart
-    cart = loadCartFromStorage();
+    const navbar = document.querySelector(".navbar");
+    const navLinks = document.querySelectorAll('[data-nav-link="main"]');
 
-    // Render products
-    renderProducts();
-
-    // Navbar shrink
-    const navbar = $(".navbar");
-    const handleShrink = () => {
-      if (!navbar) return;
-      navbar.classList.toggle("shrink", window.scrollY > 20);
-    };
-    handleShrink();
-    window.addEventListener("scroll", handleShrink, { passive: true });
-
-    // Shop now button
-    $("#shop-now-btn")?.addEventListener("click", () => scrollToSectionId("shop"));
-
-    // Mobile panels
-    const searchBtn = $("#mobile-search-btn");
-    const menuBtn = $("#mobile-menu-btn");
-    const searchPanel = $("#mobile-search-panel");
-    const menuPanel = $("#mobile-menu-panel");
-    const searchInput = $("#mobile-search-input");
+    const searchBtn = $("mobile-search-btn");
+    const menuBtn = $("mobile-menu-btn");
+    const searchPanel = $("mobile-search-panel");
+    const menuPanel = $("mobile-menu-panel");
+    const searchInput = $("mobile-search-input");
 
     const closeMobilePanels = () => {
       if (searchPanel) {
@@ -813,80 +614,410 @@
 
     searchBtn?.addEventListener("click", openSearch);
     menuBtn?.addEventListener("click", openMenu);
-    $all('[data-nav-link="main"]').forEach((a) => a.addEventListener("click", () => closeMobilePanels()));
+    navLinks.forEach((a) => a.addEventListener("click", () => closeMobilePanels()));
 
-    // Search: basic filter
-    searchInput?.addEventListener("input", (e) => {
-      const q = String(e.target.value || "").trim().toLowerCase();
-      const host = $("#products-scroll");
-      if (!host) return;
-      $all(".product", host).forEach((node) => {
-        const id = node.getAttribute("data-product-id");
-        const p = findProductById(id);
-        const hay = `${p?.name || ""} ${p?.category || ""} ${(p?.colors || []).join(" ")} ${(p?.label || "")}`.toLowerCase();
-        node.style.display = !q || hay.includes(q) ? "" : "none";
+    function handleShrink() {
+      if (!navbar) return;
+      navbar.classList.toggle("shrink", window.scrollY > 20);
+    }
+    handleShrink();
+    window.addEventListener("scroll", handleShrink, { passive: true });
+
+    const { hidePolicy } = initPolicies();
+
+    // Load products/lookbook
+    let catalog = null;
+    try {
+      catalog = await loadCatalog();
+    } catch (err) {
+      console.error(err);
+      showCartToast("Missing products.json. Check assets/js/products.json");
+      catalog = { lookbook: [], products: [] };
+    }
+
+    renderLookbook($("lookbook-list"), catalog.lookbook || []);
+    renderShop($("shop-products"), catalog.products || []);
+
+    // ---------- Cart UI + logic ----------
+    const floatingCart = $("floating-cart");
+    const cartSidebar = $("cart-sidebar");
+    const cartOverlay = $("cart-overlay");
+    const closeCart = $("close-cart");
+    const cartItemsEl = $("cart-items");
+    const cartTotalEl = $("cart-total");
+    const cartCountEl = $("cart-count");
+    const checkoutBtn = $("checkout-btn");
+
+    let cart = loadCartFromStorage();
+
+    function openCart() {
+      cartSidebar?.classList.add("active");
+      cartOverlay?.classList.add("active");
+      document.body.classList.add("lock-scroll");
+    }
+    function closeCartPanel() {
+      cartSidebar?.classList.remove("active");
+      cartOverlay?.classList.remove("active");
+      document.body.classList.remove("lock-scroll");
+    }
+
+    floatingCart?.addEventListener("click", openCart);
+    closeCart?.addEventListener("click", closeCartPanel);
+    cartOverlay?.addEventListener("click", closeCartPanel);
+
+    function setCheckoutState() {
+      const empty = cart.length === 0;
+      if (!checkoutBtn) return;
+      checkoutBtn.disabled = empty;
+      checkoutBtn.title = empty ? "Add items to checkout" : "Proceed to Checkout";
+    }
+
+    function getCartTotals() {
+      let total = 0;
+      let itemCount = 0;
+      cart.forEach((item) => {
+        total += item.price * item.quantity;
+        itemCount += item.quantity;
       });
+      return { total, itemCount };
+    }
+
+    const checkoutModal = initCheckoutModal(getCartTotals);
+
+    // ✅ Removed WhatsApp checkout — now opens modal
+    checkoutBtn?.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (checkoutBtn.disabled) return showCartToast("Add items to checkout.");
+      checkoutModal.open();
     });
 
-    // Cart open/close
-    $("#floating-cart")?.addEventListener("click", openCart);
-    $("#close-cart")?.addEventListener("click", closeCartPanel);
-    $("#cart-overlay")?.addEventListener("click", closeCartPanel);
+    function updateCartUI() {
+      if (!cartItemsEl || !cartTotalEl || !cartCountEl) return;
+      saveCartToStorage(cart);
 
-    // WhatsApp button inside cart
-    $("#whatsapp-checkout")?.addEventListener("click", () => {
-      if (!cart.length) return showCartToast("Add items to checkout.");
-      checkoutOnWhatsApp();
-    });
+      cartItemsEl.innerHTML = "";
+      const totals = getCartTotals();
 
-    // Policy modal hooks
-    const onClick = (id, fn) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.addEventListener("click", (e) => {
-        e.preventDefault();
-        fn();
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML =
+          '<li style="text-align:center;color:#666;border:none;background:transparent;padding:14px 0;">Your cart is empty</li>';
+        cartTotalEl.textContent = "0.00";
+        cartCountEl.textContent = "0";
+        setCheckoutState();
+        return;
+      }
+
+      cart.forEach((item, idx) => {
+        const lineTotal = item.price * item.quantity;
+
+        const li = document.createElement("li");
+        li.className = "cart-item";
+        li.innerHTML = `
+          <img class="cart-item-img" src="${item.image || ""}" alt="${item.name}" onerror="this.style.display='none';" />
+          <div class="cart-item-info">
+            <div class="cart-item-title">${item.name}</div>
+            <div class="cart-item-meta">Size: ${item.size} • Color: ${item.color}</div>
+            <div class="cart-item-price">R${lineTotal.toFixed(2)}</div>
+          </div>
+          <div class="cart-item-actions">
+            <div class="qty-stepper" aria-label="Quantity controls">
+              <div class="qty-stepper-inner">
+                <button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">−</button>
+                <div class="qty-value" aria-label="Quantity">${item.quantity}</div>
+                <button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+            <button type="button" class="remove-btn" data-action="remove" aria-label="Remove item">Remove</button>
+          </div>
+        `;
+
+        li.querySelector('[data-action="dec"]').addEventListener("click", () => {
+          item.quantity = Math.max(1, item.quantity - 1);
+          updateCartUI();
+        });
+        li.querySelector('[data-action="inc"]').addEventListener("click", () => {
+          item.quantity += 1;
+          updateCartUI();
+        });
+        li.querySelector('[data-action="remove"]').addEventListener("click", () => {
+          cart.splice(idx, 1);
+          updateCartUI();
+        });
+
+        cartItemsEl.appendChild(li);
       });
-    };
-    onClick("privacy-link", () => showPolicy("privacy"));
-    onClick("terms-link", () => showPolicy("terms"));
-    onClick("returns-link", () => showPolicy("returns"));
-    onClick("shipping-link", () => showPolicy("shipping"));
-    $("#close-modal")?.addEventListener("click", hidePolicy);
-    $("#policy-modal")?.addEventListener("click", (e) => {
-      if (e.target === $("#policy-modal")) hidePolicy();
-    });
 
-    // Lookbook cards route
-    $all(".lookbook-card").forEach((card) => {
-      const go = () => gotoLookbook(card.getAttribute("data-look") || "1");
-      card.addEventListener("click", go);
-      clickOnEnterSpace(card, go);
-    });
+      cartTotalEl.textContent = totals.total.toFixed(2);
+      cartCountEl.textContent = String(totals.itemCount);
+      setCheckoutState();
+    }
 
-    // Nav active + scroll behavior
-    const navLinks = $all('[data-nav-link="main"]');
+    // Add-to-cart bindings for rendered cards
+    function bindProductCards() {
+      const cards = Array.from(document.querySelectorAll(".product"));
+
+      cards.forEach((productEl) => {
+        const productId = productEl.getAttribute("data-product-id");
+        const productData = (catalog.products || []).find((p) => String(p.id) === String(productId));
+        if (!productData) return;
+
+        const stepperRoot = productEl.querySelector('.qty-stepper-ui[data-qty-root="card"]');
+        const stepper = stepperRoot ? setupQtyStepper(stepperRoot) : null;
+
+        const sizeButtons = productEl.querySelectorAll(".size-btn");
+        const colorOptions = productEl.querySelectorAll(".color");
+        const addToCartBtn = productEl.querySelector(".add-to-cart");
+
+        const updateAddBtn = () => {
+          if (!addToCartBtn) return;
+          const selectedSize = productEl.querySelector(".size-btn.selected");
+          const selectedColor = productEl.querySelector(".color.selected");
+          addToCartBtn.disabled = !(selectedSize && selectedColor);
+        };
+
+        sizeButtons.forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            sizeButtons.forEach((b) => b.classList.remove("selected"));
+            btn.classList.add("selected");
+            productEl.classList.add("expanded");
+            updateAddBtn();
+          });
+        });
+
+        colorOptions.forEach((color) => {
+          const select = (e) => {
+            e?.stopPropagation?.();
+            colorOptions.forEach((c) => c.classList.remove("selected"));
+            color.classList.add("selected");
+            productEl.classList.add("expanded");
+            updateAddBtn();
+          };
+          color.addEventListener("click", select);
+          clickOnEnterSpace(color, select);
+        });
+
+        updateAddBtn();
+
+        addToCartBtn?.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const selectedSize = productEl.querySelector(".size-btn.selected");
+          const selectedColor = productEl.querySelector(".color.selected");
+          if (!selectedSize) return showCartToast("Select a size first.");
+          if (!selectedColor) return showCartToast("Select a color first.");
+
+          let quantity = stepper?.getQty?.() ?? 1;
+          quantity = Math.max(1, Number.isFinite(quantity) ? quantity : 1);
+
+          const size = selectedSize.textContent.trim();
+          const colorName = selectedColor.getAttribute("data-color") || "Color";
+          const image = (productData.images && productData.images[0]) || "";
+
+          const itemKey = `${productData.id}-${size}-${colorName}`;
+          const existing = cart.find((item) => item.key === itemKey);
+
+          if (existing) existing.quantity += quantity;
+          else
+            cart.push({
+              key: itemKey,
+              id: productData.id,
+              name: productData.name,
+              price: Number(productData.price || 0),
+              size,
+              color: colorName,
+              quantity,
+              image
+            });
+
+          updateCartUI();
+          showCartToast(`Added ${quantity}x ${productData.name} (${size}) in ${colorName}`);
+          stepper?.setQty?.(1);
+        });
+
+        // Click card -> go product route
+        productEl.addEventListener("click", (e) => {
+          const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options");
+          if (interactive) return;
+          gotoProduct(productData.id);
+        });
+      });
+    }
+
+    bindProductCards();
+    updateCartUI();
+
+    // ---------- Routes ----------
     const params = new URLSearchParams(window.location.search);
     const page = params.get("page");
 
+    // nav click behavior
     navLinks.forEach((a) => {
       a.addEventListener("click", (e) => {
         const href = a.getAttribute("href") || "";
         if (!href.includes("#")) return;
         if (page === "lookbook" || page === "product") {
           e.preventDefault();
-          window.location.href = href;
+          window.location.href = "index.html" + href;
+        } else {
+          e.preventDefault();
+          const id = href.replace("#", "");
+          scrollToSectionId(id);
+          history.replaceState(null, "", `${location.pathname}#${id}`);
         }
       });
     });
 
-    // Route resolution
+    const rlbImg = $("rlb-img");
+    const rlbCounter = $("rlb-counter");
+
+    const rpp = {
+      img: $("rpp-img"),
+      thumbs: $("rpp-thumbs"),
+      subtitle: $("rpp-subtitle"),
+      label: $("rpp-label"),
+      name: $("rpp-name"),
+      category: $("rpp-category"),
+      colorsCount: $("rpp-colors"),
+      price: $("rpp-price"),
+      sizes: $("rpp-sizes"),
+      colorsRow: $("rpp-colors-row"),
+      add: $("rpp-add")
+    };
+
+    const rppStepperRoot = document.querySelector('.qty-stepper-ui[data-qty-root="rpp"]');
+    const rppStepper = rppStepperRoot ? setupQtyStepper(rppStepperRoot) : null;
+
+    function renderLookbookRoute(i) {
+      const idx = Math.max(1, parseInt(i || "1", 10));
+      const items = catalog.lookbook || [];
+      const total = items.length || 1;
+      const safeIdx = Math.min(idx, total);
+      const item = items[safeIdx - 1] || items[0];
+
+      if (rlbImg) rlbImg.src = item?.image || "";
+      if (rlbCounter) rlbCounter.textContent = `${safeIdx} / ${total}`;
+    }
+
+    function updateRppAddState() {
+      const selectedSize = rpp.sizes?.querySelector(".size-btn.selected");
+      const selectedColor = rpp.colorsRow?.querySelector(".color.selected");
+      if (rpp.add) rpp.add.disabled = !(selectedSize && selectedColor);
+    }
+
+    let rppSources = [];
+    let rppIndex = 0;
+    let rppProduct = null;
+
+    function renderRppThumbs() {
+      if (!rpp.thumbs) return;
+      rpp.thumbs.innerHTML = "";
+      rppSources.slice(0, 4).forEach((src, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "thumb" + (i === rppIndex ? " active" : "");
+        btn.setAttribute("aria-label", `View image ${i + 1}`);
+        btn.innerHTML = `<img src="${src}" alt="" loading="lazy" />`;
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          setRppImage(i);
+        });
+        rpp.thumbs.appendChild(btn);
+      });
+    }
+
+    let __rppSwapToken = 0;
+    function setRppImage(i) {
+      if (!rppSources.length || !rpp.img) return;
+      const token = ++__rppSwapToken;
+
+      rppIndex = (i + rppSources.length) % rppSources.length;
+      const nextSrc = rppSources[rppIndex];
+
+      rpp.img.style.opacity = "0.25";
+      requestAnimationFrame(() => {
+        if (token !== __rppSwapToken) return;
+        rpp.img.src = nextSrc;
+        if (rpp.subtitle) rpp.subtitle.textContent = `${rppIndex + 1} / ${rppSources.length}`;
+        renderRppThumbs();
+        setTimeout(() => {
+          if (token !== __rppSwapToken) return;
+          rpp.img.style.opacity = "1";
+        }, 60);
+      });
+    }
+
+    function renderSizesToRpp(sizes) {
+      if (!rpp.sizes) return;
+      rpp.sizes.innerHTML = "";
+      (sizes || ["S", "M", "L", "XL"]).forEach((s) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "size-btn";
+        btn.textContent = s;
+        btn.addEventListener("click", () => {
+          Array.from(rpp.sizes.querySelectorAll(".size-btn")).forEach((x) => x.classList.remove("selected"));
+          btn.classList.add("selected");
+          updateRppAddState();
+        });
+        rpp.sizes.appendChild(btn);
+      });
+    }
+
+    function renderColorsToRpp(colors) {
+      if (!rpp.colorsRow) return;
+      rpp.colorsRow.innerHTML = "";
+
+      (colors || []).forEach((c) => {
+        const div = document.createElement("div");
+        div.className = c.className || "color black";
+        div.setAttribute("role", "button");
+        div.setAttribute("tabindex", "0");
+        div.setAttribute("aria-label", c.name || "Color");
+        div.setAttribute("data-color", c.name || "Color");
+
+        const select = () => {
+          Array.from(rpp.colorsRow.querySelectorAll(".color")).forEach((x) => x.classList.remove("selected"));
+          div.classList.add("selected");
+          updateRppAddState();
+        };
+
+        div.addEventListener("click", select);
+        clickOnEnterSpace(div, select);
+
+        rpp.colorsRow.appendChild(div);
+      });
+    }
+
+    async function renderProductRoute(id) {
+      const prod = (catalog.products || []).find((p) => String(p.id) === String(id)) || (catalog.products || [])[0];
+      if (!prod) return;
+
+      rppProduct = prod;
+      rppSources = (prod.images || []).filter(Boolean).slice(0, 4);
+      rppIndex = 0;
+
+      if (rpp.label) rpp.label.textContent = prod.label || "";
+      if (rpp.name) rpp.name.textContent = prod.name || "Item";
+      if (rpp.category) rpp.category.textContent = prod.category || "";
+      if (rpp.colorsCount) rpp.colorsCount.textContent = `${(prod.colors || []).length} Colors`;
+      if (rpp.price) rpp.price.textContent = formatPriceZAR(prod.price);
+
+      renderSizesToRpp(prod.sizes);
+      renderColorsToRpp(prod.colors);
+      rppStepper?.setQty?.(1);
+      if (rpp.add) rpp.add.disabled = true;
+
+      setRppImage(0);
+    }
+
     if (page === "lookbook") {
       showRoute("lookbook");
       renderLookbookRoute(params.get("i"));
     } else if (page === "product") {
       showRoute("product");
-      renderProductRoute(params.get("id"));
+      await renderProductRoute(params.get("id"));
     } else {
       showRoute(null);
 
@@ -898,7 +1029,7 @@
           a.classList.remove("active");
           a.removeAttribute("aria-current");
         });
-        navLinks
+        Array.from(navLinks)
           .filter((a) => (a.getAttribute("href") || "").endsWith(`#${id}`))
           .forEach((lnk) => {
             lnk.classList.add("active");
@@ -917,9 +1048,9 @@
           if (!id) return;
 
           e.preventDefault();
-
           navLock = true;
           clearTimeout(navUnlockTimer);
+
           setActive(id);
           scrollToSectionId(id);
 
@@ -958,7 +1089,43 @@
       }
     }
 
-    // ESC key closes panels/modals/cart
+    // Product route add to cart
+    rpp.add?.addEventListener("click", () => {
+      if (!rppProduct) return;
+
+      const selectedSize = rpp.sizes?.querySelector(".size-btn.selected");
+      const selectedColor = rpp.colorsRow?.querySelector(".color.selected");
+      if (!selectedSize) return showCartToast("Select a size first.");
+      if (!selectedColor) return showCartToast("Select a color first.");
+
+      let quantity = rppStepper?.getQty?.() ?? 1;
+      quantity = Math.max(1, Number.isFinite(quantity) ? quantity : 1);
+
+      const size = selectedSize.textContent.trim();
+      const colorName = selectedColor.getAttribute("data-color") || "Color";
+      const image = rppSources[rppIndex] || (rppProduct.images && rppProduct.images[0]) || "";
+
+      const itemKey = `${rppProduct.id}-${size}-${colorName}`;
+      const existing = cart.find((item) => item.key === itemKey);
+
+      if (existing) existing.quantity += quantity;
+      else
+        cart.push({
+          key: itemKey,
+          id: rppProduct.id,
+          name: rppProduct.name,
+          price: Number(rppProduct.price || 0),
+          size,
+          color: colorName,
+          quantity,
+          image
+        });
+
+      updateCartUI();
+      showCartToast(`Added ${quantity}x ${rppProduct.name} (${size}) in ${colorName}`);
+    });
+
+    // ESC handling
     document.addEventListener("keydown", (e) => {
       if (e.key !== "Escape") return;
 
@@ -966,12 +1133,17 @@
         closeMobilePanels();
         return;
       }
-      const modal = $("#policy-modal");
-      if (modal && modal.style.display === "block") hidePolicy();
-      if ($("#cart-sidebar")?.classList.contains("active")) closeCartPanel();
-    });
 
-    // Update cart UI after everything
-    updateCartUI();
+      // close policy modal if open
+      const policyModal = $("policy-modal");
+      if (policyModal && policyModal.style.display === "block") hidePolicy?.();
+
+      // close checkout modal if open
+      const checkoutOverlay = $("checkout-modal");
+      if (checkoutOverlay && checkoutOverlay.style.display === "block") checkoutModal.close();
+
+      // close cart
+      if (cartSidebar?.classList.contains("active")) closeCartPanel();
+    });
   });
 })();

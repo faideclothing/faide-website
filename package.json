@@ -1,5 +1,10 @@
 {
-  "name": "faide-store",
+  "name": "faide",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "description": "FAIDE static storefront",
+  "scripts": {
+    "dev": "npx serve public",
+    "start": "npx serve public"
+  }
 }

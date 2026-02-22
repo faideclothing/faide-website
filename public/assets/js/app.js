@@ -3,6 +3,10 @@
     return document.getElementById(id);
   }
 
+  function isMobile() {
+    return window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+  }
+
   function clickOnEnterSpace(el, fn) {
     if (!el) return;
     el.addEventListener("keydown", (e) => {
@@ -124,7 +128,6 @@
 
   // ---------- Data ----------
   async function loadCatalog() {
-    // relative path for GitHub Pages
     const url = new URL("assets/js/products.json", window.location.href).toString();
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error("Failed to load products.json");
@@ -145,46 +148,9 @@
     window.scrollTo({ top, behavior: "smooth" });
   }
 
-  function toQueryUrl(params) {
-    const url = new URL(window.location.href);
-    url.hash = "";
-    Object.keys(params).forEach((k) => {
-      if (params[k] == null || params[k] === "") url.searchParams.delete(k);
-      else url.searchParams.set(k, String(params[k]));
-    });
-    const qs = url.searchParams.toString();
-    return qs ? url.pathname + "?" + qs : url.pathname;
-  }
-
-  function gotoLookbook(i) {
-    window.location.href = toQueryUrl({ page: "lookbook", i });
-  }
-
-  function gotoProduct(id) {
-    window.location.href = toQueryUrl({ page: "product", id });
-  }
-
-  function showRoute(page) {
-    const site = $("site-content");
-    const rlb = $("route-lookbook");
-    const rpp = $("route-product");
-
-    rlb?.classList.remove("active");
-    rpp?.classList.remove("active");
-    rlb?.setAttribute("aria-hidden", "true");
-    rpp?.setAttribute("aria-hidden", "true");
-    if (site) site.style.display = "block";
-
-    if (page === "lookbook") {
-      if (site) site.style.display = "none";
-      rlb?.classList.add("active");
-      rlb?.setAttribute("aria-hidden", "false");
-    }
-    if (page === "product") {
-      if (site) site.style.display = "none";
-      rpp?.classList.add("active");
-      rpp?.setAttribute("aria-hidden", "false");
-    }
+  function formatPriceZAR(price) {
+    const n = Number(price || 0);
+    return `R${n.toFixed(2)}`;
   }
 
   function setupQtyStepper(rootEl, { onChange } = {}) {
@@ -256,7 +222,7 @@
     return { getQty: () => qty, setQty };
   }
 
-  // ---------- Cart ----------
+  // ---------- Cart storage ----------
   const CART_STORAGE_KEY = "faide_cart_v2";
   function loadCartFromStorage() {
     try {
@@ -283,202 +249,169 @@
     window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
   }
 
-  // ---------- Policies ----------
-  function initPolicies() {
-    const policyModal = $("policy-modal");
-    const modalTitle = $("modal-title");
-    const modalContent = $("modal-content");
-    const closeModal = $("close-modal");
+  // ---------- History / Back-gesture UI stack ----------
+  // We push a history state for overlays on open, so mobile back closes them first.
+  const UI = {
+    drawer: "drawer",
+    search: "search",
+    cart: "cart",
+    policy: "policy",
+    checkout: "checkout"
+  };
 
-    const policies = {
-      privacy: {
-        title: "Privacy Policy",
-        content: `
-          <p style="margin-bottom:14px;"><strong>FAIDE Privacy Policy</strong></p>
-          <p style="margin-bottom:14px;">We respect your privacy. This policy explains what information we collect, why we collect it, and how we use it.</p>
-          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">What we collect</h3>
-          <ul style="margin-left:18px; margin-bottom:14px;">
-            <li>Contact details you provide (name, phone number, email).</li>
-            <li>Order details (items, size, color, quantity, delivery address).</li>
-            <li>Basic site analytics (to improve performance and experience).</li>
-          </ul>
-          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">How we use it</h3>
-          <ul style="margin-left:18px; margin-bottom:14px;">
-            <li>To process and fulfill your order.</li>
-            <li>To communicate about your order (shipping updates, questions).</li>
-            <li>To improve the website and product experience.</li>
-          </ul>
-          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Your choices</h3>
-          <p style="margin-bottom:14px;">You can request to update or delete your information by contacting us at <a style="color:var(--primary); text-decoration:none;" href="mailto:faideclothingsa@gmail.com">faideclothingsa@gmail.com</a>.</p>
-        `
-      },
-      terms: {
-        title: "Terms of Service",
-        content: `
-          <p style="margin-bottom:14px;"><strong>FAIDE Terms of Service</strong></p>
-          <p style="margin-bottom:14px;">By using this website, you agree to the terms below.</p>
-          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Orders</h3>
-          <ul style="margin-left:18px; margin-bottom:14px;">
-            <li>Card checkout will be enabled soon.</li>
-            <li>We may contact you for size/color confirmation when checkout is live.</li>
-          </ul>
-          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Pricing</h3>
-          <p style="margin-bottom:14px;">Prices are listed in ZAR (R). We reserve the right to correct errors and update pricing.</p>
-          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Availability</h3>
-          <p style="margin-bottom:14px;">Stock availability may change.</p>
-        `
-      },
-      returns: {
-        title: "Returns & Exchanges",
-        content: `
-          <p style="margin-bottom:14px;"><strong>Returns & Exchanges</strong></p>
-          <p style="margin-bottom:14px;">If something isn’t right, we’ll work with you.</p>
-          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Eligibility</h3>
-          <ul style="margin-left:18px; margin-bottom:14px;">
-            <li>Items must be unworn, unwashed, and in original condition.</li>
-            <li>Request must be made within 7 days of delivery.</li>
-          </ul>
-          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Exchanges</h3>
-          <p style="margin-bottom:14px;">Size exchanges are accepted if stock is available.</p>
-        `
-      },
-      shipping: {
-        title: "Shipping Policy",
-        content: `
-          <p style="margin-bottom:14px;"><strong>Shipping Policy</strong></p>
-          <p style="margin-bottom:14px;">We ship orders within South Africa. Delivery times depend on your location.</p>
-          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Processing time</h3>
-          <p style="margin-bottom:14px;">Orders are typically processed within 1–3 business days after confirmation.</p>
-          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Delivery</h3>
-          <ul style="margin-left:18px; margin-bottom:14px;">
-            <li>Estimated delivery: 2–7 business days (varies by region).</li>
-            <li>Tracking may be provided depending on courier service.</li>
-          </ul>
-        `
-      }
-    };
-
-    let lastFocusedEl = null;
-    function showPolicy(type) {
-      const policy = policies[type];
-      if (!policy) return;
-      lastFocusedEl = document.activeElement;
-      if (modalTitle) modalTitle.textContent = policy.title;
-      if (modalContent) modalContent.innerHTML = policy.content;
-      if (policyModal) policyModal.style.display = "block";
-      document.body.classList.add("lock-scroll");
-      setTimeout(() => closeModal?.focus(), 0);
-    }
-    function hidePolicy() {
-      if (policyModal) policyModal.style.display = "none";
-      document.body.classList.remove("lock-scroll");
-      if (lastFocusedEl && typeof lastFocusedEl.focus === "function") lastFocusedEl.focus();
-    }
-
-    function onClick(id, fn) {
-      const el = $(id);
-      if (!el) return;
-      el.addEventListener("click", (e) => {
-        e.preventDefault();
-        fn();
-      });
-    }
-
-    onClick("privacy-link", () => showPolicy("privacy"));
-    onClick("terms-link", () => showPolicy("terms"));
-    onClick("returns-link", () => showPolicy("returns"));
-    onClick("shipping-link", () => showPolicy("shipping"));
-
-    closeModal?.addEventListener("click", hidePolicy);
-    policyModal?.addEventListener("click", (e) => {
-      if (e.target === policyModal) hidePolicy();
-    });
-
-    return { hidePolicy };
+  function pushUiState(kind) {
+    // Push same URL but a state marker
+    const currentUrl = window.location.href;
+    history.pushState({ ui: kind }, "", currentUrl);
   }
 
-  // ---------- Checkout modal (Coming Soon) ----------
-  const CHECKOUT_PROFILE_KEY = "faide_checkout_profile_v1";
-  function loadCheckoutProfile() {
-    try {
-      const raw = localStorage.getItem(CHECKOUT_PROFILE_KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch {
-      return null;
-    }
-  }
-  function saveCheckoutProfile(profile) {
-    try {
-      localStorage.setItem(CHECKOUT_PROFILE_KEY, JSON.stringify(profile || {}));
-    } catch {}
+  function pushRouteState(url, state) {
+    history.pushState(state || {}, "", url);
   }
 
-  function initCheckoutModal(getCartTotals) {
-    const overlay = $("checkout-modal");
-    const close1 = $("checkout-close");
-    const close2 = $("checkout-close-2");
-    const itemsCount = $("checkout-items-count");
-    const totalEl = $("checkout-total");
-    const submit = $("co-submit");
+  function closeTopUiFromPopstate() {
+    // Close in priority order (top-most first)
+    if (isCheckoutOpen()) return closeCheckout(true);
+    if (isPolicyOpen()) return hidePolicy(true);
+    if (isCartOpen()) return closeCartPanel(true);
+    if (isSearchOpen()) return closeSearch(true);
+    if (isDrawerOpen()) return closeDrawer(true);
+    return false;
+  }
 
-    const nameEl = $("co-name");
-    const emailEl = $("co-email");
-    const phoneEl = $("co-phone");
-    const cityEl = $("co-city");
+  // ---------- Mobile Drawer ----------
+  const drawer = {
+    overlay: $("drawer-overlay"),
+    panel: $("mobile-drawer"),
+    openBtn: $("mobile-menu-btn"),
+    closeDesktopBtn: $("drawer-close-desktop")
+  };
 
-    function open() {
-      const { itemCount, total } = getCartTotals();
-      if (itemsCount) itemsCount.textContent = String(itemCount);
-      if (totalEl) totalEl.textContent = total.toFixed(2);
+  function isDrawerOpen() {
+    return drawer.panel?.classList.contains("active");
+  }
 
-      const profile = loadCheckoutProfile();
-      if (profile) {
-        if (nameEl) nameEl.value = profile.name || "";
-        if (emailEl) emailEl.value = profile.email || "";
-        if (phoneEl) phoneEl.value = profile.phone || "";
-        if (cityEl) cityEl.value = profile.city || "";
-      }
+  function openDrawer() {
+    if (isDrawerOpen()) return;
+    drawer.panel?.classList.add("active");
+    drawer.panel?.setAttribute("aria-hidden", "false");
+    drawer.overlay?.classList.add("active");
+    drawer.overlay?.setAttribute("aria-hidden", "false");
+    document.body.classList.add("lock-scroll");
+    pushUiState(UI.drawer);
+  }
 
-      if (overlay) overlay.style.display = "block";
-      document.body.classList.add("lock-scroll");
-      setTimeout(() => emailEl?.focus(), 50);
-    }
+  function closeDrawer(fromPop) {
+    if (!isDrawerOpen()) return;
+    drawer.panel?.classList.remove("active");
+    drawer.panel?.setAttribute("aria-hidden", "true");
+    drawer.overlay?.classList.remove("active");
+    drawer.overlay?.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("lock-scroll");
+    if (!fromPop) history.back();
+  }
 
-    function close() {
-      if (overlay) overlay.style.display = "none";
-      document.body.classList.remove("lock-scroll");
-    }
+  // ---------- Mobile Search ----------
+  const searchUi = {
+    openBtn: $("mobile-search-btn"),
+    overlay: $("mobile-search-overlay"),
+    closeDesktopBtn: $("search-close-desktop"),
+    input: $("mobile-search-input"),
+    results: $("mobile-search-results")
+  };
 
-    close1?.addEventListener("click", close);
-    close2?.addEventListener("click", close);
-    overlay?.addEventListener("click", (e) => {
-      if (e.target === overlay) close();
-    });
+  function isSearchOpen() {
+    return searchUi.overlay?.classList.contains("active");
+  }
 
-    submit?.addEventListener("click", () => {
-      const profile = {
-        name: nameEl?.value?.trim() || "",
-        email: emailEl?.value?.trim() || "",
-        phone: phoneEl?.value?.trim() || "",
-        city: cityEl?.value?.trim() || ""
-      };
+  function openSearch() {
+    if (isSearchOpen()) return;
+    searchUi.overlay?.classList.add("active");
+    searchUi.overlay?.setAttribute("aria-hidden", "false");
+    document.body.classList.add("lock-scroll");
+    pushUiState(UI.search);
+    setTimeout(() => searchUi.input?.focus(), 80);
+  }
 
-      if (!profile.email) return showCartToast("Please enter an email.");
-      saveCheckoutProfile(profile);
-      showCartToast("Saved. We’ll notify you when payments go live.");
-      close();
-    });
+  function closeSearch(fromPop) {
+    if (!isSearchOpen()) return;
+    searchUi.overlay?.classList.remove("active");
+    searchUi.overlay?.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("lock-scroll");
+    if (searchUi.input) searchUi.input.value = "";
+    if (searchUi.results) searchUi.results.innerHTML = "";
+    if (!fromPop) history.back();
+  }
 
-    return { open, close };
+  // ---------- Policies modal ----------
+  let policyApi = null;
+  function isPolicyOpen() {
+    const m = $("policy-modal");
+    return m && m.style.display === "block";
+  }
+
+  function showPolicyModal(type) {
+    policyApi?.showPolicy(type);
+  }
+
+  function hidePolicy(fromPop) {
+    policyApi?.hidePolicyInternal();
+    if (!fromPop) history.back();
+  }
+
+  // ---------- Checkout modal ----------
+  let checkoutModalApi = null;
+  function isCheckoutOpen() {
+    const m = $("checkout-modal");
+    return m && m.style.display === "block";
+  }
+
+  function openCheckout() {
+    checkoutModalApi?.open();
+    pushUiState(UI.checkout);
+  }
+
+  function closeCheckout(fromPop) {
+    checkoutModalApi?.close();
+    if (!fromPop) history.back();
+  }
+
+  // ---------- Cart ----------
+  const cartUi = {
+    floating: $("floating-cart"),
+    sidebar: $("cart-sidebar"),
+    overlay: $("cart-overlay"),
+    closeDesktopBtn: $("close-cart"),
+    itemsEl: $("cart-items"),
+    totalEl: $("cart-total"),
+    countEl: $("cart-count"),
+    checkoutBtn: $("checkout-btn")
+  };
+
+  function isCartOpen() {
+    return cartUi.sidebar?.classList.contains("active");
+  }
+
+  function openCart() {
+    if (isCartOpen()) return;
+    cartUi.sidebar?.classList.add("active");
+    cartUi.overlay?.classList.add("active");
+    cartUi.overlay?.setAttribute("aria-hidden", "false");
+    document.body.classList.add("lock-scroll");
+    pushUiState(UI.cart);
+  }
+
+  function closeCartPanel(fromPop) {
+    if (!isCartOpen()) return;
+    cartUi.sidebar?.classList.remove("active");
+    cartUi.overlay?.classList.remove("active");
+    cartUi.overlay?.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("lock-scroll");
+    if (!fromPop) history.back();
   }
 
   // ---------- Render ----------
-  function formatPriceZAR(price) {
-    const n = Number(price || 0);
-    return `R${n.toFixed(2)}`;
-  }
-
-  function renderLookbook(listEl, lookbookItems) {
+  function renderLookbook(listEl, lookbookItems, gotoLookbook) {
     if (!listEl) return;
     listEl.innerHTML = "";
     lookbookItems.forEach((item) => {
@@ -495,7 +428,7 @@
     });
   }
 
-  function renderShop(shopEl, products) {
+  function renderShop(shopEl, products, gotoProduct, addToCartFactory) {
     if (!shopEl) return;
     shopEl.innerHTML = "";
 
@@ -506,7 +439,6 @@
 
       const colorsCountText = `${(p.colors || []).length} Colors`;
 
-      // Build options
       const sizesHtml = (p.sizes || ["S", "M", "L", "XL"])
         .map((s) => `<button type="button" class="size-btn" data-size="${s}">${s}</button>`)
         .join("");
@@ -556,6 +488,15 @@
       `;
 
       shopEl.appendChild(card);
+
+      addToCartFactory(card, p);
+
+      // tap anywhere else -> product route
+      card.addEventListener("click", (e) => {
+        const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options");
+        if (interactive) return;
+        gotoProduct(p.id);
+      });
     });
   }
 
@@ -563,67 +504,14 @@
   document.addEventListener("DOMContentLoaded", async () => {
     $("shop-now-btn")?.addEventListener("click", () => scrollToSectionId("shop"));
 
+    // shrink nav
     const navbar = document.querySelector(".navbar");
-    const navLinks = document.querySelectorAll('[data-nav-link="main"]');
-
-    const searchBtn = $("mobile-search-btn");
-    const menuBtn = $("mobile-menu-btn");
-    const searchPanel = $("mobile-search-panel");
-    const menuPanel = $("mobile-menu-panel");
-    const searchInput = $("mobile-search-input");
-
-    const closeMobilePanels = () => {
-      if (searchPanel) {
-        searchPanel.classList.remove("open");
-        searchPanel.setAttribute("aria-hidden", "true");
-      }
-      if (menuPanel) {
-        menuPanel.classList.remove("open");
-        menuPanel.setAttribute("aria-hidden", "true");
-      }
-      searchBtn?.setAttribute("aria-expanded", "false");
-      menuBtn?.setAttribute("aria-expanded", "false");
-    };
-
-    const openSearch = () => {
-      if (menuPanel?.classList.contains("open")) {
-        menuPanel.classList.remove("open");
-        menuPanel.setAttribute("aria-hidden", "true");
-        menuBtn?.setAttribute("aria-expanded", "false");
-      }
-      if (!searchPanel) return;
-      const willOpen = !searchPanel.classList.contains("open");
-      searchPanel.classList.toggle("open");
-      searchPanel.setAttribute("aria-hidden", willOpen ? "false" : "true");
-      searchBtn?.setAttribute("aria-expanded", willOpen ? "true" : "false");
-      if (willOpen) setTimeout(() => searchInput?.focus(), 60);
-    };
-
-    const openMenu = () => {
-      if (searchPanel?.classList.contains("open")) {
-        searchPanel.classList.remove("open");
-        searchPanel.setAttribute("aria-hidden", "true");
-        searchBtn?.setAttribute("aria-expanded", "false");
-      }
-      if (!menuPanel) return;
-      const willOpen = !menuPanel.classList.contains("open");
-      menuPanel.classList.toggle("open");
-      menuPanel.setAttribute("aria-hidden", willOpen ? "false" : "true");
-      menuBtn?.setAttribute("aria-expanded", willOpen ? "true" : "false");
-    };
-
-    searchBtn?.addEventListener("click", openSearch);
-    menuBtn?.addEventListener("click", openMenu);
-    navLinks.forEach((a) => a.addEventListener("click", () => closeMobilePanels()));
-
     function handleShrink() {
       if (!navbar) return;
       navbar.classList.toggle("shrink", window.scrollY > 20);
     }
     handleShrink();
     window.addEventListener("scroll", handleShrink, { passive: true });
-
-    const { hidePolicy } = initPolicies();
 
     // Load products/lookbook
     let catalog = null;
@@ -635,41 +523,441 @@
       catalog = { lookbook: [], products: [] };
     }
 
-    renderLookbook($("lookbook-list"), catalog.lookbook || []);
-    renderShop($("shop-products"), catalog.products || []);
+    // ---------- Routes (SPA) ----------
+    const site = $("site-content");
+    const rlb = $("route-lookbook");
+    const rpp = $("route-product");
 
-    // ---------- Cart UI + logic ----------
-    const floatingCart = $("floating-cart");
-    const cartSidebar = $("cart-sidebar");
-    const cartOverlay = $("cart-overlay");
-    const closeCart = $("close-cart");
-    const cartItemsEl = $("cart-items");
-    const cartTotalEl = $("cart-total");
-    const cartCountEl = $("cart-count");
-    const checkoutBtn = $("checkout-btn");
+    const rlbImg = $("rlb-img");
+    const rlbCounter = $("rlb-counter");
 
+    const rppEls = {
+      img: $("rpp-img"),
+      thumbs: $("rpp-thumbs"),
+      subtitle: $("rpp-subtitle"),
+      label: $("rpp-label"),
+      name: $("rpp-name"),
+      category: $("rpp-category"),
+      colorsCount: $("rpp-colors"),
+      price: $("rpp-price"),
+      sizes: $("rpp-sizes"),
+      colorsRow: $("rpp-colors-row"),
+      add: $("rpp-add")
+    };
+
+    const rppStepperRoot = document.querySelector('.qty-stepper-ui[data-qty-root="rpp"]');
+    const rppStepper = rppStepperRoot ? setupQtyStepper(rppStepperRoot) : null;
+
+    let rppSources = [];
+    let rppIndex = 0;
+    let rppProduct = null;
+    let __rppSwapToken = 0;
+
+    function showRoute(page) {
+      rlb?.classList.remove("active");
+      rpp?.classList.remove("active");
+      rlb?.setAttribute("aria-hidden", "true");
+      rpp?.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("route-active");
+
+      if (site) site.style.display = "block";
+
+      if (page === "lookbook") {
+        if (site) site.style.display = "none";
+        rlb?.classList.add("active");
+        rlb?.setAttribute("aria-hidden", "false");
+        document.body.classList.add("route-active");
+      }
+      if (page === "product") {
+        if (site) site.style.display = "none";
+        rpp?.classList.add("active");
+        rpp?.setAttribute("aria-hidden", "false");
+        document.body.classList.add("route-active");
+      }
+    }
+
+    function currentRouteFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const page = params.get("page");
+      if (page === "lookbook") return { page: "lookbook", i: params.get("i") || "1" };
+      if (page === "product") return { page: "product", id: params.get("id") || "" };
+      return { page: null };
+    }
+
+    function buildUrl(paramsObj) {
+      const url = new URL(window.location.href);
+      url.hash = "";
+      url.search = "";
+      Object.keys(paramsObj || {}).forEach((k) => {
+        const v = paramsObj[k];
+        if (v == null || v === "") return;
+        url.searchParams.set(k, String(v));
+      });
+      return url.pathname + (url.searchParams.toString() ? "?" + url.searchParams.toString() : "");
+    }
+
+    function gotoLookbook(i) {
+      closeDrawer(true);
+      closeSearch(true);
+      const url = buildUrl({ page: "lookbook", i });
+      pushRouteState(url, { page: "lookbook", i: String(i) });
+      renderFromUrl();
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+
+    function gotoProduct(id) {
+      closeDrawer(true);
+      closeSearch(true);
+      const url = buildUrl({ page: "product", id });
+      pushRouteState(url, { page: "product", id: String(id) });
+      renderFromUrl();
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+
+    function renderLookbookRoute(i) {
+      const idx = Math.max(1, parseInt(i || "1", 10));
+      const items = catalog.lookbook || [];
+      const total = items.length || 1;
+      const safeIdx = Math.min(idx, total);
+      const item = items[safeIdx - 1] || items[0];
+
+      if (rlbImg) rlbImg.src = item?.image || "";
+      if (rlbCounter) rlbCounter.textContent = `${safeIdx} / ${total}`;
+    }
+
+    function renderRppThumbs() {
+      if (!rppEls.thumbs) return;
+      rppEls.thumbs.innerHTML = "";
+      rppSources.slice(0, 4).forEach((src, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "thumb" + (i === rppIndex ? " active" : "");
+        btn.setAttribute("aria-label", `View image ${i + 1}`);
+        btn.innerHTML = `<img src="${src}" alt="" loading="lazy" />`;
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          setRppImage(i);
+        });
+        rppEls.thumbs.appendChild(btn);
+      });
+    }
+
+    function setRppImage(i) {
+      if (!rppSources.length || !rppEls.img) return;
+      const token = ++__rppSwapToken;
+
+      rppIndex = (i + rppSources.length) % rppSources.length;
+      const nextSrc = rppSources[rppIndex];
+
+      rppEls.img.style.opacity = "0.25";
+      requestAnimationFrame(() => {
+        if (token !== __rppSwapToken) return;
+        rppEls.img.src = nextSrc;
+        if (rppEls.subtitle) rppEls.subtitle.textContent = `${rppIndex + 1} / ${rppSources.length}`;
+        renderRppThumbs();
+        setTimeout(() => {
+          if (token !== __rppSwapToken) return;
+          rppEls.img.style.opacity = "1";
+        }, 60);
+      });
+    }
+
+    function updateRppAddState() {
+      const selectedSize = rppEls.sizes?.querySelector(".size-btn.selected");
+      const selectedColor = rppEls.colorsRow?.querySelector(".color.selected");
+      if (rppEls.add) rppEls.add.disabled = !(selectedSize && selectedColor);
+    }
+
+    function renderSizesToRpp(sizes) {
+      if (!rppEls.sizes) return;
+      rppEls.sizes.innerHTML = "";
+      (sizes || ["S", "M", "L", "XL"]).forEach((s) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "size-btn";
+        btn.textContent = s;
+        btn.addEventListener("click", () => {
+          Array.from(rppEls.sizes.querySelectorAll(".size-btn")).forEach((x) => x.classList.remove("selected"));
+          btn.classList.add("selected");
+          updateRppAddState();
+        });
+        rppEls.sizes.appendChild(btn);
+      });
+    }
+
+    function renderColorsToRpp(colors) {
+      if (!rppEls.colorsRow) return;
+      rppEls.colorsRow.innerHTML = "";
+
+      (colors || []).forEach((c) => {
+        const div = document.createElement("div");
+        div.className = c.className || "color black";
+        div.setAttribute("role", "button");
+        div.setAttribute("tabindex", "0");
+        div.setAttribute("aria-label", c.name || "Color");
+        div.setAttribute("data-color", c.name || "Color");
+
+        const select = () => {
+          Array.from(rppEls.colorsRow.querySelectorAll(".color")).forEach((x) => x.classList.remove("selected"));
+          div.classList.add("selected");
+          updateRppAddState();
+        };
+
+        div.addEventListener("click", select);
+        clickOnEnterSpace(div, select);
+
+        rppEls.colorsRow.appendChild(div);
+      });
+    }
+
+    async function renderProductRoute(id) {
+      const prod = (catalog.products || []).find((p) => String(p.id) === String(id)) || (catalog.products || [])[0];
+      if (!prod) return;
+
+      rppProduct = prod;
+      rppSources = (prod.images || []).filter(Boolean).slice(0, 4);
+      rppIndex = 0;
+
+      if (rppEls.label) rppEls.label.textContent = prod.label || "";
+      if (rppEls.name) rppEls.name.textContent = prod.name || "Item";
+      if (rppEls.category) rppEls.category.textContent = prod.category || "";
+      if (rppEls.colorsCount) rppEls.colorsCount.textContent = `${(prod.colors || []).length} Colors`;
+      if (rppEls.price) rppEls.price.textContent = formatPriceZAR(prod.price);
+
+      renderSizesToRpp(prod.sizes);
+      renderColorsToRpp(prod.colors);
+      rppStepper?.setQty?.(1);
+      if (rppEls.add) rppEls.add.disabled = true;
+
+      setRppImage(0);
+    }
+
+    async function renderFromUrl() {
+      const r = currentRouteFromUrl();
+      if (r.page === "lookbook") {
+        showRoute("lookbook");
+        renderLookbookRoute(r.i);
+        return;
+      }
+      if (r.page === "product") {
+        showRoute("product");
+        await renderProductRoute(r.id);
+        return;
+      }
+      showRoute(null);
+    }
+
+    // back buttons in route header: use history.back to support gesture
+    document.querySelectorAll("[data-route-back]").forEach((a) => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        history.back();
+      });
+    });
+
+    // ---------- Policies ----------
+    function initPolicies() {
+      const policyModal = $("policy-modal");
+      const modalTitle = $("modal-title");
+      const modalContent = $("modal-content");
+      const closeModal = $("close-modal");
+
+      const policies = {
+        privacy: {
+          title: "Privacy Policy",
+          content: `
+            <p style="margin-bottom:14px;"><strong>FAIDE Privacy Policy</strong></p>
+            <p style="margin-bottom:14px;">We respect your privacy. This policy explains what information we collect, why we collect it, and how we use it.</p>
+            <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">What we collect</h3>
+            <ul style="margin-left:18px; margin-bottom:14px;">
+              <li>Contact details you provide (name, phone number, email).</li>
+              <li>Order details (items, size, color, quantity, delivery address).</li>
+              <li>Basic site analytics (to improve performance and experience).</li>
+            </ul>
+            <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">How we use it</h3>
+            <ul style="margin-left:18px; margin-bottom:14px;">
+              <li>To process and fulfill your order.</li>
+              <li>To communicate about your order (shipping updates, questions).</li>
+              <li>To improve the website and product experience.</li>
+            </ul>
+            <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Your choices</h3>
+            <p style="margin-bottom:14px;">You can request to update or delete your information by contacting us at <a style="color:var(--primary); text-decoration:none;" href="mailto:faideclothingsa@gmail.com">faideclothingsa@gmail.com</a>.</p>
+          `
+        },
+        terms: {
+          title: "Terms of Service",
+          content: `
+            <p style="margin-bottom:14px;"><strong>FAIDE Terms of Service</strong></p>
+            <p style="margin-bottom:14px;">By using this website, you agree to the terms below.</p>
+            <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Orders</h3>
+            <ul style="margin-left:18px; margin-bottom:14px;">
+              <li>Card checkout will be enabled soon.</li>
+              <li>We may contact you for size/color confirmation when checkout is live.</li>
+            </ul>
+            <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Pricing</h3>
+            <p style="margin-bottom:14px;">Prices are listed in ZAR (R). We reserve the right to correct errors and update pricing.</p>
+            <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Availability</h3>
+            <p style="margin-bottom:14px;">Stock availability may change.</p>
+          `
+        },
+        returns: {
+          title: "Returns & Exchanges",
+          content: `
+            <p style="margin-bottom:14px;"><strong>Returns & Exchanges</strong></p>
+            <p style="margin-bottom:14px;">If something isn’t right, we’ll work with you.</p>
+            <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Eligibility</h3>
+            <ul style="margin-left:18px; margin-bottom:14px;">
+              <li>Items must be unworn, unwashed, and in original condition.</li>
+              <li>Request must be made within 7 days of delivery.</li>
+            </ul>
+            <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Exchanges</h3>
+            <p style="margin-bottom:14px;">Size exchanges are accepted if stock is available.</p>
+          `
+        },
+        shipping: {
+          title: "Shipping Policy",
+          content: `
+            <p style="margin-bottom:14px;"><strong>Shipping Policy</strong></p>
+            <p style="margin-bottom:14px;">We ship orders within South Africa. Delivery times depend on your location.</p>
+            <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Processing time</h3>
+            <p style="margin-bottom:14px;">Orders are typically processed within 1–3 business days after confirmation.</p>
+            <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Delivery</h3>
+            <ul style="margin-left:18px; margin-bottom:14px;">
+              <li>Estimated delivery: 2–7 business days (varies by region).</li>
+              <li>Tracking may be provided depending on courier service.</li>
+            </ul>
+          `
+        }
+      };
+
+      let lastFocusedEl = null;
+
+      function showPolicy(type) {
+        const policy = policies[type];
+        if (!policy) return;
+        lastFocusedEl = document.activeElement;
+        if (modalTitle) modalTitle.textContent = policy.title;
+        if (modalContent) modalContent.innerHTML = policy.content;
+        if (policyModal) policyModal.style.display = "block";
+        document.body.classList.add("lock-scroll");
+        pushUiState(UI.policy);
+        setTimeout(() => closeModal?.focus?.(), 0);
+      }
+
+      function hidePolicyInternal() {
+        if (policyModal) policyModal.style.display = "none";
+        document.body.classList.remove("lock-scroll");
+        if (lastFocusedEl && typeof lastFocusedEl.focus === "function") lastFocusedEl.focus();
+      }
+
+      closeModal?.addEventListener("click", () => hidePolicy(false));
+      policyModal?.addEventListener("click", (e) => {
+        if (e.target === policyModal) hidePolicy(false);
+      });
+
+      return { showPolicy, hidePolicyInternal };
+    }
+
+    policyApi = initPolicies();
+
+    // policy links
+    function onClick(id, fn) {
+      const el = $(id);
+      if (!el) return;
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        fn();
+      });
+    }
+
+    onClick("privacy-link", () => showPolicyModal("privacy"));
+    onClick("terms-link", () => showPolicyModal("terms"));
+    onClick("returns-link", () => showPolicyModal("returns"));
+    onClick("shipping-link", () => showPolicyModal("shipping"));
+
+    // ---------- Checkout modal ----------
+    const CHECKOUT_PROFILE_KEY = "faide_checkout_profile_v1";
+    function loadCheckoutProfile() {
+      try {
+        const raw = localStorage.getItem(CHECKOUT_PROFILE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
+      }
+    }
+    function saveCheckoutProfile(profile) {
+      try {
+        localStorage.setItem(CHECKOUT_PROFILE_KEY, JSON.stringify(profile || {}));
+      } catch {}
+    }
+
+    function initCheckoutModal(getCartTotals) {
+      const overlay = $("checkout-modal");
+      const close1 = $("checkout-close");
+      const close2 = $("checkout-close-2");
+      const itemsCount = $("checkout-items-count");
+      const totalEl = $("checkout-total");
+      const submit = $("co-submit");
+
+      const nameEl = $("co-name");
+      const emailEl = $("co-email");
+      const phoneEl = $("co-phone");
+      const cityEl = $("co-city");
+
+      function open() {
+        const { itemCount, total } = getCartTotals();
+        if (itemsCount) itemsCount.textContent = String(itemCount);
+        if (totalEl) totalEl.textContent = total.toFixed(2);
+
+        const profile = loadCheckoutProfile();
+        if (profile) {
+          if (nameEl) nameEl.value = profile.name || "";
+          if (emailEl) emailEl.value = profile.email || "";
+          if (phoneEl) phoneEl.value = profile.phone || "";
+          if (cityEl) cityEl.value = profile.city || "";
+        }
+
+        if (overlay) overlay.style.display = "block";
+        document.body.classList.add("lock-scroll");
+        setTimeout(() => emailEl?.focus?.(), 80);
+      }
+
+      function close() {
+        if (overlay) overlay.style.display = "none";
+        document.body.classList.remove("lock-scroll");
+      }
+
+      close1?.addEventListener("click", () => closeCheckout(false));
+      close2?.addEventListener("click", () => closeCheckout(false));
+      overlay?.addEventListener("click", (e) => {
+        if (e.target === overlay) closeCheckout(false);
+      });
+
+      submit?.addEventListener("click", () => {
+        const profile = {
+          name: nameEl?.value?.trim() || "",
+          email: emailEl?.value?.trim() || "",
+          phone: phoneEl?.value?.trim() || "",
+          city: cityEl?.value?.trim() || ""
+        };
+
+        if (!profile.email) return showCartToast("Please enter an email.");
+        saveCheckoutProfile(profile);
+        showCartToast("Saved. We’ll notify you when payments go live.");
+        closeCheckout(false);
+      });
+
+      return { open, close };
+    }
+
+    // ---------- Cart logic ----------
     let cart = loadCartFromStorage();
-
-    function openCart() {
-      cartSidebar?.classList.add("active");
-      cartOverlay?.classList.add("active");
-      document.body.classList.add("lock-scroll");
-    }
-    function closeCartPanel() {
-      cartSidebar?.classList.remove("active");
-      cartOverlay?.classList.remove("active");
-      document.body.classList.remove("lock-scroll");
-    }
-
-    floatingCart?.addEventListener("click", openCart);
-    closeCart?.addEventListener("click", closeCartPanel);
-    cartOverlay?.addEventListener("click", closeCartPanel);
 
     function setCheckoutState() {
       const empty = cart.length === 0;
-      if (!checkoutBtn) return;
-      checkoutBtn.disabled = empty;
-      checkoutBtn.title = empty ? "Add items to checkout" : "Proceed to Checkout";
+      if (!cartUi.checkoutBtn) return;
+      cartUi.checkoutBtn.disabled = empty;
+      cartUi.checkoutBtn.title = empty ? "Add items to checkout" : "Proceed to Checkout";
     }
 
     function getCartTotals() {
@@ -682,27 +970,30 @@
       return { total, itemCount };
     }
 
-    const checkoutModal = initCheckoutModal(getCartTotals);
+    checkoutModalApi = initCheckoutModal(getCartTotals);
 
-    // ✅ Removed WhatsApp checkout — now opens modal
-    checkoutBtn?.addEventListener("click", (e) => {
+    cartUi.floating?.addEventListener("click", openCart);
+    cartUi.closeDesktopBtn?.addEventListener("click", () => closeCartPanel(false));
+    cartUi.overlay?.addEventListener("click", () => closeCartPanel(false));
+
+    cartUi.checkoutBtn?.addEventListener("click", (e) => {
       e.preventDefault();
-      if (checkoutBtn.disabled) return showCartToast("Add items to checkout.");
-      checkoutModal.open();
+      if (cartUi.checkoutBtn.disabled) return showCartToast("Add items to checkout.");
+      openCheckout();
     });
 
     function updateCartUI() {
-      if (!cartItemsEl || !cartTotalEl || !cartCountEl) return;
+      if (!cartUi.itemsEl || !cartUi.totalEl || !cartUi.countEl) return;
       saveCartToStorage(cart);
 
-      cartItemsEl.innerHTML = "";
+      cartUi.itemsEl.innerHTML = "";
       const totals = getCartTotals();
 
       if (cart.length === 0) {
-        cartItemsEl.innerHTML =
+        cartUi.itemsEl.innerHTML =
           '<li style="text-align:center;color:#666;border:none;background:transparent;padding:14px 0;">Your cart is empty</li>';
-        cartTotalEl.textContent = "0.00";
-        cartCountEl.textContent = "0";
+        cartUi.totalEl.textContent = "0.00";
+        cartUi.countEl.textContent = "0";
         setCheckoutState();
         return;
       }
@@ -744,357 +1035,102 @@
           updateCartUI();
         });
 
-        cartItemsEl.appendChild(li);
+        cartUi.itemsEl.appendChild(li);
       });
 
-      cartTotalEl.textContent = totals.total.toFixed(2);
-      cartCountEl.textContent = String(totals.itemCount);
+      cartUi.totalEl.textContent = totals.total.toFixed(2);
+      cartUi.countEl.textContent = String(totals.itemCount);
       setCheckoutState();
     }
 
-    // Add-to-cart bindings for rendered cards
-    function bindProductCards() {
-      const cards = Array.from(document.querySelectorAll(".product"));
+    // ---------- Add-to-cart bindings for shop cards ----------
+    function addToCartFactory(productEl, productData) {
+      const stepperRoot = productEl.querySelector('.qty-stepper-ui[data-qty-root="card"]');
+      const stepper = stepperRoot ? setupQtyStepper(stepperRoot) : null;
 
-      cards.forEach((productEl) => {
-        const productId = productEl.getAttribute("data-product-id");
-        const productData = (catalog.products || []).find((p) => String(p.id) === String(productId));
-        if (!productData) return;
+      const sizeButtons = productEl.querySelectorAll(".size-btn");
+      const colorOptions = productEl.querySelectorAll(".color");
+      const addToCartBtn = productEl.querySelector(".add-to-cart");
 
-        const stepperRoot = productEl.querySelector('.qty-stepper-ui[data-qty-root="card"]');
-        const stepper = stepperRoot ? setupQtyStepper(stepperRoot) : null;
+      const updateAddBtn = () => {
+        if (!addToCartBtn) return;
+        const selectedSize = productEl.querySelector(".size-btn.selected");
+        const selectedColor = productEl.querySelector(".color.selected");
+        addToCartBtn.disabled = !(selectedSize && selectedColor);
+      };
 
-        const sizeButtons = productEl.querySelectorAll(".size-btn");
-        const colorOptions = productEl.querySelectorAll(".color");
-        const addToCartBtn = productEl.querySelector(".add-to-cart");
-
-        const updateAddBtn = () => {
-          if (!addToCartBtn) return;
-          const selectedSize = productEl.querySelector(".size-btn.selected");
-          const selectedColor = productEl.querySelector(".color.selected");
-          addToCartBtn.disabled = !(selectedSize && selectedColor);
-        };
-
-        sizeButtons.forEach((btn) => {
-          btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            sizeButtons.forEach((b) => b.classList.remove("selected"));
-            btn.classList.add("selected");
-            productEl.classList.add("expanded");
-            updateAddBtn();
-          });
-        });
-
-        colorOptions.forEach((color) => {
-          const select = (e) => {
-            e?.stopPropagation?.();
-            colorOptions.forEach((c) => c.classList.remove("selected"));
-            color.classList.add("selected");
-            productEl.classList.add("expanded");
-            updateAddBtn();
-          };
-          color.addEventListener("click", select);
-          clickOnEnterSpace(color, select);
-        });
-
-        updateAddBtn();
-
-        addToCartBtn?.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          const selectedSize = productEl.querySelector(".size-btn.selected");
-          const selectedColor = productEl.querySelector(".color.selected");
-          if (!selectedSize) return showCartToast("Select a size first.");
-          if (!selectedColor) return showCartToast("Select a color first.");
-
-          let quantity = stepper?.getQty?.() ?? 1;
-          quantity = Math.max(1, Number.isFinite(quantity) ? quantity : 1);
-
-          const size = selectedSize.textContent.trim();
-          const colorName = selectedColor.getAttribute("data-color") || "Color";
-          const image = (productData.images && productData.images[0]) || "";
-
-          const itemKey = `${productData.id}-${size}-${colorName}`;
-          const existing = cart.find((item) => item.key === itemKey);
-
-          if (existing) existing.quantity += quantity;
-          else
-            cart.push({
-              key: itemKey,
-              id: productData.id,
-              name: productData.name,
-              price: Number(productData.price || 0),
-              size,
-              color: colorName,
-              quantity,
-              image
-            });
-
-          updateCartUI();
-          showCartToast(`Added ${quantity}x ${productData.name} (${size}) in ${colorName}`);
-          stepper?.setQty?.(1);
-        });
-
-        // Click card -> go product route
-        productEl.addEventListener("click", (e) => {
-          const interactive = e.target.closest("button, input, .color, a, .sizes, .colors, .options");
-          if (interactive) return;
-          gotoProduct(productData.id);
-        });
-      });
-    }
-
-    bindProductCards();
-    updateCartUI();
-
-    // ---------- Routes ----------
-    const params = new URLSearchParams(window.location.search);
-    const page = params.get("page");
-
-    // nav click behavior
-    navLinks.forEach((a) => {
-      a.addEventListener("click", (e) => {
-        const href = a.getAttribute("href") || "";
-        if (!href.includes("#")) return;
-        if (page === "lookbook" || page === "product") {
-          e.preventDefault();
-          window.location.href = "index.html" + href;
-        } else {
-          e.preventDefault();
-          const id = href.replace("#", "");
-          scrollToSectionId(id);
-          history.replaceState(null, "", `${location.pathname}#${id}`);
-        }
-      });
-    });
-
-    const rlbImg = $("rlb-img");
-    const rlbCounter = $("rlb-counter");
-
-    const rpp = {
-      img: $("rpp-img"),
-      thumbs: $("rpp-thumbs"),
-      subtitle: $("rpp-subtitle"),
-      label: $("rpp-label"),
-      name: $("rpp-name"),
-      category: $("rpp-category"),
-      colorsCount: $("rpp-colors"),
-      price: $("rpp-price"),
-      sizes: $("rpp-sizes"),
-      colorsRow: $("rpp-colors-row"),
-      add: $("rpp-add")
-    };
-
-    const rppStepperRoot = document.querySelector('.qty-stepper-ui[data-qty-root="rpp"]');
-    const rppStepper = rppStepperRoot ? setupQtyStepper(rppStepperRoot) : null;
-
-    function renderLookbookRoute(i) {
-      const idx = Math.max(1, parseInt(i || "1", 10));
-      const items = catalog.lookbook || [];
-      const total = items.length || 1;
-      const safeIdx = Math.min(idx, total);
-      const item = items[safeIdx - 1] || items[0];
-
-      if (rlbImg) rlbImg.src = item?.image || "";
-      if (rlbCounter) rlbCounter.textContent = `${safeIdx} / ${total}`;
-    }
-
-    function updateRppAddState() {
-      const selectedSize = rpp.sizes?.querySelector(".size-btn.selected");
-      const selectedColor = rpp.colorsRow?.querySelector(".color.selected");
-      if (rpp.add) rpp.add.disabled = !(selectedSize && selectedColor);
-    }
-
-    let rppSources = [];
-    let rppIndex = 0;
-    let rppProduct = null;
-
-    function renderRppThumbs() {
-      if (!rpp.thumbs) return;
-      rpp.thumbs.innerHTML = "";
-      rppSources.slice(0, 4).forEach((src, i) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "thumb" + (i === rppIndex ? " active" : "");
-        btn.setAttribute("aria-label", `View image ${i + 1}`);
-        btn.innerHTML = `<img src="${src}" alt="" loading="lazy" />`;
+      sizeButtons.forEach((btn) => {
         btn.addEventListener("click", (e) => {
-          e.preventDefault();
-          setRppImage(i);
-        });
-        rpp.thumbs.appendChild(btn);
-      });
-    }
-
-    let __rppSwapToken = 0;
-    function setRppImage(i) {
-      if (!rppSources.length || !rpp.img) return;
-      const token = ++__rppSwapToken;
-
-      rppIndex = (i + rppSources.length) % rppSources.length;
-      const nextSrc = rppSources[rppIndex];
-
-      rpp.img.style.opacity = "0.25";
-      requestAnimationFrame(() => {
-        if (token !== __rppSwapToken) return;
-        rpp.img.src = nextSrc;
-        if (rpp.subtitle) rpp.subtitle.textContent = `${rppIndex + 1} / ${rppSources.length}`;
-        renderRppThumbs();
-        setTimeout(() => {
-          if (token !== __rppSwapToken) return;
-          rpp.img.style.opacity = "1";
-        }, 60);
-      });
-    }
-
-    function renderSizesToRpp(sizes) {
-      if (!rpp.sizes) return;
-      rpp.sizes.innerHTML = "";
-      (sizes || ["S", "M", "L", "XL"]).forEach((s) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "size-btn";
-        btn.textContent = s;
-        btn.addEventListener("click", () => {
-          Array.from(rpp.sizes.querySelectorAll(".size-btn")).forEach((x) => x.classList.remove("selected"));
+          e.stopPropagation();
+          sizeButtons.forEach((b) => b.classList.remove("selected"));
           btn.classList.add("selected");
-          updateRppAddState();
+          productEl.classList.add("expanded");
+          updateAddBtn();
         });
-        rpp.sizes.appendChild(btn);
       });
-    }
 
-    function renderColorsToRpp(colors) {
-      if (!rpp.colorsRow) return;
-      rpp.colorsRow.innerHTML = "";
-
-      (colors || []).forEach((c) => {
-        const div = document.createElement("div");
-        div.className = c.className || "color black";
-        div.setAttribute("role", "button");
-        div.setAttribute("tabindex", "0");
-        div.setAttribute("aria-label", c.name || "Color");
-        div.setAttribute("data-color", c.name || "Color");
-
-        const select = () => {
-          Array.from(rpp.colorsRow.querySelectorAll(".color")).forEach((x) => x.classList.remove("selected"));
-          div.classList.add("selected");
-          updateRppAddState();
+      colorOptions.forEach((color) => {
+        const select = (e) => {
+          e?.stopPropagation?.();
+          colorOptions.forEach((c) => c.classList.remove("selected"));
+          color.classList.add("selected");
+          productEl.classList.add("expanded");
+          updateAddBtn();
         };
-
-        div.addEventListener("click", select);
-        clickOnEnterSpace(div, select);
-
-        rpp.colorsRow.appendChild(div);
+        color.addEventListener("click", select);
+        clickOnEnterSpace(color, select);
       });
-    }
 
-    async function renderProductRoute(id) {
-      const prod = (catalog.products || []).find((p) => String(p.id) === String(id)) || (catalog.products || [])[0];
-      if (!prod) return;
+      updateAddBtn();
 
-      rppProduct = prod;
-      rppSources = (prod.images || []).filter(Boolean).slice(0, 4);
-      rppIndex = 0;
+      addToCartBtn?.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-      if (rpp.label) rpp.label.textContent = prod.label || "";
-      if (rpp.name) rpp.name.textContent = prod.name || "Item";
-      if (rpp.category) rpp.category.textContent = prod.category || "";
-      if (rpp.colorsCount) rpp.colorsCount.textContent = `${(prod.colors || []).length} Colors`;
-      if (rpp.price) rpp.price.textContent = formatPriceZAR(prod.price);
+        const selectedSize = productEl.querySelector(".size-btn.selected");
+        const selectedColor = productEl.querySelector(".color.selected");
+        if (!selectedSize) return showCartToast("Select a size first.");
+        if (!selectedColor) return showCartToast("Select a color first.");
 
-      renderSizesToRpp(prod.sizes);
-      renderColorsToRpp(prod.colors);
-      rppStepper?.setQty?.(1);
-      if (rpp.add) rpp.add.disabled = true;
+        let quantity = stepper?.getQty?.() ?? 1;
+        quantity = Math.max(1, Number.isFinite(quantity) ? quantity : 1);
 
-      setRppImage(0);
-    }
+        const size = selectedSize.textContent.trim();
+        const colorName = selectedColor.getAttribute("data-color") || "Color";
+        const image = (productData.images && productData.images[0]) || "";
 
-    if (page === "lookbook") {
-      showRoute("lookbook");
-      renderLookbookRoute(params.get("i"));
-    } else if (page === "product") {
-      showRoute("product");
-      await renderProductRoute(params.get("id"));
-    } else {
-      showRoute(null);
+        const itemKey = `${productData.id}-${size}-${colorName}`;
+        const existing = cart.find((item) => item.key === itemKey);
 
-      const sectionIds = ["drop", "lookbook", "shop", "about"];
-      const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
-
-      function setActive(id) {
-        navLinks.forEach((a) => {
-          a.classList.remove("active");
-          a.removeAttribute("aria-current");
-        });
-        Array.from(navLinks)
-          .filter((a) => (a.getAttribute("href") || "").endsWith(`#${id}`))
-          .forEach((lnk) => {
-            lnk.classList.add("active");
-            lnk.setAttribute("aria-current", "page");
+        if (existing) existing.quantity += quantity;
+        else
+          cart.push({
+            key: itemKey,
+            id: productData.id,
+            name: productData.name,
+            price: Number(productData.price || 0),
+            size,
+            color: colorName,
+            quantity,
+            image
           });
-      }
 
-      let navLock = false;
-      let navUnlockTimer = null;
-
-      navLinks.forEach((a) => {
-        a.addEventListener("click", (e) => {
-          const href = a.getAttribute("href") || "";
-          if (!href.includes("#")) return;
-          const id = href.split("#")[1];
-          if (!id) return;
-
-          e.preventDefault();
-          navLock = true;
-          clearTimeout(navUnlockTimer);
-
-          setActive(id);
-          scrollToSectionId(id);
-
-          navUnlockTimer = setTimeout(() => (navLock = false), 650);
-          history.replaceState(null, "", `${location.pathname}#${id}`);
-        });
+        updateCartUI();
+        showCartToast(`Added ${quantity}x ${productData.name} (${size}) in ${colorName}`);
+        stepper?.setQty?.(1);
       });
-
-      let raf = null;
-      const updateActiveFromScroll = () => {
-        if (navLock) return;
-        const refY = window.scrollY + getNavOffsetPx() + 10;
-        let current = sections[0]?.id || "drop";
-        for (const sec of sections) if (sec && sec.offsetTop <= refY) current = sec.id;
-        setActive(current);
-      };
-
-      const onScroll = () => {
-        if (raf) return;
-        raf = requestAnimationFrame(() => {
-          raf = null;
-          updateActiveFromScroll();
-        });
-      };
-
-      updateActiveFromScroll();
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", updateActiveFromScroll, { passive: true });
-
-      const hashId = (location.hash || "").replace("#", "");
-      if (hashId && ["drop", "lookbook", "shop", "about", "footer"].includes(hashId)) {
-        setTimeout(() => {
-          scrollToSectionId(hashId);
-          setActive(hashId === "footer" ? "about" : hashId);
-        }, 30);
-      }
     }
 
-    // Product route add to cart
-    rpp.add?.addEventListener("click", () => {
+    // ---------- Render base pages ----------
+    renderLookbook($("lookbook-list"), catalog.lookbook || [], gotoLookbook);
+    renderShop($("shop-products"), catalog.products || [], gotoProduct, addToCartFactory);
+
+    // ---------- Product route add-to-cart ----------
+    rppEls.add?.addEventListener("click", () => {
       if (!rppProduct) return;
 
-      const selectedSize = rpp.sizes?.querySelector(".size-btn.selected");
-      const selectedColor = rpp.colorsRow?.querySelector(".color.selected");
+      const selectedSize = rppEls.sizes?.querySelector(".size-btn.selected");
+      const selectedColor = rppEls.colorsRow?.querySelector(".color.selected");
       if (!selectedSize) return showCartToast("Select a size first.");
       if (!selectedColor) return showCartToast("Select a color first.");
 
@@ -1125,25 +1161,185 @@
       showCartToast(`Added ${quantity}x ${rppProduct.name} (${size}) in ${colorName}`);
     });
 
-    // ESC handling
-    document.addEventListener("keydown", (e) => {
-      if (e.key !== "Escape") return;
+    updateCartUI();
 
-      if (searchPanel?.classList.contains("open") || menuPanel?.classList.contains("open")) {
-        closeMobilePanels();
+    // ---------- Main nav links ----------
+    const navLinks = document.querySelectorAll('[data-nav-link="main"]');
+    const drawerLinks = document.querySelectorAll('[data-nav-link="drawer"]');
+
+    function handleNavToHash(href) {
+      if (!href.includes("#")) return;
+      const id = href.split("#")[1];
+      if (!id) return;
+
+      // if in route, go back to home then scroll
+      const r = currentRouteFromUrl();
+      if (r.page) {
+        const url = buildUrl({});
+        pushRouteState(url, {});
+        renderFromUrl();
+        setTimeout(() => {
+          scrollToSectionId(id);
+          history.replaceState({}, "", `${location.pathname}#${id}`);
+        }, 40);
         return;
       }
 
-      // close policy modal if open
-      const policyModal = $("policy-modal");
-      if (policyModal && policyModal.style.display === "block") hidePolicy?.();
+      scrollToSectionId(id);
+      history.replaceState({}, "", `${location.pathname}#${id}`);
+    }
 
-      // close checkout modal if open
-      const checkoutOverlay = $("checkout-modal");
-      if (checkoutOverlay && checkoutOverlay.style.display === "block") checkoutModal.close();
+    navLinks.forEach((a) => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        handleNavToHash(a.getAttribute("href") || "");
+      });
+    });
 
-      // close cart
-      if (cartSidebar?.classList.contains("active")) closeCartPanel();
+    drawerLinks.forEach((a) => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        closeDrawer(false); // uses back-stack correctly
+        handleNavToHash(a.getAttribute("href") || "");
+      });
+    });
+
+    // active link highlight (home sections)
+    const sectionIds = ["drop", "lookbook", "shop", "about"];
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
+
+    function setActive(id) {
+      navLinks.forEach((a) => {
+        a.classList.remove("active");
+        a.removeAttribute("aria-current");
+      });
+      Array.from(navLinks)
+        .filter((a) => (a.getAttribute("href") || "").endsWith(`#${id}`))
+        .forEach((lnk) => {
+          lnk.classList.add("active");
+          lnk.setAttribute("aria-current", "page");
+        });
+    }
+
+    let raf = null;
+    const updateActiveFromScroll = () => {
+      // only on home page
+      const r = currentRouteFromUrl();
+      if (r.page) return;
+
+      const refY = window.scrollY + getNavOffsetPx() + 10;
+      let current = sections[0]?.id || "drop";
+      for (const sec of sections) if (sec && sec.offsetTop <= refY) current = sec.id;
+      setActive(current);
+    };
+
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = null;
+        updateActiveFromScroll();
+      });
+    };
+
+    updateActiveFromScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", updateActiveFromScroll, { passive: true });
+
+    // initial hash scroll
+    const hashId = (location.hash || "").replace("#", "");
+    if (hashId && ["drop", "lookbook", "shop", "about", "footer"].includes(hashId)) {
+      setTimeout(() => {
+        scrollToSectionId(hashId);
+        setActive(hashId === "footer" ? "about" : hashId);
+      }, 30);
+    }
+
+    // ---------- Mobile drawer events ----------
+    drawer.openBtn?.addEventListener("click", openDrawer);
+    drawer.overlay?.addEventListener("click", () => closeDrawer(false));
+    drawer.closeDesktopBtn?.addEventListener("click", () => closeDrawer(false));
+
+    // ---------- Mobile search events ----------
+    searchUi.openBtn?.addEventListener("click", openSearch);
+    searchUi.closeDesktopBtn?.addEventListener("click", () => closeSearch(false));
+    searchUi.overlay?.addEventListener("click", (e) => {
+      // tap outside sheet closes
+      if (e.target === searchUi.overlay) closeSearch(false);
+    });
+
+    // search logic (live results)
+    function renderSearchResults(q) {
+      if (!searchUi.results) return;
+      const query = (q || "").trim().toLowerCase();
+      if (!query) {
+        searchUi.results.innerHTML = "";
+        return;
+      }
+
+      const matches = (catalog.products || [])
+        .filter((p) => {
+          const name = String(p.name || "").toLowerCase();
+          const cat = String(p.category || "").toLowerCase();
+          const label = String(p.label || "").toLowerCase();
+          return name.includes(query) || cat.includes(query) || label.includes(query);
+        })
+        .slice(0, 8);
+
+      if (matches.length === 0) {
+        searchUi.results.innerHTML = `<div style="color:#888;font-weight:800;padding:10px 2px;">No results.</div>`;
+        return;
+      }
+
+      searchUi.results.innerHTML = "";
+      matches.forEach((p) => {
+        const row = document.createElement("div");
+        row.className = "search-result";
+        row.setAttribute("role", "button");
+        row.setAttribute("tabindex", "0");
+
+        const img = (p.images && p.images[0]) || "";
+        row.innerHTML = `
+          <img src="${img}" alt="${p.name}" onerror="this.style.display='none';" />
+          <div>
+            <div class="search-result-title">${p.name}</div>
+            <div class="search-result-sub">${p.category || ""} • ${formatPriceZAR(p.price)}</div>
+          </div>
+        `;
+
+        const go = () => {
+          closeSearch(false);
+          gotoProduct(p.id);
+        };
+        row.addEventListener("click", go);
+        clickOnEnterSpace(row, go);
+        searchUi.results.appendChild(row);
+      });
+    }
+
+    searchUi.input?.addEventListener("input", (e) => renderSearchResults(e.target.value));
+
+    // ---------- Start routing render ----------
+    await renderFromUrl();
+
+    // ---------- Browser back gesture handling ----------
+    window.addEventListener("popstate", async () => {
+      // If a UI overlay is open, close it first.
+      const closed = closeTopUiFromPopstate();
+      if (closed) return;
+
+      // Otherwise, route changed: render based on URL
+      await renderFromUrl();
+    });
+
+    // ---------- ESC handling (desktop) ----------
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+
+      if (isCheckoutOpen()) return closeCheckout(false);
+      if (isPolicyOpen()) return hidePolicy(false);
+      if (isCartOpen()) return closeCartPanel(false);
+      if (isSearchOpen()) return closeSearch(false);
+      if (isDrawerOpen()) return closeDrawer(false);
     });
   });
 })();

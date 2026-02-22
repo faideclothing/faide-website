@@ -1,51 +1,59 @@
-const Stripe = require("stripe");
+// api/create-checkout-session.js
+import Stripe from "stripe";
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+// Helper: build absolute site url
 function getBaseUrl(req) {
-  // Works on Vercel/Proxy
+  const envUrl = process.env.SITE_URL;
+  if (envUrl) return envUrl.replace(/\/$/, "");
+
+  // fallback for Vercel
   const proto = req.headers["x-forwarded-proto"] || "https";
   const host = req.headers["x-forwarded-host"] || req.headers.host;
-  return `${proto}://${host}`;
+  return `${proto}://${host}`.replace(/\/$/, "");
 }
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
+  // Allow only POST
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
   try {
-    if (req.method !== "POST") {
-      res.setHeader("Allow", "POST");
-      return res.status(405).json({ error: "Method not allowed" });
+    const { cart } = req.body || {};
+    if (!Array.isArray(cart) || cart.length === 0) {
+      return res.status(400).json({ error: "Cart is empty" });
     }
 
-    const secret = process.env.STRIPE_SECRET_KEY;
-    if (!secret) return res.status(500).json({ error: "Missing STRIPE_SECRET_KEY env var" });
-
-    const stripe = new Stripe(secret, { apiVersion: "2024-06-20" });
-
-    const body = req.body || {};
-    const cart = Array.isArray(body.cart) ? body.cart : [];
-
-    if (!cart.length) return res.status(400).json({ error: "Cart is empty" });
-
-    // currency must be lowercase for Stripe
-    const currency = String(cart[0]?.currency || "ZAR").toLowerCase();
-
+    // Build line items for Stripe
     const line_items = cart.map((item) => {
-      const unit_amount = Number(item.unit_amount || 0);
-      const quantity = Math.max(1, Number(item.quantity || 1));
+      const name = String(item?.name || "Item");
+      const currency = String(item?.currency || "zar").toLowerCase();
+      const unit_amount = Number(item?.unit_amount || 0);
+      const quantity = Number(item?.quantity || 1);
+
+      if (!unit_amount || unit_amount < 50) {
+        // Stripe usually needs >= 0.50 in smallest unit (for many currencies)
+        throw new Error("Invalid price");
+      }
+
+      const size = String(item?.size || "");
+      const color = String(item?.color || "");
+      const meta = [size && `Size: ${size}`, color && `Color: ${color}`].filter(Boolean).join(" • ");
 
       return {
-        quantity,
         price_data: {
           currency,
-          unit_amount,
           product_data: {
-            name: String(item.name || "Item"),
-            images: item.image ? [String(item.image)] : [],
-            metadata: {
-              id: String(item.id || ""),
-              size: String(item.size || ""),
-              color: String(item.color || "")
-            }
-          }
-        }
+            name,
+            description: meta || undefined,
+            images: item?.image ? [String(item.image)] : undefined
+          },
+          unit_amount
+        },
+        quantity: Math.max(1, quantity)
       };
     });
 
@@ -53,20 +61,22 @@ module.exports = async (req, res) => {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      payment_method_types: ["card"],
       line_items,
-      success_url: `${baseUrl}/success.html`,
-      cancel_url: `${baseUrl}/cancel.html`,
-      billing_address_collection: "auto",
-      shipping_address_collection: { allowed_countries: ["ZA"] },
-      phone_number_collection: { enabled: true },
-      metadata: {
-        source: "faide-site"
-      }
+      success_url: `${baseUrl}/?success=1`,
+      cancel_url: `${baseUrl}/?canceled=1`,
+      // optional: collects email on Stripe checkout
+      // customer_email: ...
+      // optional: shipping address collection
+      shipping_address_collection: { allowed_countries: ["ZA"] }
     });
 
     return res.status(200).json({ url: session.url });
   } catch (err) {
-    console.error("create-checkout-session error:", err);
-    return res.status(500).json({ error: "Server error" });
+    console.error("Stripe checkout error:", err);
+    return res.status(500).json({
+      error: "Checkout session creation failed",
+      message: err?.message || "Unknown error"
+    });
   }
-};
+}

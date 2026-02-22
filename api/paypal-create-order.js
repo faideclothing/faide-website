@@ -1,53 +1,40 @@
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
-
   try {
-    const { cart, currency = "ZAR" } = req.body || {};
+    if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-    if (!Array.isArray(cart) || cart.length === 0) {
-      return res.status(400).json({ error: "Cart is empty" });
+    const { total, currency } = req.body || {};
+    const amount = Number(total || 0).toFixed(2);
+
+    if (!amount || Number(amount) <= 0) {
+      return res.status(400).json({ error: "Invalid total" });
     }
-
-    const total = cart.reduce((sum, item) => {
-      const price = Number(item.price || 0);
-      const qty = Math.max(1, Number(item.quantity || 1));
-      return sum + price * qty;
-    }, 0);
-
-    const totalStr = total.toFixed(2);
 
     const clientId = process.env.PAYPAL_CLIENT_ID;
     const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
 
     if (!clientId || !clientSecret) {
-      return res.status(500).json({ error: "Missing PAYPAL_CLIENT_ID or PAYPAL_CLIENT_SECRET" });
+      return res.status(500).json({ error: "Missing PAYPAL env vars" });
     }
 
-    // Optional env: PAYPAL_ENV = "sandbox" or "live"
-    const env = (process.env.PAYPAL_ENV || "live").toLowerCase();
-    const baseUrl = env === "sandbox" ? "https://api-m.sandbox.paypal.com" : "https://api-m.paypal.com";
+    // Get access token
+    const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
 
-    const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
-
-    // Access token
-    const tokenResp = await fetch(`${baseUrl}/v1/oauth2/token`, {
+    const tokenRes = await fetch("https://api-m.paypal.com/v1/oauth2/token", {
       method: "POST",
       headers: {
-        Authorization: `Basic ${auth}`,
+        Authorization: `Basic ${basicAuth}`,
         "Content-Type": "application/x-www-form-urlencoded"
       },
       body: "grant_type=client_credentials"
     });
 
-    const tokenData = await tokenResp.json();
-    if (!tokenResp.ok) {
-      return res.status(500).json({ error: "PayPal token error", details: tokenData });
-    }
+    const tokenData = await tokenRes.json();
+    if (!tokenRes.ok) return res.status(500).json({ error: tokenData?.error_description || "Token error" });
 
     const accessToken = tokenData.access_token;
 
-    // Create Order
-    const orderResp = await fetch(`${baseUrl}/v2/checkout/orders`, {
+    // Create order
+    const orderRes = await fetch("https://api-m.paypal.com/v2/checkout/orders", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -58,21 +45,20 @@ export default async function handler(req, res) {
         purchase_units: [
           {
             amount: {
-              currency_code: currency,
-              value: totalStr
+              currency_code: currency || "ZAR",
+              value: amount
             }
           }
         ]
       })
     });
 
-    const orderData = await orderResp.json();
-    if (!orderResp.ok) {
-      return res.status(500).json({ error: "PayPal order error", details: orderData });
-    }
+    const orderData = await orderRes.json();
+    if (!orderRes.ok) return res.status(500).json({ error: orderData?.message || "Order create error" });
 
     return res.status(200).json({ id: orderData.id });
   } catch (err) {
-    return res.status(500).json({ error: "Server error", details: String(err) });
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
   }
 }

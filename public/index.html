@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,11 +17,10 @@
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- Performance -->
     <link rel="preload" as="image" href="/images/hero.png" />
     <link rel="preload" as="image" href="/images/faide-wordmark.png" />
 
-    <!-- Social -->
+    <!-- Social meta -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="FAIDE® | Luxury Streetwear Brand" />
     <meta property="og:site_name" content="FAIDE®" />
@@ -48,7 +47,6 @@
     <meta name="twitter:image" content="https://faideclothing.com/images/hero.png" />
     <meta name="twitter:image:alt" content="FAIDE luxury streetwear hero image" />
 
-    <!-- Brand schema -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -75,7 +73,14 @@
       rel="stylesheet"
     />
 
+    <!-- Main CSS -->
     <link rel="stylesheet" href="/assets/css/style.css" />
+
+    <!-- PayPal SDK (replace YOUR_PAYPAL_CLIENT_ID) -->
+    <script
+      src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=ZAR&components=buttons"
+      defer
+    ></script>
   </head>
 
   <body class="h-full w-full">
@@ -123,13 +128,14 @@
       </div>
     </nav>
 
-    <!-- Mobile panels -->
+    <!-- Mobile Search Panel (ONLY ONE) -->
     <div id="mobile-search-panel" class="nav-mobile-panel" aria-hidden="true">
       <div class="nav-mobile-search">
         <input id="mobile-search-input" type="text" placeholder="Search FAIDE..." autocomplete="off" />
       </div>
     </div>
 
+    <!-- Mobile Menu Panel -->
     <div id="mobile-menu-panel" class="nav-mobile-panel" aria-hidden="true">
       <div class="nav-mobile-menu" aria-label="Mobile menu">
         <a href="/#drop" data-nav-link="main">NEW DROP</a>
@@ -139,7 +145,7 @@
       </div>
     </div>
 
-    <!-- ROUTES -->
+    <!-- ROUTE: LOOKBOOK -->
     <main id="route-lookbook" class="route-page" aria-hidden="true">
       <div class="route-shell">
         <div class="route-topbar">
@@ -152,7 +158,7 @@
             Back
           </a>
 
-          <div class="route-center">
+          <div class="route-title-wrap">
             <div class="route-title">LOOKBOOK</div>
             <div class="route-subtitle" id="rlb-counter">1 / 2</div>
           </div>
@@ -166,6 +172,7 @@
       </div>
     </main>
 
+    <!-- ROUTE: PRODUCT -->
     <main id="route-product" class="route-page" aria-hidden="true">
       <div class="route-shell">
         <div class="route-topbar">
@@ -178,7 +185,7 @@
             Back
           </a>
 
-          <div class="route-center">
+          <div class="route-title-wrap">
             <div class="route-title">PRODUCT</div>
             <div class="route-subtitle" id="rpp-subtitle">1 / 1</div>
           </div>
@@ -195,10 +202,10 @@
           </div>
 
           <div id="rpp-details">
-            <div class="rpp-meta">
-              <div class="rpp-meta-left">
+            <div class="rpp-head">
+              <div class="rpp-head-left">
                 <div id="rpp-label" class="product-label"></div>
-                <h3 id="rpp-name"></h3>
+                <h3 id="rpp-name" class="rpp-name"></h3>
                 <div id="rpp-category" class="rpp-muted"></div>
                 <div id="rpp-colors" class="rpp-muted"></div>
               </div>
@@ -221,7 +228,7 @@
 
             <button type="button" class="secondary-btn" id="rpp-add" disabled>Add to Bag</button>
 
-            <div class="rpp-help">Tap thumbnails • Select size &amp; color • Add to Bag</div>
+            <div class="rpp-helptext">Tap thumbnails • Select size &amp; color • Add to Bag</div>
           </div>
         </section>
       </div>
@@ -229,23 +236,18 @@
 
     <!-- MAIN SITE -->
     <div id="site-content">
+      <!-- HERO -->
       <section id="drop" class="hero">
         <div class="hero-bg" aria-hidden="true"></div>
 
         <div class="hero-content">
-          <h1 class="hero-title fade-in-up delay-1" id="hero-title">NEW DROP</h1>
+          <h2 class="hero-title fade-in-up delay-1" id="hero-title">NEW DROP</h2>
           <p class="hero-text fade-in-up delay-2" id="hero-description">
             New drops, exclusive releases, and updates are announced on our social platforms.
           </p>
 
           <div class="hero-social-icons fade-in-up delay-2">
-            <a
-              href="https://www.instagram.com/faideclothing"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-icon"
-              aria-label="Instagram"
-            >
+            <a href="https://www.instagram.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
               <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
@@ -253,13 +255,7 @@
               </svg>
             </a>
 
-            <a
-              href="https://www.facebook.com/faideclothing"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-icon"
-              aria-label="Facebook"
-            >
+            <a href="https://www.facebook.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
               <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"
@@ -275,13 +271,7 @@
               </svg>
             </a>
 
-            <a
-              href="https://www.tiktok.com/@faideclothing"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-icon"
-              aria-label="TikTok"
-            >
+            <a href="https://www.tiktok.com/@faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="TikTok">
               <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
@@ -294,6 +284,7 @@
         </div>
       </section>
 
+      <!-- LOOKBOOK -->
       <section id="lookbook" class="lookbook">
         <h2 class="section-title purple-title aligned-title">Lookbook</h2>
 
@@ -308,32 +299,19 @@
         </div>
       </section>
 
+      <!-- SHOP (products render here from products.json) -->
       <section id="shop" class="shop">
-        <div class="shop-head aligned-title">
-          <h2 class="section-title purple-title">Shop</h2>
-
-          <div class="shop-tools">
-            <input id="shop-search" class="shop-search" type="text" placeholder="Search products..." autocomplete="off" />
-            <select id="shop-sort" class="shop-sort" aria-label="Sort products">
-              <option value="featured">Featured</option>
-              <option value="price-asc">Price: Low → High</option>
-              <option value="price-desc">Price: High → Low</option>
-              <option value="name-asc">Name: A → Z</option>
-              <option value="name-desc">Name: Z → A</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="horizontal-scroll" id="shop-grid" aria-live="polite"></div>
+        <h2 class="section-title purple-title aligned-title">Shop</h2>
+        <div class="horizontal-scroll" id="products-container" aria-label="Product list"></div>
       </section>
 
       <div class="section-divider" aria-hidden="true"></div>
 
+      <!-- ABOUT -->
       <section id="about" class="about">
         <h2 class="section-title purple-title" id="about-title">About FAIDE</h2>
         <p id="about-description">
-          FAIDE is a luxury streetwear brand built for those who move in silence. Designed with intention. Worn with
-          purpose.
+          FAIDE is a luxury streetwear brand built for those who move in silence. Designed with intention. Worn with purpose.
         </p>
 
         <div class="about-contact">
@@ -343,8 +321,9 @@
         </div>
       </section>
 
+      <!-- FOOTER -->
       <footer id="footer" class="footer">
-        <div class="footer-shell">
+        <div class="footer-wrap">
           <div class="footer-legal">
             <div class="footer-legal-top" aria-label="Policies">
               <a href="#" id="privacy-link" class="footer-legal-link">Privacy Policy</a>
@@ -363,11 +342,11 @@
     </div>
 
     <!-- POLICY MODAL -->
-    <div id="policy-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" class="policy-modal" style="display:none;">
-      <div class="policy-shell">
-        <div class="policy-head">
-          <h2 id="modal-title" class="policy-title">Policy</h2>
-          <button id="close-modal" type="button" class="policy-close" aria-label="Close policy">
+    <div id="policy-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" class="modal-overlay" style="display:none;">
+      <div class="modal-card">
+        <div class="modal-topbar">
+          <h2 id="modal-title" class="modal-title">Policy</h2>
+          <button id="close-modal" type="button" class="modal-close" aria-label="Close policy">
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
@@ -375,13 +354,14 @@
             </svg>
           </button>
         </div>
-        <div id="modal-content" class="policy-body"></div>
+        <div id="modal-content" class="modal-content"></div>
       </div>
     </div>
 
-    <!-- CART -->
+    <!-- CART OVERLAY -->
     <div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
 
+    <!-- FLOATING CART BUTTON -->
     <button id="floating-cart" class="floating-cart" aria-label="View shopping cart" type="button">
       <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path
@@ -391,6 +371,7 @@
       <span id="cart-count" class="cart-count">0</span>
     </button>
 
+    <!-- CART SIDEBAR -->
     <div id="cart-sidebar" class="cart-sidebar" aria-label="Shopping cart">
       <div class="cart-header">
         <h2>Your Cart</h2>
@@ -411,20 +392,47 @@
           <span class="cart-total-value">R<span id="cart-total">0.00</span></span>
         </div>
 
-        <button class="checkout-btn" id="checkout-paypal-btn" type="button" disabled title="Add items to checkout">
-          Checkout (PayPal)
+        <button class="checkout-btn" id="checkout-btn" type="button" disabled title="Add items to checkout">
+          Proceed to Checkout
         </button>
+      </div>
+    </div>
 
-        <button class="checkout-btn secondary-outline" id="checkout-wa-btn" type="button" disabled title="Add items to checkout">
-          Checkout (WhatsApp)
-        </button>
+    <!-- CHECKOUT MODAL (PayPal inside) -->
+    <div id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title" class="modal-overlay" style="display:none;">
+      <div class="modal-card" style="max-width:760px;">
+        <div class="modal-topbar">
+          <div>
+            <h2 id="checkout-title" class="modal-title" style="margin:0;">Checkout</h2>
+            <div class="modal-subtitle">Total: R<span id="checkout-modal-total">0.00</span></div>
+          </div>
 
-        <div class="cart-note">
-          PayPal checkout opens PayPal.Me (secure). WhatsApp checkout is optional.
+          <button id="close-checkout-modal" type="button" class="modal-close" aria-label="Close checkout">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <div class="checkout-label">Pay securely with PayPal:</div>
+          <div id="paypal-buttons" class="paypal-box"></div>
+
+          <div style="height:18px;"></div>
+
+          <div class="checkout-label">Or checkout via WhatsApp:</div>
+          <button type="button" class="checkout-btn" id="checkout-whatsapp-btn">Continue on WhatsApp</button>
+
+          <div class="checkout-note">
+            After payment, we’ll contact you for delivery details if needed.
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- TOAST -->
     <div class="cart-toast" id="cartToast" role="status" aria-live="polite">
       <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path
@@ -434,6 +442,7 @@
       <span id="cartMessage">Added to cart!</span>
     </div>
 
+    <!-- Main App JS -->
     <script src="/assets/js/app.js" defer></script>
   </body>
 </html>

@@ -1,13 +1,8 @@
 {
-  "name": "faide-ecommerce",
+  "name": "faide-website",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vercel dev",
-    "start": "vercel dev"
-  },
   "dependencies": {
-    "stripe": "^16.2.0"
+    "stripe": "^16.12.0"
   }
 }

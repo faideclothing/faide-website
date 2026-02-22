@@ -1,12 +1,17 @@
-[
-  {
-    "id": 1,
-    "name": "FAIDE Essentials Tank",
-    "price": 199.99,
-    "category": "Tank",
-    "label": "NEW",
-    "colors": ["Black", "White"],
-    "sizes": ["S", "M", "L", "XL"],
-    "images": ["/images/tank.jpg"]
-  }
-]
+{
+  "currency": "ZAR",
+  "products": [
+    {
+      "id": 1,
+      "name": "FAIDE Essentials Tank",
+      "price": 199.99,
+      "category": "Tank",
+      "label": "NEW",
+      "featuredRank": 1,
+      "colors": ["Black", "White"],
+      "sizes": ["S", "M", "L", "XL"],
+      "images": ["/images/tank.jpg"],
+      "description": "Luxury essentials tank. Clean fit, premium feel."
+    }
+  ]
+}

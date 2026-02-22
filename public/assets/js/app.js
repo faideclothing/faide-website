@@ -1,8 +1,8 @@
-/* FAIDE E-COMMERCE (v2)
+/* FAIDE E-COMMERCE (PayPal-only)
    - Products from /assets/js/products.json
    - Cart stored in localStorage (faide_cart_v2)
-   - Card payments via Stripe Checkout (/api/create-checkout-session)
-   - WhatsApp checkout fallback
+   - Payments via PayPal.Me (total amount)
+   - WhatsApp checkout optional
 */
 
 function $(sel, root = document) { return root.querySelector(sel); }
@@ -33,6 +33,7 @@ function safeText(s) {
 
 const CART_STORAGE_KEY = "faide_cart_v2";
 const WHATSAPP_NUMBER = "27695603929";
+const PAYPAL_ME = "https://www.paypal.me/faideClothing";
 
 function loadCartFromStorage() {
   try {
@@ -209,18 +210,23 @@ async function loadProducts() {
   if (!res.ok) throw new Error("Failed to load products.json");
   const data = await res.json();
 
-  // Accept either:
-  // 1) { currency: "ZAR", products: [...] }
-  // 2) [ ...products ]  (legacy)
-  const products = Array.isArray(data)
-    ? data
-    : (Array.isArray(data.products) ? data.products : []);
+  const products = Array.isArray(data) ? data : (Array.isArray(data.products) ? data.products : []);
+  const currency = (!Array.isArray(data) && data.currency) ? String(data.currency) : "ZAR";
 
-  const currency = (!Array.isArray(data) && data.currency)
-    ? String(data.currency)
-    : "ZAR";
+  // Basic safety: ensure each product has id
+  const normalized = products.map((p, idx) => ({
+    id: String(p?.id ?? (idx + 1)),
+    name: String(p?.name ?? "Product"),
+    category: String(p?.category ?? ""),
+    label: String(p?.label ?? "Featured"),
+    price: Number(p?.price ?? 0),
+    featuredRank: (p?.featuredRank ?? 999),
+    sizes: Array.isArray(p?.sizes) ? p.sizes : ["S", "M", "L", "XL"],
+    colors: Array.isArray(p?.colors) ? p.colors : ["Black", "White"],
+    images: Array.isArray(p?.images) ? p.images : []
+  }));
 
-  return { currency, products };
+  return { currency, products: normalized };
 }
 
 function computeFeatured(products) {
@@ -240,7 +246,7 @@ function filterProducts(products, query) {
   const q = String(query || "").trim().toLowerCase();
   if (!q) return products;
   return products.filter((p) => {
-    const hay = `${p.name} ${p.category} ${p.label} ${p.description}`.toLowerCase();
+    const hay = `${p.name} ${p.category} ${p.label}`.toLowerCase();
     return hay.includes(q);
   });
 }
@@ -270,13 +276,13 @@ function closeCartPanel() {
 }
 
 function setCheckoutState() {
-  const cardBtn = $("#checkout-card-btn");
+  const paypalBtn = $("#checkout-paypal-btn");
   const waBtn = $("#checkout-wa-btn");
   const empty = cart.length === 0;
 
-  if (cardBtn) {
-    cardBtn.disabled = empty;
-    cardBtn.title = empty ? "Add items to checkout" : "Checkout securely with card";
+  if (paypalBtn) {
+    paypalBtn.disabled = empty;
+    paypalBtn.title = empty ? "Add items to checkout" : "Checkout with PayPal";
   }
   if (waBtn) {
     waBtn.disabled = empty;
@@ -400,50 +406,17 @@ function checkoutOnWhatsApp() {
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
 }
 
-async function checkoutWithCard(currency = "ZAR") {
+function checkoutWithPayPal(currency = "ZAR") {
   if (!cart || cart.length === 0) return showCartToast("Your cart is empty.");
 
-  const payload = {
-    cart: cart.map((item) => ({
-      id: String(item.id),
-      name: String(item.name),
-      currency,
-      unit_amount: Math.round(Number(item.price || 0) * 100),
-      quantity: Number(item.quantity || 1),
-      size: String(item.size),
-      color: String(item.color),
-      image: String(item.image || "")
-    }))
-  };
+  const { total } = cartTotals();
+  const amount = Number(total || 0).toFixed(2);
 
-  try {
-    const res = await fetch("/api/create-checkout-session", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+  // PayPal.Me supports amount + currencyCode
+  const url = `${PAYPAL_ME}/${amount}?currencyCode=${encodeURIComponent(currency)}`;
 
-    const ct = res.headers.get("content-type") || "";
-
-    // IMPORTANT: prevents "Unexpected token 'T'" when server returns HTML
-    if (!ct.includes("application/json")) {
-      const text = await res.text();
-      console.error("Non-JSON response from /api/create-checkout-session:", res.status, text.slice(0, 300));
-      return showCartToast("Card checkout API not working. Try WhatsApp checkout.");
-    }
-
-    const data = await res.json();
-
-    if (!res.ok || !data?.url) {
-      console.error("Checkout error:", res.status, data);
-      return showCartToast("Card checkout failed. Try WhatsApp checkout.");
-    }
-
-    window.location.href = data.url;
-  } catch (e) {
-    console.error(e);
-    showCartToast("Network error. Try again or use WhatsApp checkout.");
-  }
+  showCartToast("Opening PayPal… Add your name & address in PayPal note or use WhatsApp checkout.");
+  window.open(url, "_blank", "noopener,noreferrer");
 }
 
 // ---- Policies ----
@@ -478,7 +451,7 @@ const policies = {
       <p style="margin-bottom:14px;">By using this website and placing an order, you agree to the terms below.</p>
       <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Orders</h3>
       <ul style="margin-left:18px; margin-bottom:14px;">
-        <li>Orders are confirmed after payment (card) or WhatsApp confirmation (manual).</li>
+        <li>Orders are confirmed after payment (PayPal) or WhatsApp confirmation (manual).</li>
         <li>We may contact you if we need size/color confirmation or address clarification.</li>
       </ul>
       <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Pricing</h3>
@@ -534,7 +507,7 @@ function showPolicy(policyType) {
   if (modalTitle) modalTitle.textContent = policy.title;
   if (modalContent) modalContent.innerHTML = policy.content;
 
-  if (policyModal) policyModal.style.display = "block";
+  if (policyModal) policyModal.style.display = "flex";
   document.body.classList.add("lock-scroll");
   setTimeout(() => $("#close-modal")?.focus(), 0);
 }
@@ -566,7 +539,7 @@ function renderShopCard(product, index) {
 
   root.innerHTML = `
     <div class="product-img-container">
-      <img src="${safeText(img)}" alt="${safeText(product.name)}" class="product-img" loading="lazy" />
+      <img src="${safeText(img)}" alt="${safeText(product.name)}" class="product-img" loading="lazy" onerror="this.style.opacity='0.25';" />
     </div>
 
     <div class="product-info">
@@ -649,11 +622,8 @@ function renderSizes(product, mountEl, onSelect) {
   });
 }
 
-// FIX: supports ["Black","White"] OR [{name,class}]
 function renderColors(product, mountEl, onSelect) {
-  const raw = Array.isArray(product.colors) && product.colors.length
-    ? product.colors
-    : ["Black", "White"];
+  const raw = Array.isArray(product.colors) && product.colors.length ? product.colors : ["Black", "White"];
 
   const colors = raw.map((c) => {
     if (typeof c === "string") {
@@ -890,7 +860,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     render();
   } catch (e) {
     console.error(e);
-    showCartToast("Failed to load products.");
+    showCartToast("Failed to load products. Check products.json path.");
   }
 
   $all(".lookbook-card").forEach((card) => {
@@ -904,9 +874,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     checkoutOnWhatsApp();
   });
 
-  $("#checkout-card-btn")?.addEventListener("click", () => {
-    if ($("#checkout-card-btn")?.disabled) return showCartToast("Add items to checkout.");
-    checkoutWithCard(currency);
+  $("#checkout-paypal-btn")?.addEventListener("click", () => {
+    if ($("#checkout-paypal-btn")?.disabled) return showCartToast("Add items to checkout.");
+    checkoutWithPayPal(currency);
   });
 
   const params = new URLSearchParams(window.location.search);
@@ -1007,7 +977,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
     const policyModal = $("#policy-modal");
-    if (policyModal && policyModal.style.display === "block") hidePolicy();
+    if (policyModal && policyModal.style.display !== "none") hidePolicy();
     if ($("#cart-sidebar")?.classList.contains("active")) closeCartPanel();
   });
 });

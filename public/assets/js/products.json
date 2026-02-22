@@ -1,46 +1,46 @@
-[
-  {
-    "id": 1,
-    "label": "Just In",
-    "name": "FAIDE Essentials Tank",
-    "category": "UNISEX Tank Top",
-    "price": 199.99,
-    "currencySymbol": "R",
-    "colors": ["Black", "White"],
-    "sizes": ["S", "M", "L", "XL"],
-    "images": ["/images/tank-top.png", "/images/tank-top1.png", "/images/tank-top2.png", "/images/tank-top3.png"]
-  },
-  {
-    "id": 2,
-    "label": "Bestseller",
-    "name": "FAIDE Signature Tee",
-    "category": "UNISEX Short-Sleeve Top",
-    "price": 349.99,
-    "currencySymbol": "R",
-    "colors": ["Black", "White", "Grey"],
-    "sizes": ["S", "M", "L", "XL"],
-    "images": ["/images/tshirt.png", "/images/tshirt1.png", "/images/tshirt2.png", "/images/tshirt3.png"]
-  },
-  {
-    "id": 3,
-    "label": "Member Exclusive",
-    "name": "FAIDE Long Sleeve",
-    "category": "UNISEX Long Sleeve",
-    "price": 549.99,
-    "currencySymbol": "R",
-    "colors": ["Black", "White"],
-    "sizes": ["S", "M", "L", "XL"],
-    "images": ["/images/longsleeve.png", "/images/longsleeve1.png", "/images/longsleeve2.png", "/images/longsleeve3.png"]
-  },
-  {
-    "id": 4,
-    "label": "Premium",
-    "name": "FAIDE Luxury Hoodie",
-    "category": "UNISEX Pullover Hoodie",
-    "price": 699.99,
-    "currencySymbol": "R",
-    "colors": ["Black", "Grey"],
-    "sizes": ["S", "M", "L", "XL"],
-    "images": ["/images/hoodie.png", "/images/hoodie1.png", "/images/hoodie2.png", "/images/hoodie3.png"]
-  }
-]
+{
+  "currency": "ZAR",
+  "whatsappNumber": "27695603929",
+  "products": [
+    {
+      "id": 1,
+      "label": "Just In",
+      "name": "FAIDE Essentials Tank",
+      "category": "UNISEX Tank Top",
+      "price": 199.99,
+      "colors": ["Black", "White"],
+      "sizes": ["S", "M", "L", "XL"],
+      "images": ["/images/tank-top.png", "/images/tank-top1.png", "/images/tank-top2.png", "/images/tank-top3.png"]
+    },
+    {
+      "id": 2,
+      "label": "Bestseller",
+      "name": "FAIDE Signature Tee",
+      "category": "UNISEX Short-Sleeve Top",
+      "price": 349.99,
+      "colors": ["Black", "White", "Grey"],
+      "sizes": ["S", "M", "L", "XL"],
+      "images": ["/images/tshirt.png", "/images/tshirt1.png", "/images/tshirt2.png", "/images/tshirt3.png"]
+    },
+    {
+      "id": 3,
+      "label": "Member Exclusive",
+      "name": "FAIDE Long Sleeve",
+      "category": "UNISEX Long Sleeve",
+      "price": 549.99,
+      "colors": ["Black", "White"],
+      "sizes": ["S", "M", "L", "XL"],
+      "images": ["/images/longsleeve.png", "/images/longsleeve1.png", "/images/longsleeve2.png", "/images/longsleeve3.png"]
+    },
+    {
+      "id": 4,
+      "label": "Premium",
+      "name": "FAIDE Luxury Hoodie",
+      "category": "UNISEX Pullover Hoodie",
+      "price": 699.99,
+      "colors": ["Black", "Grey"],
+      "sizes": ["S", "M", "L", "XL"],
+      "images": ["/images/hoodie.png", "/images/hoodie1.png", "/images/hoodie2.png", "/images/hoodie3.png"]
+    }
+  ]
+}

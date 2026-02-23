@@ -57,7 +57,7 @@
       "sizes": ["S", "M", "L", "XL"],
       "colors": [
         { "name": "Black", "className": "color black" },
-        { "name": "Grey", "className": "color grey" }
+        { "name": "White", "className": "color white" }
       ],
       "images": ["images/hoodie.png", "images/hoodie1.png", "images/hoodie2.png", "images/hoodie3.png"]
     }

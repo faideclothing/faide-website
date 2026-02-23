@@ -29,7 +29,6 @@
       "colors": [
         { "name": "Black", "className": "color black" },
         { "name": "White", "className": "color white" },
-        { "name": "Grey", "className": "color grey" }
       ],
       "images": ["images/tshirt.png", "images/tshirt1.png", "images/tshirt2.png", "images/tshirt3.png"]
     },

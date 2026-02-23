@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="h-full">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,7 +17,6 @@
     <link rel="icon" href="favicon.ico" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
-    <!-- Preload hero + wordmark -->
     <link rel="preload" as="image" href="images/hero.png" />
     <link rel="preload" as="image" href="images/faide-wordmark.png" />
 
@@ -49,7 +48,6 @@
     <meta name="twitter:image" content="https://faide-website.vercel.app/images/hero.png" />
     <meta name="twitter:image:alt" content="FAIDE luxury streetwear hero image" />
 
-    <!-- Schema -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -72,7 +70,6 @@
     <script src="_sdk/element_sdk.js" defer></script>
     <script src="_sdk/data_sdk.js" defer></script>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -80,13 +77,12 @@
       rel="stylesheet"
     />
 
-    <!-- CSS -->
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
 
   <body>
     <!-- NAV -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
       <a href="#drop" aria-label="FAIDE Home" class="brand-link">
         <img src="images/faide-wordmark.png" alt="FAIDE" class="faide-wordmark-img" id="brand-wordmark" />
       </a>
@@ -99,7 +95,8 @@
       </div>
 
       <div class="nav-mobile-actions" aria-label="Mobile navigation controls">
-        <button id="mobile-search-btn" class="nav-icon-btn" type="button" aria-label="Open search">
+        <!-- Mobile search icon now scrolls to Shop + focuses the ONE shop search input -->
+        <button id="mobile-search-btn" class="nav-icon-btn" type="button" aria-label="Search shop">
           <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path
               d="M10 2a8 8 0 105.293 14.293l4.707 4.707a1 1 0 001.414-1.414l-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"
@@ -107,7 +104,14 @@
           </svg>
         </button>
 
-        <button id="mobile-menu-btn" class="nav-icon-btn" type="button" aria-label="Open menu">
+        <button
+          id="mobile-menu-btn"
+          class="nav-icon-btn"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu-panel"
+        >
           <span class="hamburger" aria-hidden="true">
             <span></span><span></span><span></span>
           </span>
@@ -115,33 +119,13 @@
       </div>
     </nav>
 
-    <!-- ✅ Mobile Search Overlay (Back gesture closes it) -->
-    <div id="mobile-search-overlay" class="ui-overlay" aria-hidden="true">
-      <div class="ui-sheet ui-sheet-top" role="dialog" aria-modal="true" aria-label="Search">
-        <div class="search-sheet-head">
-          <div class="search-title">Search</div>
-          <button id="search-close-desktop" class="icon-close desktop-only" type="button" aria-label="Close search">
-            <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
-              />
-            </svg>
-          </button>
-        </div>
+    <!-- Mobile menu side drawer + overlay -->
+    <div id="mobile-drawer-overlay" class="drawer-overlay" aria-hidden="true"></div>
 
-        <div class="search-sheet-body">
-          <input id="mobile-search-input" type="text" placeholder="Search FAIDE..." autocomplete="off" />
-          <div id="mobile-search-results" class="search-results" aria-label="Search results"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ✅ Mobile Drawer (Hamburger side slider) -->
-    <div id="drawer-overlay" class="drawer-overlay" aria-hidden="true"></div>
-    <aside id="mobile-drawer" class="mobile-drawer" aria-hidden="true" aria-label="Menu">
+    <aside id="mobile-menu-panel" class="drawer" aria-hidden="true" aria-label="Mobile menu">
       <div class="drawer-head">
-        <div class="drawer-brand">FAIDE</div>
-        <button id="drawer-close-desktop" class="icon-close desktop-only" type="button" aria-label="Close menu">
+        <div class="drawer-title">MENU</div>
+        <button id="drawer-close" class="drawer-close" type="button" aria-label="Close menu">
           <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path
               d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
@@ -150,18 +134,11 @@
         </button>
       </div>
 
-      <nav class="drawer-links" aria-label="Drawer navigation">
-        <a href="#drop" data-nav-link="drawer">NEW DROP</a>
-        <a href="#lookbook" data-nav-link="drawer">LOOKBOOK</a>
-        <a href="#shop" data-nav-link="drawer">SHOP</a>
-        <a href="#about" data-nav-link="drawer">ABOUT</a>
-      </nav>
-
-      <div class="drawer-foot">
-        <a class="drawer-social" href="https://www.instagram.com/faideclothing" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a class="drawer-social" href="https://x.com/faideclothing" target="_blank" rel="noopener noreferrer">X</a>
-        <a class="drawer-social" href="https://www.facebook.com/faideclothing" target="_blank" rel="noopener noreferrer">Facebook</a>
-        <a class="drawer-social" href="https://www.tiktok.com/@faideclothing" target="_blank" rel="noopener noreferrer">TikTok</a>
+      <div class="drawer-links">
+        <a href="#drop" data-nav-link="main">NEW DROP</a>
+        <a href="#lookbook" data-nav-link="main">LOOKBOOK</a>
+        <a href="#shop" data-nav-link="main">SHOP</a>
+        <a href="#about" data-nav-link="main">ABOUT</a>
       </div>
     </aside>
 
@@ -169,7 +146,8 @@
     <main id="route-lookbook" class="route-page" aria-hidden="true">
       <div class="route-shell">
         <div class="route-topbar">
-          <a class="route-back" href="index.html#lookbook" aria-label="Back to Lookbook" data-route-back>
+          <!-- Back is kept for desktop but hidden on mobile by CSS -->
+          <a class="route-back" href="index.html#lookbook" aria-label="Back to Lookbook">
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M14.7 5.3a1 1 0 0 1 0 1.4L10.41 11H21a1 1 0 1 1 0 2H10.41l4.3 4.3a1 1 0 1 1-1.42 1.4l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.41 0z"
@@ -180,7 +158,6 @@
 
           <div class="route-topbar-center">
             <div class="route-title">LOOKBOOK</div>
-            <div class="route-subtitle" id="rlb-counter">1 / 2</div>
           </div>
 
           <div class="route-topbar-spacer"></div>
@@ -196,7 +173,8 @@
     <main id="route-product" class="route-page" aria-hidden="true">
       <div class="route-shell">
         <div class="route-topbar">
-          <a class="route-back" href="index.html#shop" aria-label="Back to Shop" data-route-back>
+          <!-- Back is kept for desktop but hidden on mobile by CSS -->
+          <a class="route-back" href="index.html#shop" aria-label="Back to Shop">
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M14.7 5.3a1 1 0 0 1 0 1.4L10.41 11H21a1 1 0 1 1 0 2H10.41l4.3 4.3a1 1 0 1 1-1.42 1.4l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.41 0z"
@@ -207,7 +185,6 @@
 
           <div class="route-topbar-center">
             <div class="route-title">PRODUCT</div>
-            <div class="route-subtitle" id="rpp-subtitle">1 / 1</div>
           </div>
 
           <div class="route-topbar-spacer"></div>
@@ -329,7 +306,25 @@
 
       <!-- Shop -->
       <section id="shop" class="shop">
-        <h2 class="section-title purple-title aligned-title">Shop</h2>
+        <div class="shop-head">
+          <h2 class="section-title purple-title aligned-title shop-title">Shop</h2>
+
+          <!-- ONE search input for both mobile & desktop (responsive layout) -->
+          <div class="shop-search-wrap" aria-label="Search products">
+            <input
+              id="shop-search-input"
+              class="shop-search-input"
+              type="search"
+              placeholder="Search products..."
+              autocomplete="off"
+              aria-label="Search products"
+            />
+            <button id="shop-search-clear" class="shop-search-clear" type="button" aria-label="Clear search">
+              ×
+            </button>
+          </div>
+        </div>
+
         <div class="horizontal-scroll" id="shop-products"></div>
       </section>
 
@@ -339,7 +334,8 @@
       <section id="about" class="about">
         <h2 class="section-title purple-title" id="about-title">About FAIDE</h2>
         <p id="about-description">
-          FAIDE is a luxury streetwear brand built for those who move in silence. Designed with intention. Worn with purpose.
+          FAIDE is a luxury streetwear brand built for those who move in silence. Designed with intention. Worn with
+          purpose.
         </p>
 
         <div class="about-contact">
@@ -369,11 +365,19 @@
     </div>
 
     <!-- POLICIES MODAL -->
-    <div id="policy-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" class="modal-overlay" style="display:none;">
+    <div
+      id="policy-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      class="modal-overlay"
+      style="display:none;"
+    >
       <div class="modal-card">
         <div class="modal-head">
           <h2 id="modal-title" class="modal-title">Policy</h2>
-          <button id="close-modal" type="button" class="modal-close desktop-only" aria-label="Close policy">
+
+          <button id="close-modal" type="button" class="modal-close" aria-label="Close policy">
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
@@ -381,6 +385,7 @@
             </svg>
           </button>
         </div>
+
         <div id="modal-content" class="modal-body"></div>
       </div>
     </div>
@@ -400,7 +405,7 @@
     <div id="cart-sidebar" class="cart-sidebar" aria-label="Shopping cart">
       <div class="cart-header">
         <h2>Your Cart</h2>
-        <button id="close-cart" class="close-cart desktop-only" aria-label="Close cart" type="button">
+        <button id="close-cart" class="close-cart" aria-label="Close cart" type="button">
           <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path
               d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
@@ -424,11 +429,19 @@
     </div>
 
     <!-- CHECKOUT MODAL -->
-    <div id="checkout-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="checkout-title" style="display:none;">
+    <div
+      id="checkout-modal"
+      class="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="checkout-title"
+      style="display:none;"
+    >
       <div class="modal-card">
         <div class="modal-head">
           <h2 id="checkout-title" class="modal-title">Checkout</h2>
-          <button id="checkout-close" type="button" class="modal-close desktop-only" aria-label="Close checkout">
+
+          <button id="checkout-close" type="button" class="modal-close" aria-label="Close checkout">
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
@@ -465,7 +478,9 @@
               <input id="co-city" type="text" placeholder="City (optional)" autocomplete="address-level2" />
             </div>
 
-            <button id="co-submit" type="button" class="secondary-btn">Save My Details</button>
+            <button id="co-submit" type="button" class="secondary-btn">
+              Save My Details
+            </button>
 
             <div class="checkout-note">
               This does not place an order yet. It only saves your details locally on this device for faster checkout later.
@@ -473,8 +488,45 @@
           </div>
 
           <div class="checkout-actions">
-            <button id="checkout-close-2" type="button" class="ghost-btn desktop-only">Close</button>
+            <button id="checkout-close-2" type="button" class="ghost-btn">Close</button>
             <button type="button" class="checkout-pay-btn" disabled title="Coming soon">Pay with Card (Coming Soon)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMAIL SIGNUP MODAL (Shop reached) -->
+    <div
+      id="signup-modal"
+      class="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="signup-title"
+      style="display:none;"
+    >
+      <div class="modal-card">
+        <div class="modal-head">
+          <h2 id="signup-title" class="modal-title">Join FAIDE</h2>
+
+          <button id="signup-close" type="button" class="modal-close" aria-label="Close signup">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="signup-banner">
+            <div class="signup-title">Get early access to drops</div>
+            <div class="signup-text">Enter your email to get exclusive updates, early access, and drop alerts.</div>
+          </div>
+
+          <div class="signup-form">
+            <input id="su-email" type="email" placeholder="Email address" autocomplete="email" />
+            <button id="su-submit" type="button" class="secondary-btn">Sign Up</button>
+            <div class="signup-note">We won’t spam you. You can unsubscribe anytime.</div>
           </div>
         </div>
       </div>
@@ -490,7 +542,6 @@
       <span id="cartMessage">Added to cart!</span>
     </div>
 
-    <!-- JS -->
     <script src="assets/js/app.js" defer></script>
   </body>
 </html>

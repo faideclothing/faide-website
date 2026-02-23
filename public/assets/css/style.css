@@ -710,7 +710,7 @@ body.nav-hidden #navbar {
   position:relative;
 }
 .color::after {
-  content:"✓";
+  content:"✖️";
   position:absolute;
   top:50%;
   left:50%;
@@ -800,7 +800,7 @@ body.nav-hidden #navbar {
 
 /* About */
 .about {
-  max-width:900px;
+  max-width:1000px;
   margin:0 auto;
   padding-left: var(--px);
   padding-right: var(--px);

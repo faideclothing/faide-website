@@ -1,3 +1,5 @@
 User-agent: *
+Disallow: /_sdk/
 Allow: /
-Sitemap: https://faide.store/sitemap.xml
+
+Sitemap: https://faide-website.vercel.app/sitemap.xml

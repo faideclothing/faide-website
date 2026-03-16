@@ -60,6 +60,20 @@
         { "name": "White", "className": "color white" }
       ],
       "images": ["images/hoodie.png", "images/hoodie1.png", "images/hoodie2.png", "images/hoodie3.png"]
+    },
+    {
+      "id": "Beanie",
+      "name": "FAIDE Beanie",
+      "label": "Best seller",
+      "category": "UNISEX Pullover Hoodie",
+      "price": 119.99,
+      "currencySymbol": "R",
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": [
+        { "name": "Black", "className": "color black" },
+        { "name": "White", "className": "color white" }
+      ],
+      "images": ["images/beanie.png", "images/beanie1.png", "images/neanie2.png", "images/beanie3.png"]
     }
   ]
 }

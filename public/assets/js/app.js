@@ -1,144 +1,206 @@
-// ===== CONFIG =====
-const PRODUCTS_URL = "/assets/js/products.json";
-const CART_KEY = "faide_cart";
+// assets/js/app.js
+const lookbook = [
+  { id: 1, image: "/images/lookbook1.png", alt: "FAIDE Lookbook 1" },
+  { id: 2, image: "/images/lookbook2.png", alt: "FAIDE Lookbook 2" }
+];
 
-// ===== STATE =====
-let PRODUCTS = [];
-let CART = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+const products = [
+  {
+    id: "tank",
+    name: "FAIDE Essentials Tank",
+    label: "Just In",
+    category: "UNISEX Tank Top",
+    price: 199.99,
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Black", "White"],
+    images: ["/images/tank-top.png", "/images/tank-top1.png", "/images/tank-top2.png", "/images/tank-top3.png"]
+  },
+  {
+    id: "tee",
+    name: "FAIDE Signature Tee",
+    label: "Bestseller",
+    category: "UNISEX Short-Sleeve Top",
+    price: 349.99,
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Black", "White", "Grey"],
+    images: ["/images/tshirt.png", "/images/tshirt1.png", "/images/tshirt2.png", "/images/tshirt3.png"]
+  },
+  {
+    id: "longsleeve",
+    name: "FAIDE Long Sleeve",
+    label: "Member Exclusive",
+    category: "UNISEX Long Sleeve",
+    price: 549.99,
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Black", "White"],
+    images: ["/images/longsleeve.png", "/images/longsleeve1.png", "/images/longsleeve2.png", "/images/longsleeve3.png"]
+  },
+  {
+    id: "hoodie",
+    name: "FAIDE Luxury Hoodie",
+    label: "Premium",
+    category: "UNISEX Pullover Hoodie",
+    price: 699.99,
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Black", "White"],
+    images: ["/images/hoodie.png", "/images/hoodie1.png", "/images/hoodie2.png", "/images/hoodie3.png"]
+  },
+  {
+    id: "beanie",
+    name: "FAIDE Beanie",
+    label: "Best seller",
+    category: "UNISEX Hat",
+    price: 119.99,
+    sizes: ["One Size"],
+    colors: ["Black", "White"],
+    images: ["/images/beanie.jpg", "/images/beanie1.png", "/images/beanie2.png", "/images/beanie3.png"]
+  }
+];
 
-// ===== HELPERS =====
-function formatPriceZAR(price) {
-  return `R${price.toFixed(2)}`;
-}
+// ====== LOOKBOOK ======
+const lookbookList = document.getElementById("lookbook-list");
+lookbook.forEach(lb => {
+  const img = document.createElement("img");
+  img.src = lb.image;
+  img.alt = lb.alt;
+  img.classList.add("lookbook-item");
+  lookbookList.appendChild(img);
+});
 
-function saveCart() {
-  localStorage.setItem(CART_KEY, JSON.stringify(CART));
-}
+// ====== SHOP ======
+const shopProducts = document.getElementById("shop-products");
+products.forEach(product => {
+  const card = document.createElement("div");
+  card.classList.add("shop-card");
+  card.innerHTML = `
+    <img src="${product.images[0]}" alt="${product.name}" />
+    <h3>${product.name}</h3>
+    <p>R${product.price.toFixed(2)}</p>
+    <button class="view-product-btn" data-id="${product.id}">View</button>
+  `;
+  shopProducts.appendChild(card);
+});
 
-function openCart() {
-  document.querySelector("#cart").classList.add("open");
-}
+// ====== PRODUCT ROUTE ======
+const routeProduct = document.getElementById("route-product");
+const rppImg = document.getElementById("rpp-img");
+const rppThumbs = document.getElementById("rpp-thumbs");
+const rppName = document.getElementById("rpp-name");
+const rppLabel = document.getElementById("rpp-label");
+const rppCategory = document.getElementById("rpp-category");
+const rppColorsRow = document.getElementById("rpp-colors-row");
+const rppSizes = document.getElementById("rpp-sizes");
+const rppPrice = document.getElementById("rpp-price");
+const rppAddBtn = document.getElementById("rpp-add");
 
-function closeCart() {
-  document.querySelector("#cart").classList.remove("open");
-}
+let selectedProduct = null;
+let selectedSize = null;
+let selectedColor = null;
 
-// ===== FETCH PRODUCTS =====
-async function loadProducts() {
-  const res = await fetch(PRODUCTS_URL, { cache: "no-store" });
-  const data = await res.json();
-  PRODUCTS = data.products;
-  renderProducts(PRODUCTS);
-}
-
-// ===== RENDER PRODUCTS =====
-function renderProducts(products) {
-  const container = document.querySelector("#products-grid");
-  container.innerHTML = "";
-
-  products.forEach((p) => {
-    const productEl = document.createElement("div");
-    productEl.className = "product-card";
-
-    const colorsHtml = (p.colors || [])
-      .map(
-        (c) =>
-          `<div class="color ${c.className}" data-color="${c.name}"></div>`
-      )
-      .join("");
-
-    const sizesHtml = (p.sizes || [])
-      .map((s) => `<button class="size">${s}</button>`)
-      .join("");
-
-    productEl.innerHTML = `
-      <img src="${p.images[0] || "/images/placeholder.png"}" />
-      <h3>${p.name}</h3>
-      <p>${formatPriceZAR(p.price)}</p>
-
-      <div class="colors">${colorsHtml}</div>
-      <div class="sizes">${sizesHtml}</div>
-
-      <button class="add-to-cart" disabled>Add to Cart</button>
-    `;
-
-    let selectedColor = null;
-    let selectedSize = null;
-
-    const addBtn = productEl.querySelector(".add-to-cart");
-
-    productEl.querySelectorAll(".color").forEach((el) => {
-      el.addEventListener("click", () => {
-        selectedColor = el.dataset.color;
-        productEl.querySelectorAll(".color").forEach(c => c.classList.remove("active"));
-        el.classList.add("active");
-        if (selectedSize) addBtn.disabled = false;
-      });
-    });
-
-    productEl.querySelectorAll(".size").forEach((el) => {
-      el.addEventListener("click", () => {
-        selectedSize = el.textContent;
-        productEl.querySelectorAll(".size").forEach(s => s.classList.remove("active"));
-        el.classList.add("active");
-        if (selectedColor) addBtn.disabled = false;
-      });
-    });
-
-    addBtn.addEventListener("click", () => {
-      CART.push({
-        id: p.id,
-        name: p.name,
-        price: p.price,
-        color: selectedColor,
-        size: selectedSize,
-        qty: 1
-      });
-      saveCart();
-      renderCart();
-      openCart();
-    });
-
-    container.appendChild(productEl);
+document.querySelectorAll(".view-product-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const id = btn.dataset.id;
+    selectedProduct = products.find(p => p.id === id);
+    showProduct(selectedProduct);
+    routeProduct.style.display = "block";
+    document.getElementById("site-content").style.display = "none";
   });
+});
+
+function showProduct(product) {
+  rppImg.src = product.images[0];
+  rppName.textContent = product.name;
+  rppLabel.textContent = product.label;
+  rppCategory.textContent = product.category;
+  rppPrice.textContent = "R" + product.price.toFixed(2);
+
+  // Thumbnails
+  rppThumbs.innerHTML = "";
+  product.images.forEach(imgUrl => {
+    const thumb = document.createElement("img");
+    thumb.src = imgUrl;
+    thumb.addEventListener("click", () => {
+      rppImg.src = imgUrl;
+    });
+    rppThumbs.appendChild(thumb);
+  });
+
+  // Sizes
+  rppSizes.innerHTML = "";
+  product.sizes.forEach(size => {
+    const btn = document.createElement("button");
+    btn.textContent = size;
+    btn.addEventListener("click", () => {
+      selectedSize = size;
+      checkAddBtn();
+      Array.from(rppSizes.children).forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+    });
+    rppSizes.appendChild(btn);
+  });
+
+  // Colors
+  rppColorsRow.innerHTML = "";
+  product.colors.forEach(color => {
+    const btn = document.createElement("button");
+    btn.textContent = color;
+    btn.addEventListener("click", () => {
+      selectedColor = color;
+      checkAddBtn();
+      Array.from(rppColorsRow.children).forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+    });
+    rppColorsRow.appendChild(btn);
+  });
+
+  selectedSize = null;
+  selectedColor = null;
+  rppAddBtn.disabled = true;
 }
 
-// ===== RENDER CART =====
-function renderCart() {
-  const container = document.querySelector("#cart-items");
-  const totalEl = document.querySelector("#cart-total");
+function checkAddBtn() {
+  rppAddBtn.disabled = !(selectedSize && selectedColor);
+}
 
-  container.innerHTML = "";
+// ====== ADD TO CART ======
+let cart = [];
+const cartSidebar = document.getElementById("cart-sidebar");
+const cartCount = document.getElementById("cart-count");
+const cartItems = document.getElementById("cart-items");
+const cartTotal = document.getElementById("cart-total");
+
+rppAddBtn.addEventListener("click", () => {
+  const cartItem = {
+    product: selectedProduct,
+    size: selectedSize,
+    color: selectedColor,
+    quantity: 1
+  };
+  cart.push(cartItem);
+  updateCartUI();
+  alert("Added to cart!");
+});
+
+function updateCartUI() {
+  cartItems.innerHTML = "";
   let total = 0;
-
-  CART.forEach((item, index) => {
-    const itemEl = document.createElement("div");
-    const lineTotal = item.price * item.qty;
-    total += lineTotal;
-
-    itemEl.innerHTML = `
-      <div>${item.name} (${item.size}, ${item.color})</div>
-      <div>${formatPriceZAR(lineTotal)}</div>
-      <button data-index="${index}">Remove</button>
-    `;
-
-    itemEl.querySelector("button").addEventListener("click", () => {
-      CART.splice(index, 1);
-      saveCart();
-      renderCart();
-    });
-
-    container.appendChild(itemEl);
+  cart.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = `${item.product.name} (${item.size}, ${item.color}) - R${item.product.price.toFixed(2)}`;
+    cartItems.appendChild(li);
+    total += item.product.price * item.quantity;
   });
-
-  totalEl.textContent = formatPriceZAR(total);
+  cartCount.textContent = cart.length;
+  cartTotal.textContent = total.toFixed(2);
 }
 
-// ===== INIT =====
-document.addEventListener("DOMContentLoaded", () => {
-  loadProducts();
-  renderCart();
+// ====== SHOP NOW BUTTON ======
+document.getElementById("shop-now-btn").addEventListener("click", () => {
+  document.getElementById("shop").scrollIntoView({ behavior: "smooth" });
+});
 
-  document.querySelector("#cart-open").onclick = openCart;
-  document.querySelector("#cart-close").onclick = closeCart;
+// ====== CLOSE PRODUCT ROUTE ======
+document.querySelector(".route-back").addEventListener("click", () => {
+  routeProduct.style.display = "none";
+  document.getElementById("site-content").style.display = "block";
 });

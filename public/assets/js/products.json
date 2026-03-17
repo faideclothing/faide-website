@@ -7,16 +7,22 @@
     {
       "id": "tank",
       "name": "FAIDE Essentials Tank",
-      "label": "Just In",
+      "label": "New",
       "category": "UNISEX Tank Top",
       "price": 199.99,
       "currencySymbol": "R",
       "sizes": ["S", "M", "L", "XL"],
+      "stock": 30,
       "colors": [
-        { "name": "Black", "className": "color black" },
-        { "name": "White", "className": "color white" }
+        { "name": "Black", "className": "black" },
+        { "name": "White", "className": "white" }
       ],
-      "images": ["images/tank-top.png", "images/tank-top1.png", "images/tank-top2.png", "images/tank-top3.png"]
+      "images": [
+        "images/tank-top.png",
+        "images/tank-top1.png",
+        "images/tank-top2.png",
+        "images/tank-top3.png"
+      ]
     },
     {
       "id": "tee",
@@ -26,26 +32,38 @@
       "price": 349.99,
       "currencySymbol": "R",
       "sizes": ["S", "M", "L", "XL"],
+      "stock": 50,
       "colors": [
-        { "name": "Black", "className": "color black" },
-        { "name": "White", "className": "color white" },
-        { "name": "Grey", "className": "color grey" }
+        { "name": "Black", "className": "black" },
+        { "name": "White", "className": "white" },
+        { "name": "Grey", "className": "grey" }
       ],
-      "images": ["images/tshirt.png", "images/tshirt1.png", "images/tshirt2.png", "images/tshirt3.png"]
+      "images": [
+        "images/tshirt.png",
+        "images/tshirt1.png",
+        "images/tshirt2.png",
+        "images/tshirt3.png"
+      ]
     },
     {
       "id": "longsleeve",
       "name": "FAIDE Long Sleeve",
-      "label": "Member Exclusive",
+      "label": "Exclusive",
       "category": "UNISEX Long Sleeve",
       "price": 549.99,
       "currencySymbol": "R",
       "sizes": ["S", "M", "L", "XL"],
+      "stock": 20,
       "colors": [
-        { "name": "Black", "className": "color black" },
-        { "name": "White", "className": "color white" }
+        { "name": "Black", "className": "black" },
+        { "name": "White", "className": "white" }
       ],
-      "images": ["images/longsleeve.png", "images/longsleeve1.png", "images/longsleeve2.png", "images/longsleeve3.png"]
+      "images": [
+        "images/longsleeve.png",
+        "images/longsleeve1.png",
+        "images/longsleeve2.png",
+        "images/longsleeve3.png"
+      ]
     },
     {
       "id": "hoodie",
@@ -55,25 +73,37 @@
       "price": 699.99,
       "currencySymbol": "R",
       "sizes": ["S", "M", "L", "XL"],
+      "stock": 15,
       "colors": [
-        { "name": "Black", "className": "color black" },
-        { "name": "White", "className": "color white" }
+        { "name": "Black", "className": "black" },
+        { "name": "White", "className": "white" }
       ],
-      "images": ["images/hoodie.png", "images/hoodie1.png", "images/hoodie2.png", "images/hoodie3.png"]
+      "images": [
+        "images/hoodie.png",
+        "images/hoodie1.png",
+        "images/hoodie2.png",
+        "images/hoodie3.png"
+      ]
     },
     {
-      "id": "Beanie",
+      "id": "beanie",
       "name": "FAIDE Beanie",
-      "label": "Best seller",
-      "category": "UNISEX Pullover Hoodie",
+      "label": "Bestseller",
+      "category": "UNISEX Headwear",
       "price": 119.99,
       "currencySymbol": "R",
-      "sizes": ["S", "M", "L", "XL"],
+      "sizes": ["One Size"],
+      "stock": 40,
       "colors": [
-        { "name": "Black", "className": "color black" },
-        { "name": "White", "className": "color white" }
+        { "name": "Black", "className": "black" },
+        { "name": "White", "className": "white" }
       ],
-      "images": ["images/beanie.jpg", "images/beanie1.png", "images/neanie2.png", "images/beanie3.png"]
+      "images": [
+        "images/beanie.jpg",
+        "images/beanie1.png",
+        "images/beanie2.png",
+        "images/beanie3.png"
+      ]
     }
   ]
 }

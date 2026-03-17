@@ -1,4 +1,4 @@
-// assets/js/app.js
+// ===== DATA =====
 const lookbook = [
   { id: 1, image: "/images/lookbook1.png", alt: "FAIDE Lookbook 1" },
   { id: 2, image: "/images/lookbook2.png", alt: "FAIDE Lookbook 2" }
@@ -57,7 +57,7 @@ const products = [
   }
 ];
 
-// ====== LOOKBOOK ======
+// ===== LOOKBOOK =====
 const lookbookList = document.getElementById("lookbook-list");
 lookbook.forEach(lb => {
   const img = document.createElement("img");
@@ -67,7 +67,7 @@ lookbook.forEach(lb => {
   lookbookList.appendChild(img);
 });
 
-// ====== SHOP ======
+// ===== SHOP =====
 const shopProducts = document.getElementById("shop-products");
 products.forEach(product => {
   const card = document.createElement("div");
@@ -81,7 +81,7 @@ products.forEach(product => {
   shopProducts.appendChild(card);
 });
 
-// ====== PRODUCT ROUTE ======
+// ===== PRODUCT ROUTE =====
 const routeProduct = document.getElementById("route-product");
 const rppImg = document.getElementById("rpp-img");
 const rppThumbs = document.getElementById("rpp-thumbs");
@@ -119,9 +119,7 @@ function showProduct(product) {
   product.images.forEach(imgUrl => {
     const thumb = document.createElement("img");
     thumb.src = imgUrl;
-    thumb.addEventListener("click", () => {
-      rppImg.src = imgUrl;
-    });
+    thumb.addEventListener("click", () => rppImg.src = imgUrl);
     rppThumbs.appendChild(thumb);
   });
 
@@ -162,23 +160,20 @@ function checkAddBtn() {
   rppAddBtn.disabled = !(selectedSize && selectedColor);
 }
 
-// ====== ADD TO CART ======
+// ===== CART =====
 let cart = [];
 const cartSidebar = document.getElementById("cart-sidebar");
 const cartCount = document.getElementById("cart-count");
 const cartItems = document.getElementById("cart-items");
 const cartTotal = document.getElementById("cart-total");
+const cartToast = document.getElementById("cartToast");
+const cartMessage = document.getElementById("cartMessage");
 
 rppAddBtn.addEventListener("click", () => {
-  const cartItem = {
-    product: selectedProduct,
-    size: selectedSize,
-    color: selectedColor,
-    quantity: 1
-  };
-  cart.push(cartItem);
+  const item = { product: selectedProduct, size: selectedSize, color: selectedColor, quantity: 1 };
+  cart.push(item);
   updateCartUI();
-  alert("Added to cart!");
+  showCartToast(`${selectedProduct.name} added to cart!`);
 });
 
 function updateCartUI() {
@@ -194,13 +189,49 @@ function updateCartUI() {
   cartTotal.textContent = total.toFixed(2);
 }
 
-// ====== SHOP NOW BUTTON ======
+// ===== CART TOAST =====
+function showCartToast(message) {
+  cartMessage.textContent = message;
+  cartToast.classList.add("show");
+  setTimeout(() => cartToast.classList.remove("show"), 2000);
+}
+
+// ===== SHOP NOW =====
 document.getElementById("shop-now-btn").addEventListener("click", () => {
   document.getElementById("shop").scrollIntoView({ behavior: "smooth" });
 });
 
-// ====== CLOSE PRODUCT ROUTE ======
+// ===== PRODUCT BACK =====
 document.querySelector(".route-back").addEventListener("click", () => {
   routeProduct.style.display = "none";
   document.getElementById("site-content").style.display = "block";
 });
+
+// ===== MODALS =====
+const signupModal = document.getElementById("signup-modal");
+const suSubmit = document.getElementById("su-submit");
+const suClose = document.getElementById("signup-close");
+
+// Show signup modal when shop scroll into view
+const shopSection = document.getElementById("shop");
+window.addEventListener("scroll", () => {
+  if (window.scrollY + window.innerHeight > shopSection.offsetTop + 50) {
+    signupModal.style.display = "block";
+  }
+});
+
+suClose.addEventListener("click", () => (signupModal.style.display = "none"));
+suSubmit.addEventListener("click", () => {
+  const email = document.getElementById("su-email").value;
+  if (email) {
+    alert(`Thanks! We'll notify you at ${email}`);
+    signupModal.style.display = "none";
+  }
+});
+
+// ===== CART SIDEBAR =====
+const floatingCart = document.getElementById("floating-cart");
+const closeCartBtn = document.getElementById("close-cart");
+
+floatingCart.addEventListener("click", () => cartSidebar.style.display = "block");
+closeCartBtn.addEventListener("click", () => cartSidebar.style.display = "none");

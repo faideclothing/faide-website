@@ -1,6 +1,6 @@
 {
   "lookbook": [
-    { "id": 1, "image": "images/lookbook1.png", "alt": "FAIDE Lookbook 1" },
+    { "id": 1, "image": "public/images/lookbook1.png", "alt": "FAIDE Lookbook 1" },
     { "id": 2, "image": "images/lookbook2.png", "alt": "FAIDE Lookbook 2" }
   ],
   "products": [

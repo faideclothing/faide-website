@@ -10,12 +10,12 @@
       name="description"  
       content="FAIDE luxury streetwear. New drops, exclusive releases, and curated essentials. Designed with intention. Worn with purpose."  
     />  
-    <meta name="robots" content="index,follow" />  
-    <link rel="canonical" href="https://faide-website.vercel.app/" />  
+    <meta name="robots" content="index,follow,max-image-preview:large" />  
+    <link rel="canonical" href="https://faide.store/" />  
     <meta name="theme-color" content="#000000" />  
   
     <link rel="icon" href="favicon.png" />  
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />  
+    <link rel="apple-touch-icon" href="favicon.png" />  
   
     <link rel="preload" as="image" href="images/hero.png" />  
     <link rel="preload" as="image" href="images/faide-wordmark.png" />  
@@ -28,9 +28,9 @@
       property="og:description"  
       content="Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials."  
     />  
-    <meta property="og:url" content="https://faide-website.vercel.app/" />  
-    <meta property="og:image" content="https://faide-website.vercel.app/images/hero.png" />  
-    <meta property="og:image:secure_url" content="https://faide-website.vercel.app/images/hero.png" />  
+    <meta property="og:url" content="https://faide.store/" />  
+    <meta property="og:image" content="https://faide.store/images/hero.png" />  
+    <meta property="og:image:secure_url" content="https://faide.store/images/hero.png" />  
     <meta property="og:image:alt" content="FAIDE luxury streetwear hero image" />  
     <meta property="og:image:width" content="1200" />  
     <meta property="og:image:height" content="630" />  
@@ -45,24 +45,37 @@
       name="twitter:description"  
       content="Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials."  
     />  
-    <meta name="twitter:image" content="https://faide-website.vercel.app/images/hero.png" />  
+    <meta name="twitter:image" content="https://faide.store/images/hero.png" />  
     <meta name="twitter:image:alt" content="FAIDE luxury streetwear hero image" />  
   
     <script type="application/ld+json">  
       {  
         "@context": "https://schema.org",  
-        "@type": "Brand",  
-        "@id": "https://faide-website.vercel.app/#brand",  
-        "name": "FAIDE",  
-        "url": "https://faide-website.vercel.app/",  
-        "logo": "https://faide-website.vercel.app/images/faide-wordmark.png",  
-        "description": "FAIDE is a luxury streetwear brand designed with intention and worn with purpose.",  
-        "sameAs": [  
-          "https://www.facebook.com/faideclothing",  
-          "https://www.instagram.com/faideclothing",  
-          "https://www.tiktok.com/@faideclothing",  
-          "https://x.com/faideclothing"  
-        ]  
+        "@graph": [
+          {
+            "@type": "Brand",  
+            "@id": "https://faide.store/#brand",  
+            "name": "FAIDE",  
+            "url": "https://faide.store/",  
+            "logo": "https://faide.store/images/faide-wordmark.png",  
+            "description": "FAIDE is a luxury streetwear brand designed with intention and worn with purpose.",  
+            "sameAs": [  
+              "https://www.facebook.com/faideclothing",  
+              "https://www.instagram.com/faideclothing",  
+              "https://www.tiktok.com/@faideclothing",  
+              "https://x.com/faideclothing"  
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://faide.store/#website",
+            "url": "https://faide.store/",
+            "name": "FAIDE",
+            "publisher": {
+              "@id": "https://faide.store/#brand"
+            }
+          }
+        ]
       }  
     </script>  
   
@@ -140,6 +153,10 @@
         <a href="#shop" data-nav-link="main">SHOP</a>  
         <a href="#about" data-nav-link="main">ABOUT</a>  
       </div>  
+      <div class="drawer-footer">
+        <button id="drawer-login-btn" class="drawer-login-btn" type="button">Login</button>
+        <p class="drawer-note">Track saved details, drops, and your bag.</p>
+      </div>
     </aside>  
   
     <!-- ROUTE: LOOKBOOK (query route ?page=lookbook&i=1) -->  
@@ -164,8 +181,11 @@
         </div>  
   
         <div class="lookbook-view">  
+          <button type="button" class="route-arrow route-arrow-left" id="rlb-prev" aria-label="Previous lookbook image">‹</button>
           <img id="rlb-img" alt="Lookbook image" src="" />  
-        </div>  
+          <button type="button" class="route-arrow route-arrow-right" id="rlb-next" aria-label="Next lookbook image">›</button>
+        </div>
+        <div class="route-meta" id="rlb-meta"></div>  
       </div>  
     </main>  
   
@@ -225,7 +245,7 @@
   
             <button type="button" class="secondary-btn" id="rpp-add" disabled>Add to Bag</button>  
   
-            <div class="rpp-hint">Tap thumbnails • Select size &amp; color • Add to Bag</div>  
+            <div class="rpp-hint">Choose a size and color, then add it to your bag.</div>  
           </div>  
         </section>  
       </div>  
@@ -404,7 +424,10 @@
   
     <div id="cart-sidebar" class="cart-sidebar" aria-label="Shopping cart">  
       <div class="cart-header">  
-        <h2>Your Cart</h2>  
+        <div>
+          <p class="cart-kicker">Bag</p>
+          <h2>Your Cart</h2>
+        </div>
         <button id="close-cart" class="close-cart" aria-label="Close cart" type="button">  
           <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">  
             <path  
@@ -414,16 +437,32 @@
         </button>  
       </div>  
   
-      <ul id="cart-items" class="cart-items"></ul>  
+      <div class="cart-body">
+        <div class="cart-summary-card">
+          <div>
+            <div class="cart-summary-label">Items</div>
+            <div id="cart-summary-count" class="cart-summary-value">0 pieces</div>
+          </div>
+          <div>
+            <div class="cart-summary-label">Subtotal</div>
+            <div class="cart-summary-value">R<span id="cart-summary-total">0.00</span></div>
+          </div>
+        </div>
+        <ul id="cart-items" class="cart-items"></ul>  
+      </div>
   
       <div class="cart-footer">  
+        <div class="cart-meta">
+          <span>Secure checkout upgrade coming soon</span>
+          <span>Saved locally on this device</span>
+        </div>
         <div class="cart-total-row">  
           <span class="cart-total-label">Total:</span>  
           <span class="cart-total-value">R<span id="cart-total">0.00</span></span>  
         </div>  
   
         <button class="checkout-btn" id="checkout-btn" type="button" disabled title="Add items to checkout">  
-          Proceed to Checkout  
+          Continue to Checkout  
         </button>  
       </div>  
     </div>  
@@ -452,44 +491,56 @@
   
         <div class="modal-body">  
           <div class="checkout-banner">  
-            <div class="checkout-banner-title">Card Payments: Coming Soon</div>  
+            <div class="checkout-banner-title">Checkout Preview</div>  
             <div class="checkout-banner-text">  
-              We’re finishing secure card checkout. For now, you can view your cart here and we’ll enable payments soon.  
+              Save your delivery details now and we will keep your next checkout fast on this device.  
             </div>  
           </div>  
-  
-          <div class="checkout-summary">  
-            <div class="checkout-summary-row">  
-              <span class="checkout-muted">Items</span>  
-              <span id="checkout-items-count" class="checkout-strong">0</span>  
+
+          <div class="checkout-layout">
+            <div class="checkout-summary checkout-summary-primary">  
+              <div class="checkout-summary-row">  
+                <span class="checkout-muted">Items</span>  
+                <span id="checkout-items-count" class="checkout-strong">0</span>  
+              </div>  
+              <div class="checkout-summary-row">  
+                <span class="checkout-muted">Subtotal</span>  
+                <span class="checkout-strong">R<span id="checkout-total">0.00</span></span>  
+              </div>  
+              <div class="checkout-summary-row">
+                <span class="checkout-muted">Shipping</span>
+                <span class="checkout-strong">Calculated at launch</span>
+              </div>
+              <div class="checkout-summary-row checkout-summary-total">
+                <span class="checkout-muted">Estimated total</span>
+                <span class="checkout-strong">R<span id="checkout-total-estimate">0.00</span></span>
+              </div>
             </div>  
-            <div class="checkout-summary-row">  
-              <span class="checkout-muted">Total</span>  
-              <span class="checkout-strong">R<span id="checkout-total">0.00</span></span>  
+
+            <div class="checkout-form">  
+              <div class="checkout-form-title">Delivery details</div>  
+              <div class="checkout-grid">  
+                <input id="co-name" type="text" placeholder="Full name" autocomplete="name" />  
+                <input id="co-email" type="email" placeholder="Email" autocomplete="email" />  
+                <input id="co-phone" type="tel" placeholder="Phone number" autocomplete="tel" />  
+                <input id="co-city" type="text" placeholder="City" autocomplete="address-level2" />  
+              </div>  
+              <div class="checkout-grid checkout-grid-single">
+                <input id="co-address" type="text" placeholder="Delivery address" autocomplete="street-address" />
+              </div>
+              <button id="co-submit" type="button" class="secondary-btn">  
+                Save Details  
+              </button>  
+
+              <div class="checkout-note">  
+                Your information stays on this device until live checkout is ready. PayPal payments go to <strong>@faideClothing</strong>.  
+              </div>  
             </div>  
-          </div>  
-  
-          <div class="checkout-form">  
-            <div class="checkout-form-title">Get notified when payments go live</div>  
-            <div class="checkout-grid">  
-              <input id="co-name" type="text" placeholder="Full name" autocomplete="name" />  
-              <input id="co-email" type="email" placeholder="Email" autocomplete="email" />  
-              <input id="co-phone" type="tel" placeholder="Phone (optional)" autocomplete="tel" />  
-              <input id="co-city" type="text" placeholder="City (optional)" autocomplete="address-level2" />  
-            </div>  
-  
-            <button id="co-submit" type="button" class="secondary-btn">  
-              Save My Details  
-            </button>  
-  
-            <div class="checkout-note">  
-              This does not place an order yet. It only saves your details locally on this device for faster checkout later.  
-            </div>  
-          </div>  
+          </div>
   
           <div class="checkout-actions">  
-            <button id="checkout-close-2" type="button" class="ghost-btn">Close</button>  
-            <button type="button" class="checkout-pay-btn" disabled title="Coming soon">Pay with Card (Coming Soon)</button>  
+            <button id="checkout-close-2" type="button" class="ghost-btn">Keep Shopping</button>  
+            <a id="checkout-paypal-link" class="checkout-pay-btn paypal-btn" href="https://www.paypal.com/paypalme/faideClothing" target="_blank" rel="noopener noreferrer">Pay with PayPal</a>  
           </div>  
         </div>  
       </div>  
@@ -520,18 +571,54 @@
         <div class="modal-body">  
           <div class="signup-banner">  
             <div class="signup-title">Get early access to drops</div>  
-            <div class="signup-text">Enter your email to get exclusive updates, early access, and drop alerts.</div>  
+            <div class="signup-text">Join the list for release reminders, low-stock notices, and launch-day access.</div>  
           </div>  
   
           <div class="signup-form">  
+            <input id="su-name" type="text" placeholder="First name" autocomplete="given-name" />
             <input id="su-email" type="email" placeholder="Email address" autocomplete="email" />  
-            <button id="su-submit" type="button" class="secondary-btn">Sign Up</button>  
-            <div class="signup-note">We won’t spam you. You can unsubscribe anytime.</div>  
+            <button id="su-submit" type="button" class="secondary-btn">Join the List</button>  
+            <button id="su-later" type="button" class="ghost-btn signup-later-btn">Maybe Later</button>
+            <div class="signup-note">One tap to close, no spam.</div>  
           </div>  
         </div>  
       </div>  
     </div>  
   
+
+    <!-- LOGIN MODAL -->
+    <div
+      id="login-modal"
+      class="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="login-title"
+      style="display:none;"
+    >
+      <div class="modal-card modal-card-narrow">
+        <div class="modal-head">
+          <h2 id="login-title" class="modal-title">Login</h2>
+          <button id="login-close" type="button" class="modal-close" aria-label="Close login">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="signup-banner">
+            <div class="signup-title">Welcome back</div>
+            <div class="signup-text">Sign in to keep your saved details ready for new drops and faster checkout.</div>
+          </div>
+          <div class="signup-form">
+            <input id="login-email" type="email" placeholder="Email address" autocomplete="email" />
+            <input id="login-password" type="password" placeholder="Password" autocomplete="current-password" />
+            <button id="login-submit" type="button" class="secondary-btn">Login</button>
+            <div class="signup-note">Demo login saves your session on this device.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Toast -->  
     <div class="cart-toast" id="cartToast" role="status" aria-live="polite">  
       <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">  

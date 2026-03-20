@@ -1,7 +1,15 @@
 {
   "lookbook": [
-    { "id": 1, "image": "images/lookbook1.png", "alt": "FAIDE Lookbook 1" },
-    { "id": 2, "image": "images/lookbook2.png", "alt": "FAIDE Lookbook 2" }
+    {
+      "id": 1,
+      "image": "images/lookbook1.png",
+      "alt": "FAIDE Lookbook 1"
+    },
+    {
+      "id": 2,
+      "image": "images/lookbook2.png",
+      "alt": "FAIDE Lookbook 2"
+    }
   ],
   "products": [
     {
@@ -11,12 +19,29 @@
       "category": "UNISEX Tank Top",
       "price": 199.99,
       "currencySymbol": "R",
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": [
-        { "name": "Black", "className": "color black" },
-        { "name": "White", "className": "color white" }
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
       ],
-      "images": ["images/tank-top.png", "images/tank-top1.png", "images/tank-top2.png", "images/tank-top3.png"]
+      "colors": [
+        {
+          "name": "Black",
+          "className": "color black"
+        },
+        {
+          "name": "White",
+          "className": "color white"
+        }
+      ],
+      "images": [
+        "images/tank-top.png",
+        "images/tank-top1.png",
+        "images/tank-top2.png",
+        "images/tank-top3.png"
+      ],
+      "inStock": true
     },
     {
       "id": "tee",
@@ -25,13 +50,33 @@
       "category": "UNISEX Short-Sleeve Top",
       "price": 349.99,
       "currencySymbol": "R",
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": [
-        { "name": "Black", "className": "color black" },
-        { "name": "White", "className": "color white" },
-        { "name": "Grey", "className": "color grey" }
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
       ],
-      "images": ["images/tshirt.png", "images/tshirt1.png", "images/tshirt2.png", "images/tshirt3.png"]
+      "colors": [
+        {
+          "name": "Black",
+          "className": "color black"
+        },
+        {
+          "name": "White",
+          "className": "color white"
+        },
+        {
+          "name": "Grey",
+          "className": "color grey"
+        }
+      ],
+      "images": [
+        "images/tshirt.png",
+        "images/tshirt1.png",
+        "images/tshirt2.png",
+        "images/tshirt3.png"
+      ],
+      "inStock": true
     },
     {
       "id": "longsleeve",
@@ -40,12 +85,29 @@
       "category": "UNISEX Long Sleeve",
       "price": 549.99,
       "currencySymbol": "R",
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": [
-        { "name": "Black", "className": "color black" },
-        { "name": "White", "className": "color white" }
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
       ],
-      "images": ["images/longsleeve.png", "images/longsleeve1.png", "images/longsleeve2.png", "images/longsleeve3.png"]
+      "colors": [
+        {
+          "name": "Black",
+          "className": "color black"
+        },
+        {
+          "name": "White",
+          "className": "color white"
+        }
+      ],
+      "images": [
+        "images/longsleeve.png",
+        "images/longsleeve1.png",
+        "images/longsleeve2.png",
+        "images/longsleeve3.png"
+      ],
+      "inStock": true
     },
     {
       "id": "hoodie",
@@ -54,12 +116,29 @@
       "category": "UNISEX Pullover Hoodie",
       "price": 699.99,
       "currencySymbol": "R",
-      "sizes": ["S", "M", "L", "XL"],
-      "colors": [
-        { "name": "Black", "className": "color black" },
-        { "name": "White", "className": "color white" }
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
       ],
-      "images": ["images/hoodie.png", "images/hoodie1.png", "images/hoodie2.png", "images/hoodie3.png"]
+      "colors": [
+        {
+          "name": "Black",
+          "className": "color black"
+        },
+        {
+          "name": "White",
+          "className": "color white"
+        }
+      ],
+      "images": [
+        "images/hoodie.png",
+        "images/hoodie1.png",
+        "images/hoodie2.png",
+        "images/hoodie3.png"
+      ],
+      "inStock": true
     },
     {
       "id": "beanie",
@@ -68,15 +147,23 @@
       "category": "UNISEX Beanie",
       "price": 119.99,
       "currencySymbol": "R",
-
-      "sizes": ["One Size"],
-
-      "colors": [
-        { "name": "Black", "className": "color black" },
-        { "name": "White", "className": "color white" }
+      "sizes": [
+        "One Size"
       ],
-
-      "images": ["images/beanie.jpg", "images/beanie1.png", "images/beanie2.png", "images/beanie3.png"]
+      "colors": [
+        {
+          "name": "Black",
+          "className": "color black"
+        },
+        {
+          "name": "White",
+          "className": "color white"
+        }
+      ],
+      "images": [
+        "images/beanie.jpg"
+      ],
+      "inStock": true
     }
   ]
 }

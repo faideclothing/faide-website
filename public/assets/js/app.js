@@ -1,113 +1,105 @@
-(function () {
+(function () { const $ = (id) => document.getElementById(id);
 
-function $(id) {
-  return document.getElementById(id);
-}
+// ---------------- CONFIG ---------------- const defaultConfig = { brand_name: "FAIDE", hero_title: "NEW DROP", hero_description: "New drops, exclusive releases, and updates are announced on our social platforms.", about_headline: "About FAIDE", about_description: "FAIDE is a luxury streetwear brand built for those who move in silence.", };
 
-function clickOnEnterSpace(el, fn) {
-  if (!el) return;
-  el.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      fn();
-    }
-  });
-}
+// ---------------- LOAD PRODUCTS ---------------- async function loadCatalog() { try { const res = await fetch("/assets/js/products.json", { cache: "no-store" }); if (!res.ok) throw new Error("Failed to fetch products.json"); const data = await res.json(); console.log("✅ Catalog loaded:", data); return data; } catch (err) { console.error("❌ Catalog error:", err); return { lookbook: [], products: [] }; } }
 
-// ✅ FIXED
-function formatPriceZAR(price) {
-  const n = Number(price || 0);
-  return `R${n.toFixed(2)}`;
-}
+// ---------------- SCROLL ---------------- function scrollToShop() { const el = document.getElementById("shop"); if (!el) return; el.scrollIntoView({ behavior: "smooth" }); setTimeout(() => window.scrollBy(0, -80), 300); }
 
-// ---------- Lookbook FIX ----------
-function renderLookbook(listEl, lookbookItems) {
-  if (!listEl) return;
-  listEl.innerHTML = "";
+// ---------------- RENDER LOOKBOOK ---------------- function renderLookbook(list, items) { if (!list) return; list.innerHTML = "";
 
-  lookbookItems.forEach((item) => {
-    const card = document.createElement("div");
-    card.className = "lookbook-card";
-    card.setAttribute("role", "button");
-    card.setAttribute("tabindex", "0");
-
-    // ✅ FIXED
-    card.setAttribute("aria-label", `Open Lookbook ${item.id}`);
-
-    // ✅ FIXED
-    card.innerHTML = `
-      <img src="${item.image}" alt="${item.alt || "Lookbook"}" class="lookbook-img" />
-    `;
-
-    const go = () => window.location.href = `?page=lookbook&i=${item.id}`;
-    card.addEventListener("click", go);
-    clickOnEnterSpace(card, go);
-
-    listEl.appendChild(card);
-  });
-}
-
-// ---------- EVERYTHING ELSE (UNCHANGED BUT SAFE WRAPPED) ----------
-document.addEventListener("DOMContentLoaded", () => {
-
-  // NAV MENU
-  const menuBtn = $("mobile-menu-btn");
-  const drawer = $("mobile-menu-panel");
-  const overlay = $("mobile-drawer-overlay");
-  const closeBtn = $("drawer-close");
-
-  menuBtn?.addEventListener("click", () => {
-    drawer?.classList.toggle("open");
-    overlay?.classList.toggle("active");
-  });
-
-  closeBtn?.addEventListener("click", () => {
-    drawer?.classList.remove("open");
-    overlay?.classList.remove("active");
-  });
-
-  overlay?.addEventListener("click", () => {
-    drawer?.classList.remove("open");
-    overlay?.classList.remove("active");
-  });
-
-  // POLICY MODAL
-  const modal = $("policy-modal");
-  const closeModal = $("close-modal");
-
-  ["privacy-link","shipping-link","terms-link","returns-link"].forEach(id => {
-    const el = $(id);
-    el?.addEventListener("click", (e) => {
-      e.preventDefault();
-      modal.style.display = "block";
-    });
-  });
-
-  closeModal?.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
-
-  // CART
-  const cartBtn = $("floating-cart");
-  const cart = $("cart-sidebar");
-  const closeCart = $("close-cart");
-  const cartOverlay = $("cart-overlay");
-
-  cartBtn?.addEventListener("click", () => {
-    cart?.classList.add("active");
-    cartOverlay?.classList.add("active");
-  });
-
-  closeCart?.addEventListener("click", () => {
-    cart?.classList.remove("active");
-    cartOverlay?.classList.remove("active");
-  });
-
-  cartOverlay?.addEventListener("click", () => {
-    cart?.classList.remove("active");
-    cartOverlay?.classList.remove("active");
-  });
-
+items.forEach((item) => {
+  const div = document.createElement("div");
+  div.className = "lookbook-card";
+  div.innerHTML = `<img src="${item.image}" alt="${item.alt}" />`;
+  list.appendChild(div);
 });
 
-})();
+}
+
+// ---------------- RENDER SHOP ---------------- function renderShop(container, products) { if (!container) return; container.innerHTML = "";
+
+products.forEach((p) => {
+  const el = document.createElement("div");
+  el.className = "product";
+
+  const isOneSize = p.sizes.length === 1;
+
+  el.innerHTML = `
+    <img src="${p.images[0]}" class="product-img" />
+    <h3>${p.name}</h3>
+    <p>R${p.price}</p>
+
+    ${
+      isOneSize
+        ? `<p class="one-size">One Size</p>`
+        : `<div class="sizes">
+            ${p.sizes
+              .map((s) => `<button class="size">${s}</button>`)
+              .join("")}
+          </div>`
+    }
+
+    <button class="add">Add to Bag</button>
+  `;
+
+  container.appendChild(el);
+});
+
+console.log("✅ Products rendered");
+
+}
+
+// ---------------- POLICY MODAL ---------------- function initPolicy() { const modal = $("policy-modal"); const title = $("modal-title"); const content = $("modal-content");
+
+if (!modal || !title || !content) return;
+
+const data = {
+  privacy: "We respect your privacy.",
+  terms: "Terms apply.",
+};
+
+document.querySelectorAll("[data-policy]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const type = btn.dataset.policy;
+    title.textContent = type;
+    content.innerHTML = data[type] || "";
+    modal.style.display = "block";
+  });
+});
+
+$("close-modal")?.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+}
+
+// ---------------- SIGNUP POPUP ---------------- function initSignup() { const modal = $("signup-modal"); if (!modal) return;
+
+const shop = document.getElementById("shop");
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    if (entries[0].isIntersecting) {
+      modal.style.display = "block";
+      observer.disconnect();
+    }
+  },
+  { threshold: 0.2 }
+);
+
+if (shop) observer.observe(shop);
+
+}
+
+// ---------------- MAIN ---------------- document.addEventListener("DOMContentLoaded", async () => { $("shop-now-btn")?.addEventListener("click", scrollToShop);
+
+const catalog = await loadCatalog();
+
+renderLookbook($("lookbook-list"), catalog.lookbook);
+renderShop($("shop-products"), catalog.products);
+
+initPolicy();
+initSignup();
+
+}); })();

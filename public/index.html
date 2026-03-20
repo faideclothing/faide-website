@@ -15,7 +15,7 @@
     <meta name="theme-color" content="#000000" />  
   
     <link rel="icon" href="favicon.png" />  
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />  
+    <link rel="apple-touch-icon" href="favicon.png" />  
   
     <link rel="preload" as="image" href="images/hero.png" />  
     <link rel="preload" as="image" href="images/faide-wordmark.png" />  
@@ -164,8 +164,11 @@
         </div>  
   
         <div class="lookbook-view">  
+          <button type="button" class="route-arrow route-arrow-left" id="rlb-prev" aria-label="Previous lookbook image">‹</button>
           <img id="rlb-img" alt="Lookbook image" src="" />  
-        </div>  
+          <button type="button" class="route-arrow route-arrow-right" id="rlb-next" aria-label="Next lookbook image">›</button>
+        </div>
+        <div class="route-meta" id="rlb-meta"></div>  
       </div>  
     </main>  
   
@@ -225,7 +228,7 @@
   
             <button type="button" class="secondary-btn" id="rpp-add" disabled>Add to Bag</button>  
   
-            <div class="rpp-hint">Tap thumbnails • Select size &amp; color • Add to Bag</div>  
+            <div class="rpp-hint">Choose a size and color, then add it to your bag.</div>  
           </div>  
         </section>  
       </div>  
@@ -454,7 +457,7 @@
           <div class="checkout-banner">  
             <div class="checkout-banner-title">Card Payments: Coming Soon</div>  
             <div class="checkout-banner-text">  
-              We’re finishing secure card checkout. For now, you can view your cart here and we’ll enable payments soon.  
+              Card checkout is not live yet. Save your details for faster checkout later.  
             </div>  
           </div>  
   
@@ -483,7 +486,7 @@
             </button>  
   
             <div class="checkout-note">  
-              This does not place an order yet. It only saves your details locally on this device for faster checkout later.  
+              This only saves your details on this device.  
             </div>  
           </div>  
   
@@ -526,7 +529,7 @@
           <div class="signup-form">  
             <input id="su-email" type="email" placeholder="Email address" autocomplete="email" />  
             <button id="su-submit" type="button" class="secondary-btn">Sign Up</button>  
-            <div class="signup-note">We won’t spam you. You can unsubscribe anytime.</div>  
+            <div class="signup-note">Drop alerts only.</div>  
           </div>  
         </div>  
       </div>  

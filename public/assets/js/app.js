@@ -135,12 +135,26 @@ const qs = url.searchParams.toString();
 return qs ? url.pathname + "?" + qs : url.pathname;
 }
 
-function gotoLookbook(i) {
-window.location.href = toQueryUrl({ page: "lookbook", i });
+function navigateTo(params, { replace = false } = {}) {
+const target = toQueryUrl(params);
+if (replace) history.replaceState(params, "", target);
+else history.pushState(params, "", target);
+window.dispatchEvent(new CustomEvent("faide:navigate"));
 }
 
-function gotoProduct(id) {
-window.location.href = toQueryUrl({ page: "product", id });
+function gotoLookbook(i, options) {
+navigateTo({ page: "lookbook", i }, options);
+}
+
+function gotoProduct(id, options) {
+navigateTo({ page: "product", id }, options);
+}
+
+function gotoHomeSection(id = "drop", { replace = false } = {}) {
+const target = `${window.location.pathname}#${id}`;
+if (replace) history.replaceState({}, "", target);
+else history.pushState({}, "", target);
+window.dispatchEvent(new CustomEvent("faide:navigate"));
 }
 
 function showRoute(page) {
@@ -551,7 +565,7 @@ return { open, close, isOpen: () => overlay?.style.display === "block" };
 
 function formatPriceZAR(price) {
 const n = Number(price || 0);
-return R${n.toFixed(2)};
+return `R${n.toFixed(2)}`;
 }
 
 function renderLookbook(listEl, lookbookItems) {
@@ -562,8 +576,8 @@ const card = document.createElement("div");
 card.className = "lookbook-card";
 card.setAttribute("role", "button");
 card.setAttribute("tabindex", "0");
-card.setAttribute("aria-label", Open Lookbook ${item.id});
-card.innerHTML = <img src="${item.image}" alt="${item.alt || "Lookbook"}" class="lookbook-img" />;
+card.setAttribute("aria-label", `Open lookbook image ${item.id}`);
+card.innerHTML = `<img src="${item.image}" alt="${item.alt || "Lookbook"}" class="lookbook-img" />`;
 const go = () => gotoLookbook(String(item.id));
 card.addEventListener("click", go);
 clickOnEnterSpace(card, go);
@@ -964,27 +978,10 @@ bindProductCards();
 updateCartUI();  
 
 // ---------- Routes ----------  
-const params = new URLSearchParams(window.location.search);  
-const page = params.get("page");  
-
-// nav click behavior  
-navLinks.forEach((a) => {  
-  a.addEventListener("click", (e) => {  
-    const href = a.getAttribute("href") || "";  
-    if (!href.includes("#")) return;  
-    if (page === "lookbook" || page === "product") {  
-      e.preventDefault();  
-      window.location.href = "index.html" + href;  
-    } else {  
-      e.preventDefault();  
-      const id = href.replace("#", "");  
-      scrollToSectionId(id);  
-      history.replaceState(null, "", `${location.pathname}#${id}`);  
-    }  
-  });  
-});  
-
 const rlbImg = $("rlb-img");  
+const rlbPrev = $("rlb-prev");
+const rlbNext = $("rlb-next");
+const rlbMeta = $("rlb-meta");
 
 const rpp = {  
   img: $("rpp-img"),  
@@ -1001,14 +998,67 @@ const rpp = {
 
 const rppStepperRoot = document.querySelector('.qty-stepper-ui[data-qty-root="rpp"]');  
 const rppStepper = rppStepperRoot ? setupQtyStepper(rppStepperRoot) : null;  
+const sectionIds = ["drop", "lookbook", "shop", "about"];  
+const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);  
+let navLock = false;  
+let navUnlockTimer = null;  
+let raf = null;  
+let activeRoute = null;
+let activeLookbookIndex = 1;
+
+function setActive(id) {  
+  navLinks.forEach((a) => {  
+    a.classList.remove("active");  
+    a.removeAttribute("aria-current");  
+  });  
+  Array.from(navLinks)  
+    .filter((a) => (a.getAttribute("href") || "").endsWith(`#${id}`))  
+    .forEach((lnk) => {  
+      lnk.classList.add("active");  
+      lnk.setAttribute("aria-current", "page");  
+    });  
+}  
+
+const updateActiveFromScroll = () => {  
+  if (navLock || activeRoute) return;  
+  const refY = window.scrollY + getNavOffsetPx() + 10;  
+  let current = sections[0]?.id || "drop";  
+  for (const sec of sections) if (sec && sec.offsetTop <= refY) current = sec.id;  
+  setActive(current);  
+};  
+
+const onScroll = () => {  
+  if (raf || activeRoute) return;  
+  raf = requestAnimationFrame(() => {  
+    raf = null;  
+    updateActiveFromScroll();  
+  });  
+};
+
+function parseRoute() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    page: params.get("page"),
+    lookbookIndex: params.get("i"),
+    productId: params.get("id"),
+    hashId: (location.hash || "").replace("#", "")
+  };
+}
 
 function renderLookbookRoute(i) {  
-  const idx = Math.max(1, parseInt(i || "1", 10));  
   const items = catalog.lookbook || [];  
   const total = items.length || 1;  
+  const idx = Math.max(1, parseInt(i || "1", 10));  
   const safeIdx = Math.min(idx, total);  
   const item = items[safeIdx - 1] || items[0];  
-  if (rlbImg) rlbImg.src = item?.image || "";  
+  activeLookbookIndex = safeIdx;
+  if (rlbImg) {
+    rlbImg.src = item?.image || "";
+    rlbImg.alt = item?.alt || `Lookbook image ${safeIdx}`;
+  }
+  if (rlbMeta) rlbMeta.textContent = `Look ${safeIdx} of ${total}`;
+  if (rlbPrev) rlbPrev.disabled = total <= 1;
+  if (rlbNext) rlbNext.disabled = total <= 1;
 }  
 
 function updateRppAddState() {  
@@ -1119,84 +1169,79 @@ async function renderProductRoute(id) {
   if (rpp.add) rpp.add.disabled = true;  
 
   setRppImage(0);  
-}  
+}
 
-if (page === "lookbook") {  
-  showRoute("lookbook");  
-  renderLookbookRoute(params.get("i"));  
-} else if (page === "product") {  
-  showRoute("product");  
-  await renderProductRoute(params.get("id"));  
-} else {  
-  showRoute(null);  
+async function applyRoute() {
+  const { page, lookbookIndex, productId, hashId } = parseRoute();
+  activeRoute = page || null;
 
-  const sectionIds = ["drop", "lookbook", "shop", "about"];  
-  const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);  
+  if (page === "lookbook") {
+    showRoute("lookbook");
+    renderLookbookRoute(lookbookIndex);
+    document.title = `FAIDE | Lookbook ${activeLookbookIndex}`;
+    return;
+  }
 
-  function setActive(id) {  
-    navLinks.forEach((a) => {  
-      a.classList.remove("active");  
-      a.removeAttribute("aria-current");  
-    });  
-    Array.from(navLinks)  
-      .filter((a) => (a.getAttribute("href") || "").endsWith(`#${id}`))  
-      .forEach((lnk) => {  
-        lnk.classList.add("active");  
-        lnk.setAttribute("aria-current", "page");  
-      });  
-  }  
+  if (page === "product") {
+    showRoute("product");
+    await renderProductRoute(productId);
+    document.title = rppProduct ? `FAIDE | ${rppProduct.name}` : "FAIDE | Product";
+    return;
+  }
 
-  let navLock = false;  
-  let navUnlockTimer = null;  
+  showRoute(null);
+  document.title = "FAIDE | Luxury Streetwear Brand";
+  updateActiveFromScroll();
 
-  navLinks.forEach((a) => {  
-    a.addEventListener("click", (e) => {  
-      const href = a.getAttribute("href") || "";  
-      if (!href.includes("#")) return;  
-      const id = href.split("#")[1];  
-      if (!id) return;  
+  if (hashId && ["drop", "lookbook", "shop", "about", "footer"].includes(hashId)) {
+    setTimeout(() => {
+      scrollToSectionId(hashId);
+      setActive(hashId === "footer" ? "about" : hashId);
+    }, 30);
+  }
+}
 
-      e.preventDefault();  
-      navLock = true;  
-      clearTimeout(navUnlockTimer);  
+navLinks.forEach((a) => {
+  a.addEventListener("click", (e) => {
+    const href = a.getAttribute("href") || "";
+    if (!href.includes("#")) return;
+    const id = href.split("#")[1];
+    if (!id) return;
 
-      setActive(id);  
-      scrollToSectionId(id);  
+    e.preventDefault();
+    navLock = true;
+    clearTimeout(navUnlockTimer);
+    setActive(id);
 
-      navUnlockTimer = setTimeout(() => (navLock = false), 650);  
-      history.replaceState(null, "", `${location.pathname}#${id}`);  
-    });  
-  });  
+    if (activeRoute) {
+      gotoHomeSection(id);
+    } else {
+      scrollToSectionId(id);
+      history.replaceState({}, "", `${location.pathname}#${id}`);
+    }
 
-  let raf = null;  
-  const updateActiveFromScroll = () => {  
-    if (navLock) return;  
-    const refY = window.scrollY + getNavOffsetPx() + 10;  
-    let current = sections[0]?.id || "drop";  
-    for (const sec of sections) if (sec && sec.offsetTop <= refY) current = sec.id;  
-    setActive(current);  
-  };  
+    navUnlockTimer = setTimeout(() => (navLock = false), 650);
+  });
+});
 
-  const onScroll = () => {  
-    if (raf) return;  
-    raf = requestAnimationFrame(() => {  
-      raf = null;  
-      updateActiveFromScroll();  
-    });  
-  };  
+rlbPrev?.addEventListener("click", () => {
+  const total = (catalog.lookbook || []).length || 1;
+  const next = activeLookbookIndex <= 1 ? total : activeLookbookIndex - 1;
+  gotoLookbook(next);
+});
+rlbNext?.addEventListener("click", () => {
+  const total = (catalog.lookbook || []).length || 1;
+  const next = activeLookbookIndex >= total ? 1 : activeLookbookIndex + 1;
+  gotoLookbook(next);
+});
 
-  updateActiveFromScroll();  
-  window.addEventListener("scroll", onScroll, { passive: true });  
-  window.addEventListener("resize", updateActiveFromScroll, { passive: true });  
+window.addEventListener("scroll", onScroll, { passive: true });
+window.addEventListener("resize", updateActiveFromScroll, { passive: true });
+window.addEventListener("faide:navigate", () => {
+  applyRoute();
+});
 
-  const hashId = (location.hash || "").replace("#", "");  
-  if (hashId && ["drop", "lookbook", "shop", "about", "footer"].includes(hashId)) {  
-    setTimeout(() => {  
-      scrollToSectionId(hashId);  
-      setActive(hashId === "footer" ? "about" : hashId);  
-    }, 30);  
-  }  
-}  
+await applyRoute();
 
 // Product route add to cart  
 rpp.add?.addEventListener("click", () => {  
@@ -1269,6 +1314,7 @@ window.addEventListener("popstate", () => {
   if ($("policy-modal")?.style.display === "block") return policies.close();  
   if ($("cart-sidebar")?.classList.contains("active")) return closeCartPanel();  
   if (drawer?.classList.contains("open")) return closeDrawer();  
+  applyRoute();
 });  
 
 // ESC handling  

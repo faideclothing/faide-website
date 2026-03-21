@@ -24,7 +24,7 @@
       "category": "UNISEX Tank Top",
       "price": 199.99,
       "currencySymbol": "R",
-      "inStock": true,
+      "inStock": false,
       "sizes": ["S", "M", "L", "XL"],
       "colors": [{ "name": "Black", "className": "color black" }, { "name": "White", "className": "color white" }],
       "images": ["images/tank-top.png", "images/tank-top1.png", "images/tank-top2.png", "images/tank-top3.png"]
@@ -36,7 +36,7 @@
       "category": "UNISEX Short-Sleeve Top",
       "price": 349.99,
       "currencySymbol": "R",
-      "inStock": true,
+      "inStock": false,
       "sizes": ["S", "M", "L", "XL"],
       "colors": [{ "name": "Black", "className": "color black" }, { "name": "White", "className": "color white" }, { "name": "Grey", "className": "color grey" }],
       "images": ["images/tshirt.png", "images/tshirt1.png", "images/tshirt2.png", "images/tshirt3.png"]
@@ -48,7 +48,7 @@
       "category": "UNISEX Long Sleeve",
       "price": 549.99,
       "currencySymbol": "R",
-      "inStock": true,
+      "inStock": false,
       "sizes": ["S", "M", "L", "XL"],
       "colors": [{ "name": "Black", "className": "color black" }, { "name": "White", "className": "color white" }],
       "images": ["images/longsleeve.png", "images/longsleeve1.png", "images/longsleeve2.png", "images/longsleeve3.png"]
@@ -60,7 +60,7 @@
       "category": "UNISEX Pullover Hoodie",
       "price": 699.99,
       "currencySymbol": "R",
-      "inStock": true,
+      "inStock": false,
       "sizes": ["S", "M", "L", "XL"],
       "colors": [{ "name": "Black", "className": "color black" }, { "name": "White", "className": "color white" }],
       "images": ["images/hoodie.png", "images/hoodie1.png", "images/hoodie2.png", "images/hoodie3.png"]

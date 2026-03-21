@@ -72,7 +72,7 @@
       "category": "UNISEX Beanie",
       "price": 119.99,
       "currencySymbol": "R",
-      "inStock": true,
+      "inStock": false,
       "sizes": ["One Size"],
       "colors": [{ "name": "Black", "className": "color black" }, { "name": "White", "className": "color white" }],
       "images": ["images/beanie.jpg"]

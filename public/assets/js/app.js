@@ -407,19 +407,68 @@
     const policies = {
       privacy: {
         title: "Privacy Policy",
-        content: `<p><strong>FAIDE Privacy Policy</strong></p><p>We collect only the information needed to serve customers, fulfil orders, and improve site performance.</p>`
+        content: `
+          <p style="margin-bottom:14px;"><strong>FAIDE Privacy Policy</strong></p>
+          <p style="margin-bottom:14px;">We respect your privacy. This policy explains what information we collect, why we collect it, and how we use it.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">What we collect</h3>
+          <ul style="margin-left:18px; margin-bottom:14px;">
+            <li>Contact details you provide (name, phone number, email).</li>
+            <li>Order details (items, size, color, quantity, delivery address).</li>
+            <li>Basic site analytics (to improve performance and experience).</li>
+          </ul>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">How we use it</h3>
+          <ul style="margin-left:18px; margin-bottom:14px;">
+            <li>To process and fulfill your order.</li>
+            <li>To communicate about your order (shipping updates, questions).</li>
+            <li>To improve the website and product experience.</li>
+          </ul>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Your choices</h3>
+          <p style="margin-bottom:14px;">You can request to update or delete your information by contacting us at <a style="color:var(--primary); text-decoration:none;" href="mailto:faideclothingsa@gmail.com">faideclothingsa@gmail.com</a>.</p>
+        `
       },
       terms: {
         title: "Terms of Service",
-        content: `<p><strong>FAIDE Terms of Service</strong></p><p>By using this website, you agree to our order, pricing, and availability terms.</p>`
+        content: `
+          <p style="margin-bottom:14px;"><strong>FAIDE Terms of Service</strong></p>
+          <p style="margin-bottom:14px;">By using this website, you agree to the terms below.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Orders</h3>
+          <ul style="margin-left:18px; margin-bottom:14px;">
+            <li>Card checkout will be enabled soon.</li>
+            <li>We may contact you for size/color confirmation when checkout is live.</li>
+          </ul>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Pricing</h3>
+          <p style="margin-bottom:14px;">Prices are listed in ZAR (R). We reserve the right to correct errors and update pricing.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Availability</h3>
+          <p style="margin-bottom:14px;">Stock availability may change.</p>
+        `
       },
       returns: {
         title: "Returns & Exchanges",
-        content: `<p><strong>Returns & Exchanges</strong></p><p>Items must be unworn, unwashed, and requested within 7 days of delivery.</p>`
+        content: `
+          <p style="margin-bottom:14px;"><strong>Returns & Exchanges</strong></p>
+          <p style="margin-bottom:14px;">If something isn’t right, we’ll work with you.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Eligibility</h3>
+          <ul style="margin-left:18px; margin-bottom:14px;">
+            <li>Items must be unworn, unwashed, and in original condition.</li>
+            <li>Request must be made within 7 days of delivery.</li>
+          </ul>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Exchanges</h3>
+          <p style="margin-bottom:14px;">Size exchanges are accepted if stock is available.</p>
+        `
       },
       shipping: {
         title: "Shipping Policy",
-        content: `<p><strong>Shipping Policy</strong></p><p>Orders are processed within 1–3 business days and shipped across South Africa.</p>`
+        content: `
+          <p style="margin-bottom:14px;"><strong>Shipping Policy</strong></p>
+          <p style="margin-bottom:14px;">We ship orders within South Africa. Delivery times depend on your location.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Processing time</h3>
+          <p style="margin-bottom:14px;">Orders are typically processed within 1–3 business days after confirmation.</p>
+          <h3 style="color:#fff; font-size:1.05rem; margin:18px 0 8px;">Delivery</h3>
+          <ul style="margin-left:18px; margin-bottom:14px;">
+            <li>Estimated delivery: 2–7 business days (varies by region).</li>
+            <li>Tracking may be provided depending on courier service.</li>
+          </ul>
+        `
       }
     };
 
@@ -639,6 +688,22 @@
     });
   }
 
+  function initRevealAnimations() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const targets = document.querySelectorAll(".lookbook-card, .product, .section-title, .about, .checkout-banner, .checkout-support-card, .cart-intro-card");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("in-view");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.14, rootMargin: "0px 0px -40px 0px" });
+    targets.forEach((el) => {
+      el.classList.add("reveal-on-scroll");
+      observer.observe(el);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", async () => {
     $("shop-now-btn")?.addEventListener("click", () => scrollToSectionId("shop"));
 
@@ -724,6 +789,7 @@
 
     renderLookbook($("lookbook-list"), catalog.lookbook || []);
     renderShop($("shop-products"), catalog.products || [], catalog.settings || {});
+    initRevealAnimations();
 
     const floatingCart = $("floating-cart");
     const cartSidebar = $("cart-sidebar");
@@ -776,11 +842,11 @@
       const totals = getCartTotals();
       cartTotalEl.textContent = totals.total.toFixed(2);
       cartCountEl.textContent = String(totals.itemCount);
-      if (cartSummaryEl) cartSummaryEl.textContent = totals.itemCount ? `${totals.itemCount} item${totals.itemCount === 1 ? "" : "s"} ready` : "Your bag is empty";
+      if (cartSummaryEl) cartSummaryEl.textContent = totals.itemCount ? `${totals.itemCount} item${totals.itemCount === 1 ? "" : "s"} ready for checkout` : "Your bag is empty";
       if (checkoutBtn) checkoutBtn.disabled = cart.length === 0;
 
       if (cart.length === 0) {
-        cartItemsEl.innerHTML = '<li class="cart-empty-state">Your cart is empty</li>';
+        cartItemsEl.innerHTML = '<li class="cart-empty-state"><strong>Your bag is empty.</strong><span>Add a piece from the drop to start your checkout.</span></li>';
         return;
       }
 
@@ -790,9 +856,15 @@
         li.innerHTML = `
           <img class="cart-item-img" src="${item.image || ""}" alt="${item.name}" loading="lazy" decoding="async" />
           <div class="cart-item-info">
-            <div class="cart-item-title">${item.name}</div>
-            <div class="cart-item-meta">Size: ${item.size} • Color: ${item.color}</div>
-            <div class="cart-item-price">${formatPriceZAR(item.price * item.quantity)}</div>
+            <div class="cart-item-topline">
+              <div class="cart-item-title">${item.name}</div>
+              <div class="cart-item-line-total">${formatPriceZAR(item.price * item.quantity)}</div>
+            </div>
+            <div class="cart-item-meta-row">
+              <span class="cart-item-badge">Size ${item.size}</span>
+              <span class="cart-item-badge">${item.color}</span>
+            </div>
+            <div class="cart-item-unit-price">${formatPriceZAR(item.price)} each</div>
           </div>
           <div class="cart-item-actions">
             <div class="qty-stepper">
@@ -1093,6 +1165,16 @@
     window.addEventListener("popstate", () => {
       if (closeTopOverlayFromPop()) return;
       applyRoute();
+    });
+
+    document.querySelectorAll(".route-back").forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const href = link.getAttribute("href") || "index.html#drop";
+        const target = href.split("#")[1] || "drop";
+        gotoHomeSection(target);
+        setTimeout(() => scrollToSectionId(target), 20);
+      });
     });
 
     document.querySelectorAll('a[href^="#"]').forEach((link) => {

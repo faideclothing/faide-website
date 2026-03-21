@@ -688,6 +688,22 @@
     });
   }
 
+  function initRevealAnimations() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const targets = document.querySelectorAll(".lookbook-card, .product, .section-title, .about, .checkout-banner, .checkout-support-card, .cart-intro-card");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("in-view");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.14, rootMargin: "0px 0px -40px 0px" });
+    targets.forEach((el) => {
+      el.classList.add("reveal-on-scroll");
+      observer.observe(el);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", async () => {
     $("shop-now-btn")?.addEventListener("click", () => scrollToSectionId("shop"));
 
@@ -773,6 +789,7 @@
 
     renderLookbook($("lookbook-list"), catalog.lookbook || []);
     renderShop($("shop-products"), catalog.products || [], catalog.settings || {});
+    initRevealAnimations();
 
     const floatingCart = $("floating-cart");
     const cartSidebar = $("cart-sidebar");
@@ -1148,6 +1165,16 @@
     window.addEventListener("popstate", () => {
       if (closeTopOverlayFromPop()) return;
       applyRoute();
+    });
+
+    document.querySelectorAll(".route-back").forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const href = link.getAttribute("href") || "index.html#drop";
+        const target = href.split("#")[1] || "drop";
+        gotoHomeSection(target);
+        setTimeout(() => scrollToSectionId(target), 20);
+      });
     });
 
     document.querySelectorAll('a[href^="#"]').forEach((link) => {

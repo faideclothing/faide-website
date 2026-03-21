@@ -11,7 +11,7 @@
       content="FAIDE luxury streetwear. New drops, exclusive releases, and curated essentials. Designed with intention. Worn with purpose."  
     />  
     <meta name="robots" content="index,follow" />  
-    <link rel="canonical" href="https://faide-website.vercel.app/" />  
+    <link rel="canonical" href="https://faide.store/" />  
     <meta name="theme-color" content="#000000" />  
   
     <link rel="icon" href="favicon.png" />  
@@ -20,6 +20,26 @@
     <link rel="preload" as="image" href="images/hero.png" />  
     <link rel="preload" as="image" href="images/faide-wordmark.png" />  
   
+
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="author" content="FAIDE" />
+
+    <script id="website-schema" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "FAIDE",
+        "url": "https://faide.store/",
+        "description": "Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://faide.store/#shop",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+    <script id="dynamic-schema" type="application/ld+json"></script>
+
     <!-- Open Graph -->  
     <meta property="og:type" content="website" />  
     <meta property="og:title" content="FAIDE | Luxury Streetwear Brand" />  
@@ -28,9 +48,9 @@
       property="og:description"  
       content="Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials."  
     />  
-    <meta property="og:url" content="https://faide-website.vercel.app/" />  
-    <meta property="og:image" content="https://faide-website.vercel.app/images/hero.png" />  
-    <meta property="og:image:secure_url" content="https://faide-website.vercel.app/images/hero.png" />  
+    <meta property="og:url" content="https://faide.store/" />  
+    <meta property="og:image" content="https://faide.store/images/hero.png" />  
+    <meta property="og:image:secure_url" content="https://faide.store/images/hero.png" />  
     <meta property="og:image:alt" content="FAIDE luxury streetwear hero image" />  
     <meta property="og:image:width" content="1200" />  
     <meta property="og:image:height" content="630" />  
@@ -40,22 +60,22 @@
     <!-- Twitter -->  
     <meta name="twitter:card" content="summary_large_image" />  
     <meta name="twitter:site" content="@faideclothing" />  
-    <meta name="twitter:title" content="FAIDE™ | Luxury Streetwear Brand" />  
+    <meta name="twitter:title" content="FAIDE | Luxury Streetwear Brand" />  
     <meta  
       name="twitter:description"  
       content="Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials."  
     />  
-    <meta name="twitter:image" content="https://faide-website.vercel.app/images/hero.png" />  
+    <meta name="twitter:image" content="https://faide.store/images/hero.png" />  
     <meta name="twitter:image:alt" content="FAIDE luxury streetwear hero image" />  
   
     <script type="application/ld+json">  
       {  
         "@context": "https://schema.org",  
         "@type": "Brand",  
-        "@id": "https://faide-website.vercel.app/#brand",  
+        "@id": "https://faide.store/#brand",  
         "name": "FAIDE",  
-        "url": "https://faide-website.vercel.app/",  
-        "logo": "https://faide-website.vercel.app/images/faide-wordmark.png",  
+        "url": "https://faide.store/",  
+        "logo": "https://faide.store/images/faide-wordmark.png",  
         "description": "FAIDE is a luxury streetwear brand designed with intention and worn with purpose.",  
         "sameAs": [  
           "https://www.facebook.com/faideclothing",  
@@ -134,12 +154,18 @@
         </button>  
       </div>  
   
-      <div class="drawer-links">  
-        <a href="#drop" data-nav-link="main">NEW DROP</a>  
-        <a href="#lookbook" data-nav-link="main">LOOKBOOK</a>  
-        <a href="#shop" data-nav-link="main">SHOP</a>  
-        <a href="#about" data-nav-link="main">ABOUT</a>  
-      </div>  
+      <div class="drawer-links">
+        <a href="#drop" data-nav-link="main">NEW DROP</a>
+        <a href="#lookbook" data-nav-link="main">LOOKBOOK</a>
+        <a href="#shop" data-nav-link="main">SHOP</a>
+        <a href="#about" data-nav-link="main">ABOUT</a>
+      </div>
+
+      <div class="drawer-auth-actions">
+        <button id="drawer-auth-link" class="drawer-auth-btn" type="button">Log In</button>
+        <button id="drawer-signup-link" class="drawer-auth-btn drawer-auth-btn-primary" type="button">Sign Up</button>
+      </div>
+
     </aside>  
   
     <!-- ROUTE: LOOKBOOK (query route ?page=lookbook&i=1) -->  
@@ -209,7 +235,8 @@
                 <div id="rpp-category" class="rpp-muted"></div>  
                 <div id="rpp-colors" class="rpp-muted"></div>  
               </div>  
-              <div id="rpp-price" class="rpp-price"></div>  
+              <div id="rpp-price" class="rpp-price"></div>
+              <div id="rpp-stock" class="rpp-stock"></div>  
             </div>  
   
             <div class="option-label">Select Size</div>  
@@ -376,9 +403,12 @@
       class="modal-overlay"  
       style="display:none;"  
     >  
-      <div class="modal-card">  
+      <div class="modal-card modal-card-policy">  
         <div class="modal-head">  
-          <h2 id="modal-title" class="modal-title">Policy</h2>  
+          <div>
+            <div class="modal-eyebrow">Store policy</div>
+            <h2 id="modal-title" class="modal-title">Policy</h2>
+          </div>
   
           <button id="close-modal" type="button" class="modal-close" aria-label="Close policy">  
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">  
@@ -389,7 +419,7 @@
           </button>  
         </div>  
   
-        <div id="modal-content" class="modal-body"></div>  
+        <div id="modal-content" class="modal-body policy-body"></div>  
       </div>  
     </div>  
   
@@ -406,9 +436,13 @@
     </button>  
   
     <div id="cart-sidebar" class="cart-sidebar" aria-label="Shopping cart">  
-      <div class="cart-header">  
-        <h2>Your Cart</h2>  
-        <button id="close-cart" class="close-cart" aria-label="Close cart" type="button">  
+      <div class="cart-header">
+        <div>
+          <div class="cart-kicker">FAIDE Bag</div>
+          <h2>Your Cart</h2>
+          <div id="cart-summary-meta" class="cart-summary-meta">Your bag is empty</div>
+        </div>
+        <button id="close-cart" class="close-cart" aria-label="Close cart" type="button">
           <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">  
             <path  
               d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"  
@@ -417,16 +451,23 @@
         </button>  
       </div>  
   
+      <div class="cart-panel-intro">
+        <div class="cart-intro-card">
+          <div class="cart-intro-title">Secure your pieces</div>
+          <div class="cart-intro-text">Review sizes, colours, and quantities before you save your checkout details.</div>
+        </div>
+      </div>
+
       <ul id="cart-items" class="cart-items"></ul>  
   
       <div class="cart-footer">  
         <div class="cart-total-row">  
-          <span class="cart-total-label">Total:</span>  
+          <span class="cart-total-label">Estimated total</span>  
           <span class="cart-total-value">R<span id="cart-total">0.00</span></span>  
         </div>  
-  
+        <div class="cart-footer-note">Shipping and payment confirmation are arranged after your details are saved.</div>
         <button class="checkout-btn" id="checkout-btn" type="button" disabled title="Add items to checkout">  
-          Proceed to Checkout  
+          Continue to Checkout  
         </button>  
       </div>  
     </div>  
@@ -440,9 +481,12 @@
       aria-labelledby="checkout-title"  
       style="display:none;"  
     >  
-      <div class="modal-card">  
+      <div class="modal-card checkout-modal-card">  
         <div class="modal-head">  
-          <h2 id="checkout-title" class="modal-title">Checkout</h2>  
+          <div>
+            <div class="modal-eyebrow">Checkout</div>
+            <h2 id="checkout-title" class="modal-title">Secure your order details</h2>
+          </div>
   
           <button id="checkout-close" type="button" class="modal-close" aria-label="Close checkout">  
             <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">  
@@ -453,13 +497,28 @@
           </button>  
         </div>  
   
-        <div class="modal-body">  
-          <div class="checkout-banner">  
-            <div class="checkout-banner-title">Card Payments: Coming Soon</div>  
-            <div class="checkout-banner-text">  
-              Card checkout is not live yet. Save your details for faster checkout later.  
-            </div>  
-          </div>  
+        <div class="modal-body checkout-body">  
+          <div class="checkout-hero">
+            <div class="checkout-banner">  
+              <div class="checkout-banner-title">Card Payments: Coming Soon</div>  
+              <div class="checkout-banner-text">  
+                Card checkout is not live yet. Save your details now and we’ll use them to speed up your next order.  
+              </div>
+              <div class="checkout-step-row">
+                <div class="checkout-step-chip">1. Save details</div>
+                <div class="checkout-step-chip">2. Confirm order</div>
+                <div class="checkout-step-chip">3. Pay when live</div>
+              </div>
+            </div>
+            <div class="checkout-support-card">
+              <div class="checkout-support-title">What happens next?</div>
+              <ul class="checkout-support-list">
+                <li>We store your details only on this device.</li>
+                <li>You’ll be ready for quicker checkout when payments go live.</li>
+                <li>You can update these details any time.</li>
+              </ul>
+            </div>
+          </div>
   
           <div class="checkout-summary">  
             <div class="checkout-summary-row">  
@@ -473,7 +532,8 @@
           </div>  
   
           <div class="checkout-form">  
-            <div class="checkout-form-title">Get notified when payments go live</div>  
+            <div class="checkout-form-title">Save your customer profile</div>
+            <div class="checkout-form-subtitle">Use your best contact details so we can reach you when checkout is fully live.</div>  
             <div class="checkout-grid">  
               <input id="co-name" type="text" placeholder="Full name" autocomplete="name" />  
               <input id="co-email" type="email" placeholder="Email" autocomplete="email" />  
@@ -491,8 +551,8 @@
           </div>  
   
           <div class="checkout-actions">  
-            <button id="checkout-close-2" type="button" class="ghost-btn">Close</button>  
-            <button type="button" class="checkout-pay-btn" disabled title="Coming soon">Pay with Card (Coming Soon)</button>  
+            <button id="checkout-close-2" type="button" class="ghost-btn">Keep Shopping</button>  
+            <button type="button" class="checkout-pay-btn" disabled title="Coming soon">Card checkout coming soon</button>  
           </div>  
         </div>  
       </div>  
@@ -528,7 +588,9 @@
   
           <div class="signup-form">  
             <input id="su-email" type="email" placeholder="Email address" autocomplete="email" />  
+            <input id="su-password" type="password" placeholder="Create a password" autocomplete="current-password" />  
             <button id="su-submit" type="button" class="secondary-btn">Sign Up</button>  
+            <button id="auth-switch-mode" type="button" class="ghost-btn auth-switch-btn">Already joined? Log in</button>  
             <div class="signup-note">Drop alerts only.</div>  
           </div>  
         </div>  

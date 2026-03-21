@@ -2,22 +2,7 @@
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://faide.store/</loc>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://faide.store/#drop</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faide.store/#lookbook</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faide.store/#shop</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faide.store/#about</loc>
-    <priority>0.8</priority>
   </url>
 </urlset>

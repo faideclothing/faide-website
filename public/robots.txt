@@ -1,5 +1,5 @@
 User-agent: *
-Disallow: /_sdk/
 Allow: /
+Disallow: /_sdk/
 
 Sitemap: https://faide.store/sitemap.xml

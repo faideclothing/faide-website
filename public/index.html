@@ -11,7 +11,7 @@
       content="FAIDE luxury streetwear. New drops, exclusive releases, and curated essentials. Designed with intention. Worn with purpose."  
     />  
     <meta name="robots" content="index,follow" />  
-    <link rel="canonical" href="https://faide-website.vercel.app/" />  
+    <link rel="canonical" href="https://faide.store/" />  
     <meta name="theme-color" content="#000000" />  
   
     <link rel="icon" href="favicon.png" />  
@@ -20,6 +20,26 @@
     <link rel="preload" as="image" href="images/hero.png" />  
     <link rel="preload" as="image" href="images/faide-wordmark.png" />  
   
+
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="author" content="FAIDE" />
+
+    <script id="website-schema" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "FAIDE",
+        "url": "https://faide.store/",
+        "description": "Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://faide.store/#shop",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+    <script id="dynamic-schema" type="application/ld+json"></script>
+
     <!-- Open Graph -->  
     <meta property="og:type" content="website" />  
     <meta property="og:title" content="FAIDE | Luxury Streetwear Brand" />  
@@ -28,9 +48,9 @@
       property="og:description"  
       content="Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials."  
     />  
-    <meta property="og:url" content="https://faide-website.vercel.app/" />  
-    <meta property="og:image" content="https://faide-website.vercel.app/images/hero.png" />  
-    <meta property="og:image:secure_url" content="https://faide-website.vercel.app/images/hero.png" />  
+    <meta property="og:url" content="https://faide.store/" />  
+    <meta property="og:image" content="https://faide.store/images/hero.png" />  
+    <meta property="og:image:secure_url" content="https://faide.store/images/hero.png" />  
     <meta property="og:image:alt" content="FAIDE luxury streetwear hero image" />  
     <meta property="og:image:width" content="1200" />  
     <meta property="og:image:height" content="630" />  
@@ -40,22 +60,22 @@
     <!-- Twitter -->  
     <meta name="twitter:card" content="summary_large_image" />  
     <meta name="twitter:site" content="@faideclothing" />  
-    <meta name="twitter:title" content="FAIDE™ | Luxury Streetwear Brand" />  
+    <meta name="twitter:title" content="FAIDE | Luxury Streetwear Brand" />  
     <meta  
       name="twitter:description"  
       content="Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials."  
     />  
-    <meta name="twitter:image" content="https://faide-website.vercel.app/images/hero.png" />  
+    <meta name="twitter:image" content="https://faide.store/images/hero.png" />  
     <meta name="twitter:image:alt" content="FAIDE luxury streetwear hero image" />  
   
     <script type="application/ld+json">  
       {  
         "@context": "https://schema.org",  
         "@type": "Brand",  
-        "@id": "https://faide-website.vercel.app/#brand",  
+        "@id": "https://faide.store/#brand",  
         "name": "FAIDE",  
-        "url": "https://faide-website.vercel.app/",  
-        "logo": "https://faide-website.vercel.app/images/faide-wordmark.png",  
+        "url": "https://faide.store/",  
+        "logo": "https://faide.store/images/faide-wordmark.png",  
         "description": "FAIDE is a luxury streetwear brand designed with intention and worn with purpose.",  
         "sameAs": [  
           "https://www.facebook.com/faideclothing",  
@@ -134,12 +154,18 @@
         </button>  
       </div>  
   
-      <div class="drawer-links">  
-        <a href="#drop" data-nav-link="main">NEW DROP</a>  
-        <a href="#lookbook" data-nav-link="main">LOOKBOOK</a>  
-        <a href="#shop" data-nav-link="main">SHOP</a>  
-        <a href="#about" data-nav-link="main">ABOUT</a>  
-      </div>  
+      <div class="drawer-links">
+        <a href="#drop" data-nav-link="main">NEW DROP</a>
+        <a href="#lookbook" data-nav-link="main">LOOKBOOK</a>
+        <a href="#shop" data-nav-link="main">SHOP</a>
+        <a href="#about" data-nav-link="main">ABOUT</a>
+      </div>
+
+      <div class="drawer-auth-actions">
+        <button id="drawer-auth-link" class="drawer-auth-btn" type="button">Log In</button>
+        <button id="drawer-signup-link" class="drawer-auth-btn drawer-auth-btn-primary" type="button">Sign Up</button>
+      </div>
+
     </aside>  
   
     <!-- ROUTE: LOOKBOOK (query route ?page=lookbook&i=1) -->  
@@ -209,7 +235,8 @@
                 <div id="rpp-category" class="rpp-muted"></div>  
                 <div id="rpp-colors" class="rpp-muted"></div>  
               </div>  
-              <div id="rpp-price" class="rpp-price"></div>  
+              <div id="rpp-price" class="rpp-price"></div>
+              <div id="rpp-stock" class="rpp-stock"></div>  
             </div>  
   
             <div class="option-label">Select Size</div>  
@@ -406,9 +433,12 @@
     </button>  
   
     <div id="cart-sidebar" class="cart-sidebar" aria-label="Shopping cart">  
-      <div class="cart-header">  
-        <h2>Your Cart</h2>  
-        <button id="close-cart" class="close-cart" aria-label="Close cart" type="button">  
+      <div class="cart-header">
+        <div>
+          <h2>Your Cart</h2>
+          <div id="cart-summary-meta" class="cart-summary-meta">Your bag is empty</div>
+        </div>
+        <button id="close-cart" class="close-cart" aria-label="Close cart" type="button">
           <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">  
             <path  
               d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"  
@@ -528,7 +558,9 @@
   
           <div class="signup-form">  
             <input id="su-email" type="email" placeholder="Email address" autocomplete="email" />  
+            <input id="su-password" type="password" placeholder="Create a password" autocomplete="current-password" />  
             <button id="su-submit" type="button" class="secondary-btn">Sign Up</button>  
+            <button id="auth-switch-mode" type="button" class="ghost-btn auth-switch-btn">Already joined? Log in</button>  
             <div class="signup-note">Drop alerts only.</div>  
           </div>  
         </div>  

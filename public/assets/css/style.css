@@ -1850,7 +1850,7 @@ body.nav-hidden #navbar {
 }
 
 .navbar {
-  top: 38px;
+  top: 32px;
   background: transparent !important;
   backdrop-filter: none !important;
   border-bottom: 1px solid rgba(255,255,255,0.14) !important;
@@ -1996,7 +1996,7 @@ body.route-open .shipping-strip {
   }
 
   .navbar {
-    top: 36px;
+    top: 31px;
     grid-template-columns: 40px 1fr auto;
   }
 
@@ -2020,5 +2020,107 @@ body.route-open .shipping-strip {
   #mobile-menu-panel,
   #mobile-drawer-overlay {
     display: none !important;
+  }
+}
+
+
+/* ===== Follow-up polish ===== */
+.modal-card-policy {
+  max-width: 680px !important;
+  width: min(680px, calc(100vw - 24px)) !important;
+  max-height: 86vh;
+}
+
+#policy-modal .modal-body {
+  max-height: calc(86vh - 90px);
+  overflow-y: auto;
+}
+
+/* remove faded edge styling from overlays/panels */
+.drawer,
+.signup-modal-card,
+.checkout-modal-card,
+.modal-card,
+.cart-sidebar {
+  box-shadow: none !important;
+  background-image: none !important;
+}
+
+.cart-sidebar,
+.cart-header,
+.cart-footer,
+.cart-intro-card,
+.checkout-banner,
+.checkout-support-card,
+.checkout-summary,
+.checkout-form {
+  background: #101010 !important;
+}
+
+/* smoother and less jittery animations */
+.cart-sidebar.active,
+.modal-card,
+.checkout-step-chip {
+  animation-duration: 0.2s !important;
+  animation-timing-function: ease-out !important;
+}
+
+/* FAIDE gray hamburger look on mobile */
+.hamburger span {
+  background: #8d8d8d;
+}
+
+/* Lookbook modal UI + zoom */
+.lookbook-view {
+  border-radius: 18px;
+  border-color: rgba(255,255,255,0.12);
+  background: #0b0b0b;
+}
+
+.lookbook-image-shell {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: #000;
+}
+
+.lookbook-view img {
+  touch-action: none;
+  transition: transform 0.2s ease-out;
+  transform-origin: center center;
+}
+
+.lookbook-view img.zoomed {
+  cursor: zoom-out;
+}
+
+.lookbook-zoom-hint {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.64);
+  color: #cfcfcf;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.66rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .lookbook-view {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .lookbook-zoom-hint {
+    font-size: 0.6rem;
+    bottom: 8px;
   }
 }

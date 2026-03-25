@@ -319,7 +319,7 @@
     if (overlayRegistry.get(name)?.isOpen()) return;
     overlayRegistry.get(name)?.open();
     overlayHistory.push(name);
-    if (isMobile()) history.pushState({ __faideOverlay: name }, "");
+    history.pushState({ __faideOverlay: name }, "");
     refreshPageLocks();
   }
 
@@ -329,7 +329,7 @@
     const index = overlayHistory.lastIndexOf(name);
     if (index >= 0) overlayHistory.splice(index, 1);
     refreshPageLocks();
-    if (isMobile() && !fromPop && history.state?.__faideOverlay === name) {
+    if (!fromPop && history.state?.__faideOverlay === name) {
       history.back();
     }
     return true;
@@ -1108,7 +1108,83 @@
         rlbImg.decoding = "async";
       }
       if (rlbMeta) rlbMeta.textContent = `Look ${safeIdx} of ${total}`;
+      resetLookbookZoom();
     }
+
+    let lookbookScale = 1;
+    let lookbookX = 0;
+    let lookbookY = 0;
+    let pinchStartDistance = 0;
+    let pinchStartScale = 1;
+    const pointerMap = new Map();
+    const zoomHint = $("lookbook-zoom-hint");
+
+    function applyLookbookTransform() {
+      if (!rlbImg) return;
+      rlbImg.style.transform = `translate(${lookbookX}px, ${lookbookY}px) scale(${lookbookScale})`;
+      rlbImg.classList.toggle("zoomed", lookbookScale > 1.01);
+      if (zoomHint) zoomHint.style.opacity = lookbookScale > 1.01 ? "0" : "0.78";
+    }
+
+    function resetLookbookZoom() {
+      lookbookScale = 1;
+      lookbookX = 0;
+      lookbookY = 0;
+      applyLookbookTransform();
+    }
+
+    function getPointerDistance() {
+      const points = Array.from(pointerMap.values());
+      if (points.length < 2) return 0;
+      const dx = points[0].x - points[1].x;
+      const dy = points[0].y - points[1].y;
+      return Math.hypot(dx, dy);
+    }
+
+    rlbImg?.addEventListener("dblclick", () => {
+      if (lookbookScale > 1.01) resetLookbookZoom();
+      else {
+        lookbookScale = 1.9;
+        applyLookbookTransform();
+      }
+    });
+
+    rlbImg?.addEventListener("pointerdown", (e) => {
+      pointerMap.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pointerMap.size === 2) {
+        pinchStartDistance = getPointerDistance();
+        pinchStartScale = lookbookScale;
+      }
+    });
+
+    rlbImg?.addEventListener("pointermove", (e) => {
+      if (!pointerMap.has(e.pointerId)) return;
+      const prev = pointerMap.get(e.pointerId);
+      pointerMap.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (pointerMap.size === 2) {
+        const currentDistance = getPointerDistance();
+        if (pinchStartDistance > 0) {
+          lookbookScale = Math.min(3, Math.max(1, pinchStartScale * (currentDistance / pinchStartDistance)));
+          applyLookbookTransform();
+        }
+        return;
+      }
+
+      if (lookbookScale > 1.01 && prev) {
+        lookbookX += e.clientX - prev.x;
+        lookbookY += e.clientY - prev.y;
+        applyLookbookTransform();
+      }
+    });
+
+    ["pointerup", "pointercancel", "pointerleave"].forEach((eventName) => {
+      rlbImg?.addEventListener(eventName, (e) => {
+        pointerMap.delete(e.pointerId);
+        if (pointerMap.size < 2) pinchStartDistance = 0;
+        if (lookbookScale <= 1.01) resetLookbookZoom();
+      });
+    });
 
     function setRppImage(i) {
       if (!rppSources.length || !rpp.img) return;

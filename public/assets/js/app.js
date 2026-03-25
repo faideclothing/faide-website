@@ -1117,13 +1117,11 @@
     let pinchStartDistance = 0;
     let pinchStartScale = 1;
     const pointerMap = new Map();
-    const zoomHint = $("lookbook-zoom-hint");
 
     function applyLookbookTransform() {
       if (!rlbImg) return;
       rlbImg.style.transform = `translate(${lookbookX}px, ${lookbookY}px) scale(${lookbookScale})`;
       rlbImg.classList.toggle("zoomed", lookbookScale > 1.01);
-      if (zoomHint) zoomHint.style.opacity = lookbookScale > 1.01 ? "0" : "0.78";
     }
 
     function resetLookbookZoom() {

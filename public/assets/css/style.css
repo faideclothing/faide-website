@@ -2096,31 +2096,10 @@ body.route-open .shipping-strip {
   cursor: zoom-out;
 }
 
-.lookbook-zoom-hint {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.64);
-  color: #cfcfcf;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 0.66rem;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
 
 @media (max-width: 768px) {
   .lookbook-view {
     gap: 10px;
     padding: 10px;
-  }
-
-  .lookbook-zoom-hint {
-    font-size: 0.6rem;
-    bottom: 8px;
   }
 }

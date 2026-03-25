@@ -78,7 +78,7 @@ body.nav-hidden #navbar {
   justify-content: space-between;
 }
 .navbar.shrink {
-  height: 62px;
+  height: 64px;
   background: rgba(0, 0, 0, 0.98);
   border-bottom-color: #2a2a2a;
 }
@@ -181,7 +181,7 @@ body.nav-hidden #navbar {
   left: -320px;
   width: 320px;
   height: 100%;
-  background: #707070;
+  background: #0a0a0a;
   z-index: 1300;
   border-right: 1px solid rgba(255,255,255,0.08);
   box-shadow: 8px 0 30px rgba(0,0,0,0.7);
@@ -1060,7 +1060,7 @@ body.nav-hidden #navbar {
 .modal-card {
   max-width: 820px;
   margin: 0 auto;
-  background: #707070;
+  background: #0a0a0a;
   border-radius: 20px;
   border: 1px solid var(--border);
   overflow: hidden;
@@ -1845,7 +1845,7 @@ body.nav-hidden #navbar {
   text-transform: uppercase;
   padding: 10px 12px;
   color: #fff;
-  background: #707070;
+  background: #0a0a0a;
   border-bottom: none;
 }
 

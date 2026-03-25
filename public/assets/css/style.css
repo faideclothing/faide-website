@@ -181,7 +181,7 @@ body.nav-hidden #navbar {
   left: -320px;
   width: 320px;
   height: 100%;
-  background: #0a0a0a;
+  background: #707070;
   z-index: 1300;
   border-right: 1px solid rgba(255,255,255,0.08);
   box-shadow: 8px 0 30px rgba(0,0,0,0.7);
@@ -1060,7 +1060,7 @@ body.nav-hidden #navbar {
 .modal-card {
   max-width: 820px;
   margin: 0 auto;
-  background: #0a0a0a;
+  background: #707070;
   border-radius: 20px;
   border: 1px solid var(--border);
   overflow: hidden;
@@ -1243,7 +1243,7 @@ body.nav-hidden #navbar {
   align-items: center;
   gap: 8px;
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1352,7 +1352,7 @@ body.nav-hidden #navbar {
 
 .rpp-stock {
   margin-top: 14px;
-  padding: 8px 12px;
+  padding: 10px 12px;
 }
 
 @media (max-width: 768px) {
@@ -1371,7 +1371,7 @@ body.nav-hidden #navbar {
   color: #9ca3af;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 800;
   margin-bottom: 8px;
 }
@@ -1703,7 +1703,7 @@ body.nav-hidden #navbar {
 
 .checkout-step-chip {
   border-radius: 999px;
-  padding: 8px 12px;
+  padding: 10px 12px;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.08);
   color: #fff;
@@ -1840,20 +1840,20 @@ body.nav-hidden #navbar {
   right: 0;
   z-index: 1100;
   text-align: center;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 8px 12px;
+  padding: 10px 12px;
   color: #fff;
-  background: #0a0a0a;
+  background: #707070;
   border-bottom: none;
 }
 
 .navbar {
-  top: 34px;
-  background: #000 !important;
-  backdrop-filter: blur(6px) !important;
-  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  top: 38px;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.14) !important;
   display: grid;
   grid-template-columns: 44px 1fr auto;
   align-items: center;
@@ -1889,18 +1889,19 @@ body.nav-hidden #navbar {
 }
 .nav-cart-btn { position: relative; }
 .nav-icon-btn {
-  border: 1px solid rgba(122,122,122,0.35);
+  border: none;
   background: transparent;
-  color: #7a7a7a;
-  border-radius: 999px;
-  width: 36px;
-  height: 36px;
+  color: #d4d4d4;
+  border-radius: 0;
+  width: 34px;
+  height: 34px;
 }
 .nav-icon-btn:hover,
 .nav-icon-btn:active {
   background: transparent;
   border-color: transparent;
   transform: none;
+  color: #ffffff;
 }
 .cart-count-nav {
   width: 18px;
@@ -1955,7 +1956,7 @@ body.route-open .shipping-strip {
 .lookbook-card { height: 420px; }
 .modal-card { max-width: 760px; }
 .modal-card-policy { max-width: 760px; width: min(760px, calc(100vw - 48px)); }
-.checkout-modal-card { max-width: 920px; width: min(920px, calc(100vw - 48px)); }
+.checkout-modal-card { max-width: 860px; width: min(860px, calc(100vw - 36px)); max-height: min(88vh, 860px); }
 
 .qty-stepper-inner {
   display: inline-flex;
@@ -1995,8 +1996,16 @@ body.route-open .shipping-strip {
   }
 
   .navbar {
-    top: 32px;
+    top: 36px;
     grid-template-columns: 40px 1fr auto;
+  }
+
+
+  .checkout-modal-card {
+    width: min(94vw, 680px);
+    max-width: min(94vw, 680px);
+    max-height: 88vh;
+    margin-top: 6vh;
   }
 
   .nav-links {

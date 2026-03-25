@@ -15,7 +15,7 @@
 
   const defaultConfig = {
     brand_name: "FAIDE",
-    hero_title: "NEW DROP",
+    hero_title: "HOME",
     hero_description: "New drops, exclusive releases, and updates are announced on our social platforms.",
     about_headline: "About FAIDE",
     about_description:
@@ -105,6 +105,20 @@
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error("Failed to load products.json");
     return res.json();
+  }
+
+  function optimizeImageLoading() {
+    const images = document.querySelectorAll("img");
+    images.forEach((img) => {
+      if (!img.hasAttribute("decoding")) img.setAttribute("decoding", "async");
+      if (img.id === "brand-wordmark") return;
+      if (img.closest(".hero") && !img.hasAttribute("fetchpriority")) {
+        img.setAttribute("fetchpriority", "high");
+        if (!img.hasAttribute("loading")) img.setAttribute("loading", "eager");
+        return;
+      }
+      if (!img.hasAttribute("loading")) img.setAttribute("loading", "lazy");
+    });
   }
 
   function getNavOffsetPx() {
@@ -600,6 +614,15 @@
     });
     switchBtn?.addEventListener("click", () => setMode(mode === "login" ? "signup" : "login"));
 
+    [email, password].forEach((field) => {
+      field?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          submit?.click();
+        }
+      });
+    });
+
     submit?.addEventListener("click", () => {
       const userEmail = email?.value?.trim() || "";
       const userPassword = password?.value?.trim() || "";
@@ -609,7 +632,7 @@
       }
       const users = loadJsonStorage(USERS_KEY, []);
       if (mode === "signup") {
-        if (users.some((u) => u.email === userEmail)) {
+        if (users.some((u) => u.email.toLowerCase() === userEmail.toLowerCase())) {
           showCartToast("Email already registered. Log in instead.");
           return;
         }
@@ -619,7 +642,7 @@
         saveJsonStorage(AUTH_KEY, { email: userEmail, ts: Date.now() });
         showCartToast("You’re in. Account saved on this device.");
       } else {
-        const match = users.find((u) => u.email === userEmail && u.password === userPassword);
+        const match = users.find((u) => u.email.toLowerCase() === userEmail.toLowerCase() && u.password === userPassword);
         if (!match) {
           showCartToast("Account not found. Check details or sign up.");
           return;
@@ -743,6 +766,7 @@
     const navLinks = document.querySelectorAll('[data-nav-link="main"]');
     const menuBtn = $("mobile-menu-btn");
     const navSearchBtn = $("nav-search-btn");
+    const navLoginBtn = $("nav-login-btn");
     const drawer = $("mobile-menu-panel");
     const drawerOverlay = $("mobile-drawer-overlay");
     const shopSearchInput = $("shop-search-input");
@@ -823,6 +847,10 @@
       closeOverlay("drawer");
       authModal.openSignup();
     });
+    navLoginBtn?.addEventListener("click", (e) => {
+      e.preventDefault();
+      authModal.openLogin();
+    });
 
     try {
       catalog = await loadCatalog();
@@ -838,6 +866,7 @@
     renderLookbook($("lookbook-list"), catalog.lookbook || []);
     renderShop($("shop-products"), catalog.products || [], catalog.settings || {});
     initRevealAnimations();
+    optimizeImageLoading();
 
     const floatingCart = $("nav-cart-btn");
     const cartSidebar = $("cart-sidebar");

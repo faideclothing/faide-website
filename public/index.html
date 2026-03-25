@@ -129,12 +129,21 @@
         <a href="#about" data-nav-link="main">ABOUT</a>
       </div>
 
-      <button id="nav-cart-btn" class="nav-icon-btn nav-cart-btn" aria-label="View shopping cart" type="button">
-        <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z"/>
-        </svg>
-        <span id="cart-count" class="cart-count cart-count-nav">0</span>
-      </button>
+      <div class="nav-right-actions" aria-label="Search and cart">
+        <button id="nav-search-btn" class="nav-icon-btn nav-search-btn" aria-label="Search products" type="button">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
+          </svg>
+        </button>
+        <button id="nav-cart-btn" class="nav-icon-btn nav-cart-btn" aria-label="View shopping bag" type="button">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 8V7a5 5 0 0 1 10 0v1" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M5.2 8.4h13.6l-1.1 11.4H6.3L5.2 8.4z" stroke-linejoin="round"></path>
+          </svg>
+          <span id="cart-count" class="cart-count cart-count-nav">0</span>
+        </button>
+      </div>
     </nav>
   
     <!-- Mobile menu side drawer + overlay -->  
@@ -404,7 +413,6 @@
       <div class="modal-card modal-card-policy">  
         <div class="modal-head">  
           <div>
-            <div class="modal-eyebrow">Store policy</div>
             <h2 id="modal-title" class="modal-title">Policy</h2>
           </div>
   

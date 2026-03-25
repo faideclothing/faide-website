@@ -178,18 +178,18 @@ body.nav-hidden #navbar {
 .drawer {
   position: fixed;
   top: 0;
-  right: -320px;
+  left: -320px;
   width: 320px;
   height: 100%;
   background: #0a0a0a;
   z-index: 1300;
-  border-left: 1px solid rgba(255,255,255,0.08);
-  box-shadow: -8px 0 30px rgba(0,0,0,0.7);
-  transition: right 0.28s ease;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 8px 0 30px rgba(0,0,0,0.7);
+  transition: left 0.28s ease;
   display: flex;
   flex-direction: column;
 }
-.drawer.open { right:0; }
+.drawer.open { left:0; }
 .drawer-head {
   display:flex;
   align-items:center;
@@ -1364,7 +1364,7 @@ body.nav-hidden #navbar {
 @media (max-width: 768px) {
   .drawer {
     width: min(92vw, 360px);
-    right: calc(-1 * min(92vw, 360px));
+    left: calc(-1 * min(92vw, 360px));
   }
 
   .drawer-auth-actions {
@@ -1387,7 +1387,7 @@ body.nav-hidden #navbar {
 }
 
 .policy-body {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+  background: none;
 }
 
 .policy-stack {
@@ -1851,8 +1851,8 @@ body.nav-hidden #navbar {
   text-transform: uppercase;
   padding: 8px 12px;
   color: #fff;
-  background: rgba(0, 0, 0, 0.72);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: #7a7a7a;
+  border-bottom: none;
 }
 
 .navbar {
@@ -1861,7 +1861,7 @@ body.nav-hidden #navbar {
   backdrop-filter: none !important;
   border-bottom: none !important;
   display: grid;
-  grid-template-columns: 44px 1fr 44px;
+  grid-template-columns: 44px 1fr auto;
   align-items: center;
 }
 
@@ -1881,7 +1881,26 @@ body.nav-hidden #navbar {
 }
 
 .nav-menu-btn { justify-self: start; }
-.nav-cart-btn { justify-self: end; position: relative; }
+.nav-right-actions {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-cart-btn { position: relative; }
+.nav-icon-btn {
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  width: 36px;
+  height: 36px;
+}
+.nav-icon-btn:hover,
+.nav-icon-btn:active {
+  background: transparent;
+  border-color: transparent;
+  transform: none;
+}
 .cart-count-nav {
   width: 18px;
   height: 18px;
@@ -1893,6 +1912,9 @@ body.nav-hidden #navbar {
 
 .hero {
   padding-top: calc(var(--nav-h) + 130px);
+}
+.hero-bg::after {
+  background: none;
 }
 
 .route-page {
@@ -1941,6 +1963,7 @@ body.route-open .shipping-strip {
 
   .navbar {
     top: 32px;
+    grid-template-columns: 40px 1fr auto;
   }
 }
 

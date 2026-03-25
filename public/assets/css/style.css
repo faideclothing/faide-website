@@ -2103,3 +2103,204 @@ body.route-open .shipping-strip {
     padding: 10px;
   }
 }
+
+/* ===== 2026 responsive polish updates ===== */
+:root {
+  --site-gutter: clamp(16px, 3.4vw, 40px);
+  --content-max: 1240px;
+}
+
+.navbar {
+  padding-left: var(--site-gutter);
+  padding-right: var(--site-gutter);
+}
+
+/* desktop nav icon positioning */
+@media (min-width: 769px) {
+  .navbar {
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+  }
+
+  .nav-right-actions {
+    justify-self: start;
+    order: 1;
+    gap: 10px;
+  }
+
+  .brand-link {
+    order: 2;
+  }
+
+  .nav-links {
+    order: 3;
+  }
+}
+
+/* login icon desktop only */
+@media (max-width: 768px) {
+  .nav-login-btn {
+    display: none !important;
+  }
+}
+
+/* global spacing consistency (footer intentionally untouched) */
+.hero,
+.lookbook,
+.shop,
+.about,
+.route-shell,
+.shop-head,
+.horizontal-scroll,
+.aligned-title {
+  padding-left: var(--site-gutter);
+  padding-right: var(--site-gutter);
+}
+
+.hero-content,
+.about,
+.shop-head,
+.horizontal-scroll,
+.route-shell,
+.aligned-title {
+  width: min(100%, var(--content-max));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero {
+  min-height: 90vh;
+  padding-top: calc(var(--nav-h) + 190px);
+  padding-bottom: 170px;
+}
+
+/* mobile lookbook modal/route upgrade */
+@media (max-width: 768px) {
+  .route-page.active {
+    min-height: 100dvh;
+    padding-bottom: 18px;
+  }
+
+  .lookbook-view {
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: #0f0f0f;
+    gap: 12px;
+  }
+
+  .lookbook-image-shell {
+    border-radius: 12px;
+  }
+
+  .lookbook-view img {
+    height: min(70dvh, 560px);
+    object-fit: cover;
+  }
+
+  .route-arrow {
+    width: 100%;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.14);
+  }
+
+  .route-meta {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+  }
+}
+
+/* checkout modal UI upgrade */
+.checkout-modal-card {
+  border: 1px solid rgba(255,255,255,0.1);
+  background: #0f0f0f;
+}
+
+.checkout-body {
+  gap: 20px;
+}
+
+.checkout-hero,
+.checkout-summary,
+.checkout-form {
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px;
+  background: #141414;
+}
+
+.checkout-hero {
+  padding: 14px;
+}
+
+.checkout-summary,
+.checkout-form {
+  padding: 18px;
+}
+
+.checkout-form input {
+  min-height: 46px;
+}
+
+.checkout-actions {
+  gap: 10px;
+}
+
+.checkout-actions .ghost-btn,
+.checkout-actions .checkout-pay-btn {
+  min-height: 46px;
+}
+
+/* all-device adjustability */
+@media (min-width: 1440px) {
+  :root {
+    --content-max: 1360px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    min-height: 84vh;
+    padding-top: calc(var(--nav-h) + 150px);
+    padding-bottom: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero,
+  .lookbook,
+  .shop,
+  .about,
+  .route-shell,
+  .shop-head,
+  .horizontal-scroll,
+  .aligned-title {
+    padding-left: var(--site-gutter);
+    padding-right: var(--site-gutter);
+  }
+
+  .hero {
+    min-height: 78vh;
+    padding-top: calc(var(--nav-h) + 120px);
+    padding-bottom: 86px;
+  }
+
+  .checkout-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 74vh;
+  }
+
+  .checkout-summary,
+  .checkout-form,
+  .checkout-hero {
+    border-radius: 14px;
+    padding: 14px;
+  }
+}

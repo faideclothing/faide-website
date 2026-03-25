@@ -540,11 +540,14 @@
         $("checkout-items-count").textContent = String(itemCount);
         $("checkout-total").textContent = total.toFixed(2);
         const profile = loadJsonStorage(CHECKOUT_PROFILE_KEY, null);
+        const auth = loadJsonStorage(AUTH_KEY, null);
         if (profile) {
           if (nameEl) nameEl.value = profile.name || "";
-          if (emailEl) emailEl.value = profile.email || "";
+          if (emailEl) emailEl.value = profile.email || auth?.email || "";
           if (phoneEl) phoneEl.value = profile.phone || "";
           if (cityEl) cityEl.value = profile.city || "";
+        } else if (auth?.email && emailEl) {
+          emailEl.value = auth.email;
         }
         if (overlay) overlay.style.display = "block";
         setTimeout(() => emailEl?.focus(), 30);
@@ -573,7 +576,7 @@
     });
   }
 
-  function initAuthModal() {
+  function initAuthModal({ onAuthChange } = {}) {
     const overlay = $("signup-modal");
     const title = $("signup-title");
     const text = overlay?.querySelector(".signup-text");
@@ -651,6 +654,7 @@
         showCartToast("Welcome back to FAIDE.");
       }
       closeOverlay("auth");
+      onAuthChange?.();
     });
 
     return {
@@ -836,10 +840,38 @@
     });
 
     initPolicies();
-    const authModal = initAuthModal();
+
+    const getCurrentAuth = () => loadJsonStorage(AUTH_KEY, null);
+    function applyAuthUI() {
+      const currentAuth = getCurrentAuth();
+      const isLoggedIn = !!currentAuth?.email;
+      if (navLoginBtn) {
+        navLoginBtn.setAttribute("aria-label", isLoggedIn ? `Log out ${currentAuth.email}` : "Log in or sign up");
+        navLoginBtn.setAttribute("title", isLoggedIn ? `Logged in as ${currentAuth.email}. Click to log out.` : "Log in or sign up");
+        navLoginBtn.classList.toggle("is-logged-in", isLoggedIn);
+      }
+      const drawerAuth = $("drawer-auth-link");
+      if (drawerAuth) drawerAuth.textContent = isLoggedIn ? "Log Out" : "Log In";
+      const drawerSignup = $("drawer-signup-link");
+      if (drawerSignup) drawerSignup.style.display = isLoggedIn ? "none" : "inline-flex";
+    }
+
+    function logoutUser() {
+      const auth = getCurrentAuth();
+      if (!auth?.email) return;
+      localStorage.removeItem(AUTH_KEY);
+      showCartToast("Logged out successfully.");
+      applyAuthUI();
+    }
+
+    const authModal = initAuthModal({ onAuthChange: applyAuthUI });
     $("drawer-auth-link")?.addEventListener("click", (e) => {
       e.preventDefault();
       closeOverlay("drawer");
+      if (getCurrentAuth()?.email) {
+        logoutUser();
+        return;
+      }
       authModal.openLogin();
     });
     $("drawer-signup-link")?.addEventListener("click", (e) => {
@@ -849,8 +881,14 @@
     });
     navLoginBtn?.addEventListener("click", (e) => {
       e.preventDefault();
+      if (getCurrentAuth()?.email) {
+        logoutUser();
+        return;
+      }
       authModal.openLogin();
     });
+
+    applyAuthUI();
 
     try {
       catalog = await loadCatalog();

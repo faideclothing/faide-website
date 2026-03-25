@@ -15,7 +15,7 @@
 
   const defaultConfig = {
     brand_name: "FAIDE",
-    hero_title: "HOME",
+    hero_title: "NEW DROP",
     hero_description: "New drops, exclusive releases, and updates are announced on our social platforms.",
     about_headline: "About FAIDE",
     about_description:

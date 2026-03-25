@@ -168,12 +168,17 @@
       if (site) site.style.display = "none";
       rlb?.classList.add("active");
       rlb?.setAttribute("aria-hidden", "false");
+      document.body.classList.add("route-open");
+      return;
     }
     if (page === "product") {
       if (site) site.style.display = "none";
       rpp?.classList.add("active");
       rpp?.setAttribute("aria-hidden", "false");
+      document.body.classList.add("route-open");
+      return;
     }
+    document.body.classList.remove("route-open");
   }
 
   function normalizeStr(s) {
@@ -251,6 +256,7 @@
   const CHECKOUT_PROFILE_KEY = "faide_checkout_profile_v1";
   const SIGNUP_KEY = "faide_signup_v2";
   const AUTH_KEY = "faide_auth_v1";
+  const USERS_KEY = "faide_users_v1";
 
   function loadJsonStorage(key, fallback) {
     try {
@@ -332,8 +338,8 @@
 
   function stockMessage(product, settings) {
     return productIsAvailable(product, settings)
-      ? (product?.stockNote || settings?.stockMessage || "Ready to ship")
-      : (settings?.outOfStockMessage || product?.outOfStockMessage || "Out of stock");
+      ? (product?.stockNote || settings?.stockMessage || "In stock")
+      : (settings?.outOfStockMessage || product?.outOfStockMessage || "Out");
   }
 
   function preloadImage(src, priority = "auto") {
@@ -597,9 +603,26 @@
         showCartToast("Enter a valid email and at least 6 characters.");
         return;
       }
-      const payload = { email: userEmail, password: userPassword, mode, ts: Date.now() };
-      saveJsonStorage(mode === "login" ? AUTH_KEY : SIGNUP_KEY, payload);
-      showCartToast(mode === "login" ? "Welcome back to FAIDE." : "You’re in. Drop alerts enabled.");
+      const users = loadJsonStorage(USERS_KEY, []);
+      if (mode === "signup") {
+        if (users.some((u) => u.email === userEmail)) {
+          showCartToast("Email already registered. Log in instead.");
+          return;
+        }
+        users.push({ email: userEmail, password: userPassword, ts: Date.now() });
+        saveJsonStorage(USERS_KEY, users);
+        saveJsonStorage(SIGNUP_KEY, { email: userEmail, ts: Date.now() });
+        saveJsonStorage(AUTH_KEY, { email: userEmail, ts: Date.now() });
+        showCartToast("You’re in. Account saved on this device.");
+      } else {
+        const match = users.find((u) => u.email === userEmail && u.password === userPassword);
+        if (!match) {
+          showCartToast("Account not found. Check details or sign up.");
+          return;
+        }
+        saveJsonStorage(AUTH_KEY, { email: userEmail, ts: Date.now() });
+        showCartToast("Welcome back to FAIDE.");
+      }
       closeOverlay("auth");
     });
 
@@ -659,7 +682,7 @@
         <div class="product-info">
           <div class="product-label-row">
             <div class="product-label">${p.label || "New"}</div>
-            ${available ? "" : '<div class="product-status-tag">Unavailable</div>'}
+            
           </div>
           <div class="product-header">
             <div class="product-name-wrapper">
@@ -681,7 +704,7 @@
                 <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
               </div>
             </div>
-            <button type="button" class="secondary-btn add-to-cart" ${available ? "disabled" : "disabled data-disabled-reason=\"out-of-stock\""}>${available ? "Add to Bag" : "Out of Stock"}</button>
+            <button type="button" class="secondary-btn add-to-cart" ${available ? "disabled" : "disabled data-disabled-reason=\"out-of-stock\""}>${available ? "Add to Bag" : "Sold out"}</button>
           </div>
         </div>`;
       shopEl.appendChild(card);
@@ -689,19 +712,7 @@
   }
 
   function initRevealAnimations() {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const targets = document.querySelectorAll(".lookbook-card, .product, .section-title, .about, .checkout-banner, .checkout-support-card, .cart-intro-card");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("in-view");
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: 0.14, rootMargin: "0px 0px -40px 0px" });
-    targets.forEach((el) => {
-      el.classList.add("reveal-on-scroll");
-      observer.observe(el);
-    });
+    return;
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
@@ -717,7 +728,7 @@
 
     $("mobile-search-btn")?.addEventListener("click", () => {
       scrollToSectionId("shop");
-      setTimeout(() => shopSearchInput?.focus?.(), 400);
+      setTimeout(() => shopSearchInput?.focus?.(), 250);
     });
 
     function handleShrink() {
@@ -791,7 +802,7 @@
     renderShop($("shop-products"), catalog.products || [], catalog.settings || {});
     initRevealAnimations();
 
-    const floatingCart = $("floating-cart");
+    const floatingCart = $("nav-cart-btn");
     const cartSidebar = $("cart-sidebar");
     const cartOverlay = $("cart-overlay");
     const cartItemsEl = $("cart-items");
@@ -842,11 +853,11 @@
       const totals = getCartTotals();
       cartTotalEl.textContent = totals.total.toFixed(2);
       cartCountEl.textContent = String(totals.itemCount);
-      if (cartSummaryEl) cartSummaryEl.textContent = totals.itemCount ? `${totals.itemCount} item${totals.itemCount === 1 ? "" : "s"} ready for checkout` : "Your bag is empty";
+      if (cartSummaryEl) cartSummaryEl.textContent = totals.itemCount ? `${totals.itemCount} item${totals.itemCount === 1 ? "" : "s"}` : "Bag empty";
       if (checkoutBtn) checkoutBtn.disabled = cart.length === 0;
 
       if (cart.length === 0) {
-        cartItemsEl.innerHTML = '<li class="cart-empty-state"><strong>Your bag is empty.</strong><span>Add a piece from the drop to start your checkout.</span></li>';
+        cartItemsEl.innerHTML = '<li class="cart-empty-state"><strong>Bag empty.</strong><span>Add a piece to continue.</span></li>';
         return;
       }
 

@@ -102,42 +102,49 @@
   
   <body>  
     <!-- NAV -->  
-    <nav class="navbar" id="navbar">  
-      <a href="#drop" aria-label="FAIDE Home" class="brand-link">  
-        <img src="images/faide-wordmark.png" alt="FAIDE" class="faide-wordmark-img" id="brand-wordmark" />  
-      </a>  
-  
-      <div class="nav-links" aria-label="Primary navigation">  
-        <a href="#drop" data-nav-link="main">NEW DROP</a>  
-        <a href="#lookbook" data-nav-link="main">LOOKBOOK</a>  
-        <a href="#shop" data-nav-link="main">SHOP</a>  
-        <a href="#about" data-nav-link="main">ABOUT</a>  
-      </div>  
-  
-      <div class="nav-mobile-actions" aria-label="Mobile navigation controls">  
-        <!-- Mobile search icon now scrolls to Shop + focuses the ONE shop search input -->  
-        <button id="mobile-search-btn" class="nav-icon-btn" type="button" aria-label="Search shop">  
-          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">  
-            <path  
-              d="M10 2a8 8 0 105.293 14.293l4.707 4.707a1 1 0 001.414-1.414l-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"  
-            />  
-          </svg>  
-        </button>  
-  
-        <button  
-          id="mobile-menu-btn"  
-          class="nav-icon-btn"  
-          type="button"  
-          aria-label="Open menu"  
-          aria-expanded="false"  
-          aria-controls="mobile-menu-panel"  
-        >  
-          <span class="hamburger" aria-hidden="true">  
-            <span></span><span></span><span></span>  
-          </span>  
-        </button>  
-      </div>  
-    </nav>  
+    <div class="shipping-strip" role="status" aria-live="polite">Free shipping for orders over 1000</div>
+
+    <nav class="navbar" id="navbar">
+      <button
+        id="mobile-menu-btn"
+        class="nav-icon-btn nav-menu-btn"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu-panel"
+      >
+        <span class="hamburger" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+
+      <a href="#drop" aria-label="FAIDE Home" class="brand-link">
+        <img src="images/faide-wordmark.png" alt="FAIDE" class="faide-wordmark-img" id="brand-wordmark" loading="eager" decoding="async" fetchpriority="high" />
+      </a>
+
+      <div class="nav-links" aria-label="Primary navigation">
+        <a href="#drop" data-nav-link="main">NEW DROP</a>
+        <a href="#lookbook" data-nav-link="main">LOOKBOOK</a>
+        <a href="#shop" data-nav-link="main">SHOP</a>
+        <a href="#about" data-nav-link="main">ABOUT</a>
+      </div>
+
+      <div class="nav-right-actions" aria-label="Nav quick actions">
+        <button id="mobile-search-btn" class="nav-icon-btn nav-search-btn" type="button" aria-label="Search shop">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10 2a8 8 0 105.293 14.293l4.707 4.707a1 1 0 001.414-1.414l-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/>
+          </svg>
+        </button>
+
+        <button id="nav-cart-btn" class="nav-icon-btn nav-cart-btn" aria-label="View shopping bag" type="button">
+          <svg width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 8h12l-1.1 11H7.1L6 8Z" />
+            <path d="M9 8V6a3 3 0 0 1 6 0v2" />
+          </svg>
+          <span id="cart-count" class="cart-count cart-count-nav">0</span>
+        </button>
+      </div>
+    </nav>
   
     <!-- Mobile menu side drawer + overlay -->  
     <div id="mobile-drawer-overlay" class="drawer-overlay" aria-hidden="true"></div>  
@@ -267,12 +274,12 @@
         <div class="hero-bg" aria-hidden="true"></div>  
   
         <div class="hero-content">  
-          <h2 class="hero-title fade-in-up delay-1" id="hero-title">NEW DROP</h2>  
-          <p class="hero-text fade-in-up delay-2" id="hero-description">  
+          <h2 class="hero-title" id="hero-title">NEW DROP</h2>  
+          <p class="hero-text" id="hero-description">  
             New drops, exclusive releases, and updates are announced on our social platforms.  
           </p>  
   
-          <div class="hero-social-icons fade-in-up delay-2">  
+          <div class="hero-social-icons">  
             <a  
               href="https://www.instagram.com/faideclothing"  
               target="_blank"  
@@ -324,7 +331,7 @@
             </a>  
           </div>  
   
-          <button class="primary-btn fade-in-up delay-3" id="shop-now-btn">Shop Now</button>  
+          <button class="primary-btn" id="shop-now-btn">Shop Now</button>  
         </div>  
       </section>  
   
@@ -406,7 +413,7 @@
       <div class="modal-card modal-card-policy">  
         <div class="modal-head">  
           <div>
-            <div class="modal-eyebrow">Store policy</div>
+            
             <h2 id="modal-title" class="modal-title">Policy</h2>
           </div>
   
@@ -426,16 +433,7 @@
     <!-- CART -->  
     <div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>  
   
-    <button id="floating-cart" class="floating-cart" aria-label="View shopping cart" type="button">  
-      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">  
-        <path  
-          d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z"  
-        />  
-      </svg>  
-      <span id="cart-count" class="cart-count">0</span>  
-    </button>  
-  
-    <div id="cart-sidebar" class="cart-sidebar" aria-label="Shopping cart">  
+        <div id="cart-sidebar" class="cart-sidebar" aria-label="Shopping cart">  
       <div class="cart-header">
         <div>
           <div class="cart-kicker">FAIDE Bag</div>
@@ -453,8 +451,8 @@
   
       <div class="cart-panel-intro">
         <div class="cart-intro-card">
-          <div class="cart-intro-title">Secure your pieces</div>
-          <div class="cart-intro-text">Review sizes, colours, and quantities before you save your checkout details.</div>
+          <div class="cart-intro-title">Review bag</div>
+          <div class="cart-intro-text">Sizes and quantity.</div>
         </div>
       </div>
 
@@ -465,7 +463,7 @@
           <span class="cart-total-label">Estimated total</span>  
           <span class="cart-total-value">R<span id="cart-total">0.00</span></span>  
         </div>  
-        <div class="cart-footer-note">Shipping and payment confirmation are arranged after your details are saved.</div>
+        <div class="cart-footer-note">Shipping confirmed after details are saved.</div>
         <button class="checkout-btn" id="checkout-btn" type="button" disabled title="Add items to checkout">  
           Continue to Checkout  
         </button>  
@@ -567,7 +565,7 @@
       aria-labelledby="signup-title"  
       style="display:none;"  
     >  
-      <div class="modal-card">  
+      <div class="modal-card signup-modal-card">  
         <div class="modal-head">  
           <h2 id="signup-title" class="modal-title">Join FAIDE</h2>  
   

@@ -306,7 +306,7 @@ body.nav-hidden #navbar {
 .social-icon:active { transform: translateY(-2px) scale(1.03); }
 
 .primary-btn {
-  background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+  background: linear-gradient(120deg, var(--secondary) 0 52%, var(--primary) 52% 100%);
   border:none;
   padding:18px 48px;
   border-radius:999px;
@@ -537,18 +537,12 @@ body.nav-hidden #navbar {
 .horizontal-scroll {
   max-width: var(--container);
   margin:0 auto;
-  display:flex;
-  overflow-x:auto;
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: visible;
   gap:24px;
-  scroll-behavior:smooth;
-  scroll-snap-type:x mandatory;
   padding:26px var(--px);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.1) transparent;
 }
-.horizontal-scroll::-webkit-scrollbar { height:6px; }
-.horizontal-scroll::-webkit-scrollbar-track { background:transparent; }
-.horizontal-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius:999px; }
 
 @media (max-width:768px) {
   .horizontal-scroll {
@@ -636,7 +630,7 @@ body.nav-hidden #navbar {
 
 /* Product cards + options (same as before) */
 .product {
-  min-width: 420px;
+  min-width: 0;
   color:#fff;
   text-align:left;
   display:flex;
@@ -1959,7 +1953,6 @@ body.route-open .shipping-strip {
 }
 
 .lookbook-card { height: 420px; }
-.product { min-width: 360px; }
 .modal-card { max-width: 760px; }
 .modal-card-policy { max-width: 760px; width: min(760px, calc(100vw - 48px)); }
 .checkout-modal-card { max-width: 920px; width: min(920px, calc(100vw - 48px)); }
@@ -2019,19 +2012,4 @@ body.route-open .shipping-strip {
   #mobile-drawer-overlay {
     display: none !important;
   }
-}
-
-/* remove fades/reveals */
-.fade-in-up,
-.reveal-on-scroll,
-.reveal-on-scroll.in-view,
-.lookbook-card,
-.product,
-.modal-card,
-.cart-sidebar,
-.checkout-step-chip {
-  animation: none !important;
-  transition: none !important;
-  transform: none !important;
-  opacity: 1 !important;
 }

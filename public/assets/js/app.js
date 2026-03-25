@@ -716,7 +716,24 @@
   }
 
   function initRevealAnimations() {
-    return;
+    const targets = document.querySelectorAll(".lookbook-card, .product, .about, .footer");
+    targets.forEach((el) => el.classList.add("reveal-on-scroll"));
+    if (!("IntersectionObserver" in window)) {
+      targets.forEach((el) => el.classList.add("in-view"));
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -8% 0px" }
+    );
+    targets.forEach((el) => observer.observe(el));
   }
 
   document.addEventListener("DOMContentLoaded", async () => {

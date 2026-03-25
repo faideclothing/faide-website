@@ -726,6 +726,14 @@
     const shopSearchInput = $("shop-search-input");
     const shopSearchClear = $("shop-search-clear");
 
+    codex/update-navigation-bar-layout-and-styles-kbn7au
+    $("mobile-search-btn")?.addEventListener("click", () => {
+      scrollToSectionId("shop");
+      setTimeout(() => shopSearchInput?.focus?.(), 250);
+    });
+
+
+    main
     function handleShrink() {
       if (!navbar) return;
       navbar.classList.toggle("shrink", window.scrollY > 20);

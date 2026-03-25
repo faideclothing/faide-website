@@ -1958,3 +1958,59 @@ body.route-open .shipping-strip {
   transform: none !important;
   opacity: 1 !important;
 }
+ codex/update-navigation-bar-layout-and-styles-kbn7au
+
+
+/* ===== follow-up fixes ===== */
+.shipping-strip {
+  background: #7a7a7a;
+  color: #fff;
+}
+
+.navbar {
+  grid-template-columns: 44px 1fr auto;
+}
+
+.nav-right-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: end;
+}
+
+.nav-icon-btn {
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+
+.nav-icon-btn:hover,
+.nav-icon-btn:active {
+  background: transparent;
+  transform: none;
+}
+
+@media (min-width: 769px) {
+  .nav-icon-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+  }
+}
+
+.drawer {
+  right: -320px;
+  left: auto;
+  border-right: none;
+}
+
+.hero-bg::after,
+.lookbook-card::before {
+  display: none;
+}
+
+.modal-eyebrow {
+  display: none;
+}
+
+main

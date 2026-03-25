@@ -704,7 +704,7 @@
                 <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
               </div>
             </div>
-            <button type="button" class="secondary-btn add-to-cart" ${available ? "disabled" : "disabled data-disabled-reason=\"out-of-stock\""}>${available ? "Add to Bag" : "Sold out"}</button>
+            <button type="button" class="secondary-btn add-to-cart" ${available ? "" : "disabled data-disabled-reason=\"out-of-stock\""}>${available ? "Add to Bag" : "Sold out"}</button>
           </div>
         </div>`;
       shopEl.appendChild(card);
@@ -721,6 +721,7 @@
     const navbar = document.querySelector(".navbar");
     const navLinks = document.querySelectorAll('[data-nav-link="main"]');
     const menuBtn = $("mobile-menu-btn");
+    const navSearchBtn = $("nav-search-btn");
     const drawer = $("mobile-menu-panel");
     const drawerOverlay = $("mobile-drawer-overlay");
     const shopSearchInput = $("shop-search-input");
@@ -767,6 +768,13 @@
     shopSearchClear?.addEventListener("click", () => {
       setSearchValue("");
       shopSearchInput?.focus();
+    });
+    navSearchBtn?.addEventListener("click", () => {
+      if (activeRoute) gotoHomeSection("shop");
+      setTimeout(() => {
+        scrollToSectionId("shop");
+        shopSearchInput?.focus();
+      }, 30);
     });
 
     initPolicies();
@@ -1158,6 +1166,7 @@
       if (page === "product") {
         showRoute("product");
         renderProductRoute(productId);
+        window.scrollTo({ top: 0, behavior: "auto" });
         return;
       }
       showRoute(null);

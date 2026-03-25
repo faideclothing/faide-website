@@ -123,13 +123,19 @@
       </a>
 
       <div class="nav-links" aria-label="Primary navigation">
-        <a href="#drop" data-nav-link="main">NEW DROP</a>
+        <a href="#drop" data-nav-link="main">HOME</a>
         <a href="#lookbook" data-nav-link="main">LOOKBOOK</a>
         <a href="#shop" data-nav-link="main">SHOP</a>
         <a href="#about" data-nav-link="main">ABOUT</a>
       </div>
 
-      <div class="nav-right-actions" aria-label="Search and cart">
+      <div class="nav-right-actions" aria-label="Account, search and cart">
+        <button id="nav-login-btn" class="nav-icon-btn nav-login-btn" aria-label="Log in or sign up" type="button">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4.5 19.2a8 8 0 0 1 15 0" stroke-linecap="round"></path>
+          </svg>
+        </button>
         <button id="nav-search-btn" class="nav-icon-btn nav-search-btn" aria-label="Search products" type="button">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="11" cy="11" r="7"></circle>
@@ -162,7 +168,7 @@
       </div>  
   
       <div class="drawer-links">
-        <a href="#drop" data-nav-link="main">NEW DROP</a>
+        <a href="#drop" data-nav-link="main">HOME</a>
         <a href="#lookbook" data-nav-link="main">LOOKBOOK</a>
         <a href="#shop" data-nav-link="main">SHOP</a>
         <a href="#about" data-nav-link="main">ABOUT</a>
@@ -198,7 +204,9 @@
   
         <div class="lookbook-view">  
           <button type="button" class="route-arrow route-arrow-left" id="rlb-prev" aria-label="Previous lookbook image">‹</button>
-          <img id="rlb-img" alt="Lookbook image" src="" />  
+          <div class="lookbook-image-shell">
+            <img id="rlb-img" alt="Lookbook image" src="" />
+          </div>
           <button type="button" class="route-arrow route-arrow-right" id="rlb-next" aria-label="Next lookbook image">›</button>
         </div>
         <div class="route-meta" id="rlb-meta"></div>  
@@ -274,7 +282,7 @@
         <div class="hero-bg" aria-hidden="true"></div>  
   
         <div class="hero-content">  
-          <h2 class="hero-title" id="hero-title">NEW DROP</h2>  
+          <h2 class="hero-title" id="hero-title">HOME</h2>  
           <p class="hero-text" id="hero-description">  
             New drops, exclusive releases, and updates are announced on our social platforms.  
           </p>  

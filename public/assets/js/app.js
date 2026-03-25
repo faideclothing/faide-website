@@ -15,7 +15,7 @@
 
   const defaultConfig = {
     brand_name: "FAIDE",
-    hero_title: "NEW DROP",
+    hero_title: "HOME",
     hero_description: "New drops, exclusive releases, and updates are announced on our social platforms.",
     about_headline: "About FAIDE",
     about_description:
@@ -105,6 +105,20 @@
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error("Failed to load products.json");
     return res.json();
+  }
+
+  function optimizeImageLoading() {
+    const images = document.querySelectorAll("img");
+    images.forEach((img) => {
+      if (!img.hasAttribute("decoding")) img.setAttribute("decoding", "async");
+      if (img.id === "brand-wordmark") return;
+      if (img.closest(".hero") && !img.hasAttribute("fetchpriority")) {
+        img.setAttribute("fetchpriority", "high");
+        if (!img.hasAttribute("loading")) img.setAttribute("loading", "eager");
+        return;
+      }
+      if (!img.hasAttribute("loading")) img.setAttribute("loading", "lazy");
+    });
   }
 
   function getNavOffsetPx() {
@@ -305,7 +319,7 @@
     if (overlayRegistry.get(name)?.isOpen()) return;
     overlayRegistry.get(name)?.open();
     overlayHistory.push(name);
-    if (isMobile()) history.pushState({ __faideOverlay: name }, "");
+    history.pushState({ __faideOverlay: name }, "");
     refreshPageLocks();
   }
 
@@ -315,7 +329,7 @@
     const index = overlayHistory.lastIndexOf(name);
     if (index >= 0) overlayHistory.splice(index, 1);
     refreshPageLocks();
-    if (isMobile() && !fromPop && history.state?.__faideOverlay === name) {
+    if (!fromPop && history.state?.__faideOverlay === name) {
       history.back();
     }
     return true;
@@ -600,6 +614,15 @@
     });
     switchBtn?.addEventListener("click", () => setMode(mode === "login" ? "signup" : "login"));
 
+    [email, password].forEach((field) => {
+      field?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          submit?.click();
+        }
+      });
+    });
+
     submit?.addEventListener("click", () => {
       const userEmail = email?.value?.trim() || "";
       const userPassword = password?.value?.trim() || "";
@@ -609,7 +632,7 @@
       }
       const users = loadJsonStorage(USERS_KEY, []);
       if (mode === "signup") {
-        if (users.some((u) => u.email === userEmail)) {
+        if (users.some((u) => u.email.toLowerCase() === userEmail.toLowerCase())) {
           showCartToast("Email already registered. Log in instead.");
           return;
         }
@@ -619,7 +642,7 @@
         saveJsonStorage(AUTH_KEY, { email: userEmail, ts: Date.now() });
         showCartToast("You’re in. Account saved on this device.");
       } else {
-        const match = users.find((u) => u.email === userEmail && u.password === userPassword);
+        const match = users.find((u) => u.email.toLowerCase() === userEmail.toLowerCase() && u.password === userPassword);
         if (!match) {
           showCartToast("Account not found. Check details or sign up.");
           return;
@@ -743,6 +766,7 @@
     const navLinks = document.querySelectorAll('[data-nav-link="main"]');
     const menuBtn = $("mobile-menu-btn");
     const navSearchBtn = $("nav-search-btn");
+    const navLoginBtn = $("nav-login-btn");
     const drawer = $("mobile-menu-panel");
     const drawerOverlay = $("mobile-drawer-overlay");
     const shopSearchInput = $("shop-search-input");
@@ -823,6 +847,10 @@
       closeOverlay("drawer");
       authModal.openSignup();
     });
+    navLoginBtn?.addEventListener("click", (e) => {
+      e.preventDefault();
+      authModal.openLogin();
+    });
 
     try {
       catalog = await loadCatalog();
@@ -838,6 +866,7 @@
     renderLookbook($("lookbook-list"), catalog.lookbook || []);
     renderShop($("shop-products"), catalog.products || [], catalog.settings || {});
     initRevealAnimations();
+    optimizeImageLoading();
 
     const floatingCart = $("nav-cart-btn");
     const cartSidebar = $("cart-sidebar");
@@ -1079,7 +1108,81 @@
         rlbImg.decoding = "async";
       }
       if (rlbMeta) rlbMeta.textContent = `Look ${safeIdx} of ${total}`;
+      resetLookbookZoom();
     }
+
+    let lookbookScale = 1;
+    let lookbookX = 0;
+    let lookbookY = 0;
+    let pinchStartDistance = 0;
+    let pinchStartScale = 1;
+    const pointerMap = new Map();
+
+    function applyLookbookTransform() {
+      if (!rlbImg) return;
+      rlbImg.style.transform = `translate(${lookbookX}px, ${lookbookY}px) scale(${lookbookScale})`;
+      rlbImg.classList.toggle("zoomed", lookbookScale > 1.01);
+    }
+
+    function resetLookbookZoom() {
+      lookbookScale = 1;
+      lookbookX = 0;
+      lookbookY = 0;
+      applyLookbookTransform();
+    }
+
+    function getPointerDistance() {
+      const points = Array.from(pointerMap.values());
+      if (points.length < 2) return 0;
+      const dx = points[0].x - points[1].x;
+      const dy = points[0].y - points[1].y;
+      return Math.hypot(dx, dy);
+    }
+
+    rlbImg?.addEventListener("dblclick", () => {
+      if (lookbookScale > 1.01) resetLookbookZoom();
+      else {
+        lookbookScale = 1.9;
+        applyLookbookTransform();
+      }
+    });
+
+    rlbImg?.addEventListener("pointerdown", (e) => {
+      pointerMap.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pointerMap.size === 2) {
+        pinchStartDistance = getPointerDistance();
+        pinchStartScale = lookbookScale;
+      }
+    });
+
+    rlbImg?.addEventListener("pointermove", (e) => {
+      if (!pointerMap.has(e.pointerId)) return;
+      const prev = pointerMap.get(e.pointerId);
+      pointerMap.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (pointerMap.size === 2) {
+        const currentDistance = getPointerDistance();
+        if (pinchStartDistance > 0) {
+          lookbookScale = Math.min(3, Math.max(1, pinchStartScale * (currentDistance / pinchStartDistance)));
+          applyLookbookTransform();
+        }
+        return;
+      }
+
+      if (lookbookScale > 1.01 && prev) {
+        lookbookX += e.clientX - prev.x;
+        lookbookY += e.clientY - prev.y;
+        applyLookbookTransform();
+      }
+    });
+
+    ["pointerup", "pointercancel", "pointerleave"].forEach((eventName) => {
+      rlbImg?.addEventListener(eventName, (e) => {
+        pointerMap.delete(e.pointerId);
+        if (pointerMap.size < 2) pinchStartDistance = 0;
+        if (lookbookScale <= 1.01) resetLookbookZoom();
+      });
+    });
 
     function setRppImage(i) {
       if (!rppSources.length || !rpp.img) return;

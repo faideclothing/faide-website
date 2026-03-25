@@ -1851,18 +1851,19 @@ body.nav-hidden #navbar {
   text-transform: uppercase;
   padding: 8px 12px;
   color: #fff;
-  background: #7a7a7a;
+  background: #0a0a0a;
   border-bottom: none;
 }
 
 .navbar {
   top: 34px;
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border-bottom: none !important;
+  background: #000 !important;
+  backdrop-filter: blur(6px) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
   display: grid;
   grid-template-columns: 44px 1fr auto;
   align-items: center;
+  min-height: 74px;
 }
 
 .brand-link {
@@ -1873,11 +1874,16 @@ body.nav-hidden #navbar {
 
 .nav-links {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
+  top: calc(100% - 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
   white-space: nowrap;
+  display: inline-flex;
+  gap: 14px;
 }
 
 .nav-menu-btn { justify-self: start; }
@@ -1889,9 +1895,10 @@ body.nav-hidden #navbar {
 }
 .nav-cart-btn { position: relative; }
 .nav-icon-btn {
-  border: none;
+  border: 1px solid rgba(122,122,122,0.35);
   background: transparent;
-  border-radius: 0;
+  color: #7a7a7a;
+  border-radius: 999px;
   width: 36px;
   height: 36px;
 }
@@ -1911,7 +1918,7 @@ body.nav-hidden #navbar {
 }
 
 .hero {
-  padding-top: calc(var(--nav-h) + 130px);
+  padding-top: calc(var(--nav-h) + 156px);
 }
 .hero-bg::after {
   background: none;
@@ -1951,6 +1958,39 @@ body.route-open .shipping-strip {
   max-width: 460px;
 }
 
+.lookbook-card { height: 420px; }
+.product { min-width: 360px; }
+.modal-card { max-width: 760px; }
+.modal-card-policy { max-width: 760px; width: min(760px, calc(100vw - 48px)); }
+.checkout-modal-card { max-width: 920px; width: min(920px, calc(100vw - 48px)); }
+
+.qty-stepper-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.02);
+}
+.qty-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: transparent;
+  color: #d1d5db;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.qty-value {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 800;
+  color: #fff;
+}
+
 @media (max-width: 768px) {
   .signup-modal-card {
     width: min(92vw, 420px);
@@ -1964,6 +2004,20 @@ body.route-open .shipping-strip {
   .navbar {
     top: 32px;
     grid-template-columns: 40px 1fr auto;
+  }
+
+  .nav-links {
+    position: static;
+    transform: none;
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .nav-menu-btn,
+  #mobile-menu-panel,
+  #mobile-drawer-overlay {
+    display: none !important;
   }
 }
 

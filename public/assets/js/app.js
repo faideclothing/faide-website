@@ -332,14 +332,18 @@
   }
 
   function productIsAvailable(product, settings) {
-    const globalOut = settings?.inventoryMode === "out_of_stock";
-    return !globalOut && product?.inStock !== false;
+    const mode = String(settings?.inventoryMode || "in_stock").toLowerCase();
+    const globalOut = mode === "out_of_stock";
+    const raw = product?.inStock;
+    const normalized = typeof raw === "string" ? raw.toLowerCase() : raw;
+    const productOut = normalized === false || normalized === "false" || normalized === "0";
+    return !globalOut && !productOut;
   }
 
   function stockMessage(product, settings) {
     return productIsAvailable(product, settings)
       ? (product?.stockNote || settings?.stockMessage || "In stock")
-      : (settings?.outOfStockMessage || product?.outOfStockMessage || "Out");
+      : (product?.outOfStockMessage || settings?.outOfStockMessage || "Out of stock");
   }
 
   function preloadImage(src, priority = "auto") {
@@ -688,7 +692,7 @@
             <div class="product-name-wrapper">
               <h3 itemprop="name">${p.name}</h3>
               <div class="product-category">${p.category || ""}</div>
-              <div class="product-colors-count">${(p.colors || []).length} Colors</div>
+              <div class="product-colors-count" aria-hidden="true"></div>
             </div>
             <p class="price" itemprop="offers" itemscope itemtype="https://schema.org/Offer"><span itemprop="priceCurrency" content="ZAR"></span><span itemprop="price" content="${Number(p.price || 0).toFixed(2)}">${formatPriceZAR(p.price)}</span></p>
           </div>
@@ -712,7 +716,24 @@
   }
 
   function initRevealAnimations() {
-    return;
+    const targets = document.querySelectorAll(".lookbook-card, .product, .about, .footer");
+    targets.forEach((el) => el.classList.add("reveal-on-scroll"));
+    if (!("IntersectionObserver" in window)) {
+      targets.forEach((el) => el.classList.add("in-view"));
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -8% 0px" }
+    );
+    targets.forEach((el) => observer.observe(el));
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
@@ -733,6 +754,19 @@
     }
     handleShrink();
     window.addEventListener("scroll", handleShrink, { passive: true });
+    let lastScrollY = window.scrollY;
+    function handleNavVisibilityOnScroll() {
+      if (!navbar || isMobile()) {
+        document.body.classList.remove("nav-hidden");
+        return;
+      }
+      const y = window.scrollY;
+      const scrollingDown = y > lastScrollY;
+      const shouldHide = y > 140 && scrollingDown;
+      document.body.classList.toggle("nav-hidden", shouldHide);
+      lastScrollY = y;
+    }
+    window.addEventListener("scroll", handleNavVisibilityOnScroll, { passive: true });
 
     registerOverlay("drawer", {
       isOpen: () => drawer?.classList.contains("open"),
@@ -1082,7 +1116,7 @@
       if (rpp.label) rpp.label.textContent = prod.label || "";
       if (rpp.name) rpp.name.textContent = prod.name || "Item";
       if (rpp.category) rpp.category.textContent = prod.category || "";
-      if (rpp.colorsCount) rpp.colorsCount.textContent = `${(prod.colors || []).length} Colors`;
+      if (rpp.colorsCount) rpp.colorsCount.textContent = "";
       if (rpp.price) rpp.price.textContent = formatPriceZAR(prod.price);
       if (rpp.stock) {
         rpp.stock.textContent = stockMessage(prod, catalog.settings || {});
@@ -1158,12 +1192,18 @@
       const { page, lookbookIndex, productId, hashId } = parseRoute();
       activeRoute = page || null;
       if (page === "lookbook") {
+        if (!catalog.lookbook?.length) return showRoute(null);
         showRoute("lookbook");
         renderLookbookRoute(lookbookIndex);
         document.title = `FAIDE | Lookbook ${activeLookbookIndex}`;
         return;
       }
       if (page === "product") {
+        const knownProduct = (catalog.products || []).some((p) => String(p.id) === String(productId));
+        if (!knownProduct && catalog.products?.[0]?.id) {
+          navigateTo({ page: "product", id: catalog.products[0].id }, { replace: true });
+          return;
+        }
         showRoute("product");
         renderProductRoute(productId);
         window.scrollTo({ top: 0, behavior: "auto" });

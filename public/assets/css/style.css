@@ -78,7 +78,7 @@ body.nav-hidden #navbar {
   justify-content: space-between;
 }
 .navbar.shrink {
-  height: 72px;
+  height: 62px;
   background: rgba(0, 0, 0, 0.98);
   border-bottom-color: #2a2a2a;
 }

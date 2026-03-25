@@ -181,7 +181,7 @@ body.nav-hidden #navbar {
   left: -320px;
   width: 320px;
   height: 100%;
-  background: #0a0a0a;
+  background: #7A7A7A;
   z-index: 1300;
   border-right: 1px solid rgba(255,255,255,0.08);
   box-shadow: 8px 0 30px rgba(0,0,0,0.7);

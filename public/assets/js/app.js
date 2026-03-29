@@ -108,16 +108,17 @@
   }
 
   function optimizeImageLoading() {
-    const images = document.querySelectorAll("img");
-    images.forEach((img) => {
+    const images = Array.from(document.querySelectorAll("img"));
+    images.forEach((img, index) => {
       if (!img.hasAttribute("decoding")) img.setAttribute("decoding", "async");
       if (img.id === "brand-wordmark") return;
-      if (img.closest(".hero") && !img.hasAttribute("fetchpriority")) {
+      const isPriority = img.closest(".hero") || index < 6;
+      if (isPriority) {
         img.setAttribute("fetchpriority", "high");
         if (!img.hasAttribute("loading")) img.setAttribute("loading", "eager");
-        return;
+      } else if (!img.hasAttribute("loading")) {
+        img.setAttribute("loading", "lazy");
       }
-      if (!img.hasAttribute("loading")) img.setAttribute("loading", "lazy");
     });
   }
 
@@ -130,8 +131,9 @@
   function scrollToSectionId(id, behavior = "smooth") {
     const el = document.getElementById(id);
     if (!el) return;
+    const safeBehavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : behavior;
     const top = el.getBoundingClientRect().top + window.pageYOffset - getNavOffsetPx();
-    window.scrollTo({ top, behavior });
+    window.scrollTo({ top, behavior: safeBehavior });
   }
 
   function toQueryUrl(params) {
@@ -764,7 +766,10 @@
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
-    $("shop-now-btn")?.addEventListener("click", () => scrollToSectionId("shop"));
+    $("shop-now-btn")?.addEventListener("click", () => {
+      if (activeRoute) gotoHomeSection("shop");
+      setTimeout(() => scrollToSectionId("shop"), 20);
+    });
 
     const navbar = document.querySelector(".navbar");
     const navLinks = document.querySelectorAll('[data-nav-link="main"]');
@@ -818,7 +823,22 @@
     });
     $("drawer-close")?.addEventListener("click", () => closeOverlay("drawer"));
     drawerOverlay?.addEventListener("click", () => closeOverlay("drawer"));
-    navLinks.forEach((a) => a.addEventListener("click", () => closeOverlay("drawer")));
+    navLinks.forEach((a) => a.addEventListener("click", (e) => {
+      const href = a.getAttribute("href") || "";
+      if (href.startsWith("#")) {
+        e.preventDefault();
+        const sectionId = href.slice(1) || "drop";
+        if (activeRoute) gotoHomeSection(sectionId);
+        setTimeout(() => scrollToSectionId(sectionId), 20);
+      }
+      closeOverlay("drawer");
+    }));
+
+    document.querySelector('.brand-link')?.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (activeRoute) gotoHomeSection("drop");
+      setTimeout(() => scrollToSectionId("drop"), 20);
+    });
 
     function setSearchValue(v) {
       const val = v == null ? "" : String(v);
@@ -1132,6 +1152,15 @@
       };
     }
 
+    function sanitizeRoute(route) {
+      const allowedPages = new Set([null, "lookbook", "product"]);
+      if (!allowedPages.has(route.page)) {
+        history.replaceState({}, "", "404.html");
+        return { ...route, page: null, hashId: "drop" };
+      }
+      return route;
+    }
+
     function renderLookbookRoute(i) {
       const items = catalog.lookbook || [];
       const total = items.length || 1;
@@ -1330,7 +1359,7 @@
     window.addEventListener("scroll", maybeOpenSignupOnScroll, { passive: true });
 
     function applyRoute() {
-      const { page, lookbookIndex, productId, hashId } = parseRoute();
+      const { page, lookbookIndex, productId, hashId } = sanitizeRoute(parseRoute());
       activeRoute = page || null;
       if (page === "lookbook") {
         if (!catalog.lookbook?.length) return showRoute(null);

@@ -1,18 +1,28 @@
-# FAIDE Professional E-Commerce Structure
+# FAIDE Source Structure
 
-This scaffold is added to make ongoing edits cleaner and more maintainable.
+This repository now separates **authoring code** (`src/`) from **served output** (`public/`) so the live site design stays unchanged while code is easier to maintain.
 
-## Recommended organization
-- `src/components/` reusable UI units by domain (auth, cart, checkout, lookbook, product)
-- `src/pages/` page-level entry templates
-- `src/styles/` layered CSS: base, components, pages, utilities
-- `src/scripts/` modular JavaScript split into core bootstrapping, modules, services, and utilities
-- `src/data/` editable data/content sources
-- `src/config/` environment and feature flags
-- `src/tests/` future test suites
-- `src/assets/` static media grouped by type
+## Folder mapping
 
-## Suggested next migration steps
-1. Move `public/assets/js/app.js` into `src/scripts/modules/` by feature.
-2. Move `public/assets/css/style.css` into `src/styles/` partial files.
-3. Keep build output in `public/` and authoring source in `src/`.
+- `src/pages/` → page templates (currently `index.html`)
+- `src/styles/` → stylesheet source files (currently `main.css`)
+- `src/scripts/` → front-end logic (currently `app.js`)
+- `src/data/` → structured content data (currently `products.json`)
+- `public/` → deployable/static output used by `npm run dev`
+
+## Current mirrored files
+
+- `src/pages/index.html` mirrors `public/index.html`
+- `src/styles/main.css` mirrors `public/assets/css/style.css`
+- `src/scripts/app.js` mirrors `public/assets/js/app.js`
+- `src/data/products.json` mirrors `public/assets/js/products.json`
+
+## Sync workflow
+
+Use the helper script to copy source files to public output:
+
+```bash
+bash scripts/sync-src-to-public.sh
+```
+
+This keeps the website design and behavior intact while letting you edit code in organized folders.

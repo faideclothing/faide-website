@@ -2465,3 +2465,73 @@ svg {
     font-size: 1.1rem;
   }
 }
+
+/* targeted restore (keep hero sizing native) */
+@media (min-width: 769px) {
+  .navbar {
+    position: fixed !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--px);
+  }
+
+  .brand-link {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+
+  .nav-links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 8px;
+    gap: 34px !important;
+    z-index: 1;
+  }
+
+  .nav-right-actions {
+    position: absolute;
+    right: var(--px);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    display: inline-flex !important;
+    gap: 12px;
+    margin: 0;
+  }
+
+  #mobile-menu-btn { display: none !important; }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+
+  .nav-links { display: none !important; }
+  .nav-right-actions {
+    display: inline-flex !important;
+    justify-self: end;
+    gap: 8px;
+    margin-left: 0;
+  }
+
+  .nav-right-actions #nav-login-btn { display: none !important; }
+  .nav-right-actions #nav-search-btn,
+  .nav-right-actions #nav-cart-btn { display: inline-flex !important; }
+}
+
+#cart-sidebar,
+.cart-sidebar {
+  right: -120% !important;
+}
+
+#cart-sidebar.active,
+.cart-sidebar.active {
+  right: 0 !important;
+}

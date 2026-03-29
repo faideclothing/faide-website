@@ -2789,3 +2789,72 @@ svg {
 * {
   transition-duration: 0.1s;
 }
+
+/* === nav alignment hard-fix === */
+.navbar {
+  position: fixed;
+}
+
+@media (min-width: 769px) {
+  .navbar {
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    align-items: center;
+    column-gap: 12px;
+  }
+
+  .brand-link {
+    grid-column: 2;
+    justify-self: center;
+  }
+
+  .nav-links {
+    grid-column: 1;
+    justify-self: start;
+    gap: 42px !important;
+    margin-left: 8px;
+  }
+
+  .nav-right-actions {
+    grid-column: 3;
+    justify-self: end;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 12px;
+    margin-right: 4px;
+  }
+
+  .nav-right-actions #nav-search-btn,
+  .nav-right-actions #nav-cart-btn,
+  .nav-right-actions #nav-login-btn {
+    display: inline-flex !important;
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+
+  .brand-link {
+    justify-self: center;
+  }
+
+  .nav-links {
+    display: none !important;
+  }
+
+  .nav-right-actions {
+    justify-self: end;
+    margin-left: 0;
+  }
+
+  .nav-right-actions #nav-search-btn,
+  .nav-right-actions #nav-cart-btn {
+    display: inline-flex !important;
+  }
+}

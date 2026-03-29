@@ -301,14 +301,9 @@
   const overlayHistory = [];
   const overlayRegistry = new Map();
 
-  function setNavHidden(hidden) {
-    document.body.classList.toggle("nav-hidden", !!hidden);
-  }
-
   function refreshPageLocks() {
     const hasBlockingLayer = Array.from(overlayRegistry.values()).some((entry) => entry.isOpen());
     document.body.classList.toggle("lock-scroll", hasBlockingLayer);
-    setNavHidden(hasBlockingLayer);
   }
 
   function registerOverlay(name, api) {
@@ -379,14 +374,16 @@
     const description = `${product.name} by FAIDE. ${product.category}. ${stockMessage(product, catalog.settings)}.`;
     document.title = title;
     updateMetaTag('meta[name="description"]', "content", description);
+    const routeUrl = `https://faide.store/?page=product&id=${encodeURIComponent(product.id)}`;
     updateMetaTag('meta[property="og:title"]', "content", title);
     updateMetaTag('meta[property="og:description"]', "content", description);
+    updateMetaTag('meta[property="og:url"]', "content", routeUrl);
     updateMetaTag('meta[name="twitter:title"]', "content", title);
     updateMetaTag('meta[name="twitter:description"]', "content", description);
     const image = new URL(product.images?.[0] || "images/hero.png", window.location.origin + window.location.pathname).toString();
     updateMetaTag('meta[property="og:image"]', "content", image);
     updateMetaTag('meta[name="twitter:image"]', "content", image);
-    updateMetaTag('link[rel="canonical"]', "href", `https://faide.store/${window.location.search || ""}`.replace(/\/$/, ""));
+    updateMetaTag('link[rel="canonical"]', "href", routeUrl);
 
     const schemaEl = $("dynamic-schema");
     if (schemaEl) {
@@ -415,6 +412,7 @@
     updateMetaTag('meta[name="description"]', "content", "FAIDE luxury streetwear. New drops, exclusive releases, and curated essentials. Designed with intention. Worn with purpose.");
     updateMetaTag('meta[property="og:title"]', "content", "FAIDE | Luxury Streetwear Brand");
     updateMetaTag('meta[property="og:description"]', "content", "Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials.");
+    updateMetaTag('meta[property="og:url"]', "content", "https://faide.store/");
     updateMetaTag('meta[name="twitter:title"]', "content", "FAIDE | Luxury Streetwear Brand");
     updateMetaTag('meta[name="twitter:description"]', "content", "Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials.");
     updateMetaTag('meta[property="og:image"]', "content", "https://faide.store/images/hero.png");
@@ -776,25 +774,18 @@
     const shopSearchInput = $("shop-search-input");
     const shopSearchClear = $("shop-search-clear");
 
-    function handleShrink() {
-      if (!navbar) return;
-      navbar.classList.toggle("shrink", window.scrollY > 20);
-    }
-    handleShrink();
-    window.addEventListener("scroll", handleShrink, { passive: true });
-    let lastScrollY = window.scrollY;
-    function handleNavVisibilityOnScroll() {
-      if (!navbar || isMobile()) {
-        document.body.classList.remove("nav-hidden");
-        return;
-      }
-      const y = window.scrollY;
-      const scrollingDown = y > lastScrollY;
-      const shouldHide = y > 140 && scrollingDown;
-      document.body.classList.toggle("nav-hidden", shouldHide);
-      lastScrollY = y;
-    }
-    window.addEventListener("scroll", handleNavVisibilityOnScroll, { passive: true });
+    let scrollTicking = false;
+    const scheduleScrollUpdate = () => {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        if (navbar) navbar.classList.toggle("shrink", window.scrollY > 20);
+        updateActiveFromScroll();
+        scrollTicking = false;
+      });
+    };
+    scheduleScrollUpdate();
+    window.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
 
     registerOverlay("drawer", {
       isOpen: () => drawer?.classList.contains("open"),
@@ -1120,8 +1111,6 @@
       for (const sec of sections) if (sec && sec.offsetTop <= refY) current = sec.id;
       setActive(current);
     }
-    window.addEventListener("scroll", () => requestAnimationFrame(updateActiveFromScroll), { passive: true });
-
     function parseRoute() {
       const params = new URLSearchParams(window.location.search);
       return {
@@ -1337,6 +1326,9 @@
         showRoute("lookbook");
         renderLookbookRoute(lookbookIndex);
         document.title = `FAIDE | Lookbook ${activeLookbookIndex}`;
+        const lookUrl = `https://faide.store/?page=lookbook&i=${activeLookbookIndex}`;
+        updateMetaTag('link[rel="canonical"]', "href", lookUrl);
+        updateMetaTag('meta[property="og:url"]', "content", lookUrl);
         return;
       }
       if (page === "product") {
@@ -1352,6 +1344,10 @@
       }
       showRoute(null);
       resetSeoToDefault();
+      const notFoundSection = $("not-found");
+      const isUnknownPage = !!page && page !== "lookbook" && page !== "product";
+      if (notFoundSection) notFoundSection.hidden = !isUnknownPage;
+      if (isUnknownPage) history.replaceState({}, "", `${window.location.pathname}#drop`);
       const targetId = sectionIds.includes(hashId) ? hashId : "drop";
       setActive(targetId);
       if (location.hash) setTimeout(() => scrollToSectionId(targetId, "auto"), 0);
@@ -1361,6 +1357,11 @@
     window.addEventListener("popstate", () => {
       if (closeTopOverlayFromPop()) return;
       applyRoute();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (closeTopOverlayFromPop()) return;
+      }
     });
 
     document.querySelectorAll(".route-back").forEach((link) => {
@@ -1383,6 +1384,8 @@
         setTimeout(() => scrollToSectionId(href.replace("#", "")), 20);
       });
     });
+
+    $("back-home-btn")?.addEventListener("click", () => gotoHomeSection("drop", { replace: true }));
 
     applyRoute();
     updateActiveFromScroll();

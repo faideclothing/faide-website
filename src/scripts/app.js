@@ -109,12 +109,17 @@
 
   function optimizeImageLoading() {
     const images = document.querySelectorAll("img");
-    images.forEach((img) => {
+    images.forEach((img, index) => {
       if (!img.hasAttribute("decoding")) img.setAttribute("decoding", "async");
       if (img.id === "brand-wordmark") return;
       if (img.closest(".hero") && !img.hasAttribute("fetchpriority")) {
         img.setAttribute("fetchpriority", "high");
         if (!img.hasAttribute("loading")) img.setAttribute("loading", "eager");
+        return;
+      }
+      if (index < 6 && !img.hasAttribute("loading")) {
+        img.setAttribute("loading", "eager");
+        if (!img.hasAttribute("fetchpriority")) img.setAttribute("fetchpriority", "high");
         return;
       }
       if (!img.hasAttribute("loading")) img.setAttribute("loading", "lazy");

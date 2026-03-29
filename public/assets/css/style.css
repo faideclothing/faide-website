@@ -2712,3 +2712,80 @@ svg {
     padding-right: 14px;
   }
 }
+
+/* === requested polish pass === */
+@media (min-width: 769px) {
+  .nav-links {
+    gap: 38px;
+  }
+  .nav-right-actions {
+    justify-self: end;
+    margin-right: 2px;
+  }
+  #cart-sidebar {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 100vh;
+  }
+
+  .shop-search-wrap {
+    max-width: 210px;
+    margin-left: auto;
+  }
+
+  .shop-search-input {
+    height: 38px;
+    font-size: 0.86rem;
+    padding: 0 34px 0 10px;
+  }
+
+  .find-us-heading {
+    display: none;
+  }
+
+  #policy-modal .modal-card-policy,
+  #checkout-modal .checkout-modal-card {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  #policy-modal .modal-body,
+  #checkout-modal .modal-body {
+    height: calc(100vh - 74px);
+    overflow-y: auto;
+  }
+}
+
+.about-social-icons .social-icon,
+.drawer-social-icons .social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-social-icons .social-icon svg,
+.drawer-social-icons .social-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.lookbook-view {
+  transition: transform 0.1s ease, border-color 0.1s ease;
+}
+
+.lookbook-view:hover {
+  transform: translateY(-2px);
+  border-color: rgba(168,85,247,0.5);
+}
+
+* {
+  transition-duration: 0.1s;
+}

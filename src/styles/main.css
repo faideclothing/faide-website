@@ -2640,3 +2640,27 @@ svg {
     scroll-behavior: auto !important;
   }
 }
+
+/* stretch-error fix */
+#site-content,
+.hero {
+  width: 100%;
+}
+
+.hero {
+  min-height: 76vh !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+.hero-bg {
+  background-size: cover !important;
+  background-position: center center !important;
+  transform: none !important;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 82vh !important;
+  }
+}

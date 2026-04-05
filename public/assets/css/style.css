@@ -2522,6 +2522,22 @@ html {
   padding: 14px 34px;
 }
 
+/* Restore Shop Now button to original look/placement */
+#shop-now-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none !important;
+  border-radius: 999px !important;
+  background: var(--primary) !important;
+  color: #fff !important;
+  padding: 18px 48px !important;
+  margin-top: 28px !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none !important;
+}
+
 .about-social-icons,
 .drawer-social-icons {
   display: flex;
@@ -3053,5 +3069,493 @@ body.nav-hidden #navbar {
 
   #lookbook .section-title {
     padding: 0 var(--px-sm);
+  }
+}
+
+/* ===== April 2026 UX refresh ===== */
+.navbar {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.nav-links {
+  gap: 18px !important;
+}
+
+.hero {
+  min-height: 84vh;
+  padding-top: clamp(110px, 12vh, 168px);
+}
+
+.hero-bg {
+  background-position: center top !important;
+  background-size: cover !important;
+}
+
+.hero-bg::after {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.7)) !important;
+}
+
+.hero-content {
+  transform: translateY(-18px);
+}
+
+.primary-btn {
+  border-radius: 0 !important;
+  padding: 16px 26px;
+}
+
+.lookbook {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+#lookbook .section-title,
+.vertical-list {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+#route-lookbook .route-topbar {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.54)) !important;
+  backdrop-filter: blur(8px);
+}
+
+#route-lookbook .route-meta {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  background: rgba(0, 0, 0, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+#route-lookbook .route-arrow {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.58)) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-overlay {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-card-policy {
+  width: min(720px, calc(100vw - 24px)) !important;
+  max-height: min(82vh, 760px);
+  border-radius: 20px !important;
+}
+
+.shop-view-more-wrap {
+  display: none;
+}
+
+#policy-modal .modal-body {
+  overflow-y: auto;
+  max-height: min(66vh, 620px);
+}
+
+.about-social-icons .social-icon,
+.drawer-social-icons .social-icon,
+.hero-social-icons .social-icon {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.about-social-icons .social-icon:hover,
+.drawer-social-icons .social-icon:hover,
+.hero-social-icons .social-icon:hover {
+  border-color: rgba(168, 85, 247, 0.8);
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.22), 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 74vh;
+    padding-top: calc(var(--nav-h) + 52px) !important;
+  }
+
+  .horizontal-scroll {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .product-img-container {
+    height: clamp(240px, 38vw, 290px) !important;
+  }
+
+  .shop-head {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between;
+    gap: 10px !important;
+  }
+
+  .shop-search-wrap {
+    width: min(56vw, 280px) !important;
+  }
+
+  .shop-search-input {
+    width: 100% !important;
+  }
+
+  .product {
+    margin: 0;
+  }
+
+  .product.mobile-card-hidden {
+    display: none;
+  }
+
+  .shop-view-more-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 14px 0 4px;
+  }
+
+  .shop-view-more-btn {
+    display: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 800;
+    padding: 12px 18px;
+    border-radius: 0;
+  }
+
+  .shop-view-more-btn.show {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-category {
+    display: none;
+  }
+
+  .modal-overlay {
+    padding: 14px 10px !important;
+    overflow-y: auto !important;
+    align-items: center;
+  }
+
+  .modal-card {
+    width: min(760px, calc(100vw - 20px)) !important;
+    max-width: min(760px, calc(100vw - 20px)) !important;
+    min-height: auto !important;
+    height: auto !important;
+    border-radius: 16px !important;
+  }
+
+  .modal-body {
+    max-height: min(72vh, 620px);
+  }
+}
+
+/* ===== April 2026 refinement pass ===== */
+.nav-links {
+  gap: 24px !important;
+}
+
+.hero-bg::after {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.52)) !important;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #7b2cf3 0%, #a855f7 45%, #c084fc 100%) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 10px 28px rgba(122, 44, 243, 0.4);
+}
+
+#policy-modal .modal-card {
+  width: min(680px, calc(100vw - 34px)) !important;
+  max-width: min(680px, calc(100vw - 34px)) !important;
+  border-radius: 18px !important;
+}
+
+#policy-modal .modal-head {
+  padding: 16px 18px;
+}
+
+#policy-modal .modal-body {
+  max-height: min(60vh, 560px) !important;
+}
+
+.signup-modal-card {
+  width: min(560px, calc(100vw - 28px)) !important;
+  border-radius: 22px !important;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  background:
+    radial-gradient(circle at 90% 0%, rgba(168, 85, 247, 0.18), transparent 35%),
+    linear-gradient(160deg, #09090c 0%, #101017 58%, #12091d 100%) !important;
+}
+
+.signup-modal-card .modal-head {
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.signup-modal-card .signup-banner {
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  border-radius: 14px;
+}
+
+.signup-modal-card .signup-form input {
+  min-height: 48px;
+  border-radius: 12px;
+}
+
+.signup-modal-card .secondary-btn {
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7b2cf3 0%, #a855f7 100%);
+}
+
+.checkout-modal-card {
+  width: min(980px, calc(100vw - 28px)) !important;
+  max-width: min(980px, calc(100vw - 28px)) !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(168, 85, 247, 0.28) !important;
+  background:
+    radial-gradient(circle at 4% 2%, rgba(168, 85, 247, 0.16), transparent 35%),
+    linear-gradient(155deg, #090909 0%, #101014 52%, #0c0715 100%) !important;
+}
+
+#checkout-modal .modal-head {
+  padding: 16px 20px !important;
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+#checkout-title {
+  color: #fff !important;
+  font-size: 1.22rem !important;
+  letter-spacing: 0.03em;
+}
+
+#checkout-modal .checkout-body {
+  gap: 12px !important;
+}
+
+#checkout-modal .checkout-hero,
+#checkout-modal .checkout-summary,
+#checkout-modal .checkout-form,
+#checkout-modal .checkout-actions {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 14px !important;
+  padding: 14px !important;
+}
+
+#checkout-modal .secondary-btn,
+#checkout-modal .checkout-pay-btn {
+  border-radius: 12px !important;
+}
+
+@media (max-width: 768px) {
+  #policy-modal .modal-card {
+    width: min(560px, calc(100vw - 20px)) !important;
+    max-width: min(560px, calc(100vw - 20px)) !important;
+    margin: 0 auto;
+  }
+
+  #route-lookbook .route-shell {
+    background: #060606;
+  }
+
+  #route-lookbook .route-topbar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 12px;
+  }
+
+  #route-lookbook .lookbook-view {
+    min-height: calc(100dvh - 130px);
+    grid-template-columns: 46px 1fr 46px !important;
+    padding: 8px 0 14px;
+    background: radial-gradient(circle at 50% 2%, rgba(168, 85, 247, 0.16), transparent 40%), #060606;
+  }
+
+  #route-lookbook .lookbook-image-shell {
+    height: min(72vh, 560px) !important;
+    margin: 0 6px;
+    border-radius: 14px !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    overflow: hidden;
+  }
+
+  #route-lookbook .route-arrow {
+    margin: 0 2px;
+    border-radius: 12px;
+    height: 52px;
+    align-self: center;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  #route-lookbook .route-meta {
+    position: static;
+    transform: none;
+    margin: 0 auto 8px;
+    width: fit-content;
+  }
+
+  .signup-modal-card,
+  .checkout-modal-card {
+    width: min(720px, calc(100vw - 16px)) !important;
+    max-width: min(720px, calc(100vw - 16px)) !important;
+    border-radius: 16px !important;
+  }
+}
+
+/* ===== April 2026 final cleanup ===== */
+*,
+*::before,
+*::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.primary-btn {
+  border-radius: 999px !important;
+  background: #a855f7 !important;
+  border: 1px solid #a855f7 !important;
+}
+
+.primary-btn:hover,
+.primary-btn:active {
+  filter: none !important;
+  transform: none !important;
+}
+
+.checkout-modal-card,
+.signup-modal-card,
+#policy-modal .modal-card {
+  background: #0b0b0b !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+#checkout-modal .modal-title,
+#checkout-title {
+  color: #fff !important;
+}
+
+#checkout-modal .checkout-body {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 14px !important;
+}
+
+#checkout-modal .checkout-hero {
+  display: none !important;
+}
+
+#checkout-modal .checkout-summary,
+#checkout-modal .checkout-form,
+#checkout-modal .checkout-actions {
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: #101010 !important;
+  padding: 16px !important;
+}
+
+#checkout-modal .checkout-actions {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+}
+
+#checkout-modal .ghost-btn,
+#checkout-modal .checkout-pay-btn,
+#checkout-modal .secondary-btn {
+  min-height: 46px;
+  border-radius: 999px !important;
+}
+
+#checkout-modal .ghost-btn {
+  background: #141414 !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+}
+
+#checkout-modal .checkout-pay-btn {
+  background: #0e74bf !important;
+}
+
+#route-lookbook .route-shell {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  padding: 0 !important;
+  background: #000 !important;
+}
+
+#route-lookbook .route-topbar {
+  background: #000 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+#route-lookbook .lookbook-view {
+  min-height: calc(100dvh - 64px) !important;
+  grid-template-columns: 50px 1fr 50px !important;
+  gap: 0 !important;
+  background: #000 !important;
+}
+
+#route-lookbook .lookbook-image-shell {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+  height: calc(100dvh - 64px) !important;
+}
+
+#route-lookbook #rlb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+}
+
+#route-lookbook .route-arrow {
+  width: 42px;
+  height: 42px;
+  align-self: center;
+  justify-self: center;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  background: rgba(10, 10, 10, 0.82) !important;
+}
+
+#route-lookbook .route-meta {
+  position: fixed !important;
+  bottom: 22px !important;
+  left: 50%;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
+  background: #0d0d0d !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 999px !important;
+}
+
+@media (max-width: 768px) {
+  #checkout-modal .checkout-actions {
+    grid-template-columns: 1fr !important;
+  }
+
+  #route-lookbook .lookbook-view {
+    min-height: calc(100dvh - 58px) !important;
+    grid-template-columns: 44px 1fr 44px !important;
+  }
+
+  #route-lookbook .lookbook-image-shell {
+    height: calc(100dvh - 58px) !important;
   }
 }

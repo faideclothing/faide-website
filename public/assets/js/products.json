@@ -39,8 +39,7 @@
         }
       ],
       "images": [
-        "images/blackskullcap.png"
-      "images": [
+        "images/blackskullcap.png",
         "images/whiteskullcap.png"
       ]
     },

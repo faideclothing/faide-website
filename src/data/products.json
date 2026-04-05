@@ -22,7 +22,7 @@
       "name": "FAIDE Skull Cap",
       "label": "New",
       "category": "UNISEX Skull Cap",
-      "price": 99.99,
+      "price": 249.99,
       "currencySymbol": "R",
       "inStock": true,
       "sizes": [
@@ -34,12 +34,13 @@
           "className": "color black"
         },
         {
-          "name": "Grey",
-          "className": "color grey"
+          "name": "white",
+          "className": "color white"
         }
       ],
       "images": [
-        "images/beanie.jpg"
+        "images/blackskullcap.png",
+        "images/whiteskullcap.png"
       ]
     },
     {

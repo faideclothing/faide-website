@@ -100,11 +100,41 @@
     else onConfigChange({ ...defaultConfig });
   })();
 
+  function parseCatalogJson(raw) {
+    return JSON.parse(raw);
+  }
+
   async function loadCatalog() {
-    const url = new URL("assets/js/products.json", window.location.href).toString();
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error("Failed to load products.json");
-    return res.json();
+    const candidates = [
+      new URL("assets/js/products.json", window.location.href).toString(),
+      `${window.location.origin}/assets/js/products.json`,
+      new URL("src/data/products.json", window.location.href).toString(),
+      `${window.location.origin}/src/data/products.json`
+    ];
+
+    const errors = [];
+
+    for (const url of candidates) {
+      try {
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) {
+          errors.push(`${url} -> HTTP ${res.status}`);
+          continue;
+        }
+
+        const raw = await res.text();
+        const data = parseCatalogJson(raw);
+        if (!data || !Array.isArray(data.products)) {
+          errors.push(`${url} -> invalid catalog shape`);
+          continue;
+        }
+        return data;
+      } catch (err) {
+        errors.push(`${url} -> ${err?.message || String(err)}`);
+      }
+    }
+
+    throw new Error(`Unable to load catalog. Tried: ${errors.join(" | ")}`);
   }
 
   function optimizeImageLoading() {
@@ -124,8 +154,16 @@
 
   function getNavOffsetPx() {
     const nav = document.querySelector(".navbar");
-    const navH = nav?.getBoundingClientRect?.().height || 86;
-    return Math.round(navH + 18);
+    const strip = document.querySelector(".shipping-strip");
+    if (!nav) return 12;
+    const navStyle = window.getComputedStyle(nav);
+    const stripStyle = strip ? window.getComputedStyle(strip) : null;
+    const navFixed = navStyle.position === "fixed" || navStyle.position === "sticky";
+    const stripFixed = stripStyle && (stripStyle.position === "fixed" || stripStyle.position === "sticky");
+    if (!navFixed && !stripFixed) return 12;
+    const navH = nav.getBoundingClientRect().height || 0;
+    const stripH = strip ? strip.getBoundingClientRect().height || 0 : 0;
+    return Math.round(navH + stripH + 14);
   }
 
   function scrollToSectionId(id, behavior = "smooth") {
@@ -768,7 +806,7 @@
   document.addEventListener("DOMContentLoaded", async () => {
     $("shop-now-btn")?.addEventListener("click", () => {
       if (activeRoute) gotoHomeSection("shop");
-      setTimeout(() => scrollToSectionId("shop"), 20);
+      requestAnimationFrame(() => scrollToSectionId("shop"));
     });
 
     const navbar = document.querySelector(".navbar");
@@ -783,22 +821,18 @@
 
     function handleShrink() {
       if (!navbar) return;
-      navbar.classList.toggle("shrink", window.scrollY > 20);
+      navbar.classList.remove("shrink");
     }
     handleShrink();
-    window.addEventListener("scroll", handleShrink, { passive: true });
     let lastScrollY = window.scrollY;
     function handleNavVisibilityOnScroll() {
-      if (!navbar || isMobile()) {
-        document.body.classList.remove("nav-hidden");
-        return;
-      }
       const y = window.scrollY;
-      const scrollingDown = y > lastScrollY;
-      const shouldHide = y > 140 && scrollingDown;
+      const goingDown = y > lastScrollY;
+      const shouldHide = goingDown && y > 24;
       document.body.classList.toggle("nav-hidden", shouldHide);
       lastScrollY = y;
     }
+    handleNavVisibilityOnScroll();
     window.addEventListener("scroll", handleNavVisibilityOnScroll, { passive: true });
 
     registerOverlay("drawer", {
@@ -914,7 +948,7 @@
       catalog = await loadCatalog();
     } catch (err) {
       console.error(err);
-      showCartToast("Missing products.json. Check assets/js/products.json");
+      showCartToast("Could not load products data. Check products.json format and path.");
       catalog = { settings: {}, lookbook: [], products: [] };
     }
 

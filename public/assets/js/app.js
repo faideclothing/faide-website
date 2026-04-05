@@ -1163,6 +1163,7 @@
     const rlbPrev = $("rlb-prev");
     const rlbNext = $("rlb-next");
     const rlbMeta = $("rlb-meta");
+    const rlbProgressFill = $("rlb-progress-fill");
     const rppRouteTitle = $("rpp-route-title");
     const rpp = {
       img: $("rpp-img"),
@@ -1241,6 +1242,7 @@
         rlbImg.fetchPriority = "high";
       }
       if (rlbMeta) rlbMeta.textContent = `Look ${safeIdx} of ${total}`;
+      if (rlbProgressFill) rlbProgressFill.style.width = `${Math.max(6, (safeIdx / total) * 100)}%`;
       const prev = items[(safeIdx - 2 + items.length) % items.length]?.image;
       const next = items[safeIdx % items.length]?.image;
       preloadImageSet([prev, next], "high");

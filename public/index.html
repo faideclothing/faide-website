@@ -230,16 +230,19 @@
           <div class="route-topbar-spacer"></div>
         </div>
 
-        <div class="lookbook-view">
-          <button type="button" class="route-arrow route-arrow-left" id="rlb-prev" aria-label="Previous lookbook image">‹</button>
-          <div class="lookbook-image-shell">
-            <img id="rlb-img" alt="Lookbook image" src="" />
-            <div class="lookbook-overlay-info">
-              <span class="lookbook-overlay-label">FAIDE LOOKBOOK</span>
-              <div class="route-meta" id="rlb-meta"></div>
+        <div class="lookbook-stage">
+          <div class="lookbook-view">
+            <button type="button" class="route-arrow route-arrow-left" id="rlb-prev" aria-label="Previous lookbook image">‹</button>
+            <div class="lookbook-image-shell">
+              <img id="rlb-img" alt="Lookbook image" src="" />
             </div>
+            <button type="button" class="route-arrow route-arrow-right" id="rlb-next" aria-label="Next lookbook image">›</button>
           </div>
-          <button type="button" class="route-arrow route-arrow-right" id="rlb-next" aria-label="Next lookbook image">›</button>
+          <div class="lookbook-footer-panel">
+            <span class="lookbook-footer-label">FAIDE LOOKBOOK</span>
+            <div class="route-meta" id="rlb-meta"></div>
+            <div class="lookbook-progress" aria-hidden="true"><span id="rlb-progress-fill"></span></div>
+          </div>
         </div>
       </div>
     </main>

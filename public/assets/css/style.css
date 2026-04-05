@@ -3851,3 +3851,10 @@ body.nav-hidden #navbar {
     border-radius: 0 !important;
   }
 }
+
+/* Requested: lookbook cards should have square edges */
+.lookbook-card,
+.lookbook-card::before,
+.lookbook-card .lookbook-img {
+  border-radius: 0 !important;
+}

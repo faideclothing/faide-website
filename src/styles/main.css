@@ -2529,12 +2529,13 @@ html {
   justify-content: center;
   border: none !important;
   border-radius: 999px !important;
-  background: linear-gradient(120deg, var(--secondary) 0 52%, var(--primary) 52% 100%) !important;
+  background: var(--primary) !important;
   color: #fff !important;
   padding: 18px 48px !important;
   margin-top: 28px !important;
   letter-spacing: 1px;
   text-transform: uppercase;
+  text-decoration: none !important;
 }
 
 .about-social-icons,

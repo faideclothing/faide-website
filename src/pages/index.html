@@ -161,10 +161,11 @@
             <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
           </svg>
         </button>
-        <button id="nav-cart-btn" class="nav-icon-btn nav-cart-btn" aria-label="View shopping bag" type="button">
+        <button id="nav-cart-btn" class="nav-icon-btn nav-cart-btn" aria-label="View cart" type="button">
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 8V7a5 5 0 0 1 10 0v1" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path d="M5.2 8.4h13.6l-1.1 11.4H6.3L5.2 8.4z" stroke-linejoin="round"></path>
+            <circle cx="9" cy="19" r="1.45"></circle>
+            <circle cx="17" cy="19" r="1.45"></circle>
+            <path d="M3.2 4.6h2.5l2.1 9.4a1 1 0 0 0 1 .78h8.75a1 1 0 0 0 .97-.74l1.45-5.05H7.4" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
           <span id="cart-count" class="cart-count cart-count-nav">0</span>
         </button>
@@ -536,22 +537,22 @@
         <div class="modal-body checkout-body">
           <div class="checkout-hero">
             <div class="checkout-banner">
-              <div class="checkout-banner-title">Secure Checkout</div>
+              <div class="checkout-banner-title">Checkout</div>
               <div class="checkout-banner-text">
-                Real-time order review, encrypted payment handoff, and instant receipt confirmation.
+                Secure details and pay with PayPal in seconds.
               </div>
               <div class="checkout-step-row">
-                <div class="checkout-step-chip">1. Shipping Details</div>
-                <div class="checkout-step-chip">2. Order Review</div>
-                <div class="checkout-step-chip">3. Secure Payment</div>
+                <div class="checkout-step-chip">1. Details</div>
+                <div class="checkout-step-chip">2. Review</div>
+                <div class="checkout-step-chip">3. Pay</div>
               </div>
             </div>
             <div class="checkout-support-card">
-              <div class="checkout-support-title">Trusted checkout</div>
+              <div class="checkout-support-title">Secure</div>
               <ul class="checkout-support-list">
-                <li>256-bit SSL encrypted handoff.</li>
-                <li>Order and payment confirmation by email.</li>
-                <li>Fast support for shipping or sizing updates.</li>
+                <li>SSL encrypted payment.</li>
+                <li>Order updates by email.</li>
+                <li>Support available anytime.</li>
               </ul>
             </div>
           </div>
@@ -579,7 +580,7 @@
 
             <div class="checkout-form">
               <div class="checkout-form-title">Contact details</div>
-              <div class="checkout-form-subtitle">Use this for order updates and delivery confirmation.</div>
+              <div class="checkout-form-subtitle">For delivery updates only.</div>
               <div class="checkout-grid">
                 <input id="co-name" type="text" placeholder="Full name" autocomplete="name" />
                 <input id="co-email" type="email" placeholder="Email address" autocomplete="email" />
@@ -592,7 +593,7 @@
               </button>
 
               <div class="checkout-note">
-                Details are only stored on this device for faster checkout.
+                Saved on this device only.
               </div>
             </div>
           </div>

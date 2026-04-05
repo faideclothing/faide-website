@@ -3795,3 +3795,48 @@ body.nav-hidden #navbar {
     right: 7px;
   }
 }
+
+/* ===== quality pass: lookbook, checkout density, desktop shop restore ===== */
+@media (max-width: 768px) {
+  #route-lookbook .lookbook-image-shell {
+    background: #000;
+  }
+
+  #route-lookbook #rlb-img {
+    object-fit: contain !important;
+    background: #000;
+  }
+}
+
+/* Reduce checkout text density. */
+#checkout-modal .checkout-banner-text,
+#checkout-modal .checkout-support-list li,
+#checkout-modal .checkout-form-subtitle,
+#checkout-modal .checkout-note {
+  font-size: 0.86rem !important;
+  line-height: 1.4 !important;
+}
+
+#checkout-modal .checkout-step-chip {
+  padding: 5px 9px !important;
+  font-size: 0.72rem !important;
+}
+
+/* Restore desktop shop cards closer to original look and spacing. */
+@media (min-width: 769px) {
+  #shop-products .product {
+    width: auto !important;
+    color: #fff !important;
+  }
+
+  #shop-products .product h3,
+  #shop-products .product .price,
+  #shop-products .product .product-category,
+  #shop-products .product .product-colors-count {
+    color: inherit !important;
+  }
+
+  .horizontal-scroll {
+    gap: 18px !important;
+  }
+}

@@ -1490,6 +1490,12 @@
       });
     });
 
+    $("shop-now-btn")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (activeRoute) gotoHomeSection("shop");
+      setTimeout(() => scrollToSectionId("shop"), 20);
+    });
+
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
       link.addEventListener("click", (e) => {
         const href = link.getAttribute("href");

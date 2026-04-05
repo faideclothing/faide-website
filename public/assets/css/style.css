@@ -3247,3 +3247,159 @@ body.nav-hidden #navbar {
     max-height: min(72vh, 620px);
   }
 }
+
+/* ===== April 2026 refinement pass ===== */
+.nav-links {
+  gap: 24px !important;
+}
+
+.hero-bg::after {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.52)) !important;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #7b2cf3 0%, #a855f7 45%, #c084fc 100%) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 10px 28px rgba(122, 44, 243, 0.4);
+}
+
+#policy-modal .modal-card {
+  width: min(680px, calc(100vw - 34px)) !important;
+  max-width: min(680px, calc(100vw - 34px)) !important;
+  border-radius: 18px !important;
+}
+
+#policy-modal .modal-head {
+  padding: 16px 18px;
+}
+
+#policy-modal .modal-body {
+  max-height: min(60vh, 560px) !important;
+}
+
+.signup-modal-card {
+  width: min(560px, calc(100vw - 28px)) !important;
+  border-radius: 22px !important;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  background:
+    radial-gradient(circle at 90% 0%, rgba(168, 85, 247, 0.18), transparent 35%),
+    linear-gradient(160deg, #09090c 0%, #101017 58%, #12091d 100%) !important;
+}
+
+.signup-modal-card .modal-head {
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.signup-modal-card .signup-banner {
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  border-radius: 14px;
+}
+
+.signup-modal-card .signup-form input {
+  min-height: 48px;
+  border-radius: 12px;
+}
+
+.signup-modal-card .secondary-btn {
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7b2cf3 0%, #a855f7 100%);
+}
+
+.checkout-modal-card {
+  width: min(980px, calc(100vw - 28px)) !important;
+  max-width: min(980px, calc(100vw - 28px)) !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(168, 85, 247, 0.28) !important;
+  background:
+    radial-gradient(circle at 4% 2%, rgba(168, 85, 247, 0.16), transparent 35%),
+    linear-gradient(155deg, #090909 0%, #101014 52%, #0c0715 100%) !important;
+}
+
+#checkout-modal .modal-head {
+  padding: 16px 20px !important;
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+#checkout-title {
+  color: #fff !important;
+  font-size: 1.22rem !important;
+  letter-spacing: 0.03em;
+}
+
+#checkout-modal .checkout-body {
+  gap: 12px !important;
+}
+
+#checkout-modal .checkout-hero,
+#checkout-modal .checkout-summary,
+#checkout-modal .checkout-form,
+#checkout-modal .checkout-actions {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 14px !important;
+  padding: 14px !important;
+}
+
+#checkout-modal .secondary-btn,
+#checkout-modal .checkout-pay-btn {
+  border-radius: 12px !important;
+}
+
+@media (max-width: 768px) {
+  #policy-modal .modal-card {
+    width: min(560px, calc(100vw - 20px)) !important;
+    max-width: min(560px, calc(100vw - 20px)) !important;
+    margin: 0 auto;
+  }
+
+  #route-lookbook .route-shell {
+    background: #060606;
+  }
+
+  #route-lookbook .route-topbar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 12px;
+  }
+
+  #route-lookbook .lookbook-view {
+    min-height: calc(100dvh - 130px);
+    grid-template-columns: 46px 1fr 46px !important;
+    padding: 8px 0 14px;
+    background: radial-gradient(circle at 50% 2%, rgba(168, 85, 247, 0.16), transparent 40%), #060606;
+  }
+
+  #route-lookbook .lookbook-image-shell {
+    height: min(72vh, 560px) !important;
+    margin: 0 6px;
+    border-radius: 14px !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    overflow: hidden;
+  }
+
+  #route-lookbook .route-arrow {
+    margin: 0 2px;
+    border-radius: 12px;
+    height: 52px;
+    align-self: center;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  #route-lookbook .route-meta {
+    position: static;
+    transform: none;
+    margin: 0 auto 8px;
+    width: fit-content;
+  }
+
+  .signup-modal-card,
+  .checkout-modal-card {
+    width: min(720px, calc(100vw - 16px)) !important;
+    max-width: min(720px, calc(100vw - 16px)) !important;
+    border-radius: 16px !important;
+  }
+}

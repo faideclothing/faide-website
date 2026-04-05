@@ -408,6 +408,10 @@
     img.src = src;
   }
 
+  function preloadImageSet(urls = [], priority = "auto") {
+    urls.filter(Boolean).forEach((url) => preloadImage(url, priority));
+  }
+
   function updateMetaTag(selector, attr, value) {
     const el = document.querySelector(selector);
     if (el && value) el.setAttribute(attr, value);
@@ -611,7 +615,7 @@
       };
       if (!profile.email) return showCartToast("Please enter an email.");
       saveJsonStorage(CHECKOUT_PROFILE_KEY, profile);
-      showCartToast("Saved. We’ll notify you when payments go live.");
+      showCartToast("Details saved for faster secure checkout.");
       closeOverlay("checkout");
     });
   }
@@ -1159,6 +1163,7 @@
     const rlbPrev = $("rlb-prev");
     const rlbNext = $("rlb-next");
     const rlbMeta = $("rlb-meta");
+    const rppRouteTitle = $("rpp-route-title");
     const rpp = {
       img: $("rpp-img"),
       thumbs: $("rpp-thumbs"),
@@ -1228,12 +1233,17 @@
       const item = items[safeIdx - 1] || items[0];
       activeLookbookIndex = safeIdx;
       if (rlbImg && item) {
+        rlbImg.classList.add("is-loading");
         rlbImg.src = item.image || "";
         rlbImg.alt = item.alt || `Lookbook image ${safeIdx}`;
         rlbImg.loading = "eager";
         rlbImg.decoding = "async";
+        rlbImg.fetchPriority = "high";
       }
       if (rlbMeta) rlbMeta.textContent = `Look ${safeIdx} of ${total}`;
+      const prev = items[(safeIdx - 2 + items.length) % items.length]?.image;
+      const next = items[safeIdx % items.length]?.image;
+      preloadImageSet([prev, next], "high");
       resetLookbookZoom();
     }
 
@@ -1310,6 +1320,22 @@
       });
     });
 
+    rlbImg?.addEventListener("load", () => {
+      requestAnimationFrame(() => rlbImg.classList.remove("is-loading"));
+    });
+
+    const checkoutPaypalBtn = $("checkout-paypal-btn");
+    checkoutPaypalBtn?.addEventListener("click", () => {
+      checkoutPaypalBtn.classList.add("is-processing");
+      checkoutPaypalBtn.setAttribute("aria-busy", "true");
+      checkoutPaypalBtn.textContent = "Redirecting to PayPal...";
+      setTimeout(() => {
+        checkoutPaypalBtn.classList.remove("is-processing");
+        checkoutPaypalBtn.removeAttribute("aria-busy");
+        checkoutPaypalBtn.textContent = "Pay with PayPal";
+      }, 2200);
+    });
+
     function setRppImage(i) {
       if (!rppSources.length || !rpp.img) return;
       rppIndex = (i + rppSources.length) % rppSources.length;
@@ -1344,6 +1370,7 @@
       rppSources = (prod.images || []).filter(Boolean).slice(0, 4);
       if (rpp.label) rpp.label.textContent = prod.label || "";
       if (rpp.name) rpp.name.textContent = prod.name || "Item";
+      if (rppRouteTitle) rppRouteTitle.textContent = prod.name || "Product";
       if (rpp.category) rpp.category.textContent = prod.category || "";
       if (rpp.colorsCount) rpp.colorsCount.textContent = "";
       if (rpp.price) rpp.price.textContent = formatPriceZAR(prod.price);
@@ -1422,6 +1449,7 @@
       activeRoute = page || null;
       if (page === "lookbook") {
         if (!catalog.lookbook?.length) return showRoute(null);
+        if (rppRouteTitle) rppRouteTitle.textContent = "PRODUCT";
         showRoute("lookbook");
         renderLookbookRoute(lookbookIndex);
         document.title = `FAIDE | Lookbook ${activeLookbookIndex}`;
@@ -1438,6 +1466,7 @@
         window.scrollTo({ top: 0, behavior: "auto" });
         return;
       }
+      if (rppRouteTitle) rppRouteTitle.textContent = "PRODUCT";
       showRoute(null);
       resetSeoToDefault();
       const targetId = sectionIds.includes(hashId) ? hashId : "drop";

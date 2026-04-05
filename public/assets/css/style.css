@@ -3559,3 +3559,239 @@ body.nav-hidden #navbar {
     height: calc(100dvh - 58px) !important;
   }
 }
+
+/* ===== 2026 modal experience refresh ===== */
+#route-lookbook .route-shell {
+  background: radial-gradient(circle at top, #171717 0%, #050505 52%, #000 100%) !important;
+}
+
+#route-lookbook .route-topbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+  backdrop-filter: blur(10px);
+  background: rgba(5, 5, 5, 0.8) !important;
+}
+
+#route-lookbook .lookbook-view {
+  min-height: calc(100dvh - 76px) !important;
+  padding: 18px 20px 26px !important;
+  gap: 14px !important;
+  align-items: stretch;
+}
+
+#route-lookbook .lookbook-image-shell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.48);
+  height: auto !important;
+  min-height: 72vh;
+}
+
+#route-lookbook #rlb-img {
+  transition: transform 0.35s ease, filter 0.35s ease, opacity 0.3s ease;
+}
+
+#route-lookbook #rlb-img.is-loading {
+  opacity: 0.66;
+  filter: blur(8px) saturate(0.9);
+}
+
+#route-lookbook .lookbook-overlay-info {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: linear-gradient(92deg, rgba(0, 0, 0, 0.72), rgba(20, 20, 20, 0.46));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+}
+
+#route-lookbook .lookbook-overlay-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 800;
+}
+
+#route-lookbook .route-meta {
+  position: static !important;
+  transform: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-size: 0.86rem;
+}
+
+#route-lookbook .route-arrow {
+  align-self: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(8, 8, 8, 0.72) !important;
+}
+
+#checkout-modal .checkout-body {
+  gap: 18px !important;
+}
+
+#checkout-modal .checkout-hero {
+  display: grid !important;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 14px;
+}
+
+#checkout-modal .checkout-banner,
+#checkout-modal .checkout-support-card,
+#checkout-modal .checkout-summary,
+#checkout-modal .checkout-form,
+#checkout-modal .checkout-actions {
+  background: linear-gradient(160deg, rgba(24, 24, 24, 0.96), rgba(12, 12, 12, 0.96)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 16px !important;
+}
+
+#checkout-modal .checkout-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 14px;
+}
+
+#checkout-modal .checkout-summary-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+#checkout-modal .checkout-secure-pill {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 9px;
+  border-radius: 999px;
+  color: #d5b9ff;
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  background: rgba(168, 85, 247, 0.12);
+}
+
+#checkout-modal .checkout-total-row {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.18);
+}
+
+#checkout-modal .checkout-trust-row {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#checkout-modal .checkout-trust-chip {
+  font-size: 0.77rem;
+  color: #dcdcdc;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+#checkout-modal .checkout-grid input {
+  min-height: 48px;
+  border-radius: 12px;
+}
+
+#checkout-modal #checkout-paypal-btn.is-processing {
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  #checkout-modal .checkout-hero,
+  #checkout-modal .checkout-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  #route-lookbook .lookbook-view {
+    min-height: calc(100dvh - 62px) !important;
+    grid-template-columns: 44px 1fr 44px !important;
+    padding: 10px 8px 14px !important;
+    gap: 8px !important;
+  }
+
+  #route-lookbook .lookbook-image-shell {
+    min-height: calc(100dvh - 126px);
+    border-radius: 18px !important;
+  }
+
+  #route-lookbook .lookbook-overlay-info {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    padding: 8px 10px;
+  }
+
+  #route-lookbook .lookbook-overlay-label {
+    font-size: 0.64rem;
+    letter-spacing: 0.13em;
+  }
+
+  #route-lookbook .route-meta {
+    font-size: 0.78rem;
+  }
+
+  #checkout-modal .checkout-actions {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ===== requested UX refinements ===== */
+.section-divider {
+  height: 18px !important;
+  max-width: var(--container);
+  margin: 0 auto;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent) !important;
+  opacity: 0.28;
+}
+
+/* Keep label accents purple, make card body copy FAIDE gray. */
+#shop-products .product h3,
+#shop-products .product .product-category,
+#shop-products .product .product-colors-count,
+#shop-products .product .price {
+  color: #b0b0b0 !important;
+}
+
+#shop-products .product .price {
+  font-weight: 800;
+}
+
+@media (max-width: 768px) {
+  .shop-search-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .shop-search-input {
+    width: 100% !important;
+    min-height: 46px !important;
+    padding: 11px 42px 11px 14px !important;
+    font-size: 0.92rem !important;
+  }
+
+  .shop-search-clear {
+    right: 7px;
+  }
+}

@@ -20,6 +20,8 @@
 
     <link rel="preload" as="image" href="images/hero.png" />
     <link rel="preload" as="image" href="images/faide-wordmark.png" />
+    <link rel="preload" as="image" href="images/lookbook1.png" />
+    <link rel="preload" as="image" href="images/hoodie.png" />
 
 
     <meta name="format-detection" content="telephone=no" />
@@ -232,10 +234,13 @@
           <button type="button" class="route-arrow route-arrow-left" id="rlb-prev" aria-label="Previous lookbook image">‹</button>
           <div class="lookbook-image-shell">
             <img id="rlb-img" alt="Lookbook image" src="" />
+            <div class="lookbook-overlay-info">
+              <span class="lookbook-overlay-label">FAIDE LOOKBOOK</span>
+              <div class="route-meta" id="rlb-meta"></div>
+            </div>
           </div>
           <button type="button" class="route-arrow route-arrow-right" id="rlb-next" aria-label="Next lookbook image">›</button>
         </div>
-        <div class="route-meta" id="rlb-meta"></div>
       </div>
     </main>
 
@@ -254,7 +259,7 @@
           </a>
 
           <div class="route-topbar-center">
-            <div class="route-title">PRODUCT</div>
+            <div class="route-title" id="rpp-route-title">PRODUCT</div>
           </div>
 
           <div class="route-topbar-spacer"></div>
@@ -531,59 +536,70 @@
         <div class="modal-body checkout-body">
           <div class="checkout-hero">
             <div class="checkout-banner">
-              <div class="checkout-banner-title">Payments</div>
+              <div class="checkout-banner-title">Secure Checkout</div>
               <div class="checkout-banner-text">
-                Fast checkout. Save your details and pay securely with PayPal.
+                Real-time order review, encrypted payment handoff, and instant receipt confirmation.
               </div>
               <div class="checkout-step-row">
-                <div class="checkout-step-chip">1. Details</div>
-                <div class="checkout-step-chip">2. Review</div>
-                <div class="checkout-step-chip">3. Pay</div>
+                <div class="checkout-step-chip">1. Shipping Details</div>
+                <div class="checkout-step-chip">2. Order Review</div>
+                <div class="checkout-step-chip">3. Secure Payment</div>
               </div>
             </div>
             <div class="checkout-support-card">
-              <div class="checkout-support-title">Next steps</div>
+              <div class="checkout-support-title">Trusted checkout</div>
               <ul class="checkout-support-list">
-                <li>Saved locally on this device.</li>
-                <li>Use it for faster repeat checkout.</li>
-                <li>Edit details anytime.</li>
+                <li>256-bit SSL encrypted handoff.</li>
+                <li>Order and payment confirmation by email.</li>
+                <li>Fast support for shipping or sizing updates.</li>
               </ul>
             </div>
           </div>
 
-          <div class="checkout-summary">
-            <div class="checkout-summary-row">
-              <span class="checkout-muted">Items</span>
-              <span id="checkout-items-count" class="checkout-strong">0</span>
+          <div class="checkout-main-grid">
+            <div class="checkout-summary">
+              <div class="checkout-summary-head">
+                <span>Order Summary</span>
+                <span class="checkout-secure-pill">Secure Session</span>
+              </div>
+              <div class="checkout-summary-row">
+                <span class="checkout-muted">Items</span>
+                <span id="checkout-items-count" class="checkout-strong">0</span>
+              </div>
+              <div class="checkout-summary-row checkout-total-row">
+                <span class="checkout-muted">Estimated total</span>
+                <span class="checkout-strong">R<span id="checkout-total">0.00</span></span>
+              </div>
+              <div class="checkout-trust-row" aria-label="Accepted payment methods">
+                <span class="checkout-trust-chip">PayPal</span>
+                <span class="checkout-trust-chip">Visa</span>
+                <span class="checkout-trust-chip">Mastercard</span>
+              </div>
             </div>
-            <div class="checkout-summary-row">
-              <span class="checkout-muted">Total</span>
-              <span class="checkout-strong">R<span id="checkout-total">0.00</span></span>
-            </div>
-          </div>
 
-          <div class="checkout-form">
-            <div class="checkout-form-title">Save details</div>
-            <div class="checkout-form-subtitle">Add contact details for faster checkout updates.</div>
-            <div class="checkout-grid">
-              <input id="co-name" type="text" placeholder="Full name" autocomplete="name" />
-              <input id="co-email" type="email" placeholder="Email" autocomplete="email" />
-              <input id="co-phone" type="tel" placeholder="Phone (optional)" autocomplete="tel" />
-              <input id="co-city" type="text" placeholder="City (optional)" autocomplete="address-level2" />
-            </div>
+            <div class="checkout-form">
+              <div class="checkout-form-title">Contact details</div>
+              <div class="checkout-form-subtitle">Use this for order updates and delivery confirmation.</div>
+              <div class="checkout-grid">
+                <input id="co-name" type="text" placeholder="Full name" autocomplete="name" />
+                <input id="co-email" type="email" placeholder="Email address" autocomplete="email" />
+                <input id="co-phone" type="tel" placeholder="Phone number (optional)" autocomplete="tel" />
+                <input id="co-city" type="text" placeholder="City / Region (optional)" autocomplete="address-level2" />
+              </div>
 
-            <button id="co-submit" type="button" class="secondary-btn">
-              Save My Details
-            </button>
+              <button id="co-submit" type="button" class="secondary-btn">
+                Save Securely
+              </button>
 
-            <div class="checkout-note">
-              This only saves your details on this device.
+              <div class="checkout-note">
+                Details are only stored on this device for faster checkout.
+              </div>
             </div>
           </div>
 
           <div class="checkout-actions">
             <button id="checkout-close-2" type="button" class="ghost-btn">Keep Shopping</button>
-            <a href="https://www.paypal.me/faideClothing" target="_blank" rel="noopener noreferrer" class="checkout-pay-btn checkout-paypal-btn" aria-label="Pay with PayPal">Pay with PayPal</a>
+            <a id="checkout-paypal-btn" href="https://www.paypal.me/faideClothing" target="_blank" rel="noopener noreferrer" class="checkout-pay-btn checkout-paypal-btn" aria-label="Pay with PayPal">Pay with PayPal</a>
           </div>
         </div>
       </div>

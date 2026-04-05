@@ -2,678 +2,307 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google-site-verification" content="HqbWK4F6IQINDYOwmNUj_tNChnYlAYYynC0S1QBVoj4" />
-
-    <title>FAIDE | Luxury Streetwear Brand</title>
-    <meta
-      name="description"
-      content="FAIDE luxury streetwear. New drops, exclusive releases, and curated essentials. Designed with intention. Worn with purpose."
-    />
-    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
-    <meta name="googlebot" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
-    <link rel="canonical" href="https://faide.store/" />
-    <meta name="theme-color" content="#000000" />
-
-    <link rel="icon" href="favicon.png" />
-    <link rel="apple-touch-icon" href="favicon.png" />
-
-    <link rel="preload" as="image" href="images/hero.png" />
-    <link rel="preload" as="image" href="images/faide-wordmark.png" />
-    <link rel="preload" as="image" href="images/lookbook1.png" />
-    <link rel="preload" as="image" href="images/hoodie.png" />
-
-
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="author" content="FAIDE" />
-
-    <script id="website-schema" type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "FAIDE",
-        "url": "https://faide.store/",
-        "description": "Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials.",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://faide.store/#shop",
-          "query-input": "required name=search_term_string"
-        }
-      }
-    </script>
-    <script id="dynamic-schema" type="application/ld+json"></script>
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="FAIDE | Luxury Streetwear Brand" />
-    <meta property="og:site_name" content="FAIDE" />
-    <meta
-      property="og:description"
-      content="Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials."
-    />
-    <meta property="og:url" content="https://faide.store/" />
-    <meta property="og:image" content="https://faide.store/images/hero.png" />
-    <meta property="og:image:secure_url" content="https://faide.store/images/hero.png" />
-    <meta property="og:image:alt" content="FAIDE luxury streetwear hero image" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@faideclothing" />
-    <meta name="twitter:title" content="FAIDE | Luxury Streetwear Brand" />
-    <meta
-      name="twitter:description"
-      content="Luxury streetwear designed with intention. New drops, exclusive releases, and curated essentials."
-    />
-    <meta name="twitter:image" content="https://faide.store/images/hero.png" />
-    <meta name="twitter:image:alt" content="FAIDE luxury streetwear hero image" />
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Brand",
-        "@id": "https://faide.store/#brand",
-        "name": "FAIDE",
-        "url": "https://faide.store/",
-        "logo": "https://faide.store/images/faide-wordmark.png",
-        "description": "FAIDE is a luxury streetwear brand designed with intention and worn with purpose.",
-        "sameAs": [
-          "https://www.facebook.com/faideclothing",
-          "https://www.instagram.com/faideclothing",
-          "https://www.tiktok.com/@faideclothing",
-          "https://x.com/faideclothing"
-        ]
-      }
-    </script>
-
-    <!-- Your SDKs (kept) -->
-    <script src="_sdk/element_sdk.js" defer></script>
-    <script src="_sdk/data_sdk.js" defer></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FAIDE | LUXURY STREETWEAR</title>
+    <meta name="description" content="FAIDE luxury streetwear. Move in silence. Designed with intention. Worn with purpose." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+      :root { --black:#000; --white:#fff; --dark:#1a1a1a; --gold:#c9a96e; --muted:#9a9a9a; }
+      * { box-sizing:border-box; margin:0; padding:0; border-radius:0 !important; }
+      html, body { background:var(--black); color:var(--white); font-family:Inter, "Helvetica Neue", Arial, sans-serif; }
+      a { color:inherit; text-decoration:none; }
+      img { max-width:100%; display:block; }
+      .container { width:min(1200px, 92vw); margin:0 auto; }
+      .strip { position:sticky; top:0; z-index:1000; background:var(--gold); color:#111; text-align:center; font-weight:800; letter-spacing:.08em; padding:.55rem; font-size:.78rem; }
+      .nav { position:sticky; top:33px; z-index:999; background:rgba(0,0,0,.94); border-bottom:1px solid #232323; }
+      .nav-inner{height:68px; display:grid; grid-template-columns:1fr auto 1fr; align-items:center;}
+      .brand{letter-spacing:.32em; font-weight:900; font-size:1rem;}
+      .links{display:flex; justify-content:center; gap:1.4rem; font-size:.8rem; letter-spacing:.14em;}
+      .links a{opacity:.8}.links a:hover,.links a.active{opacity:1;color:var(--gold)}
+      .actions{justify-self:end; display:flex; align-items:center; gap:.8rem}
+      .icon-btn{background:none;border:0;color:var(--white);cursor:pointer}
+      .hamburger{display:none}
+      section{padding:5.4rem 0}
+      h1,h2,h3{letter-spacing:.14em; text-transform:uppercase}
+      .hero{min-height:88vh; display:grid; place-items:center; text-align:center; background:linear-gradient(180deg,#050505,#000)}
+      .wordmark{font-size:clamp(2.2rem,7vw,6rem); font-weight:900; letter-spacing:.28em; animation:fade 1.4s ease both}
+      .tag{max-width:760px; margin:1.2rem auto 0; color:#d8d8d8; letter-spacing:.06em}
+      .btn{display:inline-block; padding:.92rem 1.3rem; border:1px solid var(--white); letter-spacing:.12em; text-transform:uppercase; font-size:.75rem; margin-top:1.6rem; transition:.25s}
+      .btn:hover{background:var(--white); color:var(--black)}
+      .section-head{display:flex; justify-content:space-between; align-items:end; margin-bottom:1.2rem}
+      .gallery{display:grid; grid-auto-flow:column; grid-auto-columns:80%; overflow:auto; gap:1rem; scroll-snap-type:x mandatory}
+      .gallery article{scroll-snap-align:start; border:1px solid #202020; background:#0b0b0b; position:relative; min-height:62vh}
+      .gallery img{width:100%; height:62vh; object-fit:cover}
+      .gallery .cap{position:absolute; left:1rem; bottom:1rem; background:rgba(0,0,0,.7); padding:.55rem .75rem; letter-spacing:.12em; font-size:.72rem}
+      .dots{display:flex; gap:.4rem; margin-top:1rem}
+      .dot{width:8px;height:8px;border:1px solid #666;cursor:pointer}.dot.active{background:var(--gold);border-color:var(--gold)}
+      .filters{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.6rem; margin:1rem 0 1.3rem}
+      .filters select{background:#080808;color:#fff;border:1px solid #2b2b2b;padding:.75rem}
+      .shop-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem}
+      .card{border:1px solid #222;background:#0b0b0b; display:flex; flex-direction:column}
+      .img-wrap{position:relative; aspect-ratio:4/5; overflow:hidden}
+      .img-wrap img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:.35s}
+      .img-wrap img:nth-child(2){opacity:0}
+      .card:hover .img-wrap img:nth-child(2){opacity:1}
+      .meta{padding:.9rem}
+      .price{color:var(--gold); font-weight:800; margin:.45rem 0}
+      .swatches{display:flex; gap:.38rem; margin:.45rem 0 .8rem}
+      .sw{width:12px;height:12px;border:1px solid #777}
+      .sw.white{background:#fff}.sw.black{background:#000}.sw.grey{background:#777}.sw.olive{background:#5a5a45}
+      .about p,.policy p,.policy li{color:#d2d2d2; line-height:1.7}
+      .about-grid{display:grid; grid-template-columns:2fr 1fr; gap:1.2rem}
+      .panel{border:1px solid #202020; background:#090909; padding:1rem}
+      .findus iframe{width:100%; height:180px; border:0; background:#111}
+      .members{display:grid; grid-template-columns:1.3fr 1fr; gap:1rem}
+      .members input,.checkout input,.qty input{width:100%;background:#060606;color:#fff;border:1px solid #2e2e2e;padding:.78rem}
+      .footer{border-top:1px solid #202020; padding:2rem 0}
+      .footer-grid{display:grid; grid-template-columns:1fr auto; gap:1rem; align-items:center}
+      .footer-links{display:flex; flex-wrap:wrap; gap:.5rem 1rem; letter-spacing:.08em; font-size:.78rem}
+      .socials{display:flex;gap:.8rem}
+      .socials a{width:34px;height:34px;display:grid;place-items:center;border:1px solid #333}
+      .drawer,.modal{position:fixed;inset:0;display:none;z-index:1200}
+      .overlay{position:absolute;inset:0;background:rgba(0,0,0,.72)}
+      .panel-right{position:absolute;top:0;right:0;height:100%;width:min(450px,95vw);background:#050505;border-left:1px solid #232323;padding:1rem;overflow:auto}
+      .modal-card{position:relative; margin:6vh auto; width:min(760px,94vw); background:#050505; border:1px solid #2b2b2b; padding:1rem; max-height:88vh; overflow:auto}
+      .close{float:right;background:none;border:0;color:#fff;font-size:1.2rem;cursor:pointer}
+      .product-layout{display:grid;grid-template-columns:1.2fr 1fr;gap:1rem}
+      .sizes,.colors{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0 .9rem}
+      .size,.color{border:1px solid #444;padding:.4rem .55rem;font-size:.75rem;cursor:pointer}
+      .size.active,.color.active{border-color:var(--gold);color:var(--gold)}
+      .related{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;margin-top:1rem}
+      .checkout-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+      .muted{color:var(--muted); font-size:.86rem}
+      .policy{padding-top:2rem; border-top:1px solid #181818; margin-top:2rem}
+      @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+      @media (max-width:960px){
+        .nav{top:31px}.links{display:none}.hamburger{display:inline-block}.filters{grid-template-columns:repeat(2,minmax(0,1fr));}
+        .shop-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.about-grid,.members,.product-layout{grid-template-columns:1fr}
+        .gallery{grid-auto-columns:92%}.checkout-grid{grid-template-columns:1fr}
+      }
+    </style>
   </head>
-
   <body>
-
-    <noscript>
-      <section class="noscript-seo-links" aria-label="Product links">
-        <h2>Shop FAIDE</h2>
-        <p>
-          JavaScript is optional. You can still browse key products, read policies, and contact us using the links
-          below.
-        </p>
-        <ul>
-          <li><a href="/?page=lookbook&i=1">Lookbook</a></li>
-          <li><a href="/?page=product&id=tank">Tank</a></li>
-          <li><a href="/?page=product&id=tee">Tee</a></li>
-          <li><a href="/?page=product&id=longsleeve">Long Sleeve</a></li>
-          <li><a href="/?page=product&id=hoodie">Hoodie</a></li>
-          <li><a href="/?page=product&id=beanie">Beanie</a></li>
-          <li><a href="/?page=product&id=tracksuit">Tracksuit</a></li>
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="shipping.html">Shipping Policy</a></li>
-          <li><a href="terms.html">Terms of Service</a></li>
-          <li><a href="returns.html">Returns & Exchanges</a></li>
-          <li><a href="https://www.instagram.com/faideclothing" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-          <li><a href="https://www.tiktok.com/@faideclothing" target="_blank" rel="noopener noreferrer">TikTok</a></li>
-        </ul>
-      </section>
-    </noscript>
-    <!-- NAV -->
-    <div class="shipping-strip" role="status" aria-live="polite">Free shipping for orders over 1000</div>
-
-    <nav class="navbar" id="navbar">
-      <button
-        id="mobile-menu-btn"
-        class="nav-icon-btn nav-menu-btn"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-        aria-controls="mobile-menu-panel"
-      >
-        <span class="hamburger" aria-hidden="true">
-          <span></span><span></span><span></span>
-        </span>
-      </button>
-
-      <a href="#drop" aria-label="FAIDE Home" class="brand-link">
-        <img src="images/faide-wordmark.png" alt="FAIDE" class="faide-wordmark-img" id="brand-wordmark" loading="eager" decoding="async" fetchpriority="high" />
-      </a>
-
-      <div class="nav-links" aria-label="Primary navigation">
-        <a href="#drop" data-nav-link="main">HOME</a>
-        <a href="#lookbook" data-nav-link="main">LOOKBOOK</a>
-        <a href="#shop" data-nav-link="main">SHOP</a>
-        <a href="#about" data-nav-link="main">ABOUT</a>
-      </div>
-
-      <div class="nav-right-actions" aria-label="Account, search and cart">
-        <button id="nav-login-btn" class="nav-icon-btn nav-login-btn" aria-label="Log in or sign up" type="button">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="8" r="4"></circle>
-            <path d="M4.5 19.2a8 8 0 0 1 15 0" stroke-linecap="round"></path>
-          </svg>
-        </button>
-        <button id="nav-search-btn" class="nav-icon-btn nav-search-btn" aria-label="Search products" type="button">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="11" cy="11" r="7"></circle>
-            <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
-          </svg>
-        </button>
-        <button id="nav-cart-btn" class="nav-icon-btn nav-cart-btn" aria-label="View cart" type="button">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.15" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M5.3 7.2h13.4l-.65 9.2a3.8 3.8 0 0 1-3.8 3.6H9.7a3.8 3.8 0 0 1-3.8-3.6L5.3 7.2z" stroke-linejoin="round" stroke-linecap="round"/>
-            <path d="M9 7.2a3 3 0 0 0 6 0" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span id="cart-count" class="cart-count cart-count-nav">0</span>
-        </button>
+    <div class="strip">NEW DROP — FREE SHIPPING OVER R1000</div>
+    <nav class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="#home">FAIDE</a>
+        <div class="links" id="navLinks">
+          <a href="#home" class="active">HOME</a><a href="#lookbook">LOOKBOOK</a><a href="#shop">SHOP</a><a href="#about">ABOUT</a><a href="#members">MEMBERS</a>
+        </div>
+        <div class="actions">
+          <button id="menuBtn" class="icon-btn hamburger" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+          <button id="loginBtn" class="icon-btn" aria-label="Login"><i class="fa-regular fa-user"></i></button>
+          <button id="cartBtn" class="icon-btn" aria-label="Cart"><i class="fa-solid fa-bag-shopping"></i> <span id="cartCount">0</span></button>
+        </div>
       </div>
     </nav>
 
-    <!-- Mobile menu side drawer + overlay -->
-    <div id="mobile-drawer-overlay" class="drawer-overlay" aria-hidden="true"></div>
-
-    <aside id="mobile-menu-panel" class="drawer" aria-hidden="true" aria-label="Mobile menu">
-      <div class="drawer-head">
-        <div class="drawer-title">MENU</div>
-        <button id="drawer-close" class="drawer-close" type="button" aria-label="Close menu">
-          <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
-            />
-          </svg>
-        </button>
+    <header id="home" class="hero">
+      <div class="container">
+        <h1 class="wordmark">FAIDE</h1>
+        <p class="tag">MOVE IN SILENCE. DESIGNED WITH INTENTION. WORN WITH PURPOSE.</p>
+        <a href="#shop" class="btn">SHOP NEW DROP</a>
       </div>
+    </header>
 
-      <div class="drawer-links">
-        <a href="#drop" data-nav-link="main">HOME</a>
-        <a href="#lookbook" data-nav-link="main">LOOKBOOK</a>
-        <a href="#shop" data-nav-link="main">SHOP</a>
-        <a href="#about" data-nav-link="main">ABOUT</a>
+    <section id="lookbook">
+      <div class="container">
+        <div class="section-head"><h2>LOOKBOOK</h2><div><button class="icon-btn" id="lbPrev" aria-label="Previous">&#10094;</button><button class="icon-btn" id="lbNext" aria-label="Next">&#10095;</button></div></div>
+        <div class="gallery" id="gallery"></div>
+        <div class="dots" id="dots"></div>
       </div>
+    </section>
 
-      <div class="drawer-auth-actions">
-        <button id="drawer-auth-link" class="drawer-auth-btn" type="button">Log In</button>
-        <button id="drawer-signup-link" class="drawer-auth-btn drawer-auth-btn-primary" type="button">Sign Up</button>
-      </div>
-      <div class="drawer-social-wrap">
-        <h4>Find us</h4>
-        <div class="drawer-social-icons" aria-label="Social links">
-          <a href="https://www.instagram.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon social-icon-instagram" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5zm8.95 1.55a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4z"/></svg></a>
-          <a href="https://www.facebook.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon social-icon-facebook" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.5 1.6-1.5h1.7V5.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V11H8v3h2.6v8h2.9z"/></svg></a>
-          <a href="https://x.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon social-icon-x" aria-label="X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.4l-5-6.5L5.9 22H2.8l7.3-8.3L1 2h6.5l4.5 6z"/></svg></a>
-          <a href="https://www.tiktok.com/@faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon social-icon-tiktok" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 3c.4 2.1 1.7 3.4 3.7 3.8v2.6a7 7 0 0 1-3.7-1.1v6.3a5.4 5.4 0 1 1-4.7-5.4v2.7a2.7 2.7 0 1 0 1.9 2.6V3h2.8z"/></svg></a>
+    <section id="shop">
+      <div class="container">
+        <div class="section-head"><h2>SHOP</h2><p class="muted">LIMITED PIECES. PRECISE CUTS.</p></div>
+        <div class="filters">
+          <select id="categoryFilter"><option value="">ALL CATEGORIES</option></select>
+          <select id="colorFilter"><option value="">ALL COLORS</option></select>
+          <select id="sizeFilter"><option value="">ALL SIZES</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+          <select id="sortFilter"><option value="">SORT</option><option value="low">PRICE: LOW TO HIGH</option><option value="high">PRICE: HIGH TO LOW</option></select>
         </div>
+        <div class="shop-grid" id="shopGrid"></div>
       </div>
+    </section>
 
-    </aside>
-
-    <!-- ROUTE: LOOKBOOK (query route ?page=lookbook&i=1) -->
-    <main id="route-lookbook" class="route-page" aria-hidden="true">
-      <div class="route-shell">
-        <div class="route-topbar">
-          <!-- Back is kept for desktop but hidden on mobile by CSS -->
-          <a class="route-back" href="index.html#lookbook" aria-label="Back to Lookbook">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M14.7 5.3a1 1 0 0 1 0 1.4L10.41 11H21a1 1 0 1 1 0 2H10.41l4.3 4.3a1 1 0 1 1-1.42 1.4l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.41 0z"
-              />
-            </svg>
-            Back
-          </a>
-
-          <div class="route-topbar-center">
-            <div class="route-title">LOOKBOOK</div>
-          </div>
-
-          <div class="route-topbar-spacer"></div>
+    <section id="about" class="about">
+      <div class="container about-grid">
+        <div class="panel">
+          <h2>ABOUT FAIDE</h2>
+          <p>FAIDE started with a simple stance: luxury should feel quiet, not loud. We build uniform pieces for people who move with discipline. Every release is intentional. Limited runs. Clean lines. Raw confidence.</p>
+          <p>Our mission is precision over noise. Craft over hype. We refine silhouettes that carry from street to evening without effort.</p>
         </div>
-
-        <div class="lookbook-stage">
-          <div class="lookbook-view">
-            <button type="button" class="route-arrow route-arrow-left" id="rlb-prev" aria-label="Previous lookbook image">‹</button>
-            <div class="lookbook-image-shell">
-              <img id="rlb-img" alt="Lookbook image" src="" />
-            </div>
-            <button type="button" class="route-arrow route-arrow-right" id="rlb-next" aria-label="Next lookbook image">›</button>
-          </div>
-          <div class="lookbook-footer-panel">
-            <span class="lookbook-footer-label">FAIDE LOOKBOOK</span>
-            <div class="route-meta" id="rlb-meta"></div>
-            <div class="lookbook-progress" aria-hidden="true"><span id="rlb-progress-fill"></span></div>
-          </div>
+        <div class="panel findus">
+          <h3>FIND US</h3>
+          <p class="muted">STUDIO PLACEHOLDER: JOHANNESBURG, SOUTH AFRICA</p>
+          <iframe title="FAIDE location placeholder" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Johannesburg%2C%20South%20Africa&output=embed"></iframe>
+          <p style="margin-top:.7rem"><a href="mailto:faideclothingsa@gmail.com">faideclothingsa@gmail.com</a><br/><a href="tel:+27695603899">+27 69 560 3899</a></p>
         </div>
       </div>
-    </main>
+    </section>
 
-    <!-- ROUTE: PRODUCT (query route ?page=product&id=tank) -->
-    <main id="route-product" class="route-page" aria-hidden="true">
-      <div class="route-shell">
-        <div class="route-topbar">
-          <!-- Back is kept for desktop but hidden on mobile by CSS -->
-          <a class="route-back" href="index.html#shop" aria-label="Back to Shop">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M14.7 5.3a1 1 0 0 1 0 1.4L10.41 11H21a1 1 0 1 1 0 2H10.41l4.3 4.3a1 1 0 1 1-1.42 1.4l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.41 0z"
-              />
-            </svg>
-            Back
-          </a>
-
-          <div class="route-topbar-center">
-            <div class="route-title" id="rpp-route-title">PRODUCT</div>
-          </div>
-
-          <div class="route-topbar-spacer"></div>
+    <section id="members">
+      <div class="container members">
+        <div class="panel">
+          <h2>DROP ACCESS</h2>
+          <p>Members get early previews and private drop notices.</p>
+          <form id="memberForm" style="margin-top:.8rem; display:grid; gap:.5rem">
+            <input type="email" id="memberEmail" required placeholder="EMAIL ADDRESS" aria-label="Email address" />
+            <button class="btn" style="margin-top:.2rem">JOIN MEMBERS</button>
+          </form>
+          <p id="memberMsg" class="muted" style="margin-top:.6rem"></p>
         </div>
-
-        <section class="product-page-grid">
-          <div>
-            <div class="pm-image-shell">
-              <img id="rpp-img" alt="Product image" src="" />
-            </div>
-            <div class="thumb-row" id="rpp-thumbs"></div>
-          </div>
-
-          <div id="rpp-details" class="rpp-details">
-            <div class="rpp-header">
-              <div class="rpp-header-left">
-                <div id="rpp-label" class="product-label"></div>
-                <h3 id="rpp-name" class="rpp-name"></h3>
-                <div id="rpp-category" class="rpp-muted"></div>
-                <div id="rpp-colors" class="rpp-muted"></div>
-              </div>
-              <div id="rpp-price" class="rpp-price"></div>
-              <div id="rpp-stock" class="rpp-stock"></div>
-            </div>
-
-            <div class="option-label">Select Size</div>
-            <div class="sizes" id="rpp-sizes"></div>
-
-            <div class="option-label">Select Color</div>
-            <div class="colors" id="rpp-colors-row"></div>
-
-            <div class="option-label">Product Details</div>
-            <p id="rpp-description" class="rpp-description"></p>
-
-            <div class="option-label">Size Guide</div>
-            <p id="rpp-size-guide" class="rpp-size-guide"></p>
-
-            <div class="quantity-wrapper">
-              <div class="qty-stepper-ui" data-qty-root="rpp">
-                <button type="button" class="qty-btn-ui" data-qty-btn="dec" aria-label="Decrease quantity">−</button>
-                <div class="qty-value-ui" data-qty-value>1</div>
-                <button type="button" class="qty-btn-ui" data-qty-btn="inc" aria-label="Increase quantity">+</button>
-              </div>
-            </div>
-
-            <button type="button" class="secondary-btn" id="rpp-add" disabled>Add to Bag</button>
-
-            <div class="rpp-hint">Choose a size and color, then add it to your bag.</div>
-          </div>
-        </section>
+        <div class="panel" id="memberPreview">
+          <h3>EARLY PREVIEW</h3>
+          <p class="muted">Login or sign up to unlock preview details.</p>
+        </div>
       </div>
-    </main>
+    </section>
 
-    <!-- MAIN SITE CONTENT -->
-    <div id="site-content">
-      <section id="drop" class="hero">
-        <div class="hero-bg" aria-hidden="true"></div>
+    <section class="container policy" id="privacy"><h2>PRIVACY POLICY</h2><p>We collect only data required to process orders and provide support: name, contact details, delivery address, and order selections. We use this information for fulfillment, delivery updates, and service quality. To request deletion or correction, email faideclothingsa@gmail.com.</p></section>
+    <section class="container policy" id="shipping"><h2>SHIPPING POLICY</h2><p>We ship across South Africa. Orders process within 1-3 business days. Estimated delivery is 2-7 business days by region. Free shipping applies to orders above R1000.</p></section>
+    <section class="container policy" id="terms"><h2>TERMS OF SERVICE</h2><p>All prices are shown in South African Rand. Inventory is limited and may change without notice. FAIDE reserves the right to cancel orders with failed payment verification or clear pricing errors.</p></section>
+    <section class="container policy" id="returns"><h2>RETURNS & EXCHANGES</h2><p>Returns or exchange requests must be submitted within 7 days of delivery. Items must be unworn, unwashed, and in original condition. Exchanges are subject to stock availability.</p></section>
 
-        <div class="hero-content">
-          <h2 class="hero-title" id="hero-title">NEW DROP</h2>
-          <p class="hero-text" id="hero-description">
-            New drops, exclusive releases, and updates are announced on our social platforms.
-          </p>
-
-          <div class="hero-social-icons">
-            <a
-              href="https://www.instagram.com/faideclothing"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-icon"
-              aria-label="Instagram"
-            >
-              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
-                />
-              </svg>
-            </a>
-
-            <a
-              href="https://www.facebook.com/faideclothing"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-icon"
-              aria-label="Facebook"
-            >
-              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"
-                />
-              </svg>
-            </a>
-
-            <a href="https://x.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X">
-              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                />
-              </svg>
-            </a>
-
-            <a
-              href="https://www.tiktok.com/@faideclothing"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-icon"
-              aria-label="TikTok"
-            >
-              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
-                />
-              </svg>
-            </a>
-          </div>
-
-          <a class="primary-btn" id="shop-now-btn" href="#shop" role="button">Shop Now</a>
-        </div>
-      </section>
-
-      <!-- Lookbook -->
-      <section id="lookbook" class="lookbook">
-        <h2 class="section-title purple-title aligned-title">Lookbook</h2>
-        <div class="vertical-list" id="lookbook-list"></div>
-      </section>
-
-      <!-- Shop -->
-      <section id="shop" class="shop">
-        <div class="shop-head">
-          <h2 class="section-title purple-title aligned-title shop-title">Shop</h2>
-
-          <!-- ONE search input for both mobile & desktop (responsive layout) -->
-          <div class="shop-search-wrap" aria-label="Search products">
-            <input
-              id="shop-search-input"
-              class="shop-search-input"
-              type="search"
-              placeholder="Search products..."
-              autocomplete="off"
-              aria-label="Search products"
-            />
-            <button id="shop-search-clear" class="shop-search-clear" type="button" aria-label="Clear search">
-              ×
-            </button>
-          </div>
-        </div>
-
-        <div class="horizontal-scroll" id="shop-products"></div>
-        <div class="shop-view-more-wrap">
-          <button id="shop-view-more-btn" class="shop-view-more-btn" type="button">View More</button>
-        </div>
-      </section>
-
-      <div class="section-divider" aria-hidden="true"></div>
-
-      <!-- About -->
-      <section id="about" class="about">
-        <h2 class="section-title purple-title" id="about-title">About FAIDE</h2>
-        <p id="about-description">
-          FAIDE is a South African luxury streetwear label founded for those who move with discipline and intent. Every
-          drop is cut in limited quantities, built around elevated everyday silhouettes, and designed to feel premium in
-          both form and fabric. We blend quiet confidence with bold identity—pieces made to outlast trends and become
-          part of your personal uniform.
-        </p>
-
-        <div class="about-contact">
-          <h4>Contact</h4>
-          <a href="mailto:faideclothingsa@gmail.com">faideclothingsa@gmail.com</a>
-          <a href="tel:+27695603929">+27 69 560 3929</a>
-          <h4 class="about-find-us">Find us</h4>
-          <div class="about-social-icons" aria-label="Social links">
-            <a href="https://www.instagram.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon social-icon-instagram" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5zm8.95 1.55a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4z"/></svg></a>
-            <a href="https://www.facebook.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon social-icon-facebook" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.5 1.6-1.5h1.7V5.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V11H8v3h2.6v8h2.9z"/></svg></a>
-            <a href="https://x.com/faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon social-icon-x" aria-label="X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.4l-5-6.5L5.9 22H2.8l7.3-8.3L1 2h6.5l4.5 6z"/></svg></a>
-            <a href="https://www.tiktok.com/@faideclothing" target="_blank" rel="noopener noreferrer" class="social-icon social-icon-tiktok" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 3c.4 2.1 1.7 3.4 3.7 3.8v2.6a7 7 0 0 1-3.7-1.1v6.3a5.4 5.4 0 1 1-4.7-5.4v2.7a2.7 2.7 0 1 0 1.9 2.6V3h2.8z"/></svg></a>
-          </div>
-        </div>
-      </section>
-
-      <footer id="footer" class="footer">
-        <div class="footer-inner">
-          <div class="footer-legal">
-            <div class="footer-legal-top" aria-label="Policies">
-              <a href="privacy.html" id="privacy-link" class="footer-legal-link">Privacy Policy</a>
-              <span class="footer-sep">|</span>
-              <a href="shipping.html" id="shipping-link" class="footer-legal-link">Shipping Policy</a>
-              <span class="footer-sep">|</span>
-              <a href="terms.html" id="terms-link" class="footer-legal-link">Terms of Service</a>
-              <span class="footer-sep">|</span>
-              <a href="returns.html" id="returns-link" class="footer-legal-link">Return and exchange</a>
-            </div>
-
-            <p class="footer-copy">© 2026 FAIDE. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
-
-    <!-- POLICIES MODAL -->
-    <div
-      id="policy-modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
-      class="modal-overlay"
-      style="display:none;"
-    >
-      <div class="modal-card modal-card-policy">
-        <div class="modal-head">
-          <div>
-            <h2 id="modal-title" class="modal-title">Policy</h2>
-          </div>
-
-          <button id="close-modal" type="button" class="modal-close" aria-label="Close policy">
-            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <div id="modal-content" class="modal-body policy-body"></div>
-      </div>
-    </div>
-
-    <!-- CART -->
-    <div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
-
-        <div id="cart-sidebar" class="cart-sidebar" aria-label="Shopping cart">
-      <div class="cart-header">
+    <footer class="footer">
+      <div class="container footer-grid">
         <div>
-          <h2>Your Cart</h2>
-          <div id="cart-summary-meta" class="cart-summary-meta">Your bag is empty</div>
+          <div class="footer-links">
+            <a href="#privacy">PRIVACY POLICY</a><a href="#shipping">SHIPPING POLICY</a><a href="#terms">TERMS OF SERVICE</a><a href="#returns">RETURNS & EXCHANGES</a>
+          </div>
+          <p class="muted" style="margin-top:.6rem">© 2026 FAIDE. ALL RIGHTS RESERVED.</p>
         </div>
-        <button id="close-cart" class="close-cart" aria-label="Close cart" type="button">
-          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
-            />
-          </svg>
-        </button>
-      </div>
-
-      <ul id="cart-items" class="cart-items"></ul>
-
-      <div class="cart-footer">
-        <div class="cart-total-row">
-          <span class="cart-total-label">Estimated total</span>
-          <span class="cart-total-value">R<span id="cart-total">0.00</span></span>
-        </div>
-        <button class="checkout-btn" id="checkout-btn" type="button" disabled title="Add items to checkout">
-          Continue to Checkout
-        </button>
-      </div>
-    </div>
-
-    <!-- CHECKOUT MODAL -->
-    <div
-      id="checkout-modal"
-      class="modal-overlay"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="checkout-title"
-      style="display:none;"
-    >
-      <div class="modal-card checkout-modal-card">
-        <div class="modal-head">
-          <div>
-            <h2 id="checkout-title" class="modal-title">Checkout</h2>
-          </div>
-
-          <button id="checkout-close" type="button" class="modal-close" aria-label="Close checkout">
-            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <div class="modal-body checkout-body">
-          <div class="checkout-hero">
-            <div class="checkout-banner">
-              <div class="checkout-banner-title">Checkout</div>
-              <div class="checkout-banner-text">
-                Secure details and pay with PayPal in seconds.
-              </div>
-              <div class="checkout-step-row">
-                <div class="checkout-step-chip">1. Details</div>
-                <div class="checkout-step-chip">2. Review</div>
-                <div class="checkout-step-chip">3. Pay</div>
-              </div>
-            </div>
-            <div class="checkout-support-card">
-              <div class="checkout-support-title">Secure</div>
-              <ul class="checkout-support-list">
-                <li>SSL encrypted payment.</li>
-                <li>Order updates by email.</li>
-                <li>Support available anytime.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="checkout-main-grid">
-            <div class="checkout-summary">
-              <div class="checkout-summary-head">
-                <span>Order Summary</span>
-                <span class="checkout-secure-pill">Secure Session</span>
-              </div>
-              <div class="checkout-summary-row">
-                <span class="checkout-muted">Items</span>
-                <span id="checkout-items-count" class="checkout-strong">0</span>
-              </div>
-              <div class="checkout-summary-row checkout-total-row">
-                <span class="checkout-muted">Estimated total</span>
-                <span class="checkout-strong">R<span id="checkout-total">0.00</span></span>
-              </div>
-              <div class="checkout-trust-row" aria-label="Accepted payment methods">
-                <span class="checkout-trust-chip">PayPal</span>
-                <span class="checkout-trust-chip">Visa</span>
-                <span class="checkout-trust-chip">Mastercard</span>
-              </div>
-            </div>
-
-            <div class="checkout-form">
-              <div class="checkout-form-title">Contact details</div>
-              <div class="checkout-form-subtitle">For delivery updates only.</div>
-              <div class="checkout-grid">
-                <input id="co-name" type="text" placeholder="Full name" autocomplete="name" />
-                <input id="co-email" type="email" placeholder="Email address" autocomplete="email" />
-                <input id="co-phone" type="tel" placeholder="Phone number (optional)" autocomplete="tel" />
-                <input id="co-city" type="text" placeholder="City / Region (optional)" autocomplete="address-level2" />
-              </div>
-
-              <button id="co-submit" type="button" class="secondary-btn">
-                Save Securely
-              </button>
-
-              <div class="checkout-note">
-                Saved on this device only.
-              </div>
-            </div>
-          </div>
-
-          <div class="checkout-actions">
-            <button id="checkout-close-2" type="button" class="ghost-btn">Keep Shopping</button>
-            <a id="checkout-paypal-btn" href="https://www.paypal.me/faideClothing" target="_blank" rel="noopener noreferrer" class="checkout-pay-btn checkout-paypal-btn" aria-label="Pay with PayPal">Pay with PayPal</a>
-          </div>
+        <div class="socials">
+          <a href="https://www.instagram.com/faideclothing" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://www.tiktok.com/@faideclothing" target="_blank" rel="noopener" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
         </div>
       </div>
+    </footer>
+
+    <div class="drawer" id="cartDrawer" aria-hidden="true">
+      <div class="overlay" data-close="cart"></div>
+      <aside class="panel-right">
+        <button class="close" data-close="cart" aria-label="Close cart">✕</button>
+        <h2 style="margin:1.2rem 0 .8rem">YOUR BAG</h2>
+        <div id="cartItems" class="muted">YOUR BAG IS EMPTY.</div>
+        <p style="margin-top:.8rem">SUBTOTAL: <strong id="subtotal">R0.00</strong></p>
+        <button class="btn" id="checkoutBtn">PROCEED TO CHECKOUT</button>
+      </aside>
     </div>
 
-    <!-- EMAIL SIGNUP MODAL (Shop reached) -->
-    <div
-      id="signup-modal"
-      class="modal-overlay"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="signup-title"
-      style="display:none;"
-    >
-      <div class="modal-card signup-modal-card">
-        <div class="modal-head">
-          <h2 id="signup-title" class="modal-title">Get Drop Access</h2>
+    <div class="modal" id="productModal" aria-hidden="true"><div class="overlay" data-close="product"></div><div class="modal-card" id="productContent"></div></div>
+    <div class="modal" id="sizeGuideModal" aria-hidden="true"><div class="overlay" data-close="guide"></div><div class="modal-card"><button class="close" data-close="guide">✕</button><h2>SIZE GUIDE</h2><p style="margin-top:.8rem">XS (32-34) · S (34-36) · M (38-40) · L (42-44) · XL (46-48) · XXL (50-52)</p><p class="muted" style="margin-top:.5rem">FOR A RELAXED FIT, SIZE UP ONE STEP.</p></div></div>
+    <div class="modal" id="checkoutModal" aria-hidden="true"><div class="overlay" data-close="checkout"></div><div class="modal-card checkout"><button class="close" data-close="checkout">✕</button><h2>CHECKOUT</h2><p class="muted" style="margin:.4rem 0 .8rem">COMPLETE YOUR DETAILS, THEN CONTINUE TO SECURE PAYPAL.</p><div class="checkout-grid"><input id="coName" placeholder="FULL NAME"/><input id="coEmail" placeholder="EMAIL" type="email"/><input id="coAddress" placeholder="ADDRESS" style="grid-column:1/-1"/><input id="coCity" placeholder="CITY"/><input id="coPostal" placeholder="POSTAL CODE"/></div><button class="btn" id="payBtn">CONTINUE TO PAYPAL</button></div></div>
+    <div class="modal" id="authModal" aria-hidden="true"><div class="overlay" data-close="auth"></div><div class="modal-card"><button class="close" data-close="auth">✕</button><h2>MEMBER LOGIN / SIGNUP</h2><div style="display:grid;gap:.5rem;margin-top:.8rem"><input id="authEmail" type="email" placeholder="EMAIL"/><input id="authPassword" type="password" placeholder="PASSWORD"/><div style="display:flex;gap:.6rem"><button class="btn" id="signupDo">SIGN UP</button><button class="btn" id="loginDo">LOGIN</button></div><p class="muted" id="authMsg"></p></div></div></div>
 
-          <button id="signup-close" type="button" class="modal-close" aria-label="Close signup">
-            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
-              />
-            </svg>
-          </button>
-        </div>
+    <script>
+      const products = [
+        {id:'skull-cap',name:'FAIDE SKULL CAP',price:249.99,category:'HEADWEAR',colors:['black','white'],sizes:['XS','S','M','L','XL','XXL'],desc:'A precise knit skull cap with clean tension and soft structure. Crafted for daily wear with a quiet luxury finish.',images:['images/blackskullcap.png','images/whiteskullcap.png']},
+        {id:'beanie',name:'FAIDE BEANIE',price:119.99,category:'HEADWEAR',colors:['black','white'],sizes:['XS','S','M','L','XL','XXL'],desc:'Heavyweight rib beanie with a refined crown shape. Built for cold movement and minimal silhouette.',images:['images/blackbeanie.png','images/whitebeanie.png']},
+        {id:'tank',name:'FAIDE ESSENTIALS TANK',price:199.99,category:'TOP',colors:['black','white'],sizes:['XS','S','M','L','XL','XXL'],desc:'Breathable luxury tank cut close to the body. Raw confidence, zero noise.',images:['images/tank-top.png','images/tank-top1.png']},
+        {id:'tee',name:'FAIDE SIGNATURE TEE',price:349.99,category:'TOP',colors:['black','white','grey'],sizes:['XS','S','M','L','XL','XXL'],desc:'Midweight cotton tee with a precise neckline and premium drape. Designed for layering and stand-alone presence.',images:['images/tshirt.png','images/tshirt1.png']},
+        {id:'long-sleeve',name:'FAIDE LONG SLEEVE',price:549.99,category:'TOP',colors:['black','white'],sizes:['XS','S','M','L','XL','XXL'],desc:'Long sleeve with a structured shoulder and clean line flow. Crafted to transition day into night.',images:['images/longsleeve.png','images/longsleeve1.png']},
+        {id:'hoodie',name:'FAIDE LUXURY HOODIE',price:699.99,category:'OUTERWEAR',colors:['black','white'],sizes:['XS','S','M','L','XL','XXL'],desc:'Brushed fleece hoodie with intentional weight and shape. Quiet exterior. Strong interior comfort.',images:['images/hoodie.png','images/hoodie1.png']},
+        {id:'tracksuit',name:'FAIDE TRACKSUIT',price:999.99,category:'SET',colors:['black','grey'],sizes:['XS','S','M','L','XL','XXL'],desc:'Two-piece tracksuit engineered for clean movement and elevated street balance. Limited release.',images:['images/hoodie2.png','images/hoodie3.png']}
+      ];
 
-        <div class="modal-body">
-          <div class="signup-banner">
-            <div class="signup-title">Members get first access</div>
-            <div class="signup-text">Join the list for launch reminders, private look previews, and early checkout alerts.</div>
-          </div>
+      const lookbook = [
+        {img:'images/lookbook1.png',caption:'LOOK 01 — INTENTIONAL LINES'},
+        {img:'images/lookbook2.png',caption:'LOOK 02 — RAW MINIMALISM'},
+        {img:'images/hero.png',caption:'LOOK 03 — SILENT POWER'}
+      ];
 
-          <div class="signup-form">
-            <input id="su-email" type="email" placeholder="Email address" autocomplete="email" />
-            <input id="su-password" type="password" placeholder="Create a password" autocomplete="current-password" />
-            <button id="su-submit" type="button" class="secondary-btn">Sign Up</button>
-            <button id="auth-switch-mode" type="button" class="ghost-btn auth-switch-btn">Already joined? Log in</button>
-            <div class="signup-note">Drop alerts only.</div>
-          </div>
-        </div>
-      </div>
-    </div>
+      let cart = JSON.parse(localStorage.getItem('faide_cart') || '[]');
+      const $ = (s,p=document)=>p.querySelector(s); const $$=(s,p=document)=>[...p.querySelectorAll(s)];
+      const money = n => `R${Number(n).toFixed(2)}`;
 
-    <!-- Toast -->
-    <div class="cart-toast" id="cartToast" role="status" aria-live="polite">
-      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path
-          d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.304-15l-3.431 12h-2.102l2.542-9h-16.813l4.615 11h13.239l3.474-12h1.929l.743-2h-4.196z"
-        />
-      </svg>
-      <span id="cartMessage">Added to cart!</span>
-    </div>
+      function renderLookbook(){
+        const g = $('#gallery'), dots = $('#dots'); g.innerHTML=''; dots.innerHTML='';
+        lookbook.forEach((l,i)=>{ g.insertAdjacentHTML('beforeend',`<article><img loading="lazy" src="${l.img}" alt="FAIDE LOOKBOOK ${i+1}"/><div class="cap">${l.caption}</div></article>`); dots.insertAdjacentHTML('beforeend',`<button class="dot ${i===0?'active':''}" data-i="${i}" aria-label="Go to slide ${i+1}"></button>`); });
+      }
 
-    <script src="assets/js/app.js" defer></script>
+      function renderFilters(){
+        const cats=[...new Set(products.map(p=>p.category))], colors=[...new Set(products.flatMap(p=>p.colors))];
+        cats.forEach(c=>$('#categoryFilter').insertAdjacentHTML('beforeend',`<option>${c}</option>`));
+        colors.forEach(c=>$('#colorFilter').insertAdjacentHTML('beforeend',`<option>${c.toUpperCase()}</option>`));
+      }
+
+      function getFiltered(){
+        const c=$('#categoryFilter').value, color=$('#colorFilter').value.toLowerCase(), size=$('#sizeFilter').value, sort=$('#sortFilter').value;
+        let list = products.filter(p=>(!c||p.category===c)&&(!color||p.colors.includes(color))&&(!size||p.sizes.includes(size)));
+        if(sort==='low') list.sort((a,b)=>a.price-b.price); if(sort==='high') list.sort((a,b)=>b.price-a.price);
+        return list;
+      }
+
+      function renderShop(){
+        const list=getFiltered(), grid=$('#shopGrid'); grid.innerHTML='';
+        list.forEach(p=>{ const sw=p.colors.map(c=>`<span class="sw ${c}"></span>`).join(''); grid.insertAdjacentHTML('beforeend',`<article class="card"><div class="img-wrap"><img loading="lazy" src="${p.images[0]}" alt="${p.name} front"/><img loading="lazy" src="${p.images[1]||p.images[0]}" alt="${p.name} alternate"/></div><div class="meta"><h3>${p.name}</h3><p class="price">${money(p.price)}</p><div class="swatches">${sw}</div><button class="btn open-product" data-id="${p.id}" style="margin-top:.4rem">VIEW PRODUCT</button></div></article>`); });
+      }
+
+      function openModal(id){ $('#'+id).style.display='block'; $('#'+id).setAttribute('aria-hidden','false'); }
+      function closeModal(id){ $('#'+id).style.display='none'; $('#'+id).setAttribute('aria-hidden','true'); }
+
+      function renderProductModal(id){
+        const p=products.find(x=>x.id===id); if(!p) return; const related=products.filter(x=>x.id!==id).slice(0,3);
+        $('#productContent').innerHTML = `<button class="close" data-close="product">✕</button><div class="product-layout"><div><img src="${p.images[0]}" alt="${p.name} hero image" loading="eager" style="width:100%;aspect-ratio:4/5;object-fit:cover;border:1px solid #222"/></div><div><h2>${p.name}</h2><p class="price" style="font-size:1.2rem">${money(p.price)}</p><p>${p.desc}</p><h3 style="margin-top:.8rem">SIZE</h3><div class="sizes">${p.sizes.map(s=>`<button class="size" data-size="${s}">${s}</button>`).join('')}</div><button class="btn" id="openGuide" style="margin-top:0">SIZE GUIDE</button><h3 style="margin-top:.8rem">COLOR</h3><div class="colors">${p.colors.map(c=>`<button class="color" data-color="${c}">${c.toUpperCase()}</button>`).join('')}</div><div class="qty" style="margin:.8rem 0"><input id="prodQty" type="number" min="1" value="1" aria-label="Quantity"/></div><button class="btn" id="addToBag">ADD TO BAG</button></div></div><h3 style="margin-top:1.2rem">RELATED PRODUCTS</h3><div class="related">${related.map(r=>`<button class="size rel" data-id="${r.id}">${r.name}<br/><span class='muted'>${money(r.price)}</span></button>`).join('')}</div>`;
+        openModal('productModal');
+      }
+
+      function renderCart(){
+        $('#cartCount').textContent = cart.reduce((t,i)=>t+i.qty,0);
+        if(!cart.length){ $('#cartItems').textContent='YOUR BAG IS EMPTY.'; $('#subtotal').textContent='R0.00'; return; }
+        $('#cartItems').innerHTML = cart.map((i,idx)=>`<div style='display:grid;grid-template-columns:64px 1fr auto;gap:.6rem;border-bottom:1px solid #1f1f1f;padding:.6rem 0'><img src='${i.image}' alt='${i.name}' style='width:64px;height:64px;object-fit:cover'/><div><strong>${i.name}</strong><div class='muted'>${i.size} · ${i.color.toUpperCase()} · QTY ${i.qty}</div></div><div><div>${money(i.price*i.qty)}</div><button class='icon-btn remove' data-idx='${idx}'>REMOVE</button></div></div>`).join('');
+        $('#subtotal').textContent = money(cart.reduce((t,i)=>t+i.price*i.qty,0));
+      }
+
+      function saveCart(){ localStorage.setItem('faide_cart', JSON.stringify(cart)); renderCart(); }
+
+      document.addEventListener('click', (e)=>{
+        const c=e.target.closest('[data-close]'); if(c){ closeModal({cart:'cartDrawer',product:'productModal',guide:'sizeGuideModal',checkout:'checkoutModal',auth:'authModal'}[c.dataset.close]); }
+        if(e.target.closest('.open-product')) renderProductModal(e.target.closest('.open-product').dataset.id);
+        if(e.target.closest('#cartBtn')) openModal('cartDrawer');
+        if(e.target.closest('#checkoutBtn')) openModal('checkoutModal');
+        if(e.target.closest('#loginBtn')) openModal('authModal');
+        if(e.target.closest('#lbPrev')) $('#gallery').scrollBy({left:-360,behavior:'smooth'});
+        if(e.target.closest('#lbNext')) $('#gallery').scrollBy({left:360,behavior:'smooth'});
+        if(e.target.closest('.dot')) { const i=Number(e.target.dataset.i); $('#gallery').scrollTo({left:i*($('#gallery').clientWidth*0.82),behavior:'smooth'}); $$('.dot').forEach((d,di)=>d.classList.toggle('active',di===i)); }
+        if(e.target.closest('#openGuide')) openModal('sizeGuideModal');
+        if(e.target.closest('#addToBag')){
+          const modal=$('#productContent'); const name=$('h2',modal).textContent; const p=products.find(x=>x.name===name);
+          const size=$('.size.active',modal)?.dataset.size; const color=$('.color.active',modal)?.dataset.color; const qty=Math.max(1,Number($('#prodQty',modal).value||1));
+          if(!size||!color){alert('Select size and color.'); return;}
+          const ex=cart.find(i=>i.id===p.id&&i.size===size&&i.color===color); if(ex) ex.qty+=qty; else cart.push({id:p.id,name:p.name,size,color,qty,price:p.price,image:p.images[0]});
+          saveCart(); closeModal('productModal'); openModal('cartDrawer');
+        }
+        if(e.target.closest('.remove')){ cart.splice(Number(e.target.dataset.idx),1); saveCart(); }
+        if(e.target.closest('.rel')) renderProductModal(e.target.closest('.rel').dataset.id);
+        if(e.target.closest('.size')){ const group=e.target.closest('.sizes,.related'); if(group?.classList.contains('related')) return; $$('.size',group).forEach(x=>x.classList.remove('active')); e.target.classList.add('active'); }
+        if(e.target.closest('.color')){ const group=e.target.closest('.colors'); $$('.color',group).forEach(x=>x.classList.remove('active')); e.target.classList.add('active'); }
+      });
+
+      ;['categoryFilter','colorFilter','sizeFilter','sortFilter'].forEach(id=>$('#'+id).addEventListener('change',renderShop));
+      $('#payBtn').addEventListener('click',()=>{
+        const required=['coName','coEmail','coAddress','coCity','coPostal'];
+        if(required.some(id=>!$('#'+id).value.trim())) return alert('Complete all checkout fields.');
+        window.open('https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=faideClothing&currency_code=ZAR','_blank','noopener');
+      });
+
+      $('#memberForm').addEventListener('submit',(e)=>{ e.preventDefault(); const email=$('#memberEmail').value.trim(); localStorage.setItem('faide_member', email); $('#memberMsg').textContent='YOU ARE ON THE LIST. EARLY DROP ACCESS ENABLED.'; $('#memberPreview').innerHTML='<h3>EARLY PREVIEW</h3><p>DROP 03: MIDNIGHT SET — ACCESS 24 HOURS BEFORE PUBLIC RELEASE.</p>'; });
+      $('#signupDo').addEventListener('click',()=>{
+        const email=$('#authEmail').value.trim(), pass=$('#authPassword').value.trim(); if(!email||!pass) return $('#authMsg').textContent='ENTER EMAIL + PASSWORD.';
+        localStorage.setItem('faide_auth', JSON.stringify({email,pass})); $('#authMsg').textContent='ACCOUNT CREATED.';
+      });
+      $('#loginDo').addEventListener('click',()=>{
+        const stored=JSON.parse(localStorage.getItem('faide_auth')||'null'); const email=$('#authEmail').value.trim(), pass=$('#authPassword').value.trim();
+        $('#authMsg').textContent = stored && stored.email===email && stored.pass===pass ? 'WELCOME BACK.' : 'INVALID LOGIN.';
+      });
+
+      const m = localStorage.getItem('faide_member'); if(m){ $('#memberMsg').textContent='MEMBER SESSION ACTIVE: '+m; $('#memberPreview').innerHTML='<h3>EARLY PREVIEW</h3><p>DROP 03: MIDNIGHT SET — ACCESS 24 HOURS BEFORE PUBLIC RELEASE.</p>'; }
+      renderLookbook(); renderFilters(); renderShop(); renderCart();
+    </script>
   </body>
 </html>

@@ -832,10 +832,13 @@
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
-    $("shop-now-btn")?.addEventListener("click", () => {
+    const shopNowBtn = $("shop-now-btn");
+    const goToShopFromHero = () => {
       if (activeRoute) gotoHomeSection("shop");
       requestAnimationFrame(() => scrollToSectionId("shop"));
-    });
+    };
+    shopNowBtn?.addEventListener("click", goToShopFromHero);
+    shopNowBtn?.addEventListener("touchstart", goToShopFromHero, { passive: true });
 
     const navbar = document.querySelector(".navbar");
     const navLinks = document.querySelectorAll('[data-nav-link="main"]');

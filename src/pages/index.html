@@ -20,6 +20,8 @@
 
     <link rel="preload" as="image" href="images/hero.png" />
     <link rel="preload" as="image" href="images/faide-wordmark.png" />
+    <link rel="preload" as="image" href="images/lookbook1.png" />
+    <link rel="preload" as="image" href="images/hoodie.png" />
 
 
     <meta name="format-detection" content="telephone=no" />
@@ -159,10 +161,10 @@
             <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
           </svg>
         </button>
-        <button id="nav-cart-btn" class="nav-icon-btn nav-cart-btn" aria-label="View shopping bag" type="button">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 8V7a5 5 0 0 1 10 0v1" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path d="M5.2 8.4h13.6l-1.1 11.4H6.3L5.2 8.4z" stroke-linejoin="round"></path>
+        <button id="nav-cart-btn" class="nav-icon-btn nav-cart-btn" aria-label="View cart" type="button">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.15" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5.3 7.2h13.4l-.65 9.2a3.8 3.8 0 0 1-3.8 3.6H9.7a3.8 3.8 0 0 1-3.8-3.6L5.3 7.2z" stroke-linejoin="round" stroke-linecap="round"/>
+            <path d="M9 7.2a3 3 0 0 0 6 0" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <span id="cart-count" class="cart-count cart-count-nav">0</span>
         </button>
@@ -228,14 +230,20 @@
           <div class="route-topbar-spacer"></div>
         </div>
 
-        <div class="lookbook-view">
-          <button type="button" class="route-arrow route-arrow-left" id="rlb-prev" aria-label="Previous lookbook image">‹</button>
-          <div class="lookbook-image-shell">
-            <img id="rlb-img" alt="Lookbook image" src="" />
+        <div class="lookbook-stage">
+          <div class="lookbook-view">
+            <button type="button" class="route-arrow route-arrow-left" id="rlb-prev" aria-label="Previous lookbook image">‹</button>
+            <div class="lookbook-image-shell">
+              <img id="rlb-img" alt="Lookbook image" src="" />
+            </div>
+            <button type="button" class="route-arrow route-arrow-right" id="rlb-next" aria-label="Next lookbook image">›</button>
           </div>
-          <button type="button" class="route-arrow route-arrow-right" id="rlb-next" aria-label="Next lookbook image">›</button>
+          <div class="lookbook-footer-panel">
+            <span class="lookbook-footer-label">FAIDE LOOKBOOK</span>
+            <div class="route-meta" id="rlb-meta"></div>
+            <div class="lookbook-progress" aria-hidden="true"><span id="rlb-progress-fill"></span></div>
+          </div>
         </div>
-        <div class="route-meta" id="rlb-meta"></div>
       </div>
     </main>
 
@@ -254,7 +262,7 @@
           </a>
 
           <div class="route-topbar-center">
-            <div class="route-title">PRODUCT</div>
+            <div class="route-title" id="rpp-route-title">PRODUCT</div>
           </div>
 
           <div class="route-topbar-spacer"></div>
@@ -531,9 +539,9 @@
         <div class="modal-body checkout-body">
           <div class="checkout-hero">
             <div class="checkout-banner">
-              <div class="checkout-banner-title">Payments</div>
+              <div class="checkout-banner-title">Checkout</div>
               <div class="checkout-banner-text">
-                Fast checkout. Save your details and pay securely with PayPal.
+                Secure details and pay with PayPal in seconds.
               </div>
               <div class="checkout-step-row">
                 <div class="checkout-step-chip">1. Details</div>
@@ -542,48 +550,59 @@
               </div>
             </div>
             <div class="checkout-support-card">
-              <div class="checkout-support-title">Next steps</div>
+              <div class="checkout-support-title">Secure</div>
               <ul class="checkout-support-list">
-                <li>Saved locally on this device.</li>
-                <li>Use it for faster repeat checkout.</li>
-                <li>Edit details anytime.</li>
+                <li>SSL encrypted payment.</li>
+                <li>Order updates by email.</li>
+                <li>Support available anytime.</li>
               </ul>
             </div>
           </div>
 
-          <div class="checkout-summary">
-            <div class="checkout-summary-row">
-              <span class="checkout-muted">Items</span>
-              <span id="checkout-items-count" class="checkout-strong">0</span>
+          <div class="checkout-main-grid">
+            <div class="checkout-summary">
+              <div class="checkout-summary-head">
+                <span>Order Summary</span>
+                <span class="checkout-secure-pill">Secure Session</span>
+              </div>
+              <div class="checkout-summary-row">
+                <span class="checkout-muted">Items</span>
+                <span id="checkout-items-count" class="checkout-strong">0</span>
+              </div>
+              <div class="checkout-summary-row checkout-total-row">
+                <span class="checkout-muted">Estimated total</span>
+                <span class="checkout-strong">R<span id="checkout-total">0.00</span></span>
+              </div>
+              <div class="checkout-trust-row" aria-label="Accepted payment methods">
+                <span class="checkout-trust-chip">PayPal</span>
+                <span class="checkout-trust-chip">Visa</span>
+                <span class="checkout-trust-chip">Mastercard</span>
+              </div>
             </div>
-            <div class="checkout-summary-row">
-              <span class="checkout-muted">Total</span>
-              <span class="checkout-strong">R<span id="checkout-total">0.00</span></span>
-            </div>
-          </div>
 
-          <div class="checkout-form">
-            <div class="checkout-form-title">Save details</div>
-            <div class="checkout-form-subtitle">Add contact details for faster checkout updates.</div>
-            <div class="checkout-grid">
-              <input id="co-name" type="text" placeholder="Full name" autocomplete="name" />
-              <input id="co-email" type="email" placeholder="Email" autocomplete="email" />
-              <input id="co-phone" type="tel" placeholder="Phone (optional)" autocomplete="tel" />
-              <input id="co-city" type="text" placeholder="City (optional)" autocomplete="address-level2" />
-            </div>
+            <div class="checkout-form">
+              <div class="checkout-form-title">Contact details</div>
+              <div class="checkout-form-subtitle">For delivery updates only.</div>
+              <div class="checkout-grid">
+                <input id="co-name" type="text" placeholder="Full name" autocomplete="name" />
+                <input id="co-email" type="email" placeholder="Email address" autocomplete="email" />
+                <input id="co-phone" type="tel" placeholder="Phone number (optional)" autocomplete="tel" />
+                <input id="co-city" type="text" placeholder="City / Region (optional)" autocomplete="address-level2" />
+              </div>
 
-            <button id="co-submit" type="button" class="secondary-btn">
-              Save My Details
-            </button>
+              <button id="co-submit" type="button" class="secondary-btn">
+                Save Securely
+              </button>
 
-            <div class="checkout-note">
-              This only saves your details on this device.
+              <div class="checkout-note">
+                Saved on this device only.
+              </div>
             </div>
           </div>
 
           <div class="checkout-actions">
             <button id="checkout-close-2" type="button" class="ghost-btn">Keep Shopping</button>
-            <a href="https://www.paypal.me/faideClothing" target="_blank" rel="noopener noreferrer" class="checkout-pay-btn checkout-paypal-btn" aria-label="Pay with PayPal">Pay with PayPal</a>
+            <a id="checkout-paypal-btn" href="https://www.paypal.me/faideClothing" target="_blank" rel="noopener noreferrer" class="checkout-pay-btn checkout-paypal-btn" aria-label="Pay with PayPal">Pay with PayPal</a>
           </div>
         </div>
       </div>

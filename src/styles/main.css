@@ -3055,3 +3055,136 @@ body.nav-hidden #navbar {
     padding: 0 var(--px-sm);
   }
 }
+
+/* ===== April 2026 UX refresh ===== */
+.navbar {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.nav-links {
+  gap: 18px !important;
+}
+
+.hero {
+  min-height: 84vh;
+  padding-top: clamp(110px, 12vh, 168px);
+}
+
+.hero-bg {
+  background-position: center top !important;
+  background-size: cover !important;
+}
+
+.primary-btn {
+  border-radius: 0 !important;
+  padding: 16px 26px;
+}
+
+.lookbook {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+#lookbook .section-title,
+.vertical-list {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+#route-lookbook .route-topbar {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.54)) !important;
+  backdrop-filter: blur(8px);
+}
+
+#route-lookbook .route-meta {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  background: rgba(0, 0, 0, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+#route-lookbook .route-arrow {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.58)) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-overlay {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-card-policy {
+  width: min(720px, calc(100vw - 24px)) !important;
+  max-height: min(82vh, 760px);
+  border-radius: 20px !important;
+}
+
+#policy-modal .modal-body {
+  overflow-y: auto;
+  max-height: min(66vh, 620px);
+}
+
+.about-social-icons .social-icon,
+.drawer-social-icons .social-icon,
+.hero-social-icons .social-icon {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.about-social-icons .social-icon:hover,
+.drawer-social-icons .social-icon:hover,
+.hero-social-icons .social-icon:hover {
+  border-color: rgba(168, 85, 247, 0.8);
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.22), 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 74vh;
+    padding-top: calc(var(--nav-h) + 52px) !important;
+  }
+
+  .horizontal-scroll {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .product-img-container {
+    height: clamp(240px, 38vw, 290px) !important;
+  }
+
+  .product-category {
+    display: none;
+  }
+
+  .modal-overlay {
+    padding: 14px 10px !important;
+    overflow-y: auto !important;
+    align-items: center;
+  }
+
+  .modal-card {
+    width: min(760px, calc(100vw - 20px)) !important;
+    max-width: min(760px, calc(100vw - 20px)) !important;
+    min-height: auto !important;
+    height: auto !important;
+    border-radius: 16px !important;
+  }
+
+  .modal-body {
+    max-height: min(72vh, 620px);
+  }
+}

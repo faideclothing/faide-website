@@ -537,9 +537,9 @@
     };
 
     registerOverlay("policy", {
-      isOpen: () => policyModal?.style.display === "block",
+      isOpen: () => policyModal?.style.display === "flex",
       open: () => {
-        if (policyModal) policyModal.style.display = "block";
+        if (policyModal) policyModal.style.display = "flex";
       },
       close: () => {
         if (policyModal) policyModal.style.display = "none";
@@ -574,7 +574,7 @@
     const cityEl = $("co-city");
 
     registerOverlay("checkout", {
-      isOpen: () => overlay?.style.display === "block",
+      isOpen: () => overlay?.style.display === "flex",
       open: () => {
         const { itemCount, total } = getCartTotals();
         $("checkout-items-count").textContent = String(itemCount);
@@ -589,7 +589,7 @@
         } else if (auth?.email && emailEl) {
           emailEl.value = auth.email;
         }
-        if (overlay) overlay.style.display = "block";
+        if (overlay) overlay.style.display = "flex";
         setTimeout(() => emailEl?.focus(), 30);
       },
       close: () => {
@@ -641,9 +641,9 @@
     }
 
     registerOverlay("auth", {
-      isOpen: () => overlay?.style.display === "block",
+      isOpen: () => overlay?.style.display === "flex",
       open: () => {
-        if (overlay) overlay.style.display = "block";
+        if (overlay) overlay.style.display = "flex";
         setTimeout(() => email?.focus(), 30);
       },
       close: () => {

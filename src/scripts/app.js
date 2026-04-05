@@ -154,8 +154,16 @@
 
   function getNavOffsetPx() {
     const nav = document.querySelector(".navbar");
-    const navH = nav?.getBoundingClientRect?.().height || 86;
-    return Math.round(navH + 18);
+    const strip = document.querySelector(".shipping-strip");
+    if (!nav) return 12;
+    const navStyle = window.getComputedStyle(nav);
+    const stripStyle = strip ? window.getComputedStyle(strip) : null;
+    const navFixed = navStyle.position === "fixed" || navStyle.position === "sticky";
+    const stripFixed = stripStyle && (stripStyle.position === "fixed" || stripStyle.position === "sticky");
+    if (!navFixed && !stripFixed) return 12;
+    const navH = nav.getBoundingClientRect().height || 0;
+    const stripH = strip ? strip.getBoundingClientRect().height || 0 : 0;
+    return Math.round(navH + stripH + 14);
   }
 
   function scrollToSectionId(id, behavior = "smooth") {
@@ -798,7 +806,7 @@
   document.addEventListener("DOMContentLoaded", async () => {
     $("shop-now-btn")?.addEventListener("click", () => {
       if (activeRoute) gotoHomeSection("shop");
-      setTimeout(() => scrollToSectionId("shop"), 20);
+      requestAnimationFrame(() => scrollToSectionId("shop"));
     });
 
     const navbar = document.querySelector(".navbar");
@@ -813,23 +821,13 @@
 
     function handleShrink() {
       if (!navbar) return;
-      navbar.classList.toggle("shrink", window.scrollY > 20);
+      navbar.classList.remove("shrink");
     }
     handleShrink();
-    window.addEventListener("scroll", handleShrink, { passive: true });
-    let lastScrollY = window.scrollY;
     function handleNavVisibilityOnScroll() {
-      if (!navbar || isMobile()) {
-        document.body.classList.remove("nav-hidden");
-        return;
-      }
-      const y = window.scrollY;
-      const scrollingDown = y > lastScrollY;
-      const shouldHide = y > 140 && scrollingDown;
-      document.body.classList.toggle("nav-hidden", shouldHide);
-      lastScrollY = y;
+      document.body.classList.remove("nav-hidden");
     }
-    window.addEventListener("scroll", handleNavVisibilityOnScroll, { passive: true });
+    handleNavVisibilityOnScroll();
 
     registerOverlay("drawer", {
       isOpen: () => drawer?.classList.contains("open"),

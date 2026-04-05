@@ -833,12 +833,13 @@
 
   document.addEventListener("DOMContentLoaded", async () => {
     const shopNowBtn = $("shop-now-btn");
-    const goToShopFromHero = () => {
+    const goToShopFromHero = (event) => {
+      event?.preventDefault?.();
       if (activeRoute) gotoHomeSection("shop");
       requestAnimationFrame(() => scrollToSectionId("shop"));
     };
     shopNowBtn?.addEventListener("click", goToShopFromHero);
-    shopNowBtn?.addEventListener("touchstart", goToShopFromHero, { passive: true });
+    shopNowBtn?.addEventListener("touchend", goToShopFromHero, { passive: false });
 
     const navbar = document.querySelector(".navbar");
     const navLinks = document.querySelectorAll('[data-nav-link="main"]');

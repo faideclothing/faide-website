@@ -100,11 +100,41 @@
     else onConfigChange({ ...defaultConfig });
   })();
 
+  function parseCatalogJson(raw) {
+    return JSON.parse(raw);
+  }
+
   async function loadCatalog() {
-    const url = new URL("assets/js/products.json", window.location.href).toString();
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error("Failed to load products.json");
-    return res.json();
+    const candidates = [
+      new URL("assets/js/products.json", window.location.href).toString(),
+      `${window.location.origin}/assets/js/products.json`,
+      new URL("src/data/products.json", window.location.href).toString(),
+      `${window.location.origin}/src/data/products.json`
+    ];
+
+    const errors = [];
+
+    for (const url of candidates) {
+      try {
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) {
+          errors.push(`${url} -> HTTP ${res.status}`);
+          continue;
+        }
+
+        const raw = await res.text();
+        const data = parseCatalogJson(raw);
+        if (!data || !Array.isArray(data.products)) {
+          errors.push(`${url} -> invalid catalog shape`);
+          continue;
+        }
+        return data;
+      } catch (err) {
+        errors.push(`${url} -> ${err?.message || String(err)}`);
+      }
+    }
+
+    throw new Error(`Unable to load catalog. Tried: ${errors.join(" | ")}`);
   }
 
   function optimizeImageLoading() {
@@ -914,7 +944,7 @@
       catalog = await loadCatalog();
     } catch (err) {
       console.error(err);
-      showCartToast("Missing products.json. Check assets/js/products.json");
+      showCartToast("Could not load products data. Check products.json format and path.");
       catalog = { settings: {}, lookbook: [], products: [] };
     }
 

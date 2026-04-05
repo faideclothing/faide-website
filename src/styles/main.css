@@ -2731,3 +2731,57 @@ body.route-open .shipping-strip {
     height: 190px;
   }
 }
+
+/* ===== May 2026 navigation + route/product/footer stabilization ===== */
+.shipping-strip {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+}
+
+.navbar {
+  position: fixed !important;
+  top: 32px !important;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.14) !important;
+}
+
+body.route-open #navbar,
+body.route-open .shipping-strip {
+  display: none !important;
+}
+
+.route-page {
+  padding-top: 0 !important;
+}
+
+#route-product .route-shell {
+  padding-top: 8px;
+}
+
+.pm-image-shell {
+  overflow: hidden;
+  max-width: 100%;
+}
+
+#footer.footer {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    top: 31px !important;
+  }
+
+  #route-product .route-shell {
+    padding-top: 10px;
+  }
+}

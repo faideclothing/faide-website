@@ -18,6 +18,56 @@
   ],
   "products": [
     {
+      "id": "skull-cap",
+      "name": "FAIDE Skull Cap",
+      "label": "New",
+      "category": "UNISEX Skull Cap",
+      "price": 99.99,
+      "currencySymbol": "R",
+      "inStock": true,
+      "sizes": [
+        "One Size"
+      ],
+      "colors": [
+        {
+          "name": "Black",
+          "className": "color black"
+        },
+        {
+          "name": "Grey",
+          "className": "color grey"
+        }
+      ],
+      "images": [
+        "images/beanie.jpg"
+      ]
+    },
+    {
+      "id": "beanie",
+      "name": "FAIDE Beanie",
+      "label": "Bestseller",
+      "category": "UNISEX Beanie",
+      "price": 119.99,
+      "currencySymbol": "R",
+      "inStock": false,
+      "sizes": [
+        "One Size"
+      ],
+      "colors": [
+        {
+          "name": "Black",
+          "className": "color black"
+        },
+        {
+          "name": "White",
+          "className": "color white"
+        }
+      ],
+      "images": [
+        "images/beanie.jpg"
+      ]
+    },
+    {
       "id": "tank",
       "name": "FAIDE Essentials Tank",
       "label": "Just In",
@@ -143,31 +193,6 @@
         "images/hoodie1.png",
         "images/hoodie2.png",
         "images/hoodie3.png"
-      ]
-    },
-    {
-      "id": "beanie",
-      "name": "FAIDE Beanie",
-      "label": "Bestseller",
-      "category": "UNISEX Beanie",
-      "price": 119.99,
-      "currencySymbol": "R",
-      "inStock": false,
-      "sizes": [
-        "One Size"
-      ],
-      "colors": [
-        {
-          "name": "Black",
-          "className": "color black"
-        },
-        {
-          "name": "White",
-          "className": "color white"
-        }
-      ],
-      "images": [
-        "images/beanie.jpg"
       ]
     },
     {

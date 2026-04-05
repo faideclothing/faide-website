@@ -782,6 +782,34 @@
     });
   }
 
+  function setupMobileShopViewLimit() {
+    const cards = Array.from(document.querySelectorAll("#shop-products .product"));
+    const viewMoreBtn = $("shop-view-more-btn");
+    if (!viewMoreBtn || !cards.length) return;
+
+    const mobile = window.matchMedia("(max-width: 768px)").matches;
+    const shouldLimit = mobile && cards.length > 6;
+
+    cards.forEach((card, idx) => {
+      card.classList.remove("mobile-card-hidden");
+      if (shouldLimit && idx >= 6) card.classList.add("mobile-card-hidden");
+    });
+
+    viewMoreBtn.classList.toggle("show", shouldLimit);
+    viewMoreBtn.textContent = "View More";
+    viewMoreBtn.setAttribute("aria-expanded", "false");
+
+    if (shouldLimit) {
+      viewMoreBtn.onclick = () => {
+        cards.forEach((card) => card.classList.remove("mobile-card-hidden"));
+        viewMoreBtn.classList.remove("show");
+        viewMoreBtn.setAttribute("aria-expanded", "true");
+      };
+    } else {
+      viewMoreBtn.onclick = null;
+    }
+  }
+
   function initRevealAnimations() {
     const targets = document.querySelectorAll(".lookbook-card, .product, .about, .footer");
     targets.forEach((el) => el.classList.add("reveal-on-scroll"));
@@ -926,12 +954,12 @@
         logoutUser();
         return;
       }
-      authModal.openLogin();
+      setTimeout(() => authModal.openLogin(), 40);
     });
     $("drawer-signup-link")?.addEventListener("click", (e) => {
       e.preventDefault();
       closeOverlay("drawer");
-      authModal.openSignup();
+      setTimeout(() => authModal.openSignup(), 40);
     });
     navLoginBtn?.addEventListener("click", (e) => {
       e.preventDefault();
@@ -957,8 +985,10 @@
 
     renderLookbook($("lookbook-list"), catalog.lookbook || []);
     renderShop($("shop-products"), catalog.products || [], catalog.settings || {});
+    setupMobileShopViewLimit();
     initRevealAnimations();
     optimizeImageLoading();
+    window.addEventListener("resize", () => requestAnimationFrame(setupMobileShopViewLimit), { passive: true });
 
     const floatingCart = $("nav-cart-btn");
     const cartSidebar = $("cart-sidebar");

@@ -5,6 +5,10 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 SYNC_PAIRS=(
   "src/pages/index.html:public/index.html"
+  "src/pages/privacy.html:public/privacy.html"
+  "src/pages/shipping.html:public/shipping.html"
+  "src/pages/terms.html:public/terms.html"
+  "src/pages/returns.html:public/returns.html"
   "src/styles/main.css:public/assets/css/style.css"
   "src/scripts/app.js:public/assets/js/app.js"
   "src/data/products.json:public/assets/js/products.json"

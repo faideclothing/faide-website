@@ -19,7 +19,7 @@
     hero_description: "New drops, exclusive releases, and updates are announced on our social platforms.",
     about_headline: "About FAIDE",
     about_description:
-      "FAIDE is a luxury streetwear brand built for those who move in silence. Designed with intention. Worn with purpose.",
+      "FAIDE is a South African luxury streetwear label founded for those who move with discipline and intent. Every drop is cut in limited quantities, built around elevated everyday silhouettes, and designed to feel premium in both form and fabric.",
     background_color: "#000000",
     surface_color: "#111111",
     text_color: "#ffffff",
@@ -439,7 +439,7 @@
         "@type": "Product",
         name: product.name,
         image: product.images?.map((img) => `https://faide.store/${img}`),
-        description,
+      description: product.description || description,
         brand: { "@type": "Brand", name: "FAIDE" },
         offers: {
           "@type": "Offer",
@@ -557,6 +557,8 @@
       ["shipping-link", "shipping"]
     ].forEach(([id, key]) => {
       $(id)?.addEventListener("click", (e) => {
+        const href = (e.currentTarget?.getAttribute("href") || "").trim();
+        if (href && href !== "#") return;
         e.preventDefault();
         modalTitle.textContent = policies[key].title;
         modalContent.innerHTML = policies[key].content;
@@ -1174,6 +1176,8 @@
       colorsCount: $("rpp-colors"),
       price: $("rpp-price"),
       stock: $("rpp-stock"),
+      description: $("rpp-description"),
+      sizeGuide: $("rpp-size-guide"),
       sizes: $("rpp-sizes"),
       colorsRow: $("rpp-colors-row"),
       add: $("rpp-add")
@@ -1379,6 +1383,16 @@
       if (rpp.stock) {
         rpp.stock.textContent = stockMessage(prod, catalog.settings || {});
         rpp.stock.className = `rpp-stock ${productIsAvailable(prod, catalog.settings || {}) ? "in-stock" : "out-of-stock"}`;
+      }
+      if (rpp.description) {
+        rpp.description.textContent =
+          prod.description ||
+          `${prod.name} is a premium ${prod.category?.toLowerCase() || "piece"} designed for everyday luxury wear.`;
+      }
+      if (rpp.sizeGuide) {
+        rpp.sizeGuide.textContent =
+          prod.sizeGuide ||
+          "Fits true to size. For an oversized fit, size up one step. Sizes: S (34-36), M (38-40), L (42-44), XL (46-48).";
       }
       rpp.sizes.innerHTML = "";
       (prod.sizes || ["S", "M", "L", "XL"]).forEach((s) => {

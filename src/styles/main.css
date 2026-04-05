@@ -532,6 +532,13 @@ body.nav-hidden #navbar {
 .rpp-muted { color:#9a9a9a; font-weight:800; }
 .rpp-price { font-size:1.15rem; font-weight:950; color:#fff; white-space:nowrap; }
 .rpp-hint { color:#777; text-align:left; padding-top:16px; font-size:0.9rem; }
+.rpp-description,
+.rpp-size-guide {
+  margin: 6px 0 0;
+  color: #b9b9b9;
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
 
 /* Shop */
 .horizontal-scroll {

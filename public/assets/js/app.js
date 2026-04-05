@@ -824,10 +824,16 @@
       navbar.classList.remove("shrink");
     }
     handleShrink();
+    let lastScrollY = window.scrollY;
     function handleNavVisibilityOnScroll() {
-      document.body.classList.remove("nav-hidden");
+      const y = window.scrollY;
+      const goingDown = y > lastScrollY;
+      const shouldHide = goingDown && y > 24;
+      document.body.classList.toggle("nav-hidden", shouldHide);
+      lastScrollY = y;
     }
     handleNavVisibilityOnScroll();
+    window.addEventListener("scroll", handleNavVisibilityOnScroll, { passive: true });
 
     registerOverlay("drawer", {
       isOpen: () => drawer?.classList.contains("open"),

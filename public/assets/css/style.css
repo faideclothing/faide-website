@@ -2916,3 +2916,142 @@ body.route-open .shipping-strip {
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== June 2026 visual refresh v2 ===== */
+.nav-links {
+  gap: 54px !important;
+}
+
+.navbar {
+  background: transparent !important;
+}
+
+body.nav-hidden .shipping-strip,
+body.nav-hidden #navbar {
+  opacity: 0;
+  transform: translateY(-12px);
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.shipping-strip,
+#navbar {
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+/* Upgraded icon chips */
+.about-social-icons .social-icon,
+.drawer-social-icons .social-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.24);
+}
+
+.about-social-icons .social-icon svg,
+.drawer-social-icons .social-icon svg {
+  display: block;
+}
+
+/* Lookbook section redesign */
+.lookbook {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#lookbook .section-title {
+  margin: 0 auto 20px;
+  padding: 0 var(--px);
+  max-width: 1200px;
+}
+
+.vertical-list {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0 var(--px);
+}
+
+.lookbook-card {
+  grid-column: span 6;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: #090909;
+  min-height: 520px;
+}
+
+.lookbook-card .lookbook-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Route lookbook full-bleed */
+#route-lookbook .lookbook-view {
+  min-height: calc(100dvh - 58px);
+  grid-template-columns: 52px 1fr 52px;
+}
+
+#route-lookbook .lookbook-image-shell {
+  height: calc(100dvh - 58px);
+}
+
+#route-lookbook .route-arrow {
+  font-size: 1.7rem;
+  color: rgba(255,255,255,0.85);
+}
+
+/* Checkout modal spacing + reduced text density */
+#checkout-modal .checkout-banner-title,
+#checkout-modal .checkout-support-title,
+#checkout-modal .checkout-form-title {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+#checkout-modal .checkout-banner-text,
+#checkout-modal .checkout-form-subtitle,
+#checkout-modal .checkout-note,
+#checkout-modal .checkout-support-list li {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+#checkout-modal .checkout-grid {
+  gap: 10px;
+}
+
+#checkout-modal input {
+  min-height: 44px;
+  border-radius: 12px;
+}
+
+#checkout-modal .checkout-summary-row {
+  padding: 12px 0;
+}
+
+@media (max-width: 1024px) {
+  .nav-links {
+    gap: 24px !important;
+  }
+
+  .vertical-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 var(--px-sm);
+  }
+
+  .lookbook-card {
+    grid-column: 1 / -1;
+    min-height: 420px;
+    border-radius: 14px;
+  }
+
+  #lookbook .section-title {
+    padding: 0 var(--px-sm);
+  }
+}

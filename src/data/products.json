@@ -202,7 +202,7 @@
       "category": "UNISEX Track Suit",
       "price": 899.99,
       "currencySymbol": "R",
-      "inStock": true,
+      "inStock": false,
       "sizes": [
         "S",
         "M",
